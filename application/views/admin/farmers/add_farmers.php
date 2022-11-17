@@ -63,13 +63,25 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </td>
 </tr>
 
+<tr>
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<!-- <input type="text" name="state"  class="form-control" placeholder="" required value="" /> -->
+<select class="form-control" name="state" id="states">   
+   <option value="">---state---</option>   
+   <?php foreach ($state_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
+
+
+</td>
+</tr>
 
 <tr>
 <td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <!-- <input type="text" name="city"  class="form-control" placeholder="" required value="" /> -->
 
-<select class="form-control" name="city">   
+<select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
    <?php foreach ($city_data->result() as $a){​​?>   
        <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
@@ -78,18 +90,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 
 
-<tr>
-<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<!-- <input type="text" name="state"  class="form-control" placeholder="" required value="" /> -->
-<select class="form-control" name="state">   
-   <option value="">---state---</option>   
-   <?php foreach ($state_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
 
-
-</td>
-</tr>
 
 
 
@@ -134,3 +135,50 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+
+
+<script >
+$(document).ready(function(){
+  	$("#states").change(function(){
+      // alert('hii');
+		var vf=$(this).val();
+    // alert(vf);
+		if(vf==""){
+			return false;
+
+		}else{
+			$('#cities option').remove();
+			  var opton="<option value=''>----Please Select-----</option>";
+			$.ajax({
+				url:base_url+"dcadmin/farmers/getfarmers/"+vf,
+				data : '',
+				type: "get",
+				success : function(html){
+						if(html!="NA")
+						{
+							var s = jQuery.parseJSON(html);
+							$.each(s, function(i) {
+							opton +='<option value="'+s[i]['cities_id']+'">'+s[i]['city_name']+'</option>';
+							});
+							$('#cities').append(opton);
+							//$('#city').append("<option value=''>Please Select State</option>");
+
+                      //var json = $.parseJSON(html);
+                      //var ayy = json[0].name;
+                      //var ayys = json[0].pincode;
+						}
+						else
+						{
+							alert('No subcategory Found');
+							return false;
+						}
+
+					}
+
+				})
+		}
+
+
+	})
+  });
+</script>

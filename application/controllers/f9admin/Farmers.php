@@ -378,6 +378,54 @@ $data['state_data']= $this->db->get();
                   }
 
                   }
+//----------------------------------------------------------------------------------
+									public function getfarmers($a){
+
+
+									                if(!empty($this->session->userdata('admin_data'))){
+
+
+									                        $this->db->select('*');
+									       $this->db->from('all_cities');
+									       $this->db->where('state_id',$a);
+									       $cities= $this->db->get();
+									       $check= $cities->row();
+									if(!empty($check)){
+
+									   foreach ($cities->result() as  $c1) {
+
+									    $arr[]=array(
+									        'cities_id'=>$c1->id,
+									        'city_name'=>$c1->city_name,
+									    );
+
+
+
+									   }
+
+									    echo json_encode($arr);
+									    exit;
+
+									}
+									else{
+									    echo "NA";
+									    exit;
+									}
+
+									               }
+									               else{
+
+
+
+									                 redirect("login/admin_login","refresh");
+									               }
+
+
+
+									              }
+
+
+
 
 
 
