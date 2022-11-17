@@ -1,21 +1,21 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-farmers
+products
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All farmers</a></li>
-<li class="active">View farmers</li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All products</a></li>
+<li class="active">View products</li>
 </ol>
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button" style="margin-bottom:12px;"> Add Team</a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add Team</a>
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View farmers</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View products</h3>
 </div>
 <div class="panel panel-default">
 
@@ -42,15 +42,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <th>#</th>
 <th>Name</th>
-<th>Village</th>
-<th>district</th>
+<th>Description</th>
+<th>image1</th>
 
-<th>city</th>
+<th>image2</th>
 
-<th>State</th>
+<th>Mrp</th>
 
-<th>Pincode</th>
-<th>phone_number</th>
+<th>selling_price</th>
+<th>Inventory</th>
 
 
 <th>Status</th>
@@ -58,42 +58,34 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 </thead>
 <tbody>
-<?php $i=1; foreach($farmers_data->result() as $data) { ?>
+<?php $i=1; foreach($products_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
 <td><?php echo $data->name ?></td>
-<td><?php echo $data->village ?></td>
+<td><?php echo $data->description ?></td>
 
-<td><?php echo $data->district ?></td>
-<!-- <td><?php echo $data->city ?></td> -->
-<!-- <td><?php echo $data->state ?></td> -->
-
-<td><?php $ct = $data->city;
-$this->db->select('*');
-            $this->db->from('all_cities');
-            $this->db->where('id',$ct);
-            $dsa= $this->db->get();
-            $da=$dsa->row();
-          if(!empty($da)){
-            echo $da->city_name;
-          }
-
-
- ?></td>
-<td><?php $ct = $data->state;
-$this->db->select('*');
-            $this->db->from('all_states');
-            $this->db->where('id',$ct);
-            $dsa= $this->db->get();
-            $da=$dsa->row();
-          if(!empty($da)){
-            echo $da->state_name;
-          }
+<td>
+                        <?php if ($data->image1!="") {  ?>
+                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image1 ?>">
+                        <?php } else {  ?>
+                        Sorry No image Found
+                        <?php } ?>
+                      </td>
+                      <td>
+                                              <?php if ($data->image2!="") {  ?>
+                                              <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image2 ?>">
+                                              <?php } else {  ?>
+                                              Sorry No image Found
+                                              <?php } ?>
+                                            </td>
 
 
- ?></td>
-<td><?php echo $data->pincode ?></td>
-<td><?php echo $data->phone_number ?></td>
+<td><?php echo $data->mrp ?></td>
+<td><?php echo $data->selling_price ?></td>
+
+<td><?php echo $data->inventory ?></td>
+
+
 
 
 
@@ -113,11 +105,11 @@ $this->db->select('*');
 <ul class="dropdown-menu" role="menu">
 
 <?php if($data->is_active==1){ ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Farmers/updateFarmersStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Products/updateProductsStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
 <?php } else { ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Farmers/updateFarmersStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Products/updateProductsStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
 <?php		}   ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Farmers/update_farmers/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Products/update_products/<?php echo base64_encode($data->id) ?>">Edit</a></li>
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
 </div>
@@ -125,7 +117,7 @@ $this->db->select('*');
 
 <div style="display:none" id="cnfbox<?php echo $i ?>">
 <p> Are you sure delete this </p>
-<a href="<?php echo base_url() ?>dcadmin/Farmers/delete_farmers/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
+<a href="<?php echo base_url() ?>dcadmin/Products/delete_products/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
 <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>" >No</a>
 </div>
 </td>

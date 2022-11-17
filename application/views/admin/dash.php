@@ -21,8 +21,8 @@
               <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">CPU Traffic</span>
-                  <span class="info-box-number">90<small>%</small></span>
+                  <span class="info-box-text">TOTAL TEAM</span>
+                  <span class="info-box-number"><?=$team?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -59,7 +59,7 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
 
-        
+
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 

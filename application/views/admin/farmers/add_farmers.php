@@ -48,6 +48,66 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 
 
+<tr>
+<td> <strong>Village</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="Village"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>district</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="district"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<!-- <input type="text" name="city"  class="form-control" placeholder="" required value="" /> -->
+
+<select class="form-control" name="city">   
+   <option value="">---city---</option>   
+   <?php foreach ($city_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
+
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<!-- <input type="text" name="state"  class="form-control" placeholder="" required value="" /> -->
+<select class="form-control" name="state">   
+   <option value="">---state---</option>   
+   <?php foreach ($state_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
+
+
+</td>
+</tr>
+
+
+
+<tr>
+<td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="Pincode"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>phone_number</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="phone_number"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
 
 <td colspan="2" >
 <input type="submit" class="btn btn-success" value="save">

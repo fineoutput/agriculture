@@ -27,6 +27,16 @@ function __construct()
 				// echo $this->session->userdata('image');
 				// echo $this->session->userdata('position');
 			// exit;
+
+			      			$this->db->select('*');
+			$this->db->from('tbl_team');
+			//$this->db->where('id',$usr);
+			$a= $this->db->count_all_results();
+// echo $a;
+// exit;
+
+$data['team']=$a;
+
 			$this->load->view('admin/common/header_view',$data);
 				$this->load->view('admin/dash');
 				$this->load->view('admin/common/footer_view');

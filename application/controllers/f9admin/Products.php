@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once(APPPATH . 'core/CI_finecontrol.php');
-class Farmers extends CI_finecontrol{
+class Products extends CI_finecontrol{
 function __construct()
 		{
 			parent::__construct();
@@ -14,7 +14,7 @@ function __construct()
 
 
 
- public function View_farmers(){
+ public function View_products(){
 
                   if(!empty($this->session->userdata('admin_data'))){
 
@@ -26,15 +26,15 @@ function __construct()
                     // echo $this->session->userdata('position');
                     // exit;
               $this->db->select('*');
-  $this->db->from('tbl_farmers');
+  $this->db->from('tbl_products');
 
-  $data['farmers_data']= $this->db->get();
+  $data['products_data']= $this->db->get();
 
 
 
 
                     $this->load->view('admin/common/header_view',$data);
-                    $this->load->view('admin/farmers/View_farmers');
+                    $this->load->view('admin/products/View_products');
                     $this->load->view('admin/common/footer_view');
 
                 }
@@ -47,32 +47,17 @@ function __construct()
 
 
 
-public function add_farmers(){
+public function add_products(){
 
                  if(!empty($this->session->userdata('admin_data'))){
 
 
                    $data['user_name']=$this->load->get_var('user_name');
 
-                   // echo SITE_NAME;
-                   // echo $this->session->userdata('image');
-                   // echo $this->session->userdata('position');
-                   // exit;
 
-      			$this->db->select('*');
-$this->db->from('all_states');
-//$this->db->where('id',$usr);
-$data['state_data']= $this->db->get();
-
-
-
-$this->db->select('*');
-$this->db->from('all_cities');
-//$this->db->where('id',$usr);
-$data['city_data']= $this->db->get();
 
                    $this->load->view('admin/common/header_view',$data);
-                   $this->load->view('admin/farmers/add_farmers');
+                   $this->load->view('admin/products/add_products');
                    $this->load->view('admin/common/footer_view');
 
                }
@@ -83,7 +68,7 @@ $data['city_data']= $this->db->get();
 
              }
 
-            public function add_farmers_data($t,$iw="")
+            public function add_products_data($t,$iw="")
 
               {
 
@@ -98,12 +83,10 @@ $data['city_data']= $this->db->get();
               // print_r($this->input->post());
               // exit;
               $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('Village', 'Village', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
-              $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
-              $this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('mrp', 'mrp', 'xss_clean|trim');
+              $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
 
 
 
@@ -112,13 +95,11 @@ $data['city_data']= $this->db->get();
               if($this->form_validation->run()== TRUE)
               {
                 $name=$this->input->post('name');
-                    $Village=$this->input->post('Village');
-                        $district=$this->input->post('district');
-                          $city=$this->input->post('city');
-                           $state=$this->input->post('state');
+                    $description=$this->input->post('description');
+                           $mrp=$this->input->post('mrp');
 
-                               $Pincode=$this->input->post('Pincode');
-                                   $phone_number=$this->input->post('phone_number');
+                               $selling_price=$this->input->post('selling_price');
+                                   $inventory=$this->input->post('inventory');
 
 
                   $ip = $this->input->ip_address();
@@ -127,17 +108,70 @@ $data['city_data']= $this->db->get();
 
                   $addedby=$this->session->userdata('admin_id');
 
+                  $image1="";
+                                  $image2="";
+                                      $img1='image1';
+                                      $file_check=($_FILES['image1']['error']);
+                                      if ($file_check!=4) {
+                                          $image_upload_folder = FCPATH . "assets/uploads/product/";
+                                          if (!file_exists($image_upload_folder)) {
+                                              mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                          }
+                                          $new_file_name="category".date("Ymdhms");
+                                          $this->upload_config = array(
+                                                    'upload_path'   => $image_upload_folder,
+                                                    'file_name' => $new_file_name,
+                                                    'allowed_types' =>'jpg|jpeg|png',
+                                                    'max_size'      => 25000
+                                            );
+                                          $this->upload->initialize($this->upload_config);
+                                          if (!$this->upload->do_upload($img1)) {
+                                              $upload_error = $this->upload->display_errors();
+                                              // echo json_encode($upload_error);
+                                              echo $upload_error;
+                                          } else {
+                                              $file_info = $this->upload->data();
+                                              $image1 = "assets/uploads/product/".$new_file_name.$file_info['file_ext'];
+                                          }
+                                      }
+                                      $image2="";
+                                          $img2='image2';
+                                          $file_check=($_FILES['image2']['error']);
+                                          if ($file_check!=4) {
+                                              $image_upload_folder = FCPATH . "assets/uploads/product/";
+                                              if (!file_exists($image_upload_folder)) {
+                                                  mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                              }
+                                              $new_file_name="category".date("Ymdhms");
+                                              $this->upload_config = array(
+                                                        'upload_path'   => $image_upload_folder,
+                                                        'file_name' => $new_file_name,
+                                                        'allowed_types' =>'jpg|jpeg|png',
+                                                        'max_size'      => 25000
+                                                );
+                                              $this->upload->initialize($this->upload_config);
+                                              if (!$this->upload->do_upload($img2)) {
+                                                  $upload_error = $this->upload->display_errors();
+                                                  // echo json_encode($upload_error);
+                                                  echo $upload_error;
+                                              } else {
+                                                  $file_info = $this->upload->data();
+                                                  $image2 = "assets/uploads/product/".$new_file_name.$file_info['file_ext'];
+                                              }
+                                          }
+
+
 
           $typ=base64_decode($t);
           if($typ==1){
 
           $data_insert = array('name'=>$name,
-          'Village'=>$Village,
-          'district'=>$district,
-          'city'=>$city,
-          'state'=>$state,
-          'Pincode'=>$Pincode,
-          'phone_number'=>$phone_number,
+          'description'=>$description,
+          'image1'=>$image1,
+          'image2'=>$image2,
+          'mrp'=>$mrp,
+          'selling_price'=>$selling_price,
+          'inventory'=>$inventory,
 
 
 
@@ -152,7 +186,7 @@ $data['city_data']= $this->db->get();
 
 
 
-          $last_id=$this->base_model->insert_table("tbl_farmers",$data_insert,1) ;
+          $last_id=$this->base_model->insert_table("tbl_products",$data_insert,1) ;
 
           }
           if($typ==2){
@@ -162,12 +196,12 @@ $data['city_data']= $this->db->get();
 
 
           $data_insert = array('name'=>$name,
-          'Village'=>$Village,
-          'district'=>$district,
-          'city'=>$city,
-          'state'=>$state,
-          'Pincode'=>$Pincode,
-          'phone_number'=>$phone_number
+          'description'=>$description,
+          'image1'=>$image1,
+          'image2'=>$image2,
+          'mrp'=>$mrp,
+          'selling_price'=>$selling_price,
+          'inventory'=>$inventory
 
 
 
@@ -179,7 +213,7 @@ $data['city_data']= $this->db->get();
 
 
             $this->db->where('id', $idw);
-            $last_id=$this->db->update('tbl_farmers', $data_insert);
+            $last_id=$this->db->update('tbl_products', $data_insert);
 
           }
 
@@ -188,7 +222,7 @@ $data['city_data']= $this->db->get();
 
                               $this->session->set_flashdata('smessage','Data inserted successfully');
 
-                              redirect("dcadmin/Farmers/View_farmers","refresh");
+                              redirect("dcadmin/Products/View_products","refresh");
 
                                       }
 
@@ -228,7 +262,7 @@ $this->session->set_flashdata('smessage','Please insert some data, No data avail
 				}
 
 
-        public function update_farmers($idd){
+        public function update_products($idd){
 
                          if(!empty($this->session->userdata('admin_data'))){
 
@@ -244,23 +278,15 @@ $this->session->set_flashdata('smessage','Please insert some data, No data avail
 
 
         $this->db->select('*');
-                    $this->db->from('tbl_farmers');
+                    $this->db->from('tbl_products');
                     $this->db->where('id',$id);
                     $dsa= $this->db->get();
-                    $data['farmers']=$dsa->row();
+                    $data['products']=$dsa->row();
 
-      			$this->db->select('*');
-$this->db->from('all_cities');
-//$this->db->where('id',$usr);
-$data['city_data']= $this->db->get();
 
-$this->db->select('*');
-$this->db->from('all_states');
-//$this->db->where('id',$usr);
-$data['state_data']= $this->db->get();
 
                            $this->load->view('admin/common/header_view',$data);
-                           $this->load->view('admin/farmers/update_farmers');
+                           $this->load->view('admin/products/update_products');
                            $this->load->view('admin/common/footer_view');
 
                        }
@@ -274,7 +300,7 @@ $data['state_data']= $this->db->get();
 
 
 
-    public function delete_farmers($idd){
+    public function delete_products($idd){
 
      if(!empty($this->session->userdata('admin_data'))){
 
@@ -290,10 +316,10 @@ $data['state_data']= $this->db->get();
       if($this->load->get_var('position')=="Super Admin"){
 
 
-                                         $zapak=$this->db->delete('tbl_farmers', array('id' => $id));
+                                         $zapak=$this->db->delete('tbl_products', array('id' => $id));
                                          if($zapak!=0){
 
-                                        redirect("dcadmin/Farmers/View_farmers","refresh");
+                                        redirect("dcadmin/Products/View_products","refresh");
                                                 }
                                                 else
                                                 {
@@ -316,7 +342,7 @@ $data['state_data']= $this->db->get();
 
            }
 
-           public function updatefarmersStatus($idd,$t){
+           public function updateproductsStatus($idd,$t){
 
                     if(!empty($this->session->userdata('admin_data'))){
 
@@ -337,10 +363,10 @@ $data['state_data']= $this->db->get();
                     );
 
                     $this->db->where('id', $id);
-                   $zapak=$this->db->update('tbl_farmers', $data_update);
+                   $zapak=$this->db->update('tbl_products', $data_update);
 
                         if($zapak!=0){
-                        redirect("dcadmin/Farmers/View_farmers","refresh");
+                        redirect("dcadmin/Products/View_products","refresh");
                                 }
                                 else
                                 {
@@ -355,10 +381,10 @@ $data['state_data']= $this->db->get();
                      );
 
                      $this->db->where('id', $id);
-                     $zapak=$this->db->update('tbl_farmers', $data_update);
+                     $zapak=$this->db->update('tbl_products', $data_update);
 
                          if($zapak!=0){
-                         redirect("dcadmin/Farmers/View_farmers","refresh");
+                         redirect("dcadmin/Products/View_products","refresh");
                                  }
                                  else
                                  {
