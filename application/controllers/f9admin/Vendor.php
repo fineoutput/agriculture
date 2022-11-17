@@ -77,10 +77,35 @@ $data['city_data']= $this->db->get();
             {
               // print_r($this->input->post());
               // exit;
-              $this->form_validation->set_rules('name_colume', 'name', 'xss_clean');
-							$this->form_validation->set_rules('shop_colume', 'shop name', 'xss_clean');
-							$this->form_validation->set_rules('address_colume', 'address', 'xss_clean');
-							$this->form_validation->set_rules('district_colume', 'district', 'xss_clean');
+							$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
+
+
+
+
+							$this->form_validation->set_rules('shop_name_english', 'shop_name name', 'xss_clean');
+							$this->form_validation->set_rules('shop_name_hindi', 'shop_name name', 'xss_clean');
+							$this->form_validation->set_rules('shop_name_punjabi', 'shop_name name', 'xss_clean');
+
+
+
+
+							$this->form_validation->set_rules('address_english', 'address', 'xss_clean');
+							$this->form_validation->set_rules('address_hindi', 'address', 'xss_clean');
+								$this->form_validation->set_rules('address_punjabi', 'address', 'xss_clean');
+
+
+
+
+							$this->form_validation->set_rules('district_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
+
+
+
+
+
 							$this->form_validation->set_rules('city_colume', 'city', 'xss_clean');
 							$this->form_validation->set_rules('state_colume', 'state', 'xss_clean');
 							$this->form_validation->set_rules('pincode_colume', 'pincode', 'xss_clean');
@@ -93,10 +118,33 @@ $data['city_data']= $this->db->get();
 
               if($this->form_validation->run()== TRUE)
               {
-                $name_colume=$this->input->post('name_colume');
-                $shop_colume=$this->input->post('shop_colume');
-								$address_colume=$this->input->post('address_colume');
-								$district_colume=$this->input->post('district_colume');
+								$name_english=$this->input->post('name_english');
+								$name_hindi=$this->input->post('name_hindi');
+								$name_punjabi=$this->input->post('name_punjabi');
+
+
+                $shop_name_english=$this->input->post('shop_name_english');
+								$shop_name_hindi=$this->input->post('shop_name_hindi');
+								$shop_name_punjabi=$this->input->post('shop_name_punjabi');
+
+
+
+
+								$address_english=$this->input->post('address_english');
+								$address_hindi=$this->input->post('address_hindi');
+								$address_punjabi=$this->input->post('address_punjabi');
+
+
+
+
+								$district_english=$this->input->post('district_english');
+								$district_hindi=$this->input->post('district_hindi');
+
+								$district_punjabi=$this->input->post('district_punjabi');
+
+
+
+
 								$city_colume=$this->input->post('city_colume');
 								$state_colume=$this->input->post('state_colume');
 								$pincode_colume=$this->input->post('pincode_colume');
@@ -156,10 +204,27 @@ $image="";
           if($typ==1){
 
           $data_insert = array(
-										'name'=>$name_colume,
-                    'shop_name'=>$shop_colume,
-                    'address'=>$address_colume,
-                    'district'=>$district_colume,
+						'name_english'=>$name_english,
+						'name_hindi'=>$name_hindi,
+						'name_punjabi'=>$name_punjabi,
+
+
+						'shop_name_english'=>$shop_name_english,
+						'shop_name_hindi'=>$shop_name_hindi,
+						'shop_name_punjabi'=>$shop_name_punjabi,
+
+
+																'address_english'=>$address_english,
+																'address_hindi'=>$address_hindi,
+																'address_punjabi'=>$address_punjabi,
+
+
+
+										'district_english'=>$district_english,
+										'district_hindi'=>$district_hindi,
+										'district_punjabi'=>$district_punjabi,
+
+
 										'city'=>$city_colume,
                     'state'=>$state_colume,
                     'pincode'=>$pincode_colume,
@@ -183,10 +248,25 @@ $image="";
    $idw=base64_decode($iw);
 
 
-          $data_insert = array('name'=>$name_colume,
-					'shop_name'=>$shop_colume,
-					'address'=>$address_colume,
-					'district'=>$district_colume,
+          $data_insert = array(	'name_english'=>$name_english,
+						'name_hindi'=>$name_hindi,
+						'name_punjabi'=>$name_punjabi,
+
+
+						'shop_name_english'=>$shop_name_english,
+						'shop_name_hindi'=>$shop_name_hindi,
+						'shop_name_punjabi'=>$shop_name_punjabi,
+
+
+																'address_english'=>$address_english,
+																'address_hindi'=>$address_hindi,
+																'address_punjabi'=>$address_punjabi,
+
+
+
+										'district_english'=>$district_english,
+										'district_hindi'=>$district_hindi,
+										'district_punjabi'=>$district_punjabi,
 					'city'=>$city_colume,
 					'state'=>$state_colume,
 					'pincode'=>$pincode_colume,

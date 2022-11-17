@@ -41,10 +41,26 @@
       <thead>
           <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Shop Name</th>
-              <th>Address</th>
-              <th>District</th>
+              <th>Name (English)</th>
+              <th>Name (Hindi)</th>
+              <th>Name (Punjabi)</th>
+
+             <th>Shop Name(English)</th>
+             <th>Shop Name(Hindi)</th>
+              <th>Shop Name(Punjabi)</th>
+
+              <th>Address(English)</th>
+              <th>Address(Hindi)</th>
+              <th>Address(Punjabi)</th>
+
+
+
+              <th>District(English)</th>
+              <th>District(Hindi)</th>
+              <th>District(Punjabi)</th>
+
+
+
               <th>State</th>
               <th>City</th>
               <th>Pin code</th>
@@ -61,10 +77,23 @@
             	<?php $i=1; foreach($vendor_data->result() as $data) { ?>
   <tr>
   <td><?php echo $i ?> </td>
-  <td><?php echo $data->name ?></td>
-  <td><?php echo $data->shop_name ?></td>
-  <td><?php echo $data->address ?></td>
-  <td><?php echo $data->district ?></td>
+  <td><?php echo $data->name_english ?></td>
+  <td><?php echo $data->name_hindi ?></td>
+  <td><?php echo $data->name_punjabi ?></td>
+
+    <td><?php echo $data->shop_name_english?></td>
+    <td><?php echo $data->shop_name_hindi ?></td>
+    <td><?php echo $data->shop_name_punjabi?></td>
+
+  <td><?php echo $data->address_english ?></td>
+  <td><?php echo $data->address_hindi ?></td>
+  <td><?php echo $data->address_punjabi ?></td>
+
+
+
+  <td><?php echo $data->district_english ?></td>
+  <td><?php echo $data->district_hindi ?></td>
+  <td><?php echo $data->district_punjabi ?></td>
 
   <td><?php $cid = $data->state;
   $this->db->select('*');

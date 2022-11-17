@@ -40,35 +40,94 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <div class="table-responsive">
 <table class="table table-hover">
 
-<tr>
-<td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<input type="text" name="name_colume"  class="form-control" placeholder="" required value="" />
-</td>
-</tr>
-<tr>
+
+
 
   <tr>
-  <td> <strong>Shop Name</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="shop_colume"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
   </td>
   </tr>
 
 
   <tr>
-  <td> <strong>Address</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Shop Name(English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="address_colume"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="shop_name_english"  class="form-control" placeholder="" required value="" />
   </td>
   </tr>
 
   <tr>
-  <td> <strong>District</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Shop Name(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="district_colume"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="shop_name_hindi"  class="form-control" placeholder="" required value="" />
   </td>
   </tr>
+
+  <tr>
+  <td> <strong>Shop Name(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="shop_name_punjabi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Address(English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="address_english"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Address(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="address_hindi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Address(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="address_punjabi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+
+  <tr>
+  <td> <strong>District(English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>District(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>District(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+
   <tr>
   <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
