@@ -41,9 +41,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name</th>
-<th>Village</th>
-<th>district</th>
+<th>Name (English)</th>
+<th>Name (Hindi)</th>
+<th>Name (Punjabi)</th>
+<th>Village (English)</th>
+<th>Village (Hindi)</th>
+<th>Village (Punjabi)</th>
+<th>District (English)</th>
+<th>District (Hindi)</th>
+<th>District (Punjabi)</th>
 
 <th>city</th>
 
@@ -61,12 +67,16 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <?php $i=1; foreach($farmers_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
-<td><?php echo $data->name ?></td>
-<td><?php echo $data->village ?></td>
+<td><?php echo $data->name_english ?></td>
+<td><?php echo $data->name_hindi ?></td>
+<td><?php echo $data->name_punjabi ?></td>
 
-<td><?php echo $data->district ?></td>
-<!-- <td><?php echo $data->city ?></td> -->
-<!-- <td><?php echo $data->state ?></td> -->
+<td><?php echo $data->village_english ?></td>
+<td><?php echo $data->village_hindi ?></td>
+<td><?php echo $data->village_punjabi ?></td>
+<td><?php echo $data->district_english ?></td>
+<td><?php echo $data->district_hindi ?></td>
+<td><?php echo $data->district_punjabi ?></td>
 
 <td><?php $ct = $data->city;
 $this->db->select('*');

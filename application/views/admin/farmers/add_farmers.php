@@ -41,25 +41,69 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <table class="table table-hover">
 
 <tr>
-<td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name"  class="form-control" placeholder="" required value="" />
+<input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
 
 <tr>
-<td> <strong>Village</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="Village"  class="form-control" placeholder="" required value="" />
+<input type="text" name="village_english"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="village_hindi"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Village Punjabi</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
 
 <tr>
-<td> <strong>district</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district"  class="form-control" placeholder="" required value="" />
+<input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>Disctrict (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 

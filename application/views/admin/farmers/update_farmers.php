@@ -1,11 +1,11 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New farmers
+Add New Farmers
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All farmers </a></li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Farmers </a></li>
 
 </ol>
 </section>
@@ -15,7 +15,7 @@ Add New farmers
 
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New farmers</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Farmers</h3>
 </div>
 
 <? if(!empty($this->session->flashdata('smessage'))){ ?>
@@ -39,60 +39,96 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <form action="<?php echo base_url() ?>dcadmin/Farmers/add_farmers_data/<? echo base64_encode(2); ?>/<?=$id?>" method="POST" id="slide_frm" enctype="multipart/form-data">
 <div class="table-responsive">
 <table class="table table-hover">
+<tr>
+<td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>
+" />
+</td>
+</tr>
 
 <tr>
-<td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name"  class="form-control" placeholder="" required value="<?=$farmers->name?>" />
+<input type="text" name="name_hindi"  class="form-control" placeholder="" required value="<?=$farmers->name_hindi?>" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->name_punjabi?>" />
 </td>
 </tr>
 
 
 <tr>
-<td> <strong>Village</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="Village"  class="form-control" placeholder="" required value="<?=$farmers->village?>" />
+<input type="text" name="village_english"  class="form-control" placeholder="" required value="<?=$farmers->village_english?>" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="village_hindi"  class="form-control" placeholder="" required value="<?=$farmers->village_hindi?>" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Village Punjabi</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->village_punjabi?>" />
 </td>
 </tr>
 
 
 <tr>
-<td> <strong>district</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district"  class="form-control" placeholder="" required value="<?=$farmers->name?><?=$farmers->district?>" />
+<input type="text" name="district_english"  class="form-control" placeholder="" required value="<?=$farmers->district_english?>" />
 </td>
 </tr>
 
+
+<tr>
+<td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="district_hindi"  class="form-control" placeholder="" required value="<?=$farmers->district_hindi?>" />
+</td>
+</tr>
+
+
+<tr>
+<td> <strong>Disctrict (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->district_punjabi?>" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<select class="form-control" name="state" id="states">   
+   <option value="">---state---</option>   
+   <?php foreach ($state_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
+
+
+</td>
+</tr>
 
 <tr>
 <td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<!-- <input type="text" name="city"  class="form-control" placeholder="" required value="" /> -->
-
-<select class="form-control" name="city">   
+<select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
    <?php foreach ($city_data->result() as $a){​​?>   
        <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
 
 </td>
 </tr>
-
-
-<tr>
-<td> <strong>state_data</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<!-- <input type="text" name="city"  class="form-control" placeholder="" required value="" /> -->
-
-<select class="form-control" name="state_data">   
-   <option value="">---state---</option>   
-   <?php foreach ($state_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
-
-</td>
-</tr>
-
-
-
 
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
@@ -108,7 +144,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <input type="text" name="phone_number"  class="form-control" placeholder="" required value="<?=$farmers->phone_number?>" />
 </td>
 </tr>
-
 
 
 <td colspan="2" >
