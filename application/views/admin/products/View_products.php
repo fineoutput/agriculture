@@ -12,7 +12,7 @@ products
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add Team</a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add products </a>
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View products</h3>
@@ -41,8 +41,14 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name</th>
-<th>Description</th>
+<th>Name (English)</th>
+<th>Name (Hindi)</th>
+<th>Name (Punjabi)</th>
+
+<th>Description(English)</th>
+<th>Description(Hindi)</th>
+<th>Description(Punjabi)</th>
+
 <th>image1</th>
 
 <th>image2</th>
@@ -61,8 +67,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <?php $i=1; foreach($products_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
-<td><?php echo $data->name ?></td>
-<td><?php echo $data->description ?></td>
+<td><?php echo $data->name_english ?></td>
+<td><?php echo $data->name_hindi ?></td>
+<td><?php echo $data->name_punjabi ?></td>
+
+<td><?php echo $data->description_english ?></td>
+<td><?php echo $data->description_hindi ?></td>
+
+<td><?php echo $data->description_punjabi?></td>
+
 
 <td>
                         <?php if ($data->image1!="") {  ?>

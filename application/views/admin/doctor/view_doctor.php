@@ -146,6 +146,9 @@ $this->db->select('*');
 <?php } else { ?>
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/active">Reject</a></li>
 <?php		}   ?>
+
+<li><a href="<?php echo base_url() ?>dcadmin/doctor/update_doctor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+
 <li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
 <li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Block</a></li>
 

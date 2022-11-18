@@ -82,8 +82,20 @@ public function add_products(){
             {
               // print_r($this->input->post());
               // exit;
-              $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
+
+
+							              $this->form_validation->set_rules('description_english', 'description', 'required|xss_clean|trim');
+														$this->form_validation->set_rules('description_hindi', 'description', 'required|xss_clean|trim');
+														$this->form_validation->set_rules('description_punjabi', 'description', 'required|xss_clean|trim');
+
+
+
+
+
+
               $this->form_validation->set_rules('mrp', 'mrp', 'xss_clean|trim');
               $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
               $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
@@ -94,9 +106,18 @@ public function add_products(){
 
               if($this->form_validation->run()== TRUE)
               {
-                $name=$this->input->post('name');
-                    $description=$this->input->post('description');
-                           $mrp=$this->input->post('mrp');
+								$name_english=$this->input->post('name_english');
+								$name_hindi=$this->input->post('name_hindi');
+								$name_punjabi=$this->input->post('name_punjabi');
+
+
+								                    $description_english=$this->input->post('description_english');
+																		$description_hindi=$this->input->post('description_hindi');
+																		$description_punjabi=$this->input->post('description_punjabi');
+
+
+
+				                           $mrp=$this->input->post('mrp');
 
                                $selling_price=$this->input->post('selling_price');
                                    $inventory=$this->input->post('inventory');
@@ -165,8 +186,14 @@ public function add_products(){
           $typ=base64_decode($t);
           if($typ==1){
 
-          $data_insert = array('name'=>$name,
-          'description'=>$description,
+          $data_insert = array(	'name_english'=>$name_english,
+						'name_hindi'=>$name_hindi,
+						'name_punjabi'=>$name_punjabi,
+
+          'description_english'=>$description_english,
+					'description_hindi'=>$description_hindi,
+					'description_punjabi'=>$description_punjabi,
+
           'image1'=>$image1,
           'image2'=>$image2,
           'mrp'=>$mrp,
@@ -195,8 +222,15 @@ public function add_products(){
 
 
 
-          $data_insert = array('name'=>$name,
-          'description'=>$description,
+          $data_insert = array(	'name_english'=>$name_english,
+						'name_hindi'=>$name_hindi,
+						'name_punjabi'=>$name_punjabi,
+
+						'description_english'=>$description_english,
+						'description_hindi'=>$description_hindi,
+						'description_punjabi'=>$description_punjabi,
+
+
           'image1'=>$image1,
           'image2'=>$image2,
           'mrp'=>$mrp,

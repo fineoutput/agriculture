@@ -39,21 +39,50 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <form action="<?php echo base_url() ?>dcadmin/Products/add_products_data/<? echo base64_encode(1); ?>" method="POST" id="slide_frm" enctype="multipart/form-data">
 <div class="table-responsive">
 <table class="table table-hover">
+  <tr>
+  <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
+  </td>
+  </tr>
+
 
 <tr>
-<td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>description(English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name"  class="form-control" placeholder="" required value="" />
+<input type="text" name="description_english"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+<tr>
+<td> <strong>description(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="description_hindi"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>description (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="description_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
 
-<tr>
-<td> <strong>description</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<input type="text" name="description"  class="form-control" placeholder="" required value="" />
-</td>
-</tr>
+
 
 
 <tr>

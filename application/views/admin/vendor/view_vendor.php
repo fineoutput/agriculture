@@ -154,6 +154,8 @@
     <?php } else { ?>
     <li><a href="<?php echo base_url() ?>dcadmin/vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
     <?php		}   ?>
+    <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+
   <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_vendor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
   <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_vendor/<?php echo base64_encode($data->id) ?>">Block</a></li>
 

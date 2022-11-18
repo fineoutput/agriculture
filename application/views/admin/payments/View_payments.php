@@ -12,7 +12,7 @@ payments
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Payments/add_payments" role="button" style="margin-bottom:12px;"> Add Team</a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Payments/add_payments" role="button" style="margin-bottom:12px;"> Add payments</a>
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View payments</h3>
@@ -41,8 +41,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name</th>
-<th>vendor_name</th>
+<th>vendor_doctor_name</th>
 <th>type</th>
 
 <th>amount</th>

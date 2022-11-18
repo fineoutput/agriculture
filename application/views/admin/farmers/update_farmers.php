@@ -42,7 +42,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>
+<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>">
 " />
 </td>
 </tr>

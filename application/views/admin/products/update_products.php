@@ -1,11 +1,11 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New farmers
+Add New Products
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All farmers </a></li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Products </a></li>
 
 </ol>
 </section>
@@ -15,7 +15,7 @@ Add New farmers
 
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New farmers</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Products</h3>
 </div>
 
 <? if(!empty($this->session->flashdata('smessage'))){ ?>
@@ -40,20 +40,51 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <div class="table-responsive">
 <table class="table table-hover">
 
-<tr>
-<td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<input type="text" name="name"  class="form-control" placeholder="" required value="<?=$products->name?>" />
-</td>
-</tr>
+  <tr>
+  <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$products->name_english?>" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="<?=$products->name_hindi?>" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="<?=$products->name_punjabi?>" />
+  </td>
+  </tr>
 
 
-<tr>
-<td> <strong>description</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<input type="text" name="description"  class="form-control" placeholder="" required value="<?=$products->description?>" />
-</td>
-</tr>
+
+
+  <tr>
+  <td> <strong>description(English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="description_english"  class="form-control" placeholder="" required value="<?=$products->description_english?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>description(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="description_hindi"  class="form-control" placeholder="" required value="<?=$products->description_hindi?>" />
+  </td>
+  </tr>
+
+  <tr>
+  <td> <strong>description (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="description_punjabi"  class="form-control" placeholder="" required value="<?=$products->description_punjabi?>" />
+  </td>
+  </tr>
+
+
 
 
 <tr>

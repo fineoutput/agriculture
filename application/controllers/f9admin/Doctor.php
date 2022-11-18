@@ -371,6 +371,50 @@ public function updatedoctorStatus($idd,$t){
 
 
 
+               public function update_doctor($idd){
+
+                                if(!empty($this->session->userdata('admin_data'))){
+
+
+                                  $data['user_name']=$this->load->get_var('user_name');
+
+                                  // echo SITE_NAME;
+                                  // echo $this->session->userdata('image');
+                                  // echo $this->session->userdata('position');
+                                  // exit;
+                $id=base64_decode($idd);
+               $data['id']=$idd;
+
+
+               $this->db->select('*');
+                           $this->db->from('tbl_doctor');
+                           $this->db->where('id',$id);
+                           $dsa= $this->db->get();
+                           $data['doctor']=$dsa->row();
+
+             			$this->db->select('*');
+       $this->db->from('all_cities');
+       //$this->db->where('id',$usr);
+       $data['city_data']= $this->db->get();
+
+       $this->db->select('*');
+       $this->db->from('all_states');
+       //$this->db->where('id',$usr);
+       $data['state_data']= $this->db->get();
+
+                                  $this->load->view('admin/common/header_view',$data);
+                                  $this->load->view('admin/doctor/update_doctor');
+                                  $this->load->view('admin/common/footer_view');
+
+                              }
+                              else{
+
+                                 redirect("login/admin_login","refresh");
+                              }
+
+                              }
+
+
 
 
 
