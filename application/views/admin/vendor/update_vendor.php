@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Vendor
+Add New vendor
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -46,21 +46,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <tr>
   <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$vendor->name_english?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="<?=$vendor->name_hindi?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="<?=$vendor->name_punjabi?>" />
   </td>
   </tr>
 
@@ -68,40 +68,40 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <tr>
   <td> <strong>Shop Name(English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="shop_name_english"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="shop_name_english"  class="form-control" placeholder="" required value="<?=$vendor->shop_name_english?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>Shop Name(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="shop_name_hindi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="shop_name_hindi"  class="form-control" placeholder="" required value="<?=$vendor->shop_name_hindi?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>Shop Name(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="shop_name_punjabi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="shop_name_punjabi"  class="form-control" placeholder="" required value="<?=$vendor->shop_name_punjabi?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>Address(English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="address_english"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="address_english"  class="form-control" placeholder="" required value="<?=$vendor->address_english?>" />
   </td>
   </tr>
   <tr>
   <td> <strong>Address(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="address_hindi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="address_hindi"  class="form-control" placeholder="" required value="<?=$vendor->address_hindi?>" />
   </td>
   </tr>
   <tr>
   <td> <strong>Address(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="address_punjabi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="address_punjabi"  class="form-control" placeholder="" required value="<?=$vendor->address_punjabi?>" />
   </td>
   </tr>
 
@@ -109,21 +109,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <tr>
   <td> <strong>District(English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="district_english"  class="form-control" placeholder="" required value="<?=$vendor->district_english?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>District(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="<?=$vendor->district_hindi?>" />
   </td>
   </tr>
 
   <tr>
   <td> <strong>District(Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
+  <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="<?=$vendor->district_punjabi?>" />
   </td>
   </tr>
 
@@ -154,7 +154,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pin Code</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="pincode_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="pincode_colume"  class="form-control" placeholder="" required value="<?=$vendor->pincode?>" />
 </td>
 </tr>
 
@@ -162,7 +162,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>GST no (optional)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="gst_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="gst_colume"  class="form-control" placeholder="" required value="<?=$vendor->gst_no?>" />
 </td>
 </tr>
 
@@ -170,7 +170,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Aadhar Upload</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="file" name="image"  class="form-control" placeholder="" required value="" />
+<input type="file" name="image"  class="form-control" placeholder="" required value="<?=$vendor->image?>" />
 </td>
 </tr>
 
@@ -178,21 +178,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pan Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="pan_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="pan_colume"  class="form-control" placeholder="" required value="<?=$vendor->pan_number?>" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="phone_colume"  class="form-control" placeholder="" required value="<?=$vendor->phone_number?>" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="email_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="email_colume"  class="form-control" placeholder="" required value="<?=$vendor->email?>" />
 </td>
 </tr>
 

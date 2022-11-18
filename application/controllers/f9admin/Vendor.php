@@ -110,7 +110,7 @@ $data['city_data']= $this->db->get();
 							$this->form_validation->set_rules('state_colume', 'state', 'xss_clean');
 							$this->form_validation->set_rules('pincode_colume', 'pincode', 'xss_clean');
 							$this->form_validation->set_rules('gst_colume', 'gst no', 'xss_clean');
-							$this->form_validation->set_rules('image', 'aadhar Upload', 'xss_clean');
+							// $this->form_validation->set_rules('image', 'aadhar Upload', 'xss_clean');
 							$this->form_validation->set_rules('pan_colume', 'pan number', 'xss_clean');
 							$this->form_validation->set_rules('phone_colume', 'phone number', 'xss_clean');
 							$this->form_validation->set_rules('email_colume', 'email address', 'xss_clean');
@@ -271,7 +271,7 @@ $image="";
 					'state'=>$state_colume,
 					'pincode'=>$pincode_colume,
 					'gst_no'=>$gst_colume,
-					'aadhar_upload'=>$aadhar_colume,
+					'image'=>$image,
 					'pan_number'=>$pan_colume,
 					'phone_number'=>$phone_colume,
 					'email'=>$email_colume
