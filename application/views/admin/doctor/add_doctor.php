@@ -41,12 +41,25 @@
   <table class="table table-hover">
 
     <tr>
-    <td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
+    <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="name_colume"  class="form-control" placeholder="" required value="" />
+    <input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
     </td>
     </tr>
+
     <tr>
+    <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td>
+    <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+    </td>
+    </tr>
+
+    <tr>
+    <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td>
+    <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
+    </td>
+    </tr>
 
       <tr>
       <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
@@ -71,16 +84,43 @@
       </tr>
 
       <tr>
-      <td> <strong>Vet</strong>  <span style="color:red;">*</span></strong> </td>
+      <td> <strong>Vet (English)</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="vet_colume"  class="form-control" placeholder="" required value="" />
+      <input type="text" name="vet_english"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
 
       <tr>
-      <td> <strong>Degree</strong>  <span style="color:red;">*</span></strong> </td>
+      <td> <strong>Vet (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="degree_colume"  class="form-control" placeholder="" required value="" />
+      <input type="text" name="vet_hindi"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+      <tr>
+      <td> <strong>Vet (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="vet_punjabi"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+
+      <tr>
+      <td> <strong>Degree (English)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="degree_english"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+
+      <tr>
+      <td> <strong>Degree (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="degree_hindi"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+
+      <tr>
+      <td> <strong>Degree (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="degree_punjabi"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
 
@@ -114,9 +154,25 @@
       </tr>
 
       <tr>
-      <td> <strong>District</strong>  <span style="color:red;">*</span></strong> </td>
+      <td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="district_colume"  class="form-control" placeholder="" required value="" />
+      <input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+
+
+      <tr>
+      <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
+      </td>
+      </tr>
+
+
+      <tr>
+      <td> <strong>Disctrict (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
 
