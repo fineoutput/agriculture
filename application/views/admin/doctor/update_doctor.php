@@ -205,7 +205,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <select class="form-control" name="city_colume" id="cities">
       <option value="">---City---</option>
       <?php foreach ($city_data->result() as $a){?>
-        <option value="<?=$a->id?>" <?if($a->id==$doctor->city){echo 'selected';}?>><?=$a->city?></option>
+        <option value="<?=$a->id?>" <?if($a->id==$doctor->city){echo 'selected';}?>><?=$a->city_name?></option>
       <?php } ?>
     </td>
     </tr>
