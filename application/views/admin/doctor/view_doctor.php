@@ -41,17 +41,25 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name</th>
+<th>Name (English)</th>
+<th>Name (Hindi)</th>
+<th>Name (Punjabi)</th>
 <th>Email</th>
 <th>Aadhar Upload</th>
 <th>Type</th>
-<th>Vet</th>
-<th>Degree</th>
+<th>Vet (English)</th>
+<th>Vet (Hindi)</th>
+<th>Vet (Punjabi)</th>
+<th>Degree (English)</th>
+<th>Degree (Hindi)</th>
+<th>Degree (Punjabi)</th>
 <th>Experiance</th>
 <th>Assistant</th>
 <th>Private Practitioner</th>
 <th>Education Qualification</th>
-<th>District</th>
+<th>District (English)</th>
+<th>District (Hindi)</th>
+<th>District (Punjabi)</th>
 <th>State</th>
 <th>City</th>
 <th>Phone Number</th>
@@ -63,7 +71,10 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <?php $i=1; foreach($doctor_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
-<td><?php echo $data->name ?></td>
+<td><?php echo $data->name_english ?></td>
+<td><?php echo $data->name_hindi ?></td>
+<td><?php echo $data->name_punjabi ?></td>
+
 <td><?php echo $data->email ?></td>
 <td>
     <?php if($data->image!=""){  ?>
@@ -73,13 +84,22 @@ Sorry No image Found
 <?php } ?>
   </td>
 <td><?php echo $data->type ?></td>
-<td><?php echo $data->vet ?></td>
-<td><?php echo $data->degree ?></td>
+<td><?php echo $data->vet_english ?></td>
+<td><?php echo $data->vet_hindi ?></td>
+<td><?php echo $data->vet_punjabi ?></td>
+
+<td><?php echo $data->degree_english ?></td>
+<td><?php echo $data->degree_hindi ?></td>
+<td><?php echo $data->degree_punjabi ?></td>
+
 <td><?php echo $data->experience ?></td>
 <td><?php echo $data->assistant ?></td>
 <td><?php echo $data->private_practitioner ?></td>
 <td><?php echo $data->education_qualification	 ?></td>
-<td><?php echo $data->district ?></td>
+<td><?php echo $data->district_english ?></td>
+<td><?php echo $data->district_hindi ?></td>
+<td><?php echo $data->district_punjabi ?></td>
+
 <td><?php $cid = $data->state;
 $this->db->select('*');
             $this->db->from('all_states');
