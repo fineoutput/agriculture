@@ -170,6 +170,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="file" name="image"  class="form-control" placeholder="" required value="<?=$vendor->image?>" />
 </td>
+
+<td>
+<?php if ($vendor->image!="") {  ?>
+<img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$vendor->image ?>">
+<?php } else {  ?>
+Sorry No image Found
+<?php } ?>
+</td>
+
 </tr>
 
 
