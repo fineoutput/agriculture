@@ -92,12 +92,28 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="file" name="image1"  class="form-control" placeholder="" required value="<?=$products->image1?>" />
 </td>
+
+<td>
+<?php if ($products->image1!="") {  ?>
+<img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$products->image1 ?>">
+<?php } else {  ?>
+Sorry No image Found
+<?php } ?>
+</td>
 </tr>
 
 <tr>
 <td> <strong>image2</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="file" name="image2"  class="form-control" placeholder="" required value="<?=$products->image2?>" />
+</td>
+
+<td>
+<?php if ($products->image2!="") {  ?>
+<img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$products->image2 ?>">
+<?php } else {  ?>
+Sorry No image Found
+<?php } ?>
 </td>
 </tr>
 

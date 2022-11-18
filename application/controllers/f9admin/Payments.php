@@ -26,15 +26,15 @@ function __construct()
                     // echo $this->session->userdata('position');
                     // exit;
               $this->db->select('*');
-  $this->db->from('tbl_products');
+  $this->db->from('tbl_payments');
 
-  $data['products_data']= $this->db->get();
+  $data['payments_data']= $this->db->get();
 
 
 
 
                     $this->load->view('admin/common/header_view',$data);
-                    $this->load->view('admin/products/View_products');
+                    $this->load->view('admin/payments/View_payments');
                     $this->load->view('admin/common/footer_view');
 
                 }

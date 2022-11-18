@@ -74,6 +74,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <td>
     <input type="file" name="image"  class="form-control" placeholder="" required value="<?=$doctor->image?>" />
     </td>
+    <td>
+    <?php if ($doctor->image!="") {  ?>
+    <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$doctor->image ?>">
+    <?php } else {  ?>
+    Sorry No image Found
+    <?php } ?>
+    </td>
+
+
     </tr>
 
     <tr>
@@ -87,6 +96,20 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <td> <strong>Vet (English)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
     <input type="text" name="vet_english"  class="form-control" placeholder="" required value="<?=$doctor->vet_english?>" />
+    </td>
+    </tr>
+
+    <tr>
+    <td> <strong>Vet (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td>
+    <input type="text" name="vet_hindi"  class="form-control" placeholder="" required value="<?=$doctor->vet_hindi?>" />
+    </td>
+    </tr>
+
+    <tr>
+    <td> <strong>Vet (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td>
+    <input type="text" name="vet_punjabi"  class="form-control" placeholder="" required value="<?=$doctor->vet_punjabi?>" />
     </td>
     </tr>
 
@@ -167,11 +190,11 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <tr>
     <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <!-- <input type="text" name="state_colume"  class="form-control" placeholder="" required value="" /> -->
     <select class="form-control" name="state_colume" id="states">
       <option value="">---state---</option>
       <?php foreach ($state_data->result() as $a){?>
-        <option value="<?=$a->id?>"><?=$a->state_name?></option>
+        <option value="<?=$a->id?>" <?if($a->id==$doctor->state){echo 'selected';}?>><?=$a->state_name?></option>
+
       <?php } ?>
 
     </td>
@@ -179,11 +202,10 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <tr>
     <td> <strong>City</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <!-- <input type="text" name="city_colume"  class="form-control" placeholder="" required value="" /> -->
     <select class="form-control" name="city_colume" id="cities">
       <option value="">---City---</option>
       <?php foreach ($city_data->result() as $a){?>
-        <option value="<?=$a->id?>"><?=$a->city_name?></option>
+        <option value="<?=$a->id?>" <?if($a->id==$doctor->city){echo 'selected';}?>><?=$a->city?></option>
       <?php } ?>
     </td>
     </tr>
