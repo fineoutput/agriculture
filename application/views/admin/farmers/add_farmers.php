@@ -107,7 +107,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <select class="form-control" name="state_colume" id="states">   
@@ -116,17 +116,19 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
        <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
 
 
-          <!-- <tr>
-          <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
-          <td>
-          <select class="form-control" name="state_colume" id="states">
-            <option value="">---state---</option>
-            <?php foreach ($state_data->result() as $a){?>
-              <option value="<?=$a->id?>"><?=$a->state_name?></option>
-            <?php } ?>
 
-          </td>
-        </tr> -->
+</td>
+</tr> -->
+
+<tr>
+<td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<select class="form-control" name="state_colume" id="states">
+  <option value="">---state---</option>
+  <?php foreach ($state_data->result() as $a){?>
+    <option value="<?=$a->id?>"><?=$a->state_name?></option>
+  <?php } ?>
+
 </td>
 </tr>
 
