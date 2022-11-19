@@ -107,7 +107,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </td>
 </tr>
 
-
+<!--
 <tr>
 <td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
@@ -119,8 +119,13 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
 </td>
+</tr> -->
+<tr>
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="state"  class="form-control" placeholder="" required value="" />
+</td>
 </tr>
-
 <tr>
 <td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
