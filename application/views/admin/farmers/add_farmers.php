@@ -5,14 +5,14 @@ Add New Farmers
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Farmers </a></li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Farmers</a></li>
 
 </ol>
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
- 
+
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Farmers</h3>

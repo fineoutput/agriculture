@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-farmers
+Farmers
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -13,7 +13,7 @@ farmers
 <div class="row">
 <div class="col-lg-12">
 <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button" style="margin-bottom:12px;"> Add farmers</a>
-<div class="panel panel-default"> 
+<div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View farmers</h3>
 </div>

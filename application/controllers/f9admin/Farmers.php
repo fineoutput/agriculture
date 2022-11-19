@@ -13,9 +13,9 @@ function __construct()
 
 
 
+		public function View_farmers(){
 
- public function View_farmers(){
- 
+
                   if(!empty($this->session->userdata('admin_data'))){
 
 
