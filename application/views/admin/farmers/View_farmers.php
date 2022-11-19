@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Farmers
+farmer
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -12,10 +12,11 @@ Farmers
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button" style="margin-bottom:12px;"> Add farmers</a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button"
+   style="margin-bottom:12px;"> Add farmers</a>
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View farmers</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View farmer</h3>
 </div>
 <div class="panel panel-default">
 
@@ -78,20 +79,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td><?php echo $data->district_hindi ?></td>
 <td><?php echo $data->district_punjabi ?></td>
 
-<td><?php $ct = $data->state;
-$this->db->select('*');
-            $this->db->from('all_states');
-            $this->db->where('id',$ct);
-            $dsa= $this->db->get();
-            $da=$dsa->row();
-          if(!empty($da)){
-            echo $da->state_name;
-          }
-
-
- ?></td>
-
-
 <td><?php $ct = $data->city;
 $this->db->select('*');
             $this->db->from('all_cities');
@@ -104,12 +91,20 @@ $this->db->select('*');
 
 
  ?></td>
+<td><?php $ct = $data->state;
+$this->db->select('*');
+            $this->db->from('all_states');
+            $this->db->where('id',$ct);
+            $dsa= $this->db->get();
+            $da=$dsa->row();
+          if(!empty($da)){
+            echo $da->state_name;
+          }
 
+
+ ?></td>
 <td><?php echo $data->pincode ?></td>
 <td><?php echo $data->phone_number ?></td>
-
-
-
 <td><?php if($data->is_active==1){ ?>
 <p class="label bg-green" >Active</p>
 

@@ -13,18 +13,14 @@ function __construct()
 
 
 
-		public function View_farmers(){
 
+ public function View_farmers(){
 
                   if(!empty($this->session->userdata('admin_data'))){
 
 
                     $data['user_name']=$this->load->get_var('user_name');
 
-                    // echo SITE_NAME;
-                    // echo $this->session->userdata('image');
-                    // echo $this->session->userdata('position');
-                    // exit;
               $this->db->select('*');
   $this->db->from('tbl_farmers');
 
@@ -97,22 +93,22 @@ $data['city_data']= $this->db->get();
             {
               // print_r($this->input->post());
               // exit;
-              $this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('name_english', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('name_hindi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean|trim');
 
-							$this->form_validation->set_rules('village_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('village_hindi', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('village_punjabi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('village_english', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('village_hindi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('village_punjabi', 'name', 'xss_clean|trim');
 
-							$this->form_validation->set_rules('district_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('district_english', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('district_hindi', 'name', 'xss_clean|trim');
+              $this->form_validation->set_rules('district_punjabi', 'Village', 'xss_clean|trim');
 
               $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
               $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
-              $this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('Pincode', 'Pincode', 'xss_clean|trim');
+              $this->form_validation->set_rules('phone_number', 'phone_number', 'xss_clean|trim');
 
 
 
@@ -135,7 +131,7 @@ $data['city_data']= $this->db->get();
                           $city=$this->input->post('city');
                            $state=$this->input->post('state');
 
-                               $Pincode=$this->input->post('Pincode');
+                               		$Pincode=$this->input->post('Pincode');
                                    $phone_number=$this->input->post('phone_number');
 
 

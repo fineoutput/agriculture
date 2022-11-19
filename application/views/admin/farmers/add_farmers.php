@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Farmers
+Add Farmer
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -43,21 +43,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+<input type="text" name="name_english"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="name_hindi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="name_punjabi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
@@ -65,21 +65,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_english"  class="form-control" placeholder="" required value="" />
+<input type="text" name="village_english"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_hindi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="village_hindi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Village Punjabi</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="village_punjabi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
@@ -87,7 +87,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+<input type="text" name="district_english"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
@@ -95,7 +95,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="district_hindi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
@@ -103,51 +103,37 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Disctrict (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
+<input type="text" name="district_punjabi"  class="form-control" placeholder=""  value="" />
 </td>
 </tr>
 
-<!--
 <tr>
 <td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
-   <?php foreach ($state_data->result() as $ct)  {​​?>   
-     <option value="<?=$ct->id?>"><?=$ct->state_name?></option> 
-   <?php }​​ ?>
+   <?php foreach ($state_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
 
 
-</td>
-</tr> -->
-<tr>
-<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<input type="text" name="state"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
+
 <tr>
 <td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<!-- <input type="text" name="city"  class="form-control" placeholder="" required value="" /> -->
-
 <select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
-   <?php foreach ($city_data->result() as $ct){​​?>   
-       <option value="<?=$ct->id?>"><?=$ct->city_name?></option>    <?php }​​ ?>
+   <?php foreach ($city_data->result() as $a){​​?>   
+       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
 
 </td>
 </tr>
-
-
-
-
-
 
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="Pincode"  class="form-control" placeholder="" required value="" />
+<input type="number" name="Pincode"  class="form-control" placeholder="" required  maxlength="6" value="" />
 </td>
 </tr>
 
@@ -155,7 +141,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>phone_number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_number"  class="form-control" placeholder="" required value="" />
+<input type="number" name="phone_number"  class="form-control" placeholder="" pattern="[0-9]{10}" required value="" />
 </td>
 </tr>
 

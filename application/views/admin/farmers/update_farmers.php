@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Farmers
+Add New Farmer
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -42,8 +42,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>"/>
-
+<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>
+" />
 </td>
 </tr>
 
@@ -113,10 +113,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
    <?php foreach ($state_data->result() as $a){​​?>   
-    <option value="<?=$a->id?>" <?if($a->id==$farmers->state){echo 'selected';}?>><?=$a->state_name?></option>
-
-
-     <?php }​​ ?>
+       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
 
 
 </td>
@@ -128,8 +125,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
    <?php foreach ($city_data->result() as $a){​​?>   
-    <option value="<?=$a->id?>" <?if($a->id==$farmers->city){echo 'selected';}?>><?=$a->city_name?></option>
-     <?php }​​ ?>
+       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
 
 </td>
 </tr>
@@ -137,7 +133,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="Pincode"  class="form-control" placeholder="" required value="<?=$farmers->pincode?>" />
+<input type="number" name="Pincode"  class="form-control" placeholder="" required value="<?=$farmers->pincode?>" />
 </td>
 </tr>
 
@@ -145,7 +141,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>phone_number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_number"  class="form-control" placeholder="" required value="<?=$farmers->phone_number?>" />
+<input type="number" name="phone_number"  class="form-control" placeholder="" required value="<?=$farmers->phone_number?>" />
 </td>
 </tr>
 
@@ -175,7 +171,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
-
 
 
 <script >
