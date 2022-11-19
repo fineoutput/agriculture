@@ -107,14 +107,14 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </td>
 </tr>
 
+
 <tr>
 <td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<!-- <input type="text" name="state"  class="form-control" placeholder="" required value="" /> -->
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
-   <?php foreach ($state_data->result() as $st){​​?>   
-     <option value="<?=$st->id?>"><?=$st->state_name?></option> 
+   <?php foreach ($state_data->result() as $ct)  {​​?>   
+     <option value="<?=$ct->id?>"><?=$ct->state_name?></option> 
    <?php }​​ ?>
 
 
@@ -128,8 +128,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
-   <?php foreach ($city_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
+   <?php foreach ($city_data->result() as $ct){​​?>   
+       <option value="<?=$ct->id?>"><?=$ct->city_name?></option>    <?php }​​ ?>
 
 </td>
 </tr>
