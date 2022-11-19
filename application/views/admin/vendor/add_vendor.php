@@ -192,7 +192,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="email_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="email"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 

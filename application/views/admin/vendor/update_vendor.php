@@ -199,7 +199,7 @@ Sorry No image Found
 <tr>
 <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="email_colume"  class="form-control" placeholder="" required value="<?=$vendor->email?>" />
+<input type="text" name="email"  class="form-control" placeholder="" required value="<?=$vendor->email?>" />
 </td>
 </tr>
 
@@ -263,7 +263,7 @@ $(document).ready(function(){
 						}
 						else
 						{
-							alert('No subcategory Found');
+							alert('No city Found');
 							return false;
 						}
 

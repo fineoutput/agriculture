@@ -47,15 +47,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>Email</th>
 <th>Aadhar Upload</th>
 <th>Type</th>
-<th>Vet (English)</th>
-<th>Vet (Hindi)</th>
-<th>Vet (Punjabi)</th>
-<th>Degree (English)</th>
+<th>Vet </th>
+<th>Private Practitioner</th>
+
+
+<th>Degree (English</th>
 <th>Degree (Hindi)</th>
 <th>Degree (Punjabi)</th>
 <th>Experiance</th>
 <th>Assistant</th>
-<th>Private Practitioner</th>
 <th>Education Qualification</th>
 <th>District (English)</th>
 <th>District (Hindi)</th>
@@ -84,9 +84,35 @@ Sorry No image Found
 <?php } ?>
   </td>
 <td><?php echo $data->type ?></td>
-<td><?php echo $data->vet_english ?></td>
-<td><?php echo $data->vet_hindi ?></td>
-<td><?php echo $data->vet_punjabi ?></td>
+<td><?php $vet = $data->vet;
+
+if($vet == 1){
+  echo "Yes";
+}
+else{
+  echo "No";
+}
+
+
+
+?></td>
+
+
+<!-- <td><?php echo $data->private_practitioner ?></td> -->
+<td><?php $da = $data->private_practitioner;
+
+if($da == 1){
+  echo "Yes";
+}
+else{
+  echo "No";
+}
+
+
+
+?></td>
+
+
 
 <td><?php echo $data->degree_english ?></td>
 <td><?php echo $data->degree_hindi ?></td>
@@ -94,7 +120,6 @@ Sorry No image Found
 
 <td><?php echo $data->experience ?></td>
 <td><?php echo $data->assistant ?></td>
-<td><?php echo $data->private_practitioner ?></td>
 <td><?php echo $data->education_qualification	 ?></td>
 <td><?php echo $data->district_english ?></td>
 <td><?php echo $data->district_hindi ?></td>

@@ -64,7 +64,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <tr>
     <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="email_colume"  class="form-control" placeholder="" required value="<?=$doctor->email?>" />
+    <input type="text" name="email"  class="form-control" placeholder="" required value="<?=$doctor->email?>" />
     </td>
     </tr>
 
@@ -93,25 +93,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     </tr>
 
     <tr>
-    <td> <strong>Vet (English)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td> <strong>Vet </strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="vet_english"  class="form-control" placeholder="" required value="<?=$doctor->vet_english?>" />
+    <input type="text" name="vet"  class="form-control" placeholder="" required value="<?=$doctor->vet?>" />
     </td>
     </tr>
 
-    <tr>
-    <td> <strong>Vet (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td> <strong>Private Practitioner</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="vet_hindi"  class="form-control" placeholder="" required value="<?=$doctor->vet_hindi?>" />
+    <input type="text" name="private_colume"  class="form-control" placeholder="" required value="<?=$doctor->private_practitioner?>" />
     </td>
     </tr>
 
-    <tr>
-    <td> <strong>Vet (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
-    <td>
-    <input type="text" name="vet_punjabi"  class="form-control" placeholder="" required value="<?=$doctor->vet_punjabi?>" />
-    </td>
-    </tr>
 
 
     <tr>
@@ -151,11 +144,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     </td>
     </tr>
     <tr>
-    <td> <strong>Private Practitioner</strong>  <span style="color:red;">*</span></strong> </td>
-    <td>
-    <input type="text" name="private_colume"  class="form-control" placeholder="" required value="<?=$doctor->private_practitioner?>" />
-    </td>
-    </tr>
 
     <tr>
     <td> <strong>Education Qualification</strong>  <span style="color:red;">*</span></strong> </td>

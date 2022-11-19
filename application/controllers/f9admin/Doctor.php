@@ -77,199 +77,248 @@ redirect("login/admin_login","refresh");
 }
 
 //-----------------------------add_doctor_data------------------------------
-  public function add_doctor_data()
 
-              {
+public function add_doctor_data($t,$iw="")
 
-                if(!empty($this->session->userdata('admin_data'))){
+  {
 
-
-            $this->load->helper(array('form', 'url'));
-            $this->load->library('form_validation');
-            $this->load->helper('security');
-            if($this->input->post())
-            {
-              $this->form_validation->set_rules('name_english', 'name', 'xss_clean');
-              $this->form_validation->set_rules('name_hindi', 'name', 'xss_clean');
-              $this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean');
+    if(!empty($this->session->userdata('admin_data'))){
 
 
-              $this->form_validation->set_rules('email_colume', 'email_colume', 'xss_clean');
-              $this->form_validation->set_rules('image', 'image', 'xss_clean');
-              $this->form_validation->set_rules('type_colume', 'type_colume', 'xss_clean');
+$this->load->helper(array('form', 'url'));
+$this->load->library('form_validation');
+$this->load->helper('security');
+if($this->input->post())
+{
+  // print_r($this->input->post());
+  // exit;
+  $this->form_validation->set_rules('name_english', 'name', 'xss_clean');
+  $this->form_validation->set_rules('name_hindi', 'name', 'xss_clean');
+  $this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean');
 
-              $this->form_validation->set_rules('vet_english', 'vet_english', 'xss_clean');
-              $this->form_validation->set_rules('vet_hindi', 'vet_hindi', 'xss_clean');
-              $this->form_validation->set_rules('vet_punjabi', 'vet_punjabi', 'xss_clean');
 
-              $this->form_validation->set_rules('degree_english', 'degree_english', 'xss_clean');
-              $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'xss_clean');
-              $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'xss_clean');
+  $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
+  $this->form_validation->set_rules('image', 'image', 'xss_clean');
+  $this->form_validation->set_rules('type_colume', 'type_colume', 'xss_clean');
 
-              $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'xss_clean');
-              $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'xss_clean');
-              $this->form_validation->set_rules('private_colume', 'private_colume', 'xss_clean');
-              $this->form_validation->set_rules('education_colume', 'education_colume', 'xss_clean');
+  $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
+  $this->form_validation->set_rules('private_colume', 'private_colume', 'xss_clean');
 
-              $this->form_validation->set_rules('district_english', 'district_english', 'xss_clean');
-              $this->form_validation->set_rules('district_hindi', 'district_hindi', 'xss_clean');
-              $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'xss_clean');
 
-              $this->form_validation->set_rules('state_colume', 'state_colume', 'xss_clean');
-              $this->form_validation->set_rules('city_colume', 'city_colume', 'xss_clean');
-              $this->form_validation->set_rules('phone_colume', 'phone_colume', 'xss_clean');
 
-              if($this->form_validation->run()== TRUE)
-              {
+  $this->form_validation->set_rules('degree_english', 'degree_english', 'xss_clean');
+  $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'xss_clean');
+  $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'xss_clean');
 
-                $name_english=$this->input->post('name_english');
-                $name_hindi=$this->input->post('name_hindi');
-                $name_punjabi=$this->input->post('name_punjabi');
-                $email_colume=$this->input->post('email_colume');
-                $type_colume=$this->input->post('type_colume');
-                $vet_english=$this->input->post('vet_english');
-                $vet_hindi=$this->input->post('vet_hindi');
-                $vet_punjabi=$this->input->post('vet_punjabi');
-                $degree_english=$this->input->post('degree_english');
-                $degree_hindi=$this->input->post('degree_hindi');
-                $degree_punjabi=$this->input->post('degree_punjabi');
-                $experiance_colume=$this->input->post('experiance_colume');
-                $assistant_colume=$this->input->post('assistant_colume');
-                $private_colume=$this->input->post('private_colume');
-                $education_colume=$this->input->post('education_colume');
-                $district_english=$this->input->post('district_english');
-                $district_hindi=$this->input->post('district_hindi');
-                $district_punjabi=$this->input->post('district_punjabi');
-                $state_colume=$this->input->post('state_colume');
-                $city_colume=$this->input->post('city_colume');
-                $phone_colume=$this->input->post('phone_colume');
+  $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'xss_clean');
+  $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'xss_clean');
+  $this->form_validation->set_rules('education_colume', 'education_colume', 'xss_clean');
+
+  $this->form_validation->set_rules('district_english', 'district_english', 'xss_clean');
+  $this->form_validation->set_rules('district_hindi', 'district_hindi', 'xss_clean');
+  $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'xss_clean');
+
+  $this->form_validation->set_rules('state_colume', 'state_colume', 'xss_clean');
+  $this->form_validation->set_rules('city_colume', 'city_colume', 'xss_clean');
+  $this->form_validation->set_rules('phone_colume', 'phone_colume', 'xss_clean');
+
+  if($this->form_validation->run()== TRUE)
+  {
+
+    $name_english=$this->input->post('name_english');
+    $name_hindi=$this->input->post('name_hindi');
+    $name_punjabi=$this->input->post('name_punjabi');
+    $email=$this->input->post('email');
+    $type_colume=$this->input->post('type_colume');
+    $vet=$this->input->post('vet');
+;                $private_colume=$this->input->post('private_colume');
+
+    $degree_english=$this->input->post('degree_english');
+    $degree_hindi=$this->input->post('degree_hindi');
+    $degree_punjabi=$this->input->post('degree_punjabi');
+    $experiance_colume=$this->input->post('experiance_colume');
+    $assistant_colume=$this->input->post('assistant_colume');
+    $education_colume=$this->input->post('education_colume');
+    $district_english=$this->input->post('district_english');
+    $district_hindi=$this->input->post('district_hindi');
+    $district_punjabi=$this->input->post('district_punjabi');
+    $state_colume=$this->input->post('state_colume');
+    $city_colume=$this->input->post('city_colume');
+    $phone_colume=$this->input->post('phone_colume');
 //------------------image----------------------------
 $this->load->library('upload');
 $image="";
-    $img1='image';
+$img1='image';
 
-      $file_check=($_FILES['image']['error']);
-      if($file_check!=4){
-    	$image_upload_folder = FCPATH . "assets/uploads/team/";
-  						if (!file_exists($image_upload_folder))
-  						{
-  							mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-  						}
-  						$new_file_name="team".date("Ymdhms");
-  						$this->upload_config = array(
-  								'upload_path'   => $image_upload_folder,
-  								'file_name' => $new_file_name,
-  								'allowed_types' =>'jpg|jpeg|png',
-  								'max_size'      => 25000
-  						);
-  						$this->upload->initialize($this->upload_config);
-  						if (!$this->upload->do_upload($img1))
-  						{
-  							$upload_error = $this->upload->display_errors();
-  							// echo json_encode($upload_error);
-  							echo $upload_error;
-  						}
-  						else
-  						{
+$file_check=($_FILES['image']['error']);
+if($file_check!=4){
+$image_upload_folder = FCPATH . "assets/uploads/team/";
+  if (!file_exists($image_upload_folder))
+  {
+    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+  }
+  $new_file_name="team".date("Ymdhms");
+  $this->upload_config = array(
+      'upload_path'   => $image_upload_folder,
+      'file_name' => $new_file_name,
+      'allowed_types' =>'jpg|jpeg|png',
+      'max_size'      => 25000
+  );
+  $this->upload->initialize($this->upload_config);
+  if (!$this->upload->do_upload($img1))
+  {
+    $upload_error = $this->upload->display_errors();
+    // echo json_encode($upload_error);
+    echo $upload_error;
+  }
+  else
+  {
 
-  							$file_info = $this->upload->data();
+    $file_info = $this->upload->data();
 
-  							$image = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
-  							$file_info['new_name']=$image;
-  							// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-  							$nnnn=$file_info['file_name'];
-  							// echo json_encode($file_info);
-  						}
-      }
-
-
-                  $ip = $this->input->ip_address();
-          date_default_timezone_set("Asia/Calcutta");
-                  $cur_date=date("Y-m-d H:i:s");
-
-                  $addedby=$this->session->userdata('admin_id');
+    $image = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
+    $file_info['new_name']=$image;
+    // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+    $nnnn=$file_info['file_name'];
+    // echo json_encode($file_info);
+  }
+}
 
 
-          $data_insert = array(
-            'name_english'=>$name_english,
-            'name_hindi'=>$name_hindi,
-            'name_punjabi'=>$name_punjabi,
-            'email'=>$email_colume,
-            'image'=>$image,
-            'type'=>$type_colume,
-            'vet_english'=>$vet_english,
-            'vet_hindi'=>$vet_hindi,
-            'vet_punjabi'=>$vet_punjabi,
-            'degree_english'=>$degree_english,
-            'degree_hindi'=>$degree_hindi,
-            'degree_punjabi'=>$degree_punjabi,
-            'experience'=>$experiance_colume,
-            'assistant'=>$assistant_colume,
-        		'private_practitioner'=>$private_colume,
-        		'education_qualification'=>$education_colume,
-            'district_english'=>$district_english,
-            'district_hindi'=>$district_hindi,
-            'district_punjabi'=>$district_punjabi,
-
-            'state'=>$state_colume,
-            'city'=>$city_colume,
-            'phone_number'=>$phone_colume,
-            'ip' =>$ip,
-            'added_by' =>$addedby,
-            'is_active' =>1,
-            'date'=>$cur_date
+      $ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+      $cur_date=date("Y-m-d H:i:s");
+      $addedby=$this->session->userdata('admin_id');
 
 
-                    );
-
-          $last_id=$this->base_model->insert_table("tbl_doctor",$data_insert,1) ;
-
-
-
-                              if($last_id!=0){
-
-                              $this->session->set_flashdata('smessage','Data inserted successfully');
-
-                              redirect("dcadmin/doctor/view_doctor","refresh");
-
-                                      }
-
-                                      else
-
-                                      {
-
-                                   $this->session->set_flashdata('emessage','Sorry error occured');
-                                     redirect($_SERVER['HTTP_REFERER']);
+$typ=base64_decode($t);
+if($typ==1){
+  $data_insert = array(
+    'name_english'=>$name_english,
+    'name_hindi'=>$name_hindi,
+    'name_punjabi'=>$name_punjabi,
+    'email'=>$email,
+    'image'=>$image,
+    'type'=>$type_colume,
+    'vet'=>$vet,
+    'private_practitioner'=>$private_colume,
 
 
-                                      }
+    'degree_english'=>$degree_english,
+    'degree_hindi'=>$degree_hindi,
+    'degree_punjabi'=>$degree_punjabi,
+    'experience'=>$experiance_colume,
+    'assistant'=>$assistant_colume,
+    'education_qualification'=>$education_colume,
+    'district_english'=>$district_english,
+    'district_hindi'=>$district_hindi,
+    'district_punjabi'=>$district_punjabi,
+
+    'state'=>$state_colume,
+    'city'=>$city_colume,
+    'phone_number'=>$phone_colume,
+    'ip' =>$ip,
+    // 'added_by' =>$addedby,
+    'added_by' =>$addedby,
+
+    'is_active' =>1,
+    'date'=>$cur_date
 
 
-              }
-            else{
-
-$this->session->set_flashdata('emessage',validation_errors());
-     redirect($_SERVER['HTTP_REFERER']);
-
-            }
-
-            }
-          else{
-
-$this->session->set_flashdata('emessage','Please insert some data, No data available');
-     redirect($_SERVER['HTTP_REFERER']);
-
-          }
-          }
-          else{
-
-      redirect("login/admin_login","refresh");
+            );
 
 
-          }
 
-          }
+$last_id=$this->base_model->insert_table("tbl_doctor",$data_insert,1) ;
+
+}
+if($typ==2){
+
+$idw=base64_decode($iw);
+
+$data_insert = array(
+  'name_english'=>$name_english,
+  'name_hindi'=>$name_hindi,
+  'name_punjabi'=>$name_punjabi,
+  'email'=>$email,
+  'image'=>$image,
+  'type'=>$type_colume,
+  'vet'=>$vet,
+  'private_practitioner'=>$private_colume,
+
+
+  'degree_english'=>$degree_english,
+  'degree_hindi'=>$degree_hindi,
+  'degree_punjabi'=>$degree_punjabi,
+  'experience'=>$experiance_colume,
+  'assistant'=>$assistant_colume,
+  'education_qualification'=>$education_colume,
+  'district_english'=>$district_english,
+  'district_hindi'=>$district_hindi,
+  'district_punjabi'=>$district_punjabi,
+
+  'state'=>$state_colume,
+  'city'=>$city_colume,
+  'phone_number'=>$phone_colume
+
+
+
+          );
+
+
+
+$this->db->where('id', $idw);
+$last_id=$this->db->update('tbl_doctor', $data_insert);
+
+}
+
+
+                  if($last_id!=0){
+
+                  $this->session->set_flashdata('smessage','Data inserted successfully');
+
+                  redirect("dcadmin/Doctor/view_doctor","refresh");
+
+                          }
+
+                          else
+
+                          {
+
+                       $this->session->set_flashdata('smessage','Sorry error occured');
+                         redirect($_SERVER['HTTP_REFERER']);
+
+
+                          }
+
+
+  }
+else{
+
+$this->session->set_flashdata('smessage',validation_errors());
+redirect($_SERVER['HTTP_REFERER']);
+
+}
+
+}
+else{
+
+$this->session->set_flashdata('smessage','Please insert some data, No data available');
+redirect($_SERVER['HTTP_REFERER']);
+
+}
+}
+else{
+
+redirect("login/admin_login","refresh");
+
+
+}
+}
+
 //-----------------------------delete_doctor function--------------------------------
+
+
 public function delete_doctor($idd){
 
        if(!empty($this->session->userdata('admin_data'))){

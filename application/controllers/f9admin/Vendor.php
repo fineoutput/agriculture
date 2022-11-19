@@ -113,7 +113,7 @@ $data['city_data']= $this->db->get();
 							// $this->form_validation->set_rules('image', 'aadhar Upload', 'xss_clean');
 							$this->form_validation->set_rules('pan_colume', 'pan number', 'xss_clean');
 							$this->form_validation->set_rules('phone_colume', 'phone number', 'xss_clean');
-							$this->form_validation->set_rules('email_colume', 'email address', 'xss_clean');
+							$this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
 
 
               if($this->form_validation->run()== TRUE)
@@ -152,7 +152,7 @@ $data['city_data']= $this->db->get();
 								// $image=$this->input->post('image');
 								$pan_colume=$this->input->post('pan_colume');
 								$phone_colume=$this->input->post('phone_colume');
-								$email_colume=$this->input->post('email_colume');
+								$email=$this->input->post('email');
 //--------------image-----------------------------------
 $this->load->library('upload');
 $image="";
@@ -232,7 +232,7 @@ $image="";
 										'image'=>$image,
 										'pan_number'=>$pan_colume,
                     'phone_number'=>$phone_colume,
-                    'email'=>$email_colume,
+                    'email'=>$email,
                     'ip' =>$ip,
                     'added_by' =>$addedby,
                     'is_active' =>1,
@@ -274,7 +274,7 @@ $image="";
 					'image'=>$image,
 					'pan_number'=>$pan_colume,
 					'phone_number'=>$phone_colume,
-					'email'=>$email_colume
+					'email'=>$email
 
                     );
 
