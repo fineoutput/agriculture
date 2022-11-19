@@ -108,18 +108,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 
 
-
-<tr>
-<td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<select class="form-control" name="city" id="cities">   
-   <option value="">---city---</option>   
-   <?php foreach ($city_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
-
-</td>
-</tr>
-
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
