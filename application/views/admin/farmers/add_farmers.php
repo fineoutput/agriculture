@@ -114,7 +114,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
    <?php foreach ($state_data->result() as $a){​​?>   
-
      <option value="<?=$a->id?>"><?=$a->state_name?></option> 
 
    <?php }​​ ?>
