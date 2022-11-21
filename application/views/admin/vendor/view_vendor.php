@@ -64,6 +64,8 @@
               <th>State</th>
               <th>City</th>
               <th>Pin code</th>
+              <th>Comission</th>
+
               <th>GST No (optional)</th>
               <th>Aadhar Upload</th>
               <th>PAN Number</th>
@@ -122,6 +124,8 @@
    ?></td>
 
   <td><?php echo $data->pincode ?></td>
+  <td><?php echo $data->comission ?></td>
+
   <td><?php echo $data->gst_no ?></td>
   <td>
       <?php if($data->image!=""){  ?>
@@ -135,10 +139,10 @@
   <td><?php echo $data->email ?></td>
 
   <td><?php if($data->is_active==1){ ?>
-  <p class="label bg-green" >Active</p>
+  <p class="label bg-yellow" >pending</p>
 
   <?php } else { ?>
-  <p class="label bg-yellow" >Inactive</p>
+  <p class="label bg-green" >Approve</p>
 
 
   <?php		}   ?>
@@ -152,12 +156,10 @@
     <?php if($data->is_active==1){ ?>
     <li><a href="<?php echo base_url() ?>dcadmin/vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
     <?php } else { ?>
-    <li><a href="<?php echo base_url() ?>dcadmin/vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
     <?php		}   ?>
     <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
 
-  <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_vendor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
-  <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_vendor/<?php echo base64_encode($data->id) ?>">Block</a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
 
   <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
   </ul>

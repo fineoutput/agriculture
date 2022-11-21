@@ -32,10 +32,43 @@ function __construct()
 			$this->db->from('tbl_team');
 			//$this->db->where('id',$usr);
 			$a= $this->db->count_all_results();
+
+			$this->db->select('*');
+	$this->db->from('tbl_farmers');
+	//$this->db->where('id',$usr);
+	$b= $this->db->count_all_results();
+
+	$this->db->select('*');
+$this->db->from('tbl_vendor');
+//$this->db->where('id',$usr);
+$c= $this->db->count_all_results();
+
+$this->db->select('*');
+$this->db->from('tbl_doctor');
+//$this->db->where('id',$usr);
+$d= $this->db->count_all_results();
+
+$this->db->select('*');
+$this->db->from('tbl_products');
+//$this->db->where('id',$usr);
+$e= $this->db->count_all_results();
+
+
+
+
 // echo $a;
 // exit;
 
 $data['team']=$a;
+$data['farmers']=$b;
+$data['vendor']=$c;
+
+$data['doctor']=$d;
+$data['products']=$e;
+
+
+
+
 
 			$this->load->view('admin/common/header_view',$data);
 				$this->load->view('admin/dash');

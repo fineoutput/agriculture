@@ -9,6 +9,8 @@ function __construct()
 			$this->load->library('user_agent');
 		}
 //-----------------------view vendor function-----------------
+
+
 public function view_vendor(){
 
                  if(!empty($this->session->userdata('admin_data'))){
@@ -470,9 +472,164 @@ public function updatevendorStatus($idd,$t){
 
 			                        }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+public function set_comission_vendor($idd){
+
+                 if(!empty($this->session->userdata('admin_data'))){
+
+ $id=base64_decode($idd);
+$data['id']=$idd;
+                   $data['user_name']=$this->load->get_var('user_name');
+
+                   // echo SITE_NAME;
+                   // echo $this->session->userdata('image');
+                   // echo $this->session->userdata('position');
+                   // exit;
+
+
+                   $this->load->view('admin/common/header_view',$data);
+                   $this->load->view('admin/vendor/set_comission');
+                   $this->load->view('admin/common/footer_view');
+
+               }
+               else{
+
+                  redirect("login/admin_login","refresh");
+               }
+
+						 }
+						 ////////////////////
+
+
+															public function add_vendor_data2($idd)
 
 
 
+													              {
+
+
+
+													                if(!empty($this->session->userdata('admin_data'))){
+
+
+
+
+													               $this->load->helper(array('form', 'url'));
+													             $this->load->library('form_validation');
+													             $this->load->helper('security');
+													             if($this->input->post())
+													             {
+
+
+
+													              $this->form_validation->set_rules('set_comission', 'set_comission', 'xss_clean');
+
+
+
+													              if($this->form_validation->run()== TRUE)
+													               {
+													                 $set_comission=$this->input->post('set_comission');
+													 $id=base64_decode($idd);
+													 $data['id']=$idd;
+
+
+
+													                  $ip = $this->input->ip_address();
+													           date_default_timezone_set("Asia/Calcutta");
+													                   $cur_date=date("Y-m-d H:i:s");
+
+
+
+													                  $addedby=$this->session->userdata('admin_id');
+
+
+
+
+
+													                    $data_update = array('comission'=>$set_comission,
+													                                 );
+													                                 $this->db->where('id', $id);
+													                                       $last_id=$this->db->update('tbl_vendor', $data_update);
+
+
+
+													                          if($last_id!=0){
+
+
+
+													                              $this->session->set_flashdata('smessage','Data updated successfully');
+
+
+
+													                              redirect("dcadmin/vendor/view_vendor","refresh");
+
+
+
+													                                      }
+
+
+
+													                                      else
+
+
+
+													                                      {
+
+
+
+													                                     $this->session->set_flashdata('emessage','Sorry error occured');
+													                                          redirect($_SERVER['HTTP_REFERER']);
+
+
+
+
+													                                       }
+
+
+
+
+													               }
+													             else{
+
+
+
+													 $this->session->set_flashdata('emessage',validation_errors());
+													      redirect($_SERVER['HTTP_REFERER']);
+
+
+
+													            }
+
+
+
+													            }
+													           else{
+
+
+
+													 $this->session->set_flashdata('emessage','Please insert some data, No data available');
+													      redirect($_SERVER['HTTP_REFERER']);
+
+
+
+													          }
+													           }
+													           else{
+
+
+
+													            redirect("login/admin_login","refresh");
+
+
+
+
+													           }
+
+
+
+													          }
 
 
 

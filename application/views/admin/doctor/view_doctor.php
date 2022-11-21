@@ -56,6 +56,11 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>Degree (Punjabi)</th>
 <th>Experiance</th>
 <th>Assistant</th>
+
+<th>Fees</th>
+
+<th>Comission</th>
+
 <th>Education Qualification</th>
 <th>District (English)</th>
 <th>District (Hindi)</th>
@@ -120,6 +125,10 @@ else{
 
 <td><?php echo $data->experience ?></td>
 <td><?php echo $data->assistant ?></td>
+<td><?php echo $data->fees ?></td>
+
+<td><?php echo $data->comission ?></td>
+
 <td><?php echo $data->education_qualification	 ?></td>
 <td><?php echo $data->district_english ?></td>
 <td><?php echo $data->district_hindi ?></td>
@@ -152,10 +161,10 @@ $this->db->select('*');
  ?></td>
 <td><?php echo $data->phone_number ?></td>
 <td><?php if($data->is_active==1){ ?>
-<p class="label bg-green" >Active</p>
+<p class="label bg-yellow" >pending</p>
 
 <?php } else { ?>
-<p class="label bg-yellow" >Inactive</p>
+<p class="label bg-green" >Approve</p>
 
 
 <?php		}   ?>
@@ -169,13 +178,15 @@ $this->db->select('*');
 <?php if($data->is_active==1){ ?>
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Approve</a></li>
 <?php } else { ?>
-<li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/active">Reject</a></li>
+<!-- <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/active">Approve</a></li> -->
 <?php		}   ?>
 
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/update_doctor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
 
-<li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
-<li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Block</a></li>
+<!-- <li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Block</a></li> -->
+<li><a href="<?php echo base_url() ?>dcadmin/doctor/set_comission_doctor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
+
+<li><a href="<?php echo base_url() ?>dcadmin/doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>">⦁	Convert into expert doctor</a></li>
 
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
