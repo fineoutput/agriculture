@@ -65,20 +65,20 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
   <tr>
-  <td> <strong>description(English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Description(English)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <input type="text" name="description_english"  class="form-control" placeholder="" required value="<?=$products->description_english?>" />
   </td>
   </tr>
   <tr>
-  <td> <strong>description(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Description(Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <input type="text" name="description_hindi"  class="form-control" placeholder="" required value="<?=$products->description_hindi?>" />
   </td>
   </tr>
 
   <tr>
-  <td> <strong>description (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Description (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <input type="text" name="description_punjabi"  class="form-control" placeholder="" required value="<?=$products->description_punjabi?>" />
   </td>
@@ -88,7 +88,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
 <tr>
-<td> <strong>image1</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Image1</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="file" name="image1"  class="form-control" placeholder="" required value="<?=$products->image1?>" />
 </td>
@@ -103,7 +103,7 @@ Sorry No image Found
 </tr>
 
 <tr>
-<td> <strong>image2</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Image2</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="file" name="image2"  class="form-control" placeholder="" required value="<?=$products->image2?>" />
 </td>
@@ -122,7 +122,7 @@ Sorry No image Found
 
 
 <tr>
-<td> <strong>mrp</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Mrp</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="mrp"  class="form-control" placeholder="" required value="<?=$products->mrp?>" />
 </td>
@@ -130,7 +130,7 @@ Sorry No image Found
 
 
 <tr>
-<td> <strong>selling_price</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Selling Price</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="selling_price"  class="form-control" placeholder="" required value="<?=$products->selling_price?>" />
 </td>
@@ -140,7 +140,7 @@ Sorry No image Found
 
 
 <tr>
-<td> <strong>inventory</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Inventory</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="inventory"  class="form-control" placeholder="" required value="<?=$products->inventory?>" />
 </td>

@@ -77,16 +77,16 @@ $data['city_data']= $this->db->get();
             {
               // print_r($this->input->post());
               // exit;
-							$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_english', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('name_hindi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean|trim');
 
 
 
 
-							$this->form_validation->set_rules('shop_name_english', 'shop_name name', 'required|xss_clean');
-							$this->form_validation->set_rules('shop_name_hindi', 'shop_name name', 'required| xss_clean');
-							$this->form_validation->set_rules('shop_name_punjabi', 'shop_name name', 'xss_clean');
+							$this->form_validation->set_rules('shop_name_english', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('shop_name_hindi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('shop_name_punjabi', 'name', 'xss_clean|trim');
 
 
 

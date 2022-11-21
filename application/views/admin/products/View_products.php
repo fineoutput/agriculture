@@ -1,21 +1,21 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-products
+Products
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All products</a></li>
-<li class="active">View products</li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Products</a></li>
+<li class="active">View Products</li>
 </ol>
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add products </a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add Products </a>
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View products</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Products</h3>
 </div>
 <div class="panel panel-default">
 
@@ -48,70 +48,71 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>Description(English)</th>
 <th>Description(Hindi)</th>
 <th>Description(Punjabi)</th>
-
-<th>image1</th>
-
-<th>image2</th>
-
+<th>Image1</th>
+<th>Image2</th>
 <th>Mrp</th>
-
-<th>selling_price</th>
+<th>Selling Price</th>
 <th>Inventory</th>
-
-
 <th>Status</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
-<?php $i=1; foreach($products_data->result() as $data) { ?>
-<tr>
-<td><?php echo $i ?> </td>
-<td><?php echo $data->name_english ?></td>
-<td><?php echo $data->name_hindi ?></td>
-<td><?php echo $data->name_punjabi ?></td>
+  <?php $i=1; foreach($products_data->result() as $data) { ?>
+    <tr>
+      <td><?php echo $i ?> </td>
 
-<td><?php echo $data->description_english ?></td>
-<td><?php echo $data->description_hindi ?></td>
+      <td><?php echo $data->name_english ?></td>
+      <td><?php echo $data->name_hindi ?></td>
+      <td><?php echo $data->name_punjabi ?></td>
 
-<td><?php echo $data->description_punjabi?></td>
+      <td><?php echo $data->description_english ?></td>
+      <td><?php echo $data->description_hindi ?></td>
+      <td><?php echo $data->description_punjabi?></td>
+
+      <td>
+        <?php if ($data->image1!="") {  ?>
+          <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image1 ?>">
+        <?php } else {  ?>
+          Sorry No image Found
+        <?php } ?>
+      </td>
+      <td>
+        <?php if ($data->image2!="") {  ?>
+          <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image2 ?>">
+        <?php } else {  ?>
+          Sorry No image Found
+        <?php } ?>
+      </td>
 
 
-<td>
-                        <?php if ($data->image1!="") {  ?>
-                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image1 ?>">
-                        <?php } else {  ?>
-                        Sorry No image Found
-                        <?php } ?>
-                      </td>
-                      <td>
-                                              <?php if ($data->image2!="") {  ?>
-                                              <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image2 ?>">
-                                              <?php } else {  ?>
-                                              Sorry No image Found
-                                              <?php } ?>
-                                            </td>
-
-
-<td><?php echo $data->mrp ?></td>
-<td><?php echo $data->selling_price ?></td>
-
-<td><?php echo $data->inventory ?></td>
+      <td><?php echo $data->mrp ?></td>
+      <td><?php echo $data->selling_price ?></td>
+      <td><?php echo $data->inventory ?></td>
 
 
 
 
 
-<td><?php if($data->is_active==1){ ?>
-<p class="label bg-green" >Active</p>
 
-<?php } else { ?>
-<p class="label bg-yellow" >Inactive</p>
+      <td><?php if($data->is_active==1){ ?>
+        <p class="label bg-green" >Active</p>
+
+      <?php } else { ?>
+        <p class="label bg-yellow" >Inactive</p>
 
 
-<?php		}   ?>
-</td>
-<td>
+      <?php		}   ?>
+    </td>
+    <td>
+
+
+
+
+
+
+
+
 <div class="btn-group" id="btns<?php echo $i ?>">
 <div class="btn-group">
 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>

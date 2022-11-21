@@ -103,8 +103,8 @@ public function add_farmers(){
 							$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
               $this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
 
-              $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
+              $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
               $this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
               $this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
 

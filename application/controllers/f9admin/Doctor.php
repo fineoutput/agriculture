@@ -98,7 +98,6 @@ if($this->input->post())
 
 
   $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
-  $this->form_validation->set_rules('image', 'image', 'required|xss_clean');
   $this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
 
   $this->form_validation->set_rules('vet', 'vet', 'xss_clean');

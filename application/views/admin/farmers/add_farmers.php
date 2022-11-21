@@ -112,7 +112,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <!-- <input type="text" name="state_colume"  class="form-control" placeholder="" required value="" /> -->
-  <select class="form-control" name="state_colume" id="states">
+  <select class="form-control" name="state" id="states">
     <option value="">---state---</option>
     <?php foreach ($state_data->result() as $a){?>
       <option value="<?=$a->id?>"><?=$a->state_name?></option>
@@ -124,7 +124,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <td> <strong>City</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <!-- <input type="text" name="city_colume"  class="form-control" placeholder="" required value="" /> -->
-  <select class="form-control" name="city_colume" id="cities">
+  <select class="form-control" name="city" id="cities">
     <option value="">---City---</option>
     <?php foreach ($city_data->result() as $a){?>
       <option value="<?=$a->id?>"><?=$a->city_name?></option>
@@ -135,7 +135,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="number" name="Pincode"  class="form-control" placeholder=""      required value="" />
+<input type="text" onkeypress="return isNumberKey(event)"
+name="Pincode"  class="form-control" placeholder=""   maxlength="6" minlength="6"    required value="" />
 </td>
 </tr>
 
@@ -143,7 +144,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="" />
+<input type="text"    onkeypress="return isNumberKey(event)"
+ name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="" />
 </td>
 </tr>
 
@@ -219,4 +221,13 @@ $(document).ready(function(){
 
 	})
   });
+</script>
+
+<script>
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
 </script>

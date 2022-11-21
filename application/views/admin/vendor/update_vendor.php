@@ -152,7 +152,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pin Code</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="pincode_colume"  class="form-control" placeholder="" required value="<?=$vendor->pincode?>" />
+<input type="text" onkeypress="return isNumberKey(event)" name="pincode_colume"  class="form-control" placeholder=""maxlength="6" minlength="6"  required value="<?=$vendor->pincode?>" />
 </td>
 </tr>
 
@@ -192,7 +192,7 @@ Sorry No image Found
 <tr>
 <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_colume"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="<?=$vendor->phone_number?>" />
+<input type="text"onkeypress="return isNumberKey(event)" name="phone_colume"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="<?=$vendor->phone_number?>" />
 </td>
 </tr>
 
@@ -275,4 +275,12 @@ $(document).ready(function(){
 
 	})
   });
+</script>
+<script>
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
 </script>

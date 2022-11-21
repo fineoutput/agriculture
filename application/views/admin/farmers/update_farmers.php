@@ -113,7 +113,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
    <?php foreach ($state_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->state_name?></option>    <?php }​​ ?>
+    <option value="<?=$a->id?>" <?if($a->id==$farmers->state){echo 'selected';}?>><?=$a->state_name?></option>
+   <?php }​​ ?>
 
 
 </td>
@@ -125,7 +126,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
    <?php foreach ($city_data->result() as $a){​​?>   
-       <option value="<?=$a->id?>"><?=$a->city_name?></option>    <?php }​​ ?>
+    <option value="<?=$a->id?>" <?if($a->id==$farmers->city){echo 'selected';}?>><?=$a->city_name?></option>
+    <?php }​​ ?>
 
 </td>
 </tr>
@@ -133,7 +135,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="number" name="Pincode"  class="form-control" placeholder="" required value="<?=$farmers->pincode?>" />
+<input type="text"   onkeypress="return isNumberKey(event)" name="Pincode"  class="form-control" placeholder=""
+maxlength="6" minlength="6"  required value="<?=$farmers->pincode?>" />
 </td>
 </tr>
 

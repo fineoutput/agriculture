@@ -1,22 +1,21 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-farmer
+Farmers
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All farmers</a></li>
-<li class="active">View farmers</li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Farmers</a></li>
+<li class="active">View Farmers</li>
 </ol>
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button"
-   style="margin-bottom:12px;"> Add farmers</a>
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button"style="margin-bottom:12px;"> Add Farmers</a>
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View farmer</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Farmers</h3>
 </div>
 <div class="panel panel-default">
 
@@ -52,7 +51,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>District (Hindi)</th>
 <th>District (Punjabi)</th>
 
-<th>city</th>
+<th>City</th>
 
 <th>State</th>
 

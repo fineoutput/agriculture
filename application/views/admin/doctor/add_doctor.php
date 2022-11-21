@@ -207,7 +207,8 @@
       <tr>
       <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="phone_colume"  class="form-control" maxlength="10" minlength="10" placeholder="" required value="" />
+      <input type="text"     onkeypress="return isNumberKey(event)"
+name="phone_colume"  class="form-control" maxlength="10" minlength="10"  placeholder="" required value="" />
       </td>
       </tr>
 
@@ -286,3 +287,12 @@
   	})
     });
   </script>
+
+  <script>
+  function isNumberKey(evt){
+      var charCode = (evt.which) ? evt.which : evt.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+          return false;
+      return true;
+  }
+  </script> 
