@@ -711,7 +711,7 @@ if($last_id!=0){
 
 
 
-$this->session->set_flashdata('smessage','Data updated successfully');
+// $this->session->set_flashdata('smessage','Data updated successfully');
 
 
 
