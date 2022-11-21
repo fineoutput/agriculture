@@ -108,7 +108,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 
 <tr>
-<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <select class="form-control" name="state" id="states">   
    <option value="">---state---</option>   
@@ -120,7 +120,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </tr>
 
 <tr>
-<td> <strong>city</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>City</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <select class="form-control" name="city" id="cities">   
    <option value="">---city---</option>   
@@ -139,9 +139,9 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
 <tr>
-<td> <strong>phone_number</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="number" name="phone_number"  class="form-control" placeholder="" required value="<?=$farmers->phone_number?>" />
+<input type="text" name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"required value="<?=$farmers->phone_number?>" />
 </td>
 </tr>
 

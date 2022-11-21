@@ -185,7 +185,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="phone_colume"  class="form-control" placeholder="" required value="" />
+<input type="text" name="phone_colume"  class="form-control"maxlength="10" minlength="10"   placeholder="" required value="" />
 </td>
 </tr>
 

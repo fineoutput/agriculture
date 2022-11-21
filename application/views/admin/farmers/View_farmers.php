@@ -57,7 +57,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>State</th>
 
 <th>Pincode</th>
-<th>phone_number</th>
+<th>Phone Number</th>
 
 
 <th>Status</th>

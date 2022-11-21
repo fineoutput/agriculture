@@ -84,16 +84,16 @@ $data['city_data']= $this->db->get();
 
 
 
-							$this->form_validation->set_rules('shop_name_english', 'shop_name name', 'xss_clean');
-							$this->form_validation->set_rules('shop_name_hindi', 'shop_name name', 'xss_clean');
+							$this->form_validation->set_rules('shop_name_english', 'shop_name name', 'required|xss_clean');
+							$this->form_validation->set_rules('shop_name_hindi', 'shop_name name', 'required| xss_clean');
 							$this->form_validation->set_rules('shop_name_punjabi', 'shop_name name', 'xss_clean');
 
 
 
 
-							$this->form_validation->set_rules('address_english', 'address', 'xss_clean');
-							$this->form_validation->set_rules('address_hindi', 'address', 'xss_clean');
-								$this->form_validation->set_rules('address_punjabi', 'address', 'xss_clean');
+							$this->form_validation->set_rules('address_english', 'address', 'required|xss_clean');
+							$this->form_validation->set_rules('address_hindi', 'address', 'required|xss_clean');
+								$this->form_validation->set_rules('address_punjabi', 'address', 'required|xss_clean');
 
 
 
@@ -106,13 +106,12 @@ $data['city_data']= $this->db->get();
 
 
 
-							$this->form_validation->set_rules('city_colume', 'city', 'xss_clean');
-							$this->form_validation->set_rules('state_colume', 'state', 'xss_clean');
-							$this->form_validation->set_rules('pincode_colume', 'pincode', 'xss_clean');
-							$this->form_validation->set_rules('gst_colume', 'gst no', 'xss_clean');
-							// $this->form_validation->set_rules('image', 'aadhar Upload', 'xss_clean');
-							$this->form_validation->set_rules('pan_colume', 'pan number', 'xss_clean');
-							$this->form_validation->set_rules('phone_colume', 'phone number', 'xss_clean');
+							$this->form_validation->set_rules('city_colume', 'city', 'required|xss_clean');
+							$this->form_validation->set_rules('state_colume', 'state', 'required|xss_clean');
+							$this->form_validation->set_rules('pincode_colume', 'pincode', 'required|xss_clean');
+							$this->form_validation->set_rules('gst_colume', 'gst no', 'required|xss_clean');
+							$this->form_validation->set_rules('pan_colume', 'pan number', 'required|xss_clean');
+							$this->form_validation->set_rules('phone_colume', 'phone number', 'required|xss_clean');
 							$this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
 
 

@@ -43,21 +43,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder=""  value="" />
+<input type="text" name="name_english"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_hindi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Name (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_punjabi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="name_punjabi"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
 
@@ -65,21 +65,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_english"  class="form-control" placeholder=""  value="" />
+<input type="text" name="village_english"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_hindi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="village_hindi"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
 
 <tr>
 <td> <strong>Village Punjabi</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_punjabi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
@@ -87,7 +87,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_english"  class="form-control" placeholder=""  value="" />
+<input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
@@ -95,7 +95,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_hindi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
@@ -103,7 +103,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Disctrict (Punjabi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_punjabi"  class="form-control" placeholder=""  value="" />
+<input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
@@ -135,15 +135,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="number" name="Pincode"  class="form-control" placeholder="" required  maxlength="6" value="" />
+<input type="number" name="Pincode"  class="form-control" placeholder=""      required value="" />
 </td>
 </tr>
 
 
 <tr>
-<td> <strong>phone_number</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="number" name="phone_number"  class="form-control" placeholder="" pattern="[0-9]{10}" required value="" />
+<input type="text" name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="" />
 </td>
 </tr>
 

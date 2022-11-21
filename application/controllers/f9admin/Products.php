@@ -96,7 +96,7 @@ public function add_products(){
 
 
 
-              $this->form_validation->set_rules('mrp', 'mrp', 'xss_clean|trim');
+              $this->form_validation->set_rules('mrp', 'mrp', 'required|xss_clean|trim');
               $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
               $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
 

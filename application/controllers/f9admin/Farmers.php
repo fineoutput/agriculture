@@ -91,22 +91,22 @@ public function add_farmers(){
             {
               // print_r($this->input->post());
               // exit;
-              $this->form_validation->set_rules('name_english', 'name', 'xss_clean|trim');
-							$this->form_validation->set_rules('name_hindi', 'name', 'xss_clean|trim');
-							$this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
 
-							$this->form_validation->set_rules('village_english', 'name', 'xss_clean|trim');
-							$this->form_validation->set_rules('village_hindi', 'name', 'xss_clean|trim');
-							$this->form_validation->set_rules('village_punjabi', 'name', 'xss_clean|trim');
+							$this->form_validation->set_rules('village_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('village_hindi', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('village_punjabi', 'name', 'required|xss_clean|trim');
 
-							$this->form_validation->set_rules('district_english', 'name', 'xss_clean|trim');
-							$this->form_validation->set_rules('district_hindi', 'name', 'xss_clean|trim');
-              $this->form_validation->set_rules('district_punjabi', 'Village', 'xss_clean|trim');
+							$this->form_validation->set_rules('district_english', 'name', 'required|xss_clean|trim');
+							$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
 
-              $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
-              $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
-              $this->form_validation->set_rules('Pincode', 'Pincode', 'xss_clean|trim');
-              $this->form_validation->set_rules('phone_number', 'phone_number', 'xss_clean|trim');
+              $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
+              $this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
 
 
 

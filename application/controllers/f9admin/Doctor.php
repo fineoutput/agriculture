@@ -92,35 +92,35 @@ if($this->input->post())
 {
   // print_r($this->input->post());
   // exit;
-  $this->form_validation->set_rules('name_english', 'name', 'xss_clean');
-  $this->form_validation->set_rules('name_hindi', 'name', 'xss_clean');
-  $this->form_validation->set_rules('name_punjabi', 'name', 'xss_clean');
+  $this->form_validation->set_rules('name_english', 'name', 'required|xss_clean');
+  $this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean');
+  $this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
 
 
   $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
-  $this->form_validation->set_rules('image', 'image', 'xss_clean');
-  $this->form_validation->set_rules('type_colume', 'type_colume', 'xss_clean');
+  $this->form_validation->set_rules('image', 'image', 'required|xss_clean');
+  $this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
 
   $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
-  $this->form_validation->set_rules('private_colume', 'private_colume', 'xss_clean');
+  $this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
 
 
 
-  $this->form_validation->set_rules('degree_english', 'degree_english', 'xss_clean');
-  $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'xss_clean');
-  $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'xss_clean');
+  $this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
+  $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
+  $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'required|xss_clean');
 
-  $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'xss_clean');
-  $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'xss_clean');
-  $this->form_validation->set_rules('education_colume', 'education_colume', 'xss_clean');
+  $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'required|xss_clean');
+  $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'required|xss_clean');
+  $this->form_validation->set_rules('education_colume', 'education_colume', 'required|xss_clean');
 
-  $this->form_validation->set_rules('district_english', 'district_english', 'xss_clean');
-  $this->form_validation->set_rules('district_hindi', 'district_hindi', 'xss_clean');
-  $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'xss_clean');
+  $this->form_validation->set_rules('district_english', 'district_english', 'required|xss_clean');
+  $this->form_validation->set_rules('district_hindi', 'district_hindi', 'required|xss_clean');
+  $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'required|xss_clean');
 
-  $this->form_validation->set_rules('state_colume', 'state_colume', 'xss_clean');
-  $this->form_validation->set_rules('city_colume', 'city_colume', 'xss_clean');
-  $this->form_validation->set_rules('phone_colume', 'phone_colume', 'xss_clean');
+  $this->form_validation->set_rules('state_colume', 'state_colume', 'required|xss_clean');
+  $this->form_validation->set_rules('city_colume', 'city_colume', 'required|xss_clean');
+  $this->form_validation->set_rules('phone_colume', 'phone_colume', 'required|xss_clean');
 
   if($this->form_validation->run()== TRUE)
   {
