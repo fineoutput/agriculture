@@ -78,18 +78,6 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td><?php echo $data->district_hindi ?></td>
 <td><?php echo $data->district_punjabi ?></td>
 
-<td><?php $ct = $data->city;
-$this->db->select('*');
-            $this->db->from('all_cities');
-            $this->db->where('id',$ct);
-            $dsa= $this->db->get();
-            $da=$dsa->row();
-          if(!empty($da)){
-            echo $da->city_name;
-          }
-
-
- ?></td>
 <td><?php $ct = $data->state;
 $this->db->select('*');
             $this->db->from('all_states');
@@ -102,6 +90,32 @@ $this->db->select('*');
 
 
  ?></td>
+
+
+<td><?php $ct = $data->city;
+$this->db->select('*');
+            $this->db->from('all_cities');
+            $this->db->where('id',$ct);
+            $dsa= $this->db->get();
+            $da=$dsa->row();
+          if(!empty($da)){
+            echo $da->city_name;
+          }
+
+
+ ?></td>
+<!-- <td><?php $ct = $data->state;
+// $this->db->select('*');
+//             $this->db->from('all_states');
+//             $this->db->where('id',$ct);
+//             $dsa= $this->db->get();
+//             $da=$dsa->row();
+//           if(!empty($da)){
+//             echo $da->state_name;
+//           }
+
+
+ ?></td> -->
 <td><?php echo $data->pincode ?></td>
 <td><?php echo $data->phone_number ?></td>
 <td><?php if($data->is_active==1){ ?>
