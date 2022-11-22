@@ -28,9 +28,9 @@
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa farmer"></i></span>
+                <span class="info-box-icon bg-red"><i class="fa fa car"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">FARMERS</span>
+                  <span class="info-box-text">TOTAL FARMERS</span>
                   <span class="info-box-number">
 <?=$farmers;?>
 
@@ -44,18 +44,18 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+                <span class="info-box-icon bg-green"><i class="fa fa-subway"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">VENDOR</span>
+                  <span class="info-box-text">TOTAL VENDOR</span>
                   <span class="info-box-number"><?=$vendor;?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                <span class="info-box-icon bg-yellow"><i class="fa fa-stethoscope"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">DOCTOR</span>
+                  <span class="info-box-text">TOTAL DOCTOR</span>
                   <span class="info-box-number"><?=$doctor;?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
