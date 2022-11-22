@@ -281,15 +281,17 @@ $this->session->set_flashdata('smessage','Please insert some data, No data avail
                     $dsa= $this->db->get();
                     $data['farmers']=$dsa->row();
 
-      			$this->db->select('*');
-$this->db->from('all_cities');
-//$this->db->where('id',$usr);
-$data['city_data']= $this->db->get();
+
 
 $this->db->select('*');
 $this->db->from('all_states');
 //$this->db->where('id',$usr);
 $data['state_data']= $this->db->get();
+
+$this->db->select('*');
+$this->db->from('all_cities');
+//$this->db->where('id',$usr);
+$data['city_data']= $this->db->get();
 
                            $this->load->view('admin/common/header_view',$data);
                            $this->load->view('admin/farmers/update_farmers');
