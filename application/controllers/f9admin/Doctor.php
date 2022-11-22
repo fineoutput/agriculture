@@ -701,6 +701,7 @@ $addedby=$this->session->userdata('admin_id');
 
 
 $data_update = array('fees'=>$fees,
+'is_active2'=>0
 );
 $this->db->where('id', $id);
 $last_id=$this->db->update('tbl_doctor', $data_update);
@@ -711,7 +712,7 @@ if($last_id!=0){
 
 
 
-// $this->session->set_flashdata('smessage','Data updated successfully');
+$this->session->set_flashdata('smessage','Data updated successfully');
 
 
 
@@ -782,6 +783,65 @@ redirect("login/admin_login","refresh");
 
 
 }
+
+public function updatedoctorStatus2($idd,$t){
+
+         if(!empty($this->session->userdata('admin_data'))){
+
+
+           $data['user_name']=$this->load->get_var('user_name');
+
+           $id=base64_decode($idd);
+
+           if($t=="active"){
+
+             $data_update = array(
+         'is_active2'=>1
+
+         );
+
+         $this->db->where('id', $id);
+        $zapak=$this->db->update('tbl_doctor', $data_update);
+
+             if($zapak!=0){
+             redirect("dcadmin/doctor/view_doctor","refresh");
+                     }
+                     else
+                     {
+                       echo "Error";
+                       exit;
+                     }
+           }
+           if($t=="inactive"){
+             $data_update = array(
+          'is_active2'=>0
+
+          );
+
+          $this->db->where('id', $id);
+          $zapak=$this->db->update('tbl_doctor', $data_update);
+
+              if($zapak!=0){
+              redirect("dcadmin/doctor/view_doctor","refresh");
+                      }
+                      else
+                      {
+
+          $data['e']="Error Occured";
+                          	// exit;
+        	$this->load->view('errors/error500admin',$data);
+                      }
+           }
+
+
+
+       }
+       else{
+
+           $this->load->view('admin/login/index');
+       }
+
+       }
 
 
 

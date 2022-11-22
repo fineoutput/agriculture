@@ -92,6 +92,9 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     </td>
     </tr>
 
+  
+
+
     <tr>
     <td> <strong>Vet </strong>  <span style="color:red;">*</span></strong> </td>
     <td>
@@ -282,7 +285,7 @@ $(document).ready(function(){
 	})
   });
 </script>
-  
+
 <script>
 function isNumberKey(evt){
    var charCode = (evt.which) ? evt.which : evt.keyCode

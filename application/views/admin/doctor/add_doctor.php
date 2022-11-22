@@ -93,15 +93,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
       <tr>
       <td> <strong>Private Practitioner</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
@@ -295,4 +286,4 @@ name="phone_colume"  class="form-control" maxlength="10" minlength="10"  placeho
           return false;
       return true;
   }
-  </script> 
+  </script>

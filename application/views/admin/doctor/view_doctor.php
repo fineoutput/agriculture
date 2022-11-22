@@ -69,6 +69,8 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>City</th>
 <th>Phone Number</th>
 <th>Status</th>
+<th>Status</th>
+
 <th>Action</th>
 </tr>
 </thead>
@@ -160,6 +162,17 @@ $this->db->select('*');
 
  ?></td>
 <td><?php echo $data->phone_number ?></td>
+
+<td><?php if($data->is_active2==1){ ?>
+<p class="label bg-yellow" >Normal</p>
+
+<?php } else { ?>
+<p class="label bg-green" >expert</p>
+
+
+<?php		}   ?>
+</td>
+
 <td><?php if($data->is_active==1){ ?>
 <p class="label bg-yellow" >pending</p>
 
@@ -178,16 +191,22 @@ $this->db->select('*');
 <?php if($data->is_active==1){ ?>
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Approve</a></li>
 <?php } else { ?>
-<!-- <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/active">Approve</a></li> -->
 <?php		}   ?>
 
+
+<?php if($data->is_active2==1){ ?>
+<li><a href="<?php echo base_url() ?>dcadmin/Doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>/inactive">Convert into expert doctor</a></li>
+<?php } else { ?>
+<!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/active">Active</a></li> -->
+<?php		}   ?>
+
+
+
+
+
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/update_doctor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
-
-<!-- <li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Block</a></li> -->
 <li><a href="<?php echo base_url() ?>dcadmin/doctor/set_comission_doctor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
-
-<li><a href="<?php echo base_url() ?>dcadmin/doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>">⦁	Convert into expert doctor</a></li>
-
+<!-- <li><a href="<?php echo base_url() ?>dcadmin/doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>">	Convert into expert doctor</a></li> -->
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
 </div>

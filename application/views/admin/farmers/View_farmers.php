@@ -118,6 +118,7 @@ $this->db->select('*');
  ?></td> -->
 <td><?php echo $data->pincode ?></td>
 <td><?php echo $data->phone_number ?></td>
+
 <td><?php if($data->is_active==1){ ?>
 <p class="label bg-green" >Active</p>
 
