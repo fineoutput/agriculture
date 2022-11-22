@@ -164,10 +164,10 @@ $this->db->select('*');
 <td><?php echo $data->phone_number ?></td>
 
 <td><?php if($data->is_active2==1){ ?>
-<p class="label bg-yellow" >Normal</p>
+<p class="label bg-green" >Expert</p>
 
 <?php } else { ?>
-<p class="label bg-green" >expert</p>
+<p class="label bg-yellow" >Normal</p>
 
 
 <?php		}   ?>
@@ -195,9 +195,9 @@ $this->db->select('*');
 
 
 <?php if($data->is_active2==1){ ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>/inactive">Convert into expert doctor</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/inactive">Convert into expert doctor</a></li>
 <?php } else { ?>
-<!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/active">Active</a></li> -->
+<li><a href="<?php echo base_url() ?>dcadmin/Doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>/active">Convert into expert doctor</a></li>
 <?php		}   ?>
 
 

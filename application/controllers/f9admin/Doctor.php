@@ -701,7 +701,7 @@ $addedby=$this->session->userdata('admin_id');
 
 
 $data_update = array('fees'=>$fees,
-'is_active2'=>0
+'is_active2'=>1
 );
 $this->db->where('id', $id);
 $last_id=$this->db->update('tbl_doctor', $data_update);
