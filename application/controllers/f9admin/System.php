@@ -15,7 +15,6 @@ class System extends CI_finecontrol
     }
 
 
-    // profile data
 
     public function profile()
     {

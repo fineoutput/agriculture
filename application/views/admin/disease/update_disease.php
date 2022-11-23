@@ -8,7 +8,6 @@
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Update Disease </h3>
@@ -35,7 +34,7 @@
                            <form action=" <?php echo base_url(); ?>dcadmin/disease/add_disease_data/<? echo base64_encode(2); ?>/<?=$id;?>" method="POST" id="slide_frm" enctype="multipart/form-data">
                         <div class="table-responsive">
                             <table class="table table-hover">
-                              
+
 <tr>
 <td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="name"  class="form-control" placeholder="" required value="<?=$disease_data->name;?>" />  </td>

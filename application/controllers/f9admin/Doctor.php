@@ -9,7 +9,7 @@ $this->load->model("admin/base_model");
 $this->load->library('user_agent');
 
 }
-//-----------------------view Doctor function-----------------
+//----------------------view Doctor function-----------------
 public function view_doctor(){
 
  if(!empty($this->session->userdata('admin_data'))){

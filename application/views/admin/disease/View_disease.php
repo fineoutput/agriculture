@@ -2,7 +2,7 @@
         <div class="content-wrapper">
         <section class="content-header">
         <h1>
-          View Disease
+        View Disease
         </h1>
         </section>
         <section class="content">
@@ -171,7 +171,7 @@
         // });
 
         $(document.body).on('click', '.dCnf', function() {
-          
+
         var i=$(this).attr("mydata");
         console.log(i);
 

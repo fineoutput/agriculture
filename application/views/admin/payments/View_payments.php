@@ -7,7 +7,7 @@ payments
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
 <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All payments</a></li>
 <li class="active">View payments</li>
-</ol>
+</ol> 
 </section>
 <section class="content">
 <div class="row">

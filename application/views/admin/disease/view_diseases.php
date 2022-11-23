@@ -2,7 +2,7 @@
         <div class="content-wrapper">
         <section class="content-header">
         <h1>
-          View Diseasess
+        View Diseasess
         </h1>
         </section>
         <section class="content">

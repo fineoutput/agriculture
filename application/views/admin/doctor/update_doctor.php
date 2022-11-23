@@ -2,7 +2,7 @@
 <section class="content-header">
 <h1>
 Add New Team
-</h1>
+</h1> 
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
 <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Team </a></li>
@@ -12,7 +12,7 @@ Add New Team
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-  
+
 
 <div class="panel panel-default">
 <div class="panel-heading">

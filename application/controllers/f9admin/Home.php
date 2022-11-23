@@ -11,7 +11,6 @@ function __construct()
 
 		function index(){
 
-
 			if(!empty($this->session->userdata('admin_data'))){
 
 

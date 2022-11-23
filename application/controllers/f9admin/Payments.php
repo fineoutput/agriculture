@@ -11,9 +11,6 @@ function __construct()
 		}
 
 
-
-
-
  public function View_payments(){
 
                   if(!empty($this->session->userdata('admin_data'))){

@@ -9,8 +9,6 @@ function __construct()
 			$this->load->library('user_agent');
 		}
 //-----------------------view vendor function-----------------
-
-
 public function view_vendor(){
 
                  if(!empty($this->session->userdata('admin_data'))){

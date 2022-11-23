@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Doctor
+Doctor 
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -18,7 +18,7 @@ Doctor
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Doctor</h3>
 </div>
 <div class="panel panel-default">
-  
+
 
 <? if(!empty($this->session->flashdata('smessage'))){ ?>
 <div class="alert alert-success alert-dismissible">

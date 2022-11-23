@@ -1,7 +1,7 @@
   <div class="content-wrapper">
   <section class="content-header">
   <h1>
-  Add New doctor
+  Add New doctor 
   </h1>
   <ol class="breadcrumb">
   <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -15,7 +15,7 @@
 
   <div class="panel panel-default">
   <div class="panel-heading">
-    
+
   <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New doctor</h3>
   </div>
 

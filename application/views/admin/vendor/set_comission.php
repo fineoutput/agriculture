@@ -6,7 +6,7 @@ Add New Vendor
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
 <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Vendor </a></li>
-
+ 
 </ol>
 </section>
 <section class="content">
