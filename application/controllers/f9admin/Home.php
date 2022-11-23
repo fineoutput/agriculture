@@ -8,8 +8,9 @@ function __construct()
 			$this->load->model("admin/base_model");
 			$this->load->library('user_agent');
 		}
-
+		//-------------------------------------------------------------------------
 		function index(){
+
 
 			if(!empty($this->session->userdata('admin_data'))){
 
@@ -23,51 +24,41 @@ function __construct()
 				// $this->db->where('student_shift',$cvf);
 				$data['sidebar_data']= $this->db->get();
 
-				// echo $this->session->userdata('image');
-				// echo $this->session->userdata('position');
-			// exit;
+	      	      			$this->db->select('*');
+	      	$this->db->from('tbl_farmers');
+					$b= $this->db->count_all_results();
+
+					$data['farmer']=$b;
 
 			      			$this->db->select('*');
 			$this->db->from('tbl_team');
-			//$this->db->where('id',$usr);
 			$a= $this->db->count_all_results();
+$data['team']=$a;
 
-			$this->db->select('*');
-	$this->db->from('tbl_farmers');
-	//$this->db->where('id',$usr);
-	$b= $this->db->count_all_results();
-
-	$this->db->select('*');
+$this->db->select('*');
 $this->db->from('tbl_vendor');
-//$this->db->where('id',$usr);
 $c= $this->db->count_all_results();
+
+$data['vendor']=$c;
 
 $this->db->select('*');
 $this->db->from('tbl_doctor');
-//$this->db->where('id',$usr);
 $d= $this->db->count_all_results();
+
+$data['doctor']=$d;
 
 $this->db->select('*');
 $this->db->from('tbl_products');
-//$this->db->where('id',$usr);
 $e= $this->db->count_all_results();
 
+$data['product']=$e;
 
 
+$this->db->select('*');
+$this->db->from('tbl_payments');
+$f= $this->db->count_all_results();
 
-// echo $a;
-// exit;
-
-$data['team']=$a;
-$data['farmers']=$b;
-$data['vendor']=$c;
-
-$data['doctor']=$d;
-$data['products']=$e;
-
-
-
-
+$data['payments']=$f;
 
 			$this->load->view('admin/common/header_view',$data);
 				$this->load->view('admin/dash');

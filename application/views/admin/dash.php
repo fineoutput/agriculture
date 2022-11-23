@@ -8,11 +8,11 @@
             <small>Version 2.0</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
             <li class="active">Dashboard</li>
           </ol>
         </section>
- 
+
         <!-- Main content -->
         <section class="content">
           <!-- Info boxes -->
@@ -28,13 +28,10 @@
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa car"></i></span>
+                <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">TOTAL FARMERS</span>
-                  <span class="info-box-number">
-<?=$farmers;?>
-
-                  </span>
+                  <span class="info-box-text">Doctor</span>
+                  <span class="info-box-number"><?=$doctor;?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -44,34 +41,49 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-subway"></i></span>
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">TOTAL VENDOR</span>
-                  <span class="info-box-number"><?=$vendor;?></span>
+                  <span class="info-box-text">Farmer</span>
+                  <span class="info-box-number">
+
+                    <? echo $farmer;?>
+
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="fa fa-stethoscope"></i></span>
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">TOTAL DOCTOR</span>
-                  <span class="info-box-number"><?=$doctor;?></span>
+                  <span class="info-box-text">Vendor</span>
+                  <span class="info-box-number"><?=$vendor;?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
-                    <section class="content">
-              <div class="row">
-              <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box">
-                  <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text">PRODUCTS</span>
-                    <span class="info-box-number"><?=$products?></span>
-                  </div><!-- /.info-box-content -->
-                </div><!-- /.info-box -->
-              </div><!-- /.col -->
+          </div><!-- /.row -->
 
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-orange"><i class="ion ion-ios-gear-outline"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Product</span>
+                  <span class="info-box-number"><?=$product?></span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box">
+                <span class="info-box-icon bg-black"><i class="fa-solid fa-credit-card"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Payments</span>
+                  <span class="info-box-number"><?=$payments?></span>
+                </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+            </div><!-- /.col -->
+
+          </div>
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
