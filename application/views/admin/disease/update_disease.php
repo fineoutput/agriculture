@@ -35,6 +35,7 @@
                            <form action=" <?php echo base_url(); ?>dcadmin/disease/add_disease_data/<? echo base64_encode(2); ?>/<?=$id;?>" method="POST" id="slide_frm" enctype="multipart/form-data">
                         <div class="table-responsive">
                             <table class="table table-hover">
+                              
 <tr>
 <td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="name"  class="form-control" placeholder="" required value="<?=$disease_data->name;?>" />  </td>

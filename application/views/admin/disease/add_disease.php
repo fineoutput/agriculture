@@ -51,6 +51,7 @@
 <td> <strong>Image3</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image3"  class="form-control" placeholder=""  value="" />  </td>
 </tr>
+
   <tr>
 <td> <strong>Image4</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image4"  class="form-control" placeholder=""  value="" />  </td>
@@ -91,5 +92,3 @@
 
 <script type="text/javascript" src=" <?php echo base_url()  ?>assets/slider/ajaxupload.3.5.js"></script>
      <link href=" <? echo base_url()  ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
-
-       

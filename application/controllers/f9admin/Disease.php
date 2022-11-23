@@ -3,6 +3,7 @@
        require_once(APPPATH . 'core/CI_finecontrol.php');
        class Disease extends CI_finecontrol{
        function __construct()
+       
            {
              parent::__construct();
              $this->load->model("login_model");

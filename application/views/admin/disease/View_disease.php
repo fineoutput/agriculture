@@ -171,6 +171,7 @@
         // });
 
         $(document.body).on('click', '.dCnf', function() {
+          
         var i=$(this).attr("mydata");
         console.log(i);
 
