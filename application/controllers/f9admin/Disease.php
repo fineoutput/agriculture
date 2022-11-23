@@ -12,7 +12,7 @@
              $this->load->library('upload');
            }
 
-         public function view_disease(){
+         public function view_diseases(){
 
             if(!empty($this->session->userdata('admin_data'))){
 
@@ -30,7 +30,7 @@
                $data['disease_data']= $this->db->get();
 
               $this->load->view('admin/common/header_view',$data);
-              $this->load->view('admin/disease/view_disease');
+              $this->load->view('admin/disease/view_diseases');
               $this->load->view('admin/common/footer_view');
 
           }
