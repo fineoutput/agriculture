@@ -3,7 +3,7 @@
        require_once(APPPATH . 'core/CI_finecontrol.php');
        class Disease extends CI_finecontrol{
        function __construct()
-       
+
            {
              parent::__construct();
              $this->load->model("login_model");
@@ -532,7 +532,7 @@ if(!empty($img)) { if(empty($nnnn4)){ $nnnn4 = $img; } }else{ if(empty($nnnn4)){
            }
                        if($last_id!=0){
                                $this->session->set_flashdata('smessage','Data inserted successfully');
-                               redirect("dcadmin/disease/view_disease","refresh");
+                               redirect("dcadmin/Disease/view_disease","refresh");
                               }
                                else
                                    {
