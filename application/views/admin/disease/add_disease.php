@@ -1,7 +1,7 @@
 <div class="content-wrapper">
                <section class="content-header">
                   <h1>
-                 Add New Disease
+                 Add New Disease 
                  </h1>
 
                </section>
