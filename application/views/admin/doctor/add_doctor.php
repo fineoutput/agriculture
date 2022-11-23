@@ -15,6 +15,7 @@
 
   <div class="panel panel-default">
   <div class="panel-heading">
+    
   <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New doctor</h3>
   </div>
 

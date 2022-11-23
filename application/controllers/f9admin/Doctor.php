@@ -7,6 +7,7 @@ parent::__construct();
 $this->load->model("login_model");
 $this->load->model("admin/base_model");
 $this->load->library('user_agent');
+
 }
 //-----------------------view Doctor function-----------------
 public function view_doctor(){

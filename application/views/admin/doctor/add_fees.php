@@ -14,6 +14,7 @@ Add New Vendor
 <div class="col-lg-12">
 
 <div class="panel panel-default">
+  
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Vendor</h3>
 </div>
