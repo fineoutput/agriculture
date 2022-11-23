@@ -532,7 +532,7 @@ if(!empty($img)) { if(empty($nnnn4)){ $nnnn4 = $img; } }else{ if(empty($nnnn4)){
            }
                        if($last_id!=0){
                                $this->session->set_flashdata('smessage','Data inserted successfully');
-                               redirect("dcadmin/Disease/view_disease","refresh");
+                               redirect("dcadmin/Disease/view_diseases","refresh");
                               }
                                else
                                    {
@@ -589,7 +589,7 @@ if(!empty($img)) { if(empty($nnnn4)){ $nnnn4 = $img; } }else{ if(empty($nnnn4)){
                        $zapak=$this->db->update('tbl_disease', $data_update);
 
                             if($zapak!=0){
-                            redirect("dcadmin/disease/view_disease","refresh");
+                            redirect("dcadmin/disease/view_diseases","refresh");
                                     }
                                     else
                                     {
@@ -607,7 +607,7 @@ if(!empty($img)) { if(empty($nnnn4)){ $nnnn4 = $img; } }else{ if(empty($nnnn4)){
                          $zapak=$this->db->update('tbl_disease', $data_update);
 
                              if($zapak!=0){
-                             redirect("dcadmin/disease/view_disease","refresh");
+                             redirect("dcadmin/disease/view_diseases","refresh");
                                      }
                                      else
                                      {
@@ -655,7 +655,7 @@ if(!empty($img)) { if(empty($nnnn4)){ $nnnn4 = $img; } }else{ if(empty($nnnn4)){
  if($zapak!=0){
         $path = FCPATH .$img;
           unlink($path);
-        redirect("dcadmin/disease/view_disease","refresh");
+        redirect("dcadmin/disease/view_diseases","refresh");
                 }
                 else
                 {
