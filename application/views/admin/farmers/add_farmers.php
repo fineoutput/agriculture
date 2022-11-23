@@ -118,7 +118,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
    <select name="name" class="form-control" id="states" required>
 
-     <option value="">-----select category-----</option>
+     <option value="">-----select state-----</option>
 
    <?php $i=1; foreach($state_data->result() as $cat) { ?>
 

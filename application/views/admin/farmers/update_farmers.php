@@ -107,30 +107,57 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 </td>
 </tr>
 
-<tr>
-<td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
-<td>
-<select class="form-control" name="state" id="states">   
-   <option value="">---state---</option>   
-   <?php foreach ($state_data->result() as $a){​​?>   
-    <option value="<?=$a->id?>" <?if($a->id==$farmers->state){echo 'selected';}?>><?=$a->state_name?></option>
-   <?php }​​ ?>
-
-
-</td>
-</tr>
 
 <tr>
-<td> <strong>City</strong>  <span style="color:red;">*</span></strong> </td>
+
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+
 <td>
-<select class="form-control" name="city" id="cities">   
-   <option value="">---city---</option>   
-   <?php foreach ($city_data->result() as $a){​​?>   
-    <option value="<?=$a->id?>" <?if($a->id==$farmers->city){echo 'selected';}?>><?=$a->city_name?></option>
-    <?php }​​ ?>
+
+  <select name="state" class="form-control" >
+
+    <option value="">-----select category-----</option>
+
+  <?php $i=1; foreach($state_data->result() as $cat) { ?>
+
+  <option value="<?=$cat->id?>" <?if($cat->id==$farmers->state){echo 'selected';}?>><?=$cat->state_name?></option>
+
+<?php } ?>
+
+</select>
 
 </td>
+
 </tr>
+
+
+
+
+
+
+<tr>
+
+<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
+
+<td>
+
+  <select name="city" class="form-control" >
+
+    <option value="">-----select city -----</option>
+
+  <?php $i=1; foreach($city_data->result() as $cat) { ?>
+
+  <option value="<?=$cat->id?>" <?if($cat->id==$farmers->city){echo 'selected';}?>><?=$cat->city_name?></option>
+
+<?php } ?>
+
+</select>
+
+</td>
+
+</tr>
+
+
 
 <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
