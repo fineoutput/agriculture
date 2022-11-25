@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Update Disease 
+Update Disease
 </h1>
 
 </section>
@@ -11,7 +11,7 @@ Update Disease
 
 <div class="panel panel-default">
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Update Disease </h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>Update Disease </h3>
 </div>
 
 <? if(!empty($this->session->flashdata('smessage'))){  ?>

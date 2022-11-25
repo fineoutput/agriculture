@@ -1,23 +1,23 @@
 
-        <div class="content-wrapper">
-        <section class="content-header">
-        <h1>
-        View Disease
-        </h1>
-        </section>
-        <section class="content">
-        <div class="row">
-        <div class="col-lg-12">
-        <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/disease/add_disease"
-        role="button" style="margin-bottom:12px;"> Add disease</a>
-        <div class="panel panel-default">
-        <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View disease</h3>
-        </div>
-        <div class="panel panel-default">
+<div class="content-wrapper">
+<section class="content-header">
+<h1>
+View Disease
+</h1>
+</section>
+<section class="content">
+<div class="row">
+<div class="col-lg-12">
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/disease/add_disease"
+role="button" style="margin-bottom:12px;"> Add disease</a>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View disease</h3>
+</div>
+<div class="panel panel-default">
 
-        <? if(!empty($this->session->flashdata('smessage'))){ ?>
-        <div class="alert alert-success alert-dismissible">
+<? if(!empty($this->session->flashdata('smessage'))){ ?>
+<div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4><i class="icon fa fa-check"></i> Alert!</h4>
         <? echo $this->session->flashdata('smessage'); ?>
