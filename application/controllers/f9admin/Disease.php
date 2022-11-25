@@ -10,8 +10,8 @@ function __construct()
  $this->load->library('user_agent');
  $this->load->library('upload');
 }
-//----------------------------------------------------------------------
-public function view_diseases(){
+//---------------------------------------------------------------------
+public function view_disease(){
 
 if(!empty($this->session->userdata('admin_data'))){
 
