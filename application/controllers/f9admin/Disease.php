@@ -11,7 +11,7 @@ function __construct()
  $this->load->library('upload');
 }
 //----------------------------------------------------------------------
-public function view_disease(){
+public function view_diseases(){
 
 if(!empty($this->session->userdata('admin_data'))){
 
