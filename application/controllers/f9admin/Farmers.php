@@ -2,282 +2,257 @@
 require_once(APPPATH . 'core/CI_finecontrol.php');
 class Farmers extends CI_finecontrol{
 function __construct()
-		{
-			parent::__construct();
-			$this->load->model("login_model");
-			$this->load->model("admin/base_model");
-			$this->load->library('user_agent');
-			  $this->load->library('upload');
-		}
+{
+parent::__construct();
+$this->load->model("login_model");
+$this->load->model("admin/base_model");
+$this->load->library('user_agent');
+$this->load->library('upload');
+}
+
+//****************************view Farmers Function**************************************
+
+public function View_farmers(){
+
+if(!empty($this->session->userdata('admin_data'))){
 
 
+$data['user_name']=$this->load->get_var('user_name');
 
- public function View_farmers(){
+$this->db->select('*');
+$this->db->from('tbl_farmers');
 
-                  if(!empty($this->session->userdata('admin_data'))){
+$data['farmers_data']= $this->db->get();
 
+$this->load->view('admin/common/header_view',$data);
+$this->load->view('admin/farmers/View_farmers');
+$this->load->view('admin/common/footer_view');
 
-                    $data['user_name']=$this->load->get_var('user_name');
+}
+else{
 
-              $this->db->select('*');
-  $this->db->from('tbl_farmers');
+redirect("login/admin_login","refresh");
+}
 
-  $data['farmers_data']= $this->db->get();
-
-
-
-
-                    $this->load->view('admin/common/header_view',$data);
-                    $this->load->view('admin/farmers/View_farmers');
-                    $this->load->view('admin/common/footer_view');
-
-                }
-                else{
-
-                   redirect("login/admin_login","refresh");
-                }
-
-                }
-
-
-
+}
+//****************************Add Farmers Function**************************************
 public function add_farmers(){
 
-                 if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-                   $data['user_name']=$this->load->get_var('user_name');
+$data['user_name']=$this->load->get_var('user_name');
 
-                   // echo SITE_NAME;
-                   // echo $this->session->userdata('image');
-                   // echo $this->session->userdata('position');
-                   // exit;
 
-									       			$this->db->select('*');
-									 $this->db->from('all_cities');
-									 //$this->db->where('id',$usr);
-									 $data['city_data']= $this->db->get();
+$this->db->select('*');
+$this->db->from('all_cities');
+//$this->db->where('id',$usr);
+$data['city_data']= $this->db->get();
 
-									 $this->db->select('*');
-									 $this->db->from('all_states');
-									 //$this->db->where('id',$usr);
-									 $data['state_data']= $this->db->get();
+$this->db->select('*');
+$this->db->from('all_states');
+//$this->db->where('id',$usr);
+$data['state_data']= $this->db->get();
 
-                   $this->load->view('admin/common/header_view',$data);
-                   $this->load->view('admin/farmers/add_farmers');
-                   $this->load->view('admin/common/footer_view');
+$this->load->view('admin/common/header_view',$data);
+$this->load->view('admin/farmers/add_farmers');
+$this->load->view('admin/common/footer_view');
 
-               }
-               else{
+}
+else{
 
-                  redirect("login/admin_login","refresh");
-               }
+redirect("login/admin_login","refresh");
+}
 
-             }
-//----------------------------------------------------------------------------------------------
-            public function add_farmers_data($t,$iw="")
+}
+//****************************Insert Farmers Function**************************************
+public function add_farmers_data($t,$iw="")
 
-              {
+{
 
-                if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-            $this->load->helper(array('form', 'url'));
-            $this->load->library('form_validation');
-            $this->load->helper('security');
-            if($this->input->post())
-            {
-              // print_r($this->input->post());
-              // exit;
-							$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
+$this->load->helper(array('form', 'url'));
+$this->load->library('form_validation');
+$this->load->helper('security');
+if($this->input->post())
+{
+// print_r($this->input->post());
+// exit;
+$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean|trim');
 
-							$this->form_validation->set_rules('village_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('village_hindi', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('village_punjabi', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('village_english', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('village_hindi', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('village_punjabi', 'name', 'required|xss_clean|trim');
 
-							$this->form_validation->set_rules('district_english', 'name', 'required|xss_clean|trim');
-							$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
+$this->form_validation->set_rules('district_english', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('district_hindi', 'name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('district_punjabi', 'Village', 'required|xss_clean|trim');
 
-              $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
-              $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
-              $this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
+$this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
+$this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
+$this->form_validation->set_rules('Pincode', 'Pincode', 'required|xss_clean|trim');
+$this->form_validation->set_rules('phone_number', 'phone_number', 'required|xss_clean|trim');
 
 
 
+if($this->form_validation->run()== TRUE)
+{
+$name_english=$this->input->post('name_english');
+$name_hindi=$this->input->post('name_hindi');
+$name_punjabi=$this->input->post('name_punjabi');
 
+$village_english=$this->input->post('village_english');
+$village_hindi=$this->input->post('village_hindi');
+$village_punjabi=$this->input->post('village_punjabi');
 
-              if($this->form_validation->run()== TRUE)
-              {
-                $name_english=$this->input->post('name_english');
-								$name_hindi=$this->input->post('name_hindi');
-								$name_punjabi=$this->input->post('name_punjabi');
+$district_english=$this->input->post('district_english');
+$district_hindi=$this->input->post('district_hindi');
+$district_punjabi=$this->input->post('district_punjabi');
 
-								$village_english=$this->input->post('village_english');
-								$village_hindi=$this->input->post('village_hindi');
-								$village_punjabi=$this->input->post('village_punjabi');
+$city=$this->input->post('city');
+$state=$this->input->post('state');
 
-								$district_english=$this->input->post('district_english');
-								$district_hindi=$this->input->post('district_hindi');
-								$district_punjabi=$this->input->post('district_punjabi');
+$Pincode=$this->input->post('Pincode');
+$phone_number=$this->input->post('phone_number');
 
-                          $city=$this->input->post('city');
-                           $state=$this->input->post('state');
 
-                               		$Pincode=$this->input->post('Pincode');
-                                   $phone_number=$this->input->post('phone_number');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
 
+$addedby=$this->session->userdata('admin_id');
 
-                  $ip = $this->input->ip_address();
-          date_default_timezone_set("Asia/Calcutta");
-                  $cur_date=date("Y-m-d H:i:s");
 
-                  $addedby=$this->session->userdata('admin_id');
+$typ=base64_decode($t);
+if($typ==1){
 
+$data_insert = array(
+'name_english'=>$name_english,
+'name_hindi'=>$name_hindi,
+'name_punjabi'=>$name_punjabi,
 
-          $typ=base64_decode($t);
-          if($typ==1){
+'village_english'=>$village_english,
+'village_hindi'=>$village_hindi,
+'village_punjabi'=>$village_punjabi,
 
-          $data_insert = array(
-						'name_english'=>$name_english,
-						'name_hindi'=>$name_hindi,
-						'name_punjabi'=>$name_punjabi,
+'district_english'=>$district_english,
+'district_hindi'=>$district_hindi,
+'district_punjabi'=>$district_punjabi,
 
-						'village_english'=>$village_english,
-						'village_hindi'=>$village_hindi,
-						'village_punjabi'=>$village_punjabi,
 
-						'district_english'=>$district_english,
-						'district_hindi'=>$district_hindi,
-						'district_punjabi'=>$district_punjabi,
+'city'=>$city,
+'state'=>$state,
+'Pincode'=>$Pincode,
+'phone_number'=>$phone_number,
 
 
-          'city'=>$city,
-          'state'=>$state,
-          'Pincode'=>$Pincode,
-          'phone_number'=>$phone_number,
 
+'ip' =>$ip,
+'added_by' =>$addedby,
+'is_active' =>1,
+'date'=>$cur_date
 
+);
 
-										'ip' =>$ip,
-                    'added_by' =>$addedby,
-                    'is_active' =>1,
-                    'date'=>$cur_date
+$last_id=$this->base_model->insert_table("tbl_farmers",$data_insert,1) ;
 
-                    );
+}
+if($typ==2){
 
+$idw=base64_decode($iw);
 
 
 
+$data_insert = array(	'name_english'=>$name_english,
+'name_hindi'=>$name_hindi,
+'name_punjabi'=>$name_punjabi,
 
-          $last_id=$this->base_model->insert_table("tbl_farmers",$data_insert,1) ;
+'village_english'=>$village_english,
+'village_hindi'=>$village_hindi,
+'village_punjabi'=>$village_punjabi,
 
-          }
-          if($typ==2){
+'district_english'=>$district_english,
+'district_hindi'=>$district_hindi,
+'district_punjabi'=>$district_punjabi,
 
-   $idw=base64_decode($iw);
+'city'=>$city,
+'state'=>$state,
+'Pincode'=>$Pincode,
+'phone_number'=>$phone_number
 
+);
 
+$this->db->where('id', $idw);
+$last_id=$this->db->update('tbl_farmers', $data_insert);
 
-          $data_insert = array(	'name_english'=>$name_english,
-						'name_hindi'=>$name_hindi,
-						'name_punjabi'=>$name_punjabi,
+}
 
-						'village_english'=>$village_english,
-						'village_hindi'=>$village_hindi,
-						'village_punjabi'=>$village_punjabi,
 
-						'district_english'=>$district_english,
-						'district_hindi'=>$district_hindi,
-						'district_punjabi'=>$district_punjabi,
+if($last_id!=0){
 
-          'city'=>$city,
-          'state'=>$state,
-          'Pincode'=>$Pincode,
-          'phone_number'=>$phone_number
+$this->session->set_flashdata('smessage','Data inserted successfully');
 
+redirect("dcadmin/Farmers/View_farmers","refresh");
 
+}
 
+else
 
+{
 
-                    );
+$this->session->set_flashdata('smessage','Sorry error occured');
+redirect($_SERVER['HTTP_REFERER']);
 
 
+}
 
 
-            $this->db->where('id', $idw);
-            $last_id=$this->db->update('tbl_farmers', $data_insert);
-
-          }
-
-
-                              if($last_id!=0){
-
-                              $this->session->set_flashdata('smessage','Data inserted successfully');
-
-                              redirect("dcadmin/Farmers/View_farmers","refresh");
-
-                                      }
-
-                                      else
-
-                                      {
-
-                                   $this->session->set_flashdata('smessage','Sorry error occured');
-                                     redirect($_SERVER['HTTP_REFERER']);
-
-
-                                      }
-
-
-              }
-            else{
+}
+else{
 
 $this->session->set_flashdata('smessage',validation_errors());
-     redirect($_SERVER['HTTP_REFERER']);
+redirect($_SERVER['HTTP_REFERER']);
 
-            }
+}
 
-            }
-          else{
+}
+else{
 
 $this->session->set_flashdata('smessage','Please insert some data, No data available');
-     redirect($_SERVER['HTTP_REFERER']);
+redirect($_SERVER['HTTP_REFERER']);
 
-          }
-          }
-          else{
+}
+}
+else{
 
-      redirect("login/admin_login","refresh");
-
-
-          }
-				}
+redirect("login/admin_login","refresh");
 
 
-        public function update_farmers($idd){
+}
+}
 
-                         if(!empty($this->session->userdata('admin_data'))){
+//****************************Update Farmers Function**************************************
+public function update_farmers($idd){
 
-
-                           $data['user_name']=$this->load->get_var('user_name');
-
-                           // echo SITE_NAME;
-                           // echo $this->session->userdata('image');
-                           // echo $this->session->userdata('position');
-                           // exit;
-         $id=base64_decode($idd);
-        $data['id']=$idd;
+if(!empty($this->session->userdata('admin_data'))){
 
 
-        $this->db->select('*');
-                    $this->db->from('tbl_farmers');
-                    $this->db->where('id',$id);
-                    $dsa= $this->db->get();
-                    $data['farmers']=$dsa->row();
+$data['user_name']=$this->load->get_var('user_name');
+
+
+$id=base64_decode($idd);
+$data['id']=$idd;
+
+
+$this->db->select('*');
+$this->db->from('tbl_farmers');
+$this->db->where('id',$id);
+$dsa= $this->db->get();
+$data['farmers']=$dsa->row();
 
 
 
@@ -291,174 +266,167 @@ $this->db->from('all_cities');
 //$this->db->where('id',$usr);
 $data['city_data']= $this->db->get();
 
-                           $this->load->view('admin/common/header_view',$data);
-                           $this->load->view('admin/farmers/update_farmers');
-                           $this->load->view('admin/common/footer_view');
+$this->load->view('admin/common/header_view',$data);
+$this->load->view('admin/farmers/update_farmers');
+$this->load->view('admin/common/footer_view');
 
-                       }
-                       else{
+}
+else{
 
-                          redirect("login/admin_login","refresh");
-                       }
+redirect("login/admin_login","refresh");
+}
 
-                       }
+}
 
-
-
-
-    public function delete_farmers($idd){
-
-     if(!empty($this->session->userdata('admin_data'))){
+//****************************Delete Farmers Function**************************************
 
 
-       $data['user_name']=$this->load->get_var('user_name');
+public function delete_farmers($idd){
 
-       // echo SITE_NAME;
-       // echo $this->session->userdata('image');
-       // echo $this->session->userdata('position');
-       // exit;
-                                 $id=base64_decode($idd);
-
-      if($this->load->get_var('position')=="Super Admin"){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-                                         $zapak=$this->db->delete('tbl_farmers', array('id' => $id));
-                                         if($zapak!=0){
-
-                                        redirect("dcadmin/Farmers/View_farmers","refresh");
-                                                }
-                                                else
-                                                {
-                                                  echo "Error";
-                                                  exit;
-                                                }
-                     }
-                     else{
-                     $data['e']="Sorry You Don't Have Permission To Delete Anything.";
-                      // exit;
-                      $this->load->view('errors/error500admin',$data);
-                     }
+$data['user_name']=$this->load->get_var('user_name');
 
 
-           }
-           else{
+$id=base64_decode($idd);
 
-               $this->load->view('admin/login/index');
-           }
-
-           }
-
-           public function updatefarmersStatus($idd,$t){
-
-                    if(!empty($this->session->userdata('admin_data'))){
+if($this->load->get_var('position')=="Super Admin"){
 
 
-                      $data['user_name']=$this->load->get_var('user_name');
+$zapak=$this->db->delete('tbl_farmers', array('id' => $id));
+if($zapak!=0){
 
-                      // echo SITE_NAME;
-                      // echo $this->session->userdata('image');
-                      // echo $this->session->userdata('position');
-                      // exit;
-                      $id=base64_decode($idd);
+redirect("dcadmin/Farmers/View_farmers","refresh");
+}
+else
+{
+echo "Error";
+exit;
+}
+}
+else{
+$data['e']="Sorry You Don't Have Permission To Delete Anything.";
+// exit;
+$this->load->view('errors/error500admin',$data);
+}
 
-                      if($t=="active"){
 
-                        $data_update = array(
-                    'is_active'=>1
+}
+else{
 
-                    );
+$this->load->view('admin/login/index');
+}
 
-                    $this->db->where('id', $id);
-                   $zapak=$this->db->update('tbl_farmers', $data_update);
+}
+//****************************Update Farmers Status Function**************************************
+public function updatefarmersStatus($idd,$t){
 
-                        if($zapak!=0){
-                        redirect("dcadmin/Farmers/View_farmers","refresh");
-                                }
-                                else
-                                {
-                                  echo "Error";
-                                  exit;
-                                }
-                      }
-                      if($t=="inactive"){
-                        $data_update = array(
-                     'is_active'=>0
+if(!empty($this->session->userdata('admin_data'))){
 
-                     );
 
-                     $this->db->where('id', $id);
-                     $zapak=$this->db->update('tbl_farmers', $data_update);
+$data['user_name']=$this->load->get_var('user_name');
 
-                         if($zapak!=0){
-                         redirect("dcadmin/Farmers/View_farmers","refresh");
-                                 }
-                                 else
-                                 {
+$id=base64_decode($idd);
 
-                     $data['e']="Error Occured";
-                                      // exit;
-                    $this->load->view('errors/error500admin',$data);
-                                 }
-                      }
+if($t=="active"){
+
+$data_update = array(
+'is_active'=>1
+
+);
+
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_farmers', $data_update);
+
+if($zapak!=0){
+redirect("dcadmin/Farmers/View_farmers","refresh");
+}
+else
+{
+echo "Error";
+exit;
+}
+}
+if($t=="inactive"){
+$data_update = array(
+'is_active'=>0
+
+);
+
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_farmers', $data_update);
+
+if($zapak!=0){
+redirect("dcadmin/Farmers/View_farmers","refresh");
+}
+else
+{
+
+$data['e']="Error Occured";
+// exit;
+$this->load->view('errors/error500admin',$data);
+}
+}
 
 
 
-                  }
-                  else{
+}
+else{
 
-                      $this->load->view('admin/login/index');
-                  }
+$this->load->view('admin/login/index');
+}
 
-                  }
-//----------------------------------------------------------------------------------
-									public function getfarmers($a){
-
-
-									                if(!empty($this->session->userdata('admin_data'))){
+}
+//****************************Get Farmers Function**************************************
+public function getfarmers($a){
 
 
-									                        $this->db->select('*');
-									       $this->db->from('all_cities');
-									       $this->db->where('state_id',$a);
-									       $cities= $this->db->get();
-									       $check= $cities->row();
-									if(!empty($check)){
-
-									   foreach ($cities->result() as  $c1) {
-
-									    $arr[]=array(
-									        'cities_id'=>$c1->id,
-									        'city_name'=>$c1->city_name,
-									    );
+if(!empty($this->session->userdata('admin_data'))){
 
 
+$this->db->select('*');
+$this->db->from('all_cities');
+$this->db->where('state_id',$a);
+$cities= $this->db->get();
+$check= $cities->row();
+if(!empty($check)){
 
-									   }
+foreach ($cities->result() as  $c1) {
 
-									    echo json_encode($arr);
-									    exit;
-
-									}
-									else{
-									    echo "NA";
-									    exit;
-									}
-
-									               }
-									               else{
+$arr[]=array(
+'cities_id'=>$c1->id,
+'city_name'=>$c1->city_name,
+);
 
 
 
-									                 redirect("login/admin_login","refresh");
-									               }
+}
+
+echo json_encode($arr);
+exit;
+
+}
+else{
+echo "NA";
+exit;
+}
+
+}
+else{
 
 
 
-									              }
+redirect("login/admin_login","refresh");
+}
+
+
+
+}
 
 
 
 
 
 
-        }
+}

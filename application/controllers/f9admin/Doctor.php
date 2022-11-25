@@ -9,13 +9,13 @@ $this->load->model("admin/base_model");
 $this->load->library('user_agent');
 
 }
-//----------------------view Doctor function-----------------
+//****************************view Doctor Function**************************************
 public function view_doctor(){
 
- if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-   $data['user_name']=$this->load->get_var('user_name');
+$data['user_name']=$this->load->get_var('user_name');
 
 $this->db->select('*');
 $this->db->from('tbl_doctor');
@@ -35,19 +35,18 @@ $data['city_data']= $this->db->get();
 
 
 
-   $this->load->view('admin/common/header_view',$data);
-   $this->load->view('admin/doctor/view_doctor');
-   $this->load->view('admin/common/footer_view');
+$this->load->view('admin/common/header_view',$data);
+$this->load->view('admin/doctor/view_doctor');
+$this->load->view('admin/common/footer_view');
 
 }
 else{
 
-  redirect("login/admin_login","refresh");
+redirect("login/admin_login","refresh");
 }
 
 }
-
-//---------------------add_Doctor function-----------------------------------
+//****************************Add Doctor Function**************************************
 public function add_doctor(){
 
 if(!empty($this->session->userdata('admin_data'))){
@@ -77,13 +76,12 @@ redirect("login/admin_login","refresh");
 
 }
 
-//-----------------------------add_doctor_data------------------------------
-
+//****************************Insert Doctor Data Function**************************************
 public function add_doctor_data($t,$iw="")
 
-  {
+{
 
-    if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
 $this->load->helper(array('form', 'url'));
@@ -91,61 +89,61 @@ $this->load->library('form_validation');
 $this->load->helper('security');
 if($this->input->post())
 {
-  // print_r($this->input->post());
-  // exit;
-  $this->form_validation->set_rules('name_english', 'name', 'required|xss_clean');
-  $this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean');
-  $this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
+// print_r($this->input->post());
+// exit;
+$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean');
+$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean');
+$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
 
 
-  $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
-  $this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
+$this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
+$this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
 
-  $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
-  $this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
+$this->form_validation->set_rules('vet', 'vet', 'xss_clean');
+$this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
 
 
 
-  $this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
-  $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
-  $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'required|xss_clean');
+$this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
+$this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
+$this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'required|xss_clean');
 
-  $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'required|xss_clean');
-  $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'required|xss_clean');
-  $this->form_validation->set_rules('education_colume', 'education_colume', 'required|xss_clean');
+$this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'required|xss_clean');
+$this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'required|xss_clean');
+$this->form_validation->set_rules('education_colume', 'education_colume', 'required|xss_clean');
 
-  $this->form_validation->set_rules('district_english', 'district_english', 'required|xss_clean');
-  $this->form_validation->set_rules('district_hindi', 'district_hindi', 'required|xss_clean');
-  $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'required|xss_clean');
+$this->form_validation->set_rules('district_english', 'district_english', 'required|xss_clean');
+$this->form_validation->set_rules('district_hindi', 'district_hindi', 'required|xss_clean');
+$this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'required|xss_clean');
 
-  $this->form_validation->set_rules('state_colume', 'state_colume', 'required|xss_clean');
-  $this->form_validation->set_rules('city_colume', 'city_colume', 'required|xss_clean');
-  $this->form_validation->set_rules('phone_colume', 'phone_colume', 'required|xss_clean');
+$this->form_validation->set_rules('state_colume', 'state_colume', 'required|xss_clean');
+$this->form_validation->set_rules('city_colume', 'city_colume', 'required|xss_clean');
+$this->form_validation->set_rules('phone_colume', 'phone_colume', 'required|xss_clean');
 
-  if($this->form_validation->run()== TRUE)
-  {
+if($this->form_validation->run()== TRUE)
+{
 
-    $name_english=$this->input->post('name_english');
-    $name_hindi=$this->input->post('name_hindi');
-    $name_punjabi=$this->input->post('name_punjabi');
-    $email=$this->input->post('email');
-    $type_colume=$this->input->post('type_colume');
-    $vet=$this->input->post('vet');
+$name_english=$this->input->post('name_english');
+$name_hindi=$this->input->post('name_hindi');
+$name_punjabi=$this->input->post('name_punjabi');
+$email=$this->input->post('email');
+$type_colume=$this->input->post('type_colume');
+$vet=$this->input->post('vet');
 ;                $private_colume=$this->input->post('private_colume');
 
-    $degree_english=$this->input->post('degree_english');
-    $degree_hindi=$this->input->post('degree_hindi');
-    $degree_punjabi=$this->input->post('degree_punjabi');
-    $experiance_colume=$this->input->post('experiance_colume');
-    $assistant_colume=$this->input->post('assistant_colume');
-    $education_colume=$this->input->post('education_colume');
-    $district_english=$this->input->post('district_english');
-    $district_hindi=$this->input->post('district_hindi');
-    $district_punjabi=$this->input->post('district_punjabi');
-    $state_colume=$this->input->post('state_colume');
-    $city_colume=$this->input->post('city_colume');
-    $phone_colume=$this->input->post('phone_colume');
-//------------------image----------------------------
+$degree_english=$this->input->post('degree_english');
+$degree_hindi=$this->input->post('degree_hindi');
+$degree_punjabi=$this->input->post('degree_punjabi');
+$experiance_colume=$this->input->post('experiance_colume');
+$assistant_colume=$this->input->post('assistant_colume');
+$education_colume=$this->input->post('education_colume');
+$district_english=$this->input->post('district_english');
+$district_hindi=$this->input->post('district_hindi');
+$district_punjabi=$this->input->post('district_punjabi');
+$state_colume=$this->input->post('state_colume');
+$city_colume=$this->input->post('city_colume');
+$phone_colume=$this->input->post('phone_colume');
+//-----------------------image----------------------------
 $this->load->library('upload');
 $image="";
 $img1='image';
@@ -153,79 +151,79 @@ $img1='image';
 $file_check=($_FILES['image']['error']);
 if($file_check!=4){
 $image_upload_folder = FCPATH . "assets/uploads/team/";
-  if (!file_exists($image_upload_folder))
-  {
-    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-  }
-  $new_file_name="team".date("Ymdhms");
-  $this->upload_config = array(
-      'upload_path'   => $image_upload_folder,
-      'file_name' => $new_file_name,
-      'allowed_types' =>'jpg|jpeg|png',
-      'max_size'      => 25000
-  );
-  $this->upload->initialize($this->upload_config);
-  if (!$this->upload->do_upload($img1))
-  {
-    $upload_error = $this->upload->display_errors();
-    // echo json_encode($upload_error);
-    echo $upload_error;
-  }
-  else
-  {
-
-    $file_info = $this->upload->data();
-
-    $image = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
-    $file_info['new_name']=$image;
-    // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-    $nnnn=$file_info['file_name'];
-    // echo json_encode($file_info);
-  }
+if (!file_exists($image_upload_folder))
+{
+mkdir($image_upload_folder, DIR_WRITE_MODE, true);
 }
+$new_file_name="team".date("Ymdhms");
+$this->upload_config = array(
+'upload_path'   => $image_upload_folder,
+'file_name' => $new_file_name,
+'allowed_types' =>'jpg|jpeg|png',
+'max_size'      => 25000
+);
+$this->upload->initialize($this->upload_config);
+if (!$this->upload->do_upload($img1))
+{
+$upload_error = $this->upload->display_errors();
+// echo json_encode($upload_error);
+echo $upload_error;
+}
+else
+{
 
+$file_info = $this->upload->data();
 
-      $ip = $this->input->ip_address();
+$image = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
+$file_info['new_name']=$image;
+// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+$nnnn=$file_info['file_name'];
+// echo json_encode($file_info);
+}
+}
+//----------image tag end-------------------
+
+$ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
-      $cur_date=date("Y-m-d H:i:s");
-      $addedby=$this->session->userdata('admin_id');
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 $typ=base64_decode($t);
 if($typ==1){
-  $data_insert = array(
-    'name_english'=>$name_english,
-    'name_hindi'=>$name_hindi,
-    'name_punjabi'=>$name_punjabi,
-    'email'=>$email,
-    'image'=>$image,
-    'type'=>$type_colume,
-    'vet'=>$vet,
-    'private_practitioner'=>$private_colume,
+$data_insert = array(
+'name_english'=>$name_english,
+'name_hindi'=>$name_hindi,
+'name_punjabi'=>$name_punjabi,
+'email'=>$email,
+'image'=>$image,
+'type'=>$type_colume,
+'vet'=>$vet,
+'private_practitioner'=>$private_colume,
 
 
-    'degree_english'=>$degree_english,
-    'degree_hindi'=>$degree_hindi,
-    'degree_punjabi'=>$degree_punjabi,
-    'experience'=>$experiance_colume,
-    'assistant'=>$assistant_colume,
-    'education_qualification'=>$education_colume,
-    'district_english'=>$district_english,
-    'district_hindi'=>$district_hindi,
-    'district_punjabi'=>$district_punjabi,
+'degree_english'=>$degree_english,
+'degree_hindi'=>$degree_hindi,
+'degree_punjabi'=>$degree_punjabi,
+'experience'=>$experiance_colume,
+'assistant'=>$assistant_colume,
+'education_qualification'=>$education_colume,
+'district_english'=>$district_english,
+'district_hindi'=>$district_hindi,
+'district_punjabi'=>$district_punjabi,
 
-    'state'=>$state_colume,
-    'city'=>$city_colume,
-    'phone_number'=>$phone_colume,
-    'ip' =>$ip,
-    // 'added_by' =>$addedby,
-    'added_by' =>$addedby,
+'state'=>$state_colume,
+'city'=>$city_colume,
+'phone_number'=>$phone_colume,
+'ip' =>$ip,
+// 'added_by' =>$addedby,
+'added_by' =>$addedby,
 
-    'is_active' =>1,
-    'date'=>$cur_date
+'is_active' =>1,
+'date'=>$cur_date
 
 
-            );
+);
 
 
 
@@ -237,33 +235,33 @@ if($typ==2){
 $idw=base64_decode($iw);
 
 $data_insert = array(
-  'name_english'=>$name_english,
-  'name_hindi'=>$name_hindi,
-  'name_punjabi'=>$name_punjabi,
-  'email'=>$email,
-  'image'=>$image,
-  'type'=>$type_colume,
-  'vet'=>$vet,
-  'private_practitioner'=>$private_colume,
+'name_english'=>$name_english,
+'name_hindi'=>$name_hindi,
+'name_punjabi'=>$name_punjabi,
+'email'=>$email,
+'image'=>$image,
+'type'=>$type_colume,
+'vet'=>$vet,
+'private_practitioner'=>$private_colume,
 
 
-  'degree_english'=>$degree_english,
-  'degree_hindi'=>$degree_hindi,
-  'degree_punjabi'=>$degree_punjabi,
-  'experience'=>$experiance_colume,
-  'assistant'=>$assistant_colume,
-  'education_qualification'=>$education_colume,
-  'district_english'=>$district_english,
-  'district_hindi'=>$district_hindi,
-  'district_punjabi'=>$district_punjabi,
+'degree_english'=>$degree_english,
+'degree_hindi'=>$degree_hindi,
+'degree_punjabi'=>$degree_punjabi,
+'experience'=>$experiance_colume,
+'assistant'=>$assistant_colume,
+'education_qualification'=>$education_colume,
+'district_english'=>$district_english,
+'district_hindi'=>$district_hindi,
+'district_punjabi'=>$district_punjabi,
 
-  'state'=>$state_colume,
-  'city'=>$city_colume,
-  'phone_number'=>$phone_colume
+'state'=>$state_colume,
+'city'=>$city_colume,
+'phone_number'=>$phone_colume
 
 
 
-          );
+);
 
 
 
@@ -273,26 +271,26 @@ $last_id=$this->db->update('tbl_doctor', $data_insert);
 }
 
 
-                  if($last_id!=0){
+if($last_id!=0){
 
-                  $this->session->set_flashdata('smessage','Data inserted successfully');
+$this->session->set_flashdata('smessage','Data inserted successfully');
 
-                  redirect("dcadmin/Doctor/view_doctor","refresh");
+redirect("dcadmin/Doctor/view_doctor","refresh");
 
-                          }
+}
 
-                          else
+else
 
-                          {
+{
 
-                       $this->session->set_flashdata('smessage','Sorry error occured');
-                         redirect($_SERVER['HTTP_REFERER']);
-
-
-                          }
+$this->session->set_flashdata('smessage','Sorry error occured');
+redirect($_SERVER['HTTP_REFERER']);
 
 
-  }
+}
+
+
+}
 else{
 
 $this->session->set_flashdata('smessage',validation_errors());
@@ -316,152 +314,147 @@ redirect("login/admin_login","refresh");
 }
 }
 
-//-----------------------------delete_doctor function--------------------------------
-
+//****************************Delete Doctor Function**************************************
 
 public function delete_doctor($idd){
 
-       if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-         $data['user_name']=$this->load->get_var('user_name');
+$data['user_name']=$this->load->get_var('user_name');
 
 
-                 									 $id=base64_decode($idd);
+$id=base64_decode($idd);
 
-        if($this->load->get_var('position')=="Super Admin"){
-
-
-                         									 $zapak=$this->db->delete('tbl_doctor', array('id' => $id));
-                         									 if($zapak!=0){
-                         								 	redirect("dcadmin/doctor/view_doctor","refresh");
-                         								 					}
-                         								 					else
-                         								 					{
-                         								 						echo "Error";
-                         								 						exit;
-                         								 					}
-                       }
-                       else{
-                       $data['e']="Sorry You Don't Have Permission To Delete Anything.";
-                       	// exit;
-                       	$this->load->view('errors/error500admin',$data);
-                       }
+if($this->load->get_var('position')=="Super Admin"){
 
 
-             }
-             else{
+$zapak=$this->db->delete('tbl_doctor', array('id' => $id));
+if($zapak!=0){
+redirect("dcadmin/doctor/view_doctor","refresh");
+}
+else
+{
+echo "Error";
+exit;
+}
+}
+else{
+$data['e']="Sorry You Don't Have Permission To Delete Anything.";
+// exit;
+$this->load->view('errors/error500admin',$data);
+}
 
-                 $this->load->view('admin/login/index');
-             }
 
-             }
+}
+else{
 
-//---------------------update status function--------------------------------------
+$this->load->view('admin/login/index');
+}
+
+}
+
+//****************************Update Doctor Status Function**************************************
 public function updatedoctorStatus($idd,$t){
 
-         if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-           $data['user_name']=$this->load->get_var('user_name');
+$data['user_name']=$this->load->get_var('user_name');
 
-           $id=base64_decode($idd);
+$id=base64_decode($idd);
 
-           if($t=="active"){
+if($t=="active"){
 
-             $data_update = array(
-         'is_active'=>1
+$data_update = array(
+'is_active'=>1
 
-         );
+);
 
-         $this->db->where('id', $id);
-        $zapak=$this->db->update('tbl_doctor', $data_update);
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_doctor', $data_update);
 
-             if($zapak!=0){
-             redirect("dcadmin/doctor/view_doctor","refresh");
-                     }
-                     else
-                     {
-                       echo "Error";
-                       exit;
-                     }
-           }
-           if($t=="inactive"){
-             $data_update = array(
-          'is_active'=>0
+if($zapak!=0){
+redirect("dcadmin/doctor/view_doctor","refresh");
+}
+else
+{
+echo "Error";
+exit;
+}
+}
+if($t=="inactive"){
+$data_update = array(
+'is_active'=>0
 
-          );
+);
 
-          $this->db->where('id', $id);
-          $zapak=$this->db->update('tbl_doctor', $data_update);
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_doctor', $data_update);
 
-              if($zapak!=0){
-              redirect("dcadmin/doctor/view_doctor","refresh");
-                      }
-                      else
-                      {
+if($zapak!=0){
+redirect("dcadmin/doctor/view_doctor","refresh");
+}
+else
+{
 
-          $data['e']="Error Occured";
-                          	// exit;
-        	$this->load->view('errors/error500admin',$data);
-                      }
-           }
-
-
-
-       }
-       else{
-
-           $this->load->view('admin/login/index');
-       }
-
-       }
+$data['e']="Error Occured";
+// exit;
+$this->load->view('errors/error500admin',$data);
+}
+}
 
 
 
+}
+else{
 
-               public function update_doctor($idd){
+$this->load->view('admin/login/index');
+}
 
-                                if(!empty($this->session->userdata('admin_data'))){
-
-
-                                  $data['user_name']=$this->load->get_var('user_name');
-
-                                  // echo SITE_NAME;
-                                  // echo $this->session->userdata('image');
-                                  // echo $this->session->userdata('position');
-                                  // exit;
-                $id=base64_decode($idd);
-               $data['id']=$idd;
+}
 
 
-               $this->db->select('*');
-                           $this->db->from('tbl_doctor');
-                           $this->db->where('id',$id);
-                           $dsa= $this->db->get();
-                           $data['doctor']=$dsa->row();
 
-             			$this->db->select('*');
-       $this->db->from('all_cities');
-       //$this->db->where('id',$usr);
-       $data['city_data']= $this->db->get();
 
-       $this->db->select('*');
-       $this->db->from('all_states');
-       //$this->db->where('id',$usr);
-       $data['state_data']= $this->db->get();
+public function update_doctor($idd){
 
-                                  $this->load->view('admin/common/header_view',$data);
-                                  $this->load->view('admin/doctor/update_doctor');
-                                  $this->load->view('admin/common/footer_view');
+if(!empty($this->session->userdata('admin_data'))){
 
-                              }
-                              else{
 
-                                 redirect("login/admin_login","refresh");
-                              }
+$data['user_name']=$this->load->get_var('user_name');
 
-                              }
+$id=base64_decode($idd);
+$data['id']=$idd;
+
+
+$this->db->select('*');
+$this->db->from('tbl_doctor');
+$this->db->where('id',$id);
+$dsa= $this->db->get();
+$data['doctor']=$dsa->row();
+
+$this->db->select('*');
+$this->db->from('all_cities');
+//$this->db->where('id',$usr);
+$data['city_data']= $this->db->get();
+
+$this->db->select('*');
+$this->db->from('all_states');
+//$this->db->where('id',$usr);
+$data['state_data']= $this->db->get();
+
+$this->load->view('admin/common/header_view',$data);
+$this->load->view('admin/doctor/update_doctor');
+$this->load->view('admin/common/footer_view');
+
+}
+else{
+
+redirect("login/admin_login","refresh");
+}
+
+}
 
 
 
@@ -473,10 +466,6 @@ $id=base64_decode($idd);
 $data['id']=$idd;
 $data['user_name']=$this->load->get_var('user_name');
 
-// echo SITE_NAME;
-// echo $this->session->userdata('image');
-// echo $this->session->userdata('position');
-// exit;
 
 
 $this->load->view('admin/common/header_view',$data);
@@ -490,8 +479,8 @@ redirect("login/admin_login","refresh");
 }
 
 }
-                              						 ////////////////////
 
+//****************************Insert Doctor comission Function**************************************
 
 public function add_doctor_data2($idd)
 
@@ -533,9 +522,6 @@ $cur_date=date("Y-m-d H:i:s");
 
 
 $addedby=$this->session->userdata('admin_id');
-
-
-
 
 
 $data_update = array('comission'=>$set_comission,
@@ -621,11 +607,7 @@ redirect("login/admin_login","refresh");
 
 }
 
-
-
-
-
-///////////////////////////////////////////
+//**************************** Doctor Fees Function**************************************
 
 public function add_fees_doctor($y){
 
@@ -635,11 +617,6 @@ if(!empty($this->session->userdata('admin_data'))){
 $id=base64_decode($y);
 $data['id']=$y;
 $data['user_name']=$this->load->get_var('user_name');
-
-// echo SITE_NAME;
-// echo $this->session->userdata('image');
-// echo $this->session->userdata('position');
-// exit;
 
 
 $this->load->view('admin/common/header_view',$data);
@@ -653,7 +630,7 @@ redirect("login/admin_login","refresh");
 }
 
 }
-                              						 ////////////////////
+//****************************Insert Doctor Fees Function**************************************
 
 
 public function add_doctor_data3($y)
@@ -775,74 +752,68 @@ else{
 
 
 redirect("login/admin_login","refresh");
-
-
-
-
 }
 
-
-
 }
-
+//****************************Update Doctor Status 2 Function**************************************
 public function updatedoctorStatus2($idd,$t){
 
-         if(!empty($this->session->userdata('admin_data'))){
+if(!empty($this->session->userdata('admin_data'))){
 
 
-           $data['user_name']=$this->load->get_var('user_name');
+$data['user_name']=$this->load->get_var('user_name');
 
-           $id=base64_decode($idd);
+$id=base64_decode($idd);
 
-           if($t=="active"){
+if($t=="active"){
 
-             $data_update = array(
-         'is_active2'=>1
+$data_update = array(
+'is_active2'=>1
 
-         );
+);
 
-         $this->db->where('id', $id);
-        $zapak=$this->db->update('tbl_doctor', $data_update);
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_doctor', $data_update);
 
-             if($zapak!=0){
-             redirect("dcadmin/doctor/view_doctor","refresh");
-                     }
-                     else
-                     {
-                       echo "Error";
-                       exit;
-                     }
-           }
-           if($t=="inactive"){
-             $data_update = array(
-          'is_active2'=>0
+if($zapak!=0){
+redirect("dcadmin/doctor/view_doctor","refresh");
+}
+else
+{
+echo "Error";
+exit;
+}
+}
+if($t=="inactive"){
+$data_update = array(
+'is_active2'=>0
 
-          );
+);
 
-          $this->db->where('id', $id);
-          $zapak=$this->db->update('tbl_doctor', $data_update);
+$this->db->where('id', $id);
+$zapak=$this->db->update('tbl_doctor', $data_update);
 
-              if($zapak!=0){
-              redirect("dcadmin/doctor/view_doctor","refresh");
-                      }
-                      else
-                      {
+if($zapak!=0){
+redirect("dcadmin/doctor/view_doctor","refresh");
+}
+else
+{
 
-          $data['e']="Error Occured";
-                          	// exit;
-        	$this->load->view('errors/error500admin',$data);
-                      }
-           }
+$data['e']="Error Occured";
+// exit;
+$this->load->view('errors/error500admin',$data);
+}
+}
 
 
 
-       }
-       else{
+}
+else{
 
-           $this->load->view('admin/login/index');
-       }
+$this->load->view('admin/login/index');
+}
 
-       }
+}
 
 
 
