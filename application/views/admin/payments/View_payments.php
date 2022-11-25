@@ -1,73 +1,87 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-payments
+Payments
 </h1>
 <ol class="breadcrumb">
-<li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All payments</a></li>
-<li class="active">View payments</li>
-</ol> 
+<li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Payments </a></li>
+<li class="active">view Payment</li>
+</ol>
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Payments/add_payments" role="button" style="margin-bottom:12px;"> Add payments</a> -->
-<div class="panel panel-default">
-<div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View payments</h3>
-</div>
-<div class="panel panel-default">
+<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/payments/add_payments" role="button" style="margin-bottom:12px;"> Add Payments</a>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View payment</h3>
+            </div>
+               <div class="panel panel-default">
 
-<? if(!empty($this->session->flashdata('smessage'))){ ?>
-<div class="alert alert-success alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<h4><i class="icon fa fa-check"></i> Alert!</h4>
-<? echo $this->session->flashdata('smessage'); ?>
-</div>
-<? }
-if(!empty($this->session->flashdata('emessage'))){ ?>
-<div class="alert alert-danger alert-dismissible">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<h4><i class="icon fa fa-ban"></i> Alert!</h4>
-<? echo $this->session->flashdata('emessage'); ?>
-</div>
-<? } ?>
-
-
-<div class="panel-body">
-<div class="box-body table-responsive no-padding">
-<table class="table table-bordered table-hover table-striped" id="userTable">
-<thead>
-<tr>
-<th>#</th>
-<th>vendor_doctor_name</th>
-<th>type</th>
-
-<th>amount</th>
+               			  <? if(!empty($this->session->flashdata('smessage'))){ ?>
+               			        <div class="alert alert-success alert-dismissible">
+               			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+               			    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+               			  <? echo $this->session->flashdata('smessage'); ?>
+               			  </div>
+               			    <? }
+               			     if(!empty($this->session->flashdata('emessage'))){ ?>
+               			     <div class="alert alert-danger alert-dismissible">
+               			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+               			  <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+               			<? echo $this->session->flashdata('emessage'); ?>
+               			</div>
+               			  <? } ?>
 
 
+            <div class="panel-body">
+                <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-hover table-striped" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Vendor/Doctor</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <!-- <th>Status</th> -->
+                            <th>Action</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                          	<?php $i=1; foreach($Payments_data->result() as $data) { ?>
+  <tr>
+      <td><?php echo $i ?> </td>
 
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<?php $i=1; foreach($payments_data->result() as $data) { ?>
-<tr>
-<td><?php echo $i ?> </td>
-<td><?php echo $data->vendor_name ?></td>
-<td><?php echo $data->type ?></td>
+        <td><?php $cid = $data->vendor_doctor_name;
+        $this->db->select('*');
+                    $this->db->from('tbl_doctor');
+                    $this->db->where('id',$cid);
+                    $dsa= $this->db->get();
+                    $da=$dsa->row();
+                    if(!empty($da))
+                    {
+                        echo $da->name_english;
+                    }
 
+         ?></td>
 
-<td><?php echo $data->amount ?></td>
+         <td><?php $cid = $data->type;
+         $this->db->select('*');
+                     $this->db->from('tbl_doctor');
+                     $this->db->where('id',$cid);
+                     $dsa= $this->db->get();
+                     $da=$dsa->row();
+                     if(!empty($da))
+                     {
+                         echo $da->type;
+                     }
 
-
-
-
-
-
-<td><?php if($data->is_active==1){ ?>
+          ?></td>
+      <td><?php echo $data->amount ?></td>
+      <td><?php echo $data->date ?></td>
+        <!-- <td><?php if($data->is_active==1){ ?>
 <p class="label bg-green" >Active</p>
 
 <?php } else { ?>
@@ -75,7 +89,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
 <?php		}   ?>
-</td>
+</td> -->
 <td>
 <div class="btn-group" id="btns<?php echo $i ?>">
 <div class="btn-group">
@@ -83,11 +97,11 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <ul class="dropdown-menu" role="menu">
 
 <?php if($data->is_active==1){ ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Payments/updatepaymentsStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
+<li><a href="<?php echo base_url() ?>admin/home/updateteamStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
 <?php } else { ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Payments/updatepaymentsStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
+<li><a href="<?php echo base_url() ?>admin/course/updateteamStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
 <?php		}   ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Payments/update_payments/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+<li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Edit</a></li>
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
 </div>
@@ -95,7 +109,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <div style="display:none" id="cnfbox<?php echo $i ?>">
 <p> Are you sure delete this </p>
-<a href="<?php echo base_url() ?>dcadmin/Payments/delete_payments/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
+<a href="<?php echo base_url() ?>dcadmin/payments/delete_payments/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
 <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>" >No</a>
 </div>
 </td>
@@ -109,14 +123,14 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
 
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
 
-</div>
+        </div>
 
-</div>
-</div>
+    </div>
+    </div>
 </section>
 </div>
 
@@ -131,10 +145,10 @@ margin:5px;
 <script type="text/javascript">
 
 $(document).ready(function(){
-// $('#userTable').DataTable({
-// responsive: true,
-// // bSort: true
-// });
+$('#userTable').DataTable({
+responsive: true,
+// bSort: true
+});
 
 $(document.body).on('click', '.dCnf', function() {
 var i=$(this).attr("mydata");
