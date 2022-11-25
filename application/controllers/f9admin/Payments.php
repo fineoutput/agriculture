@@ -10,7 +10,7 @@ function __construct()
 			  $this->load->library('upload');
 		}
 //---------------------view Payments function---------------------------
-public function view_payments(){
+public function View_payments(){
                  if(!empty($this->session->userdata('admin_data'))){
 
                    $data['user_name']=$this->load->get_var('user_name');
@@ -25,7 +25,7 @@ $this->db->from('tbl_doctor');
 $data['doctor_data']= $this->db->get();
 
                    $this->load->view('admin/common/header_view',$data);
-                   $this->load->view('admin/Payments/view_payments');
+                   $this->load->view('admin/payments/View_payments');
                    $this->load->view('admin/common/footer_view');
 
                }
