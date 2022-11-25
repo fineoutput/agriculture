@@ -19,7 +19,7 @@
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="fa fa-viacoin"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">TOTAL TEAM</span>
                   <span class="info-box-number"><?=$team?></span>
@@ -28,7 +28,7 @@
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+                <span class="info-box-icon bg-red"><i class="fa fa-venus-mars"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Doctor</span>
                   <span class="info-box-number"><?=$doctor;?></span>
@@ -41,7 +41,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+                <span class="info-box-icon bg-green"><i class="fa fa-user-secret"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Farmer</span>
                   <span class="info-box-number">
@@ -65,7 +65,7 @@
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="ion ion-ios-gear-outline"></i></span>
+                <span class="info-box-icon bg-black"><i class="fa fa-shirtsinbulk"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Product</span>
                   <span class="info-box-number"><?=$product?></span>
@@ -75,7 +75,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-black"><i class="fa-solid fa-credit-card"></i></span>
+                <span class="info-box-icon bg-blue"><i class="fa fa-simplybuilt"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Payments</span>
                   <span class="info-box-number"><?=$payments?></span>
