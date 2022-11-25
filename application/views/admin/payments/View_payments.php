@@ -45,7 +45,7 @@ Payments
                             <th>Type</th>
                             <th>Amount</th>
                             <th>Date</th>
-                            <!-- <th>Status</th> -->
+                            <th>Status</th>
                             <th>Action</th>
                               </tr>
                           </thead>
@@ -81,7 +81,7 @@ Payments
           ?></td>
       <td><?php echo $data->amount ?></td>
       <td><?php echo $data->date ?></td>
-        <!-- <td><?php if($data->is_active==1){ ?>
+        <td><?php if($data->is_active==1){ ?>
 <p class="label bg-green" >Active</p>
 
 <?php } else { ?>
@@ -89,7 +89,7 @@ Payments
 
 
 <?php		}   ?>
-</td> -->
+</td>
 <td>
 <div class="btn-group" id="btns<?php echo $i ?>">
 <div class="btn-group">
@@ -97,11 +97,11 @@ Payments
 <ul class="dropdown-menu" role="menu">
 
 <?php if($data->is_active==1){ ?>
-<li><a href="<?php echo base_url() ?>admin/home/updateteamStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/payments/updatepaymentsStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
 <?php } else { ?>
-<li><a href="<?php echo base_url() ?>admin/course/updateteamStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/payments/updatepaymentsStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
 <?php		}   ?>
-<li><a href="<?php echo base_url() ?>admin/home/update_team/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+<!-- <li><a href="<?php echo base_url() ?>dcadmin/payments/update_payments/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
 </div>

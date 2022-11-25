@@ -94,9 +94,9 @@ $data['doctor_data']= $this->db->get();
 						'vendor_doctor_name'=>$vendor_doctor,
                     'type'=>$type_colume,
                     'amount'=>$amount_colume,
-                    // 'ip' =>$ip,
-                    // 'added_by' =>$addedby,
-                    // 'is_active' =>1,
+                    'ip' =>$ip,
+                    'added_by' =>$addedby,
+                    'is_active' =>1,
                     'date'=>$cur_date
 
                     );
@@ -183,7 +183,65 @@ public function delete_payments($idd){
              }
 
              }
+//****************************************update status**********************************
+public function updatepaymentsStatus($idd,$t){
 
+         if(!empty($this->session->userdata('admin_data'))){
+
+
+           $data['user_name']=$this->load->get_var('user_name');
+
+           $id=base64_decode($idd);
+
+           if($t=="active"){
+
+             $data_update = array(
+         'is_active'=>1
+
+         );
+
+         $this->db->where('id', $id);
+        $zapak=$this->db->update('tbl_payments', $data_update);
+
+             if($zapak!=0){
+             redirect("dcadmin/payments/view_payments","refresh");
+                     }
+                     else
+                     {
+                       echo "Error";
+                       exit;
+                     }
+           }
+           if($t=="inactive"){
+             $data_update = array(
+          'is_active'=>0
+
+          );
+
+          $this->db->where('id', $id);
+          $zapak=$this->db->update('tbl_payments', $data_update);
+
+              if($zapak!=0){
+              redirect("dcadmin/payments/view_payments","refresh");
+                      }
+                      else
+                      {
+
+          $data['e']="Error Occured";
+                          	// exit;
+        	$this->load->view('errors/error500admin',$data);
+                      }
+           }
+
+
+
+       }
+       else{
+
+           $this->load->view('admin/login/index');
+       }
+
+       }
 
 
 
