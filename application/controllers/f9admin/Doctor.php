@@ -655,12 +655,15 @@ if($this->input->post())
 
 
 $this->form_validation->set_rules('fees', 'fees', 'xss_clean');
+$this->form_validation->set_rules('expertise', 'expertise', 'xss_clean');
 
 
 
 if($this->form_validation->run()== TRUE)
 {
 $fees=$this->input->post('fees');
+$expertise=$this->input->post('expertise');
+
 $id=base64_decode($y);
 $data['id']=$y;
 
@@ -679,6 +682,7 @@ $addedby=$this->session->userdata('admin_id');
 
 
 $data_update = array('fees'=>$fees,
+'expertise'=>$expertise,
 'is_active2'=>1
 );
 $this->db->where('id', $id);

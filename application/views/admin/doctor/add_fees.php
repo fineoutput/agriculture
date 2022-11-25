@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Vendor 
+Add New Vendor
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -47,6 +47,13 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td> <strong>Fees</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="fees"  class="form-control" placeholder="" required value="" />
+</td>
+</tr>
+
+<tr>
+<td> <strong>Expertise</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="expertise"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 

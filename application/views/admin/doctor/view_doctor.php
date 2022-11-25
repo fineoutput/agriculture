@@ -1,7 +1,7 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Doctor 
+Doctor
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -57,11 +57,9 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>Degree (Punjabi)</th>
 <th>Experiance</th>
 <th>Assistant</th>
-
 <th>Fees</th>
-
+<th>Expertise</th>
 <th>Comission</th>
-
 <th>Education Qualification</th>
 <th>District (English)</th>
 <th>District (Hindi)</th>
@@ -129,7 +127,7 @@ else{
 <td><?php echo $data->experience ?></td>
 <td><?php echo $data->assistant ?></td>
 <td><?php echo $data->fees ?></td>
-
+<td><?php echo $data->expertise ?></td>
 <td><?php echo $data->comission ?></td>
 
 <td><?php echo $data->education_qualification	 ?></td>

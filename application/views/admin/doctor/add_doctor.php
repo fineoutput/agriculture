@@ -1,7 +1,20 @@
   <div class="content-wrapper">
   <section class="content-header">
+    <style>
+        input[type=radio]#Yellow {
+            accent-color: pink;
+        }
+
+        input[type=radio]#Green {
+            accent-color: rgb(0, 255, 0);
+        }
+
+        input[type=radio]#Red {
+            accent-color: #FF0000;
+        }
+    </style>
   <h1>
-  Add New doctor 
+  Add New doctor
   </h1>
   <ol class="breadcrumb">
   <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -76,34 +89,24 @@
       <input type="file" name="image"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
-
-      <tr>
-      <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
-      <td>
-      <input type="text" name="type_colume"  class="form-control" placeholder="" required value="" />
-      </td>
-      </tr>
-
-      <tr>
-        <td> <strong>Vet</strong>  <span style="color:red;">*</span></strong> </td>
-        <td>
-          <input type="checkbox" name="vet"   placeholder=""  value="1"  />
-        </td>
-      </tr>
+<!-- *****************************************type radio button***************************************************** -->
+                <tr>
+                <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
+                <td><input type="radio" id="Yellow" name="type_colume" value="Yellow">
+                <label for="Yellow">Vet</label>
+                <option value="Degree">Degree</option>
+                <option value="Experiance">Experiance</option>
 
 
+                <br>
+                <input type="radio" id="Green" name="type_colume" value="Assistant">
+                <label for="Green">Assistant</label><br>
 
-
-      <tr>
-      <td> <strong>Private Practitioner</strong>  <span style="color:red;">*</span></strong> </td>
-      <td>
-      <input type="checkbox" name="private_colume"   placeholder="" value="1" />
-      </td>
-      </tr>
-
-
-
-
+                <input type="radio" id="Red" name="type_colume" value="Private Practitioner">
+                <label for="Red">Private Practitioner
+                </label>
+                </td>
+                </tr>
 
       <tr>
       <td> <strong>Degree (English)</strong>  <span style="color:red;">*</span></strong> </td>
@@ -133,7 +136,19 @@
       <input type="text" name="experiance_colume"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
+      <tr>
+        <td> <strong>Vet</strong>  <span style="color:red;">*</span></strong> </td>
+        <td>
+          <input type="checkbox" name="vet"   placeholder=""  value="1"  />
+        </td>
+      </tr>
 
+      <tr>
+      <td> <strong>Private Practitioner</strong>  <span style="color:red;">*</span></strong> </td>
+      <td>
+      <input type="checkbox" name="private_colume"   placeholder="" value="1" />
+      </td>
+      </tr>
 
       <tr>
       <td> <strong>Assistant</strong>  <span style="color:red;">*</span></strong> </td>
@@ -175,7 +190,6 @@
       <tr>
       <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <!-- <input type="text" name="state_colume"  class="form-control" placeholder="" required value="" /> -->
       <select class="form-control" name="state_colume" id="states">
         <option value="">---state---</option>
         <?php foreach ($state_data->result() as $a){?>

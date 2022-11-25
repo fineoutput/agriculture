@@ -2,7 +2,7 @@
 <section class="content-header">
 <h1>
 Add New Team
-</h1> 
+</h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
 <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Team </a></li>
@@ -86,12 +86,24 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
     </tr>
 
-    <tr>
-    <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
-    <td>
-    <input type="text" name="type_colume"  class="form-control" placeholder="" required value="<?=$doctor->type?>" />
-    </td>
-    </tr>
+<!-- *****************************************type radio button***************************************************** -->
+                <tr>
+                <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
+                <td><input type="radio" id="Yellow" name="type_colume" value="<?=$doctor->type?>">
+                <label for="Yellow">Vet</label>
+                <option value="Degree">Degree</option>
+                <option value="Experiance">Experiance</option>
+
+
+                <br>
+                <input type="radio" id="Green" name="type_colume" value="<?=$doctor->type?>">
+                <label for="Green">Assistant</label><br>
+
+                <input type="radio" id="Red" name="type_colume" value="<?=$doctor->type?>">
+                <label for="Red">Private Practitioner
+                </label>
+                </td>
+                </tr>
 
 
 
