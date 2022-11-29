@@ -97,8 +97,8 @@ $this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
 
 
 $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
-$this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
-$this->form_validation->set_rules('type_colume2', 'type_colume2', 'required|xss_clean');
+$this->form_validation->set_rules('type_colume', 'type_colume', 'xss_clean');
+// $this->form_validation->set_rules('type_colume2', 'type_colume2', 'xss_clean');
 
 $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
 $this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
@@ -127,7 +127,7 @@ $name_hindi=$this->input->post('name_hindi');
 $name_punjabi=$this->input->post('name_punjabi');
 $email=$this->input->post('email');
 $type_colume=$this->input->post('type_colume');
-$type_colume2=$this->input->post('type_colume2');
+// $type_colume2=$this->input->post('type_colume2');
 $vet=$this->input->post('vet');
 $private_colume=$this->input->post('private_colume');
 
@@ -196,7 +196,7 @@ $data_insert = array(
 'email'=>$email,
 'image'=>$image,
 'type'=>$type_colume,
-'type'=>$type_colume2,
+// 'type'=>$type_colume2,
 'vet'=>$vet,
 'private_practitioner'=>$private_colume,
 

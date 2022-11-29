@@ -252,13 +252,13 @@
 
   <!-- ----------------------------------  vet radio button function ------------------------------------------- -->
   <script>
-    function change(x) {
-      if (x == 1) {
-        $('#change2').html('<td><strong>Degree</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume" value="Vet" class="form-control" placeholder="Degree" onkeypress="return isNumberKey(event)"/></td><br><td><strong>Experiance</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume2" value="Experiance" class="form-control" placeholder="Experiance " onkeypress="return isNumberKey(event)"/></td');
-      } else {
-        $('#change2').html('');
-      }
-    }
+  function change(x) {
+  if (x == 1) {
+  $('#change2').html('<td><strong>Degree</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume" value="Vet" class="form-control" placeholder="Degree" onkeypress="return isNumberKey(event)"/></td><br><td><strong>Experiance</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="" value="Experiance" class="form-control" placeholder="Experiance " onkeypress="return isNumberKey(event)"/></td');
+  } else {
+  $('#change2').html('');
+  }
+  }
   </script>
 
   <script >

@@ -1,5 +1,18 @@
 <div class="content-wrapper">
 <section class="content-header">
+  <style>
+      input[type=radio]#Yellow {
+          accent-color: pink;
+      }
+
+      input[type=radio]#Green {
+          accent-color: rgb(0, 255, 0);
+      }
+
+      input[type=radio]#Red {
+          accent-color: #FF0000;
+      }
+  </style>
 <h1>
 Add New Team
 </h1>
@@ -87,23 +100,25 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     </tr>
 
 <!-- *****************************************type radio button***************************************************** -->
-                <tr>
-                <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
-                <td><input type="radio" id="Yellow" name="type_colume" value="<?=$doctor->type?>">
-                <label for="Yellow">Vet</label>
-                <option value="Degree">Degree</option>
-                <option value="Experiance">Experiance</option>
+<tr>
+<td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
 
+<td><input type="radio" id="Red" onclick="change(1)">
+<label for="Red">Vet</label>
+<br>
+<input type="radio" id="Green" name="type_colume" value="<?=$doctor->type?>"onclick="change(2)">
+<label for="Green">Assistant</label>
+<br>
+<input type="radio"  id="Yellow" name="type_colume" value="<?=$doctor->type?>">
+<label for="Yellow">Private Practitioner
+</label>
+</td>
+</tr>
+<tr  id="change2">
 
-                <br>
-                <input type="radio" id="Green" name="type_colume" value="<?=$doctor->type?>">
-                <label for="Green">Assistant</label><br>
+</tr>
+<!-- ********************************************************************************************************************* -->
 
-                <input type="radio" id="Red" name="type_colume" value="<?=$doctor->type?>">
-                <label for="Red">Private Practitioner
-                </label>
-                </td>
-                </tr>
 
 
 
@@ -251,7 +266,16 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
 
-
+<!-- ----------------------------------  vet radio button function ------------------------------------------- -->
+<script>
+function change(x) {
+if (x == 1) {
+$('#change2').html('<td><strong>Degree</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume" value="Vet" class="form-control" placeholder="Degree" onkeypress="return isNumberKey(event)"/></td><br><td><strong>Experiance</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="" value="Experiance" class="form-control" placeholder="Experiance " onkeypress="return isNumberKey(event)"/></td');
+} else {
+$('#change2').html('');
+}
+}
+</script>
 
 <script >
 $(document).ready(function(){
