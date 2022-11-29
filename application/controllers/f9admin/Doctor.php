@@ -98,11 +98,10 @@ $this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
 
 $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
 $this->form_validation->set_rules('type_colume', 'type_colume', 'required|xss_clean');
+$this->form_validation->set_rules('type_colume2', 'type_colume2', 'required|xss_clean');
 
 $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
 $this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
-
-
 
 $this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
 $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
@@ -128,8 +127,9 @@ $name_hindi=$this->input->post('name_hindi');
 $name_punjabi=$this->input->post('name_punjabi');
 $email=$this->input->post('email');
 $type_colume=$this->input->post('type_colume');
+$type_colume2=$this->input->post('type_colume2');
 $vet=$this->input->post('vet');
-;                $private_colume=$this->input->post('private_colume');
+$private_colume=$this->input->post('private_colume');
 
 $degree_english=$this->input->post('degree_english');
 $degree_hindi=$this->input->post('degree_hindi');
@@ -176,9 +176,7 @@ $file_info = $this->upload->data();
 
 $image = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
 $file_info['new_name']=$image;
-// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
 $nnnn=$file_info['file_name'];
-// echo json_encode($file_info);
 }
 }
 //----------image tag end-------------------
@@ -198,6 +196,7 @@ $data_insert = array(
 'email'=>$email,
 'image'=>$image,
 'type'=>$type_colume,
+'type'=>$type_colume2,
 'vet'=>$vet,
 'private_practitioner'=>$private_colume,
 
@@ -634,25 +633,14 @@ redirect("login/admin_login","refresh");
 
 
 public function add_doctor_data3($y)
-
-
-
 {
-
-
-
 if(!empty($this->session->userdata('admin_data'))){
-
-
-
 
 $this->load->helper(array('form', 'url'));
 $this->load->library('form_validation');
 $this->load->helper('security');
 if($this->input->post())
 {
-
-
 
 $this->form_validation->set_rules('fees', 'fees', 'xss_clean');
 $this->form_validation->set_rules('expertise', 'expertise', 'xss_clean');
@@ -676,9 +664,6 @@ $cur_date=date("Y-m-d H:i:s");
 
 
 $addedby=$this->session->userdata('admin_id');
-
-
-
 
 
 $data_update = array('fees'=>$fees,

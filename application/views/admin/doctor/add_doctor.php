@@ -89,24 +89,26 @@
       <input type="file" name="image"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
+
 <!-- *****************************************type radio button***************************************************** -->
                 <tr>
                 <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
-                <td><input type="radio" id="Yellow" name="type_colume" value="Yellow">
-                <label for="Yellow">Vet</label>
-                <option value="Degree">Degree</option>
-                <option value="Experiance">Experiance</option>
 
-
+                <td><input type="radio" id="Red" onclick="change(1)">
+                <label for="Red">Vet</label>
                 <br>
-                <input type="radio" id="Green" name="type_colume" value="Assistant">
-                <label for="Green">Assistant</label><br>
-
-                <input type="radio" id="Red" name="type_colume" value="Private Practitioner">
-                <label for="Red">Private Practitioner
+                <input type="radio" id="Green" name="type_colume" value="Assistant"onclick="change(2)">
+                <label for="Green">Assistant</label>
+                <br>
+                <input type="radio"  id="Yellow" name="type_colume" value="Private Practitioner">
+                <label for="Yellow">Private Practitioner
                 </label>
                 </td>
                 </tr>
+                <tr  id="change2">
+
+                </tr>
+  <!-- *******************************************************************************************************************  -->
 
       <tr>
       <td> <strong>Degree (English)</strong>  <span style="color:red;">*</span></strong> </td>
@@ -136,6 +138,7 @@
       <input type="text" name="experiance_colume"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
+
       <tr>
         <td> <strong>Vet</strong>  <span style="color:red;">*</span></strong> </td>
         <td>
@@ -149,7 +152,6 @@
       <input type="checkbox" name="private_colume"   placeholder="" value="1" />
       </td>
       </tr>
-
       <tr>
       <td> <strong>Assistant</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
@@ -190,6 +192,7 @@
       <tr>
       <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
+      <!-- <input type="text" name="state_colume"  class="form-control" placeholder="" required value="" /> -->
       <select class="form-control" name="state_colume" id="states">
         <option value="">---state---</option>
         <?php foreach ($state_data->result() as $a){?>
@@ -213,8 +216,8 @@
       <tr>
       <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text"     onkeypress="return isNumberKey(event)"
-name="phone_colume"  class="form-control" maxlength="10" minlength="10"  placeholder="" required value="" />
+      <input type="text" onkeypress="return isNumberKey(event)"
+       name="phone_colume"  class="form-control" maxlength="10" minlength="10"  placeholder="" required value="" />
       </td>
       </tr>
 
@@ -247,6 +250,16 @@ name="phone_colume"  class="form-control" maxlength="10" minlength="10"  placeho
   <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
   <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
 
+  <!-- ----------------------------------  vet radio button function ------------------------------------------- -->
+  <script>
+    function change(x) {
+      if (x == 1) {
+        $('#change2').html('<td><strong>Degree</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume" value="Vet" class="form-control" placeholder="Degree" onkeypress="return isNumberKey(event)"/></td><br><td><strong>Experiance</strong> <span style="color:red;">*</span></strong> </td><td><input type="text" name="type_colume2" value="Experiance" class="form-control" placeholder="Experiance " onkeypress="return isNumberKey(event)"/></td');
+      } else {
+        $('#change2').html('');
+      }
+    }
+  </script>
 
   <script >
   $(document).ready(function(){
