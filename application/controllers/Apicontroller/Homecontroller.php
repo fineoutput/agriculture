@@ -56,19 +56,20 @@ echo json_encode($res);
 }
 
 //================================= GET Data =================================//
-//***********************************GET SLIDER Function************************************
-public function get_slider()
+//***********************************SUBSCRIPTION PLAN Function************************************
+public function subscription_plan()
 
 {
-    $Get_data = $this->db->get_where('tbl_slider', array('is_active'=> 1))->result();
+    $Subscription_data = $this->db->get_where('tbl_subscription', array('is_active'=> 1))->result();
     $data=[];
-    foreach ($Get_data as $GET) {
-        if (!empty($GET->image)) {
-            $image=base_url().$GET->image;
+    foreach ($Subscription_data as $a) {
+        if (!empty($a->image)) {
+            $image=base_url().$a->image;
         } else {
             $image='';
         }
-        $data[]=array('image'=>$GET->image
+        $data[]=array('name'=>$a->name,
+                      'price'=>$a->price
                  );
     }
     $res=array(

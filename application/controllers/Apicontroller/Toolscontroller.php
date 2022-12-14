@@ -1,8 +1,4 @@
 <?php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
 if (! defined('BASEPATH')) {
 exit('No direct script access allowed');
 }
@@ -16,7 +12,6 @@ $this->load->model("admin/base_model");
 $this->load->library('pagination');
 }
 //================================= Post Data =================================//
-
 //***********************************Silage_making Function************************************
 public function Silage_making()
 {
@@ -79,6 +74,7 @@ $res=array(
 echo json_encode($res);
 }
 }
+//================================= Post Data =================================//
 //***********************************Pregnancy Function************************************
 public function pregnancy_calculator()
 {
@@ -127,8 +123,6 @@ echo json_encode($res);
 }
 }
 //================================= GET Data =================================//
-
-
 //*************************************DAIRY MART FUNCTION*********************************************
 public function dairy_mart()
 
@@ -161,7 +155,7 @@ public function dairy_mart()
                 );
     echo json_encode($res);
 }
-
+//================================= GET Data =================================//
 //*************************************Doctor On Call FUNCTION*********************************************
 public function doctor_on_call()
 
@@ -190,6 +184,7 @@ public function doctor_on_call()
                 );
     echo json_encode($res);
 }
+//================================= GET Data =================================//
 //*************************************Expert Advice FUNCTION*********************************************
 public function expert_advice()
 
@@ -225,7 +220,8 @@ public function expert_advice()
                 );
     echo json_encode($res);
 }
-//*************************************Expert Advice FUNCTION*********************************************
+//================================= GET Data =================================//
+//*************************************Radius Vendor FUNCTION*********************************************
 public function radius_vendor()
 
 {
