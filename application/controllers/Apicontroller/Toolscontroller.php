@@ -79,7 +79,7 @@ $res=array(
 echo json_encode($res);
 }
 }
-//***********************************Silage_making Function************************************
+//***********************************Pregnancy Function************************************
 public function pregnancy_calculator()
 {
 $this->load->helper(array('form', 'url'));
@@ -126,8 +126,98 @@ $res=array(
 echo json_encode($res);
 }
 }
+//================================= GET Data =================================//
 
 
+//*************************************DAIRY MART FUNCTION*********************************************
+public function dairy_mart()
+
+{
+    $City_data = $this->db->get_where('tbl_products', array('is_active'=> 1))->result();
+    $data=[];
+    foreach ($City_data as $API) {
+        if (!empty($API->image)) {
+            $image=base_url().$API->image;
+        } else {
+            $image='';
+        }
+        $data[]=array('name_english'=>$API->name_english,
+                   'name_hindi'=>$API->name_hindi,
+                   'name_punjabi'=>$API->name_punjabi,
+                   'description_english'=>$API->description_english,
+                   'description_hindi'=>$API->description_hindi,
+                   'description_punjabi'=>$API->description_punjabi,
+                   'image1'=>$API->image1,
+                   'image2'=>$API->image2,
+                   'mrp'=>$API->mrp,
+                   'selling_price'=>$API->selling_price,
+                   'inventory'=>$API->inventory
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
+
+//*************************************Doctor On Call FUNCTION*********************************************
+public function doctor_on_call()
+
+{
+    $City_data = $this->db->get_where('tbl_doctor', array('is_active2'=> 0))->result();
+    $data=[];
+    foreach ($City_data as $DOCTOR) {
+        if (!empty($DOCTOR->image)) {
+            $image=base_url().$DOCTOR->image;
+        } else {
+            $image='';
+        }
+        $data[]=array('name_english'=>$DOCTOR->name_english,
+                   'name_hindi'=>$DOCTOR->name_hindi,
+                   'name_punjabi'=>$DOCTOR->name_punjabi,
+                   'email'=>$DOCTOR->email,
+                    'degree_english'=>$DOCTOR->degree_english,
+                    'degree_hindi'=>$DOCTOR->degree_hindi,
+                    'degree_punjabi'=>$DOCTOR->degree_punjabi
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
+//*************************************Expert Advice FUNCTION*********************************************
+public function expert_advice()
+
+{
+    $City_data = $this->db->get_where('tbl_doctor', array('is_active2'=> 1))->result();
+    $data=[];
+    foreach ($City_data as $DOCTOR) {
+        if (!empty($DOCTOR->image)) {
+            $image=base_url().$DOCTOR->image;
+        } else {
+            $image='';
+        }
+        $data[]=array('name_english'=>$DOCTOR->name_english,
+                   'name_hindi'=>$DOCTOR->name_hindi,
+                   'name_punjabi'=>$DOCTOR->name_punjabi,
+                   'email'=>$DOCTOR->email,
+                    'degree_english'=>$DOCTOR->degree_english,
+                    'degree_hindi'=>$DOCTOR->degree_hindi,
+                    'degree_punjabi'=>$DOCTOR->degree_punjabi
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
 
 
 }?>
