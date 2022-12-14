@@ -260,5 +260,4 @@ public function radius_vendor()
     echo json_encode($res);
 }
 
-
 }?>

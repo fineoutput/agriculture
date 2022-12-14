@@ -54,7 +54,29 @@ $res=array(
 echo json_encode($res);
 }
 }
+//================================= GET Data =================================//
+//***********************************GET SLIDER Function************************************
+public function get_slider()
 
+{
+    $Slider_data = $this->db->get_where('tbl_slider', array('is_active'=> 1))->result();
+    $data=[];
+    foreach ($Slider_data as $a) {
+        if (!empty($a->image)) {
+            $image=base_url().$a->image;
+        } else {
+            $image='';
+        }
+        $data[]=array('image'=>$a->image
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
 //================================= GET Data =================================//
 //***********************************SUBSCRIPTION PLAN Function************************************
 public function subscription_plan()
