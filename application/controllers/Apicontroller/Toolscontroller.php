@@ -229,7 +229,7 @@ public function expert_advice()
 public function radius_vendor()
 
 {
-    $Vendor_data = $this->db->get_where('tbl_vendor', array('is_active'=> 1))->result();
+    $Vendor_data = $this->db->get_where('tbl_vendor', array('is_active'=> 0))->result();
     $data=[];
     foreach ($Vendor_data as $Vendor)
     {
@@ -241,7 +241,19 @@ public function radius_vendor()
 
         $data[]=array('name_english'=>$Vendor->name_english,
                    'name_hindi'=>$Vendor->name_hindi,
-                   'name_punjabi'=>$Vendor->name_punjabi
+                   'name_punjabi'=>$Vendor->name_punjabi,
+                   'shop_name_english'=>$Vendor->shop_name_english,
+                    'shop_name_hindi'=>$Vendor->shop_name_hindi,
+                    'shop_name_punjabi'=>$Vendor->shop_name_punjabi,
+                    'address_english'=>$Vendor->address_english,
+                     'address_hindi'=>$Vendor->address_hindi,
+                     'address_punjabi'=>$Vendor->address_punjabi,
+                     'district_english'=>$Vendor->district_english,
+                     'district_hindi'=>$Vendor->district_hindi,
+                     'district_punjabi'=>$Vendor->district_punjabi,
+                      'city'=>$Vendor->city,
+                      'state'=>$Vendor->state,
+                      'pincode'=>$Vendor->pincode
                  );
     }
     $res=array(
