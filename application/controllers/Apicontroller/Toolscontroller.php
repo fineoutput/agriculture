@@ -194,21 +194,54 @@ public function doctor_on_call()
 public function expert_advice()
 
 {
-    $City_data = $this->db->get_where('tbl_doctor', array('is_active2'=> 1))->result();
+    $Expert_data = $this->db->get_where('tbl_doctor', array('is_active2'=> 1))->result();
     $data=[];
-    foreach ($City_data as $DOCTOR) {
-        if (!empty($DOCTOR->image)) {
-            $image=base_url().$DOCTOR->image;
-        } else {
-            $image='';
-        }
-        $data[]=array('name_english'=>$DOCTOR->name_english,
-                   'name_hindi'=>$DOCTOR->name_hindi,
-                   'name_punjabi'=>$DOCTOR->name_punjabi,
-                   'email'=>$DOCTOR->email,
-                    'degree_english'=>$DOCTOR->degree_english,
-                    'degree_hindi'=>$DOCTOR->degree_hindi,
-                    'degree_punjabi'=>$DOCTOR->degree_punjabi
+    foreach ($Expert_data as $Expert)
+    {
+        // if (!empty($Expert->image)) {
+        //     $image=base_url().$Expert->image;
+        // } else {
+        //     $image='';
+        // }
+
+        $data[]=array('name_english'=>$Expert->name_english,
+                   'name_hindi'=>$Expert->name_hindi,
+                   'name_punjabi'=>$Expert->name_punjabi,
+                   'email'=>$Expert->email,
+                   'type'=>$Expert->type,
+                    'degree_english'=>$Expert->degree_english,
+                    'degree_hindi'=>$Expert->degree_hindi,
+                    'degree_punjabi'=>$Expert->degree_punjabi,
+                    'education_qualification'=>$Expert->education_qualification,
+                    'city'=>$Expert->city,
+                    'state'=>$Expert->state,
+                    'phone_number'=>$Expert->phone_number
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
+//*************************************Expert Advice FUNCTION*********************************************
+public function radius_vendor()
+
+{
+    $Vendor_data = $this->db->get_where('tbl_vendor', array('is_active'=> 1))->result();
+    $data=[];
+    foreach ($Vendor_data as $Vendor)
+    {
+        // if (!empty($Expert->image)) {
+        //     $image=base_url().$Expert->image;
+        // } else {
+        //     $image='';
+        // }
+
+        $data[]=array('name_english'=>$Vendor->name_english,
+                   'name_hindi'=>$Vendor->name_hindi,
+                   'name_punjabi'=>$Vendor->name_punjabi
                  );
     }
     $res=array(
