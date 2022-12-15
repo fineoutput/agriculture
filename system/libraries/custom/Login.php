@@ -21,7 +21,7 @@ class CI_Login
             $ip = $this->CI->input->ip_address();
             date_default_timezone_set("Asia/Calcutta");
             $cur_date=date("Y-m-d H:i:s");
-            $userCheck = $this->CI->db->get_where('tbl_users', array('phone'=> $phone))->result();
+            $userCheck = $this->CI->db->get_where('tbl_farmer', array('phone'=> $phone))->result();
             if (empty($userCheck)) {//---- check user is exist or not ---------
                 //------- insert into temp table ------------
                 $data_insert = array(
@@ -35,7 +35,7 @@ class CI_Login
             'ip' =>$ip,
             'date'=>$cur_date
             );
-                $last_id=$this->CI->base_model->insert_table("tbl_user_temp", $data_insert, 1) ;
+                $last_id=$this->CI->base_model->insert_table("tbl_farmer_temp", $data_insert, 1) ;
                 $OTP = random_int(100000, 999999);
                 // $OTP = 123456;
                 //--------------- Insert data into OTP table -----
@@ -88,7 +88,7 @@ class CI_Login
               $this->CI->db->where('id', $otpData[0]->id);
               $last_id=$this->CI->db->update('tbl_otp', $data_insert);
               if (!empty($last_id)) {// check status is updated or not
-                  $temp_data = $this->CI->db->get_where('tbl_user_temp', array('phone'=> $otpData[0]->phone))->result();
+                  $temp_data = $this->CI->db->get_where('tbl_farmer_temp', array('phone'=> $otpData[0]->phone))->result();
                   //------ insert user data from temp to user table -----------
                   $data_insert = array('name'=>$temp_data[0]->name,
                        'village'=>$temp_data[0]->village,
@@ -101,7 +101,7 @@ class CI_Login
                        'is_active' =>1,
                        'date'=>$cur_date
                 );
-                  $last_id2=$this->CI->base_model->insert_table("tbl_users", $data_insert, 1) ;
+                  $last_id2=$this->CI->base_model->insert_table("tbl_farmer", $data_insert, 1) ;
                   //---------- set login session -------------------
                   $this->CI->session->set_userdata('user_data', 1);
                   $this->CI->session->set_userdata('name', $temp_data[0]->name);
@@ -150,7 +150,7 @@ class CI_Login
             date_default_timezone_set("Asia/Calcutta");
             $cur_date=date("Y-m-d H:i:s");
             //------ Check for user  exist or not ----------
-            $userCheck = $this->CI->db->get_where('tbl_users', array('phone'=> $phone))->result();
+            $userCheck = $this->CI->db->get_where('tbl_farmer', array('phone'=> $phone))->result();
             if (empty($userCheck)) {//--------------- user not found -----------------
               $respone['status'] = false;
               $respone['message'] ='User Not Found! Please Register First';
@@ -213,13 +213,13 @@ class CI_Login
                     $this->CI->db->where('id', $otpData[0]->id);
                     $last_id=$this->CI->db->update('tbl_otp', $data_insert);
                     if (!empty($last_id)) {// check status is updated or not
-                        $user_data = $this->CI->db->get_where('tbl_users', array('phone'=> $phone))->result();
+                        $user_data = $this->CI->db->get_where('tbl_farmer', array('phone'=> $phone))->result();
                         if ($user_data[0]->is_active==1) {
                             $auth =bin2hex(random_bytes(18));//--- generate auth ---
                             $data_update = array('auth'=>$auth,
                           );
                             $this->CI->db->where('id', $user_data[0]->id);
-                            $zapak=$this->CI->db->update('tbl_users', $data_update);
+                            $zapak=$this->CI->db->update('tbl_farmer', $data_update);
                             $respone['status'] = true;
                             $respone['message'] ='Login Successfully';
                             $respone['data'] =$auth;
