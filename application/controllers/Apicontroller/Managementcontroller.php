@@ -21,7 +21,7 @@ class Managementcontroller extends CI_Controller
     $this->load->helper('security');
     if ($this->input->post()) {
       $headers = apache_request_headers();
-      $auth = $headers['auth'];
+      $authentication = $headers['auth'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
       $this->form_validation->set_rules('silage', 'silage', 'required|xss_clean|trim');
@@ -81,7 +81,7 @@ class Managementcontroller extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
 
 
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $auth))->result();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
 
 
