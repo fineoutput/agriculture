@@ -21,7 +21,7 @@ class Managementcontroller extends CI_Controller
     $this->load->helper('security');
     if ($this->input->post()) {
       $headers = apache_request_headers();
-      $authentication = $headers['auth'];
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
       $this->form_validation->set_rules('silage', 'silage', 'required|xss_clean|trim');
