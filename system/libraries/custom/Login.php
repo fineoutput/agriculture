@@ -90,6 +90,8 @@ class CI_Login
               if (!empty($last_id)) {// check status is updated or not
                   $temp_data = $this->CI->db->get_where('tbl_farmer_temp', array('phone'=> $otpData[0]->phone))->result();
                   //------ insert user data from temp to user table -----------
+
+                  
                   $data_insert = array('name'=>$temp_data[0]->name,
                        'village'=>$temp_data[0]->village,
                        'district'=>$temp_data[0]->district,
