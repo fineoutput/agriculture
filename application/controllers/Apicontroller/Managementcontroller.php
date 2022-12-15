@@ -79,7 +79,7 @@ $others5 = $this->input->post('others5');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -115,8 +115,7 @@ $data = array(
   'others4' => $others4,
   'others5' => $others5,
   'ip' =>$ip,
-  'added_by' =>$addedby,
-  'is_active' =>1,
+ 
   'date'=>$cur_date
 
 
@@ -176,7 +175,7 @@ $animal = $this->input->post('animal');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -193,8 +192,7 @@ $data = array(
   'group_id' => $group_id,
   'animal' => $animal,
   'ip' =>$ip,
-  'added_by' =>$addedby,
-  'is_active' =>1,
+ 
   'date'=>$cur_date
 
 
@@ -254,8 +252,8 @@ $animal_expense = $this->input->post('animal_expense');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
-//================================IMAGE UPLODE BANNER
+
+//================================IMAGE UPLODE ===========================================================//
 
 $this->load->library('upload');
 $img1 = 'image1';
@@ -389,8 +387,7 @@ $data = array(
   'image3' => $nnnn3,
   'image4' => $nnnn4,
   'ip' =>$ip,
-  'added_by' =>$addedby,
-  'is_active' =>1,
+
   'date'=>$cur_date
 
 
@@ -454,7 +451,7 @@ $other5=$this->input->post('other5');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 $data=[];
@@ -469,8 +466,7 @@ $data=array('date'=>$date,
 'other4'=>$other4,
 'other5'=>$other5,
 'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
+
 'date'=>$cur_date
 );
 
@@ -529,7 +525,7 @@ $animal_income=$this->input->post('animal_income');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 $data=[];
 $data=array('filter_reports_by_calendar'=>$filter_reports_by_calendar,
@@ -542,8 +538,7 @@ $data=array('filter_reports_by_calendar'=>$filter_reports_by_calendar,
 'animal_expenses'=>$animal_expenses,
 'animal_income'=>$animal_income,
 'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
+
 'date'=>$cur_date
 );
 
@@ -643,7 +638,7 @@ $calcium=$this->input->post('calcium');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -664,8 +659,7 @@ $data=array('date'=>$date,
 'yeast'=>$yeast,
 'calcium'=>$calcium,
 'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
+
 'date'=>$cur_date
 );
 
@@ -709,7 +703,7 @@ $name=$this->input->post('name');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -717,8 +711,7 @@ $data=[];
 $data=array('name'=>$name,
 
 'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
+
 'date'=>$cur_date
 );
 
@@ -772,7 +765,7 @@ $milk_production_of_mounts = $this->input->post('milk_production_of_mounts');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -790,8 +783,7 @@ $data = array(
  
 
   'ip' =>$ip,
-  'added_by' =>$addedby,
-  'is_active' =>1,
+
   'date'=>$cur_date
 
 

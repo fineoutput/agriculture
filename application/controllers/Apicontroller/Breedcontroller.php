@@ -54,10 +54,10 @@ $other4=$this->input->post('other4');
 $other5=$this->input->post('other5');
 $milk_loss=$this->input->post('milk_loss');
 $treat_cost=$this->input->post('treat_cost');
-$ip = $this->input->ip_address();
+
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 
@@ -77,9 +77,8 @@ $data=array('group_id'=>$group_id,
            'other5'=>$other5,
            'milk_loss'=>$milk_loss,
            'treat_cost'=>$treat_cost,
-           'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
+
+
 'date'=>$cur_date
          );
 
@@ -139,7 +138,7 @@ $pregnancy_status=$this->input->post('pregnancy_status');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
+
 
 
 $data=[];
@@ -154,8 +153,8 @@ $data=array('group_id'=>$group_id,
            'vet_name'=>$vet_name,
            'pregnancy_status'=>$pregnancy_status,
            'ip' =>$ip,
-           'added_by' =>$addedby,
-           'is_active' =>1,
+          
+          
            'date'=>$cur_date
          
          );
@@ -215,7 +214,6 @@ $age=$this->input->post('age');
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
-$addedby=$this->session->userdata('admin_id');
 
 $data=[];
 $data=array('animal_type'=>$animal_type,
@@ -226,9 +224,8 @@ $data=array('animal_type'=>$animal_type,
            'mother_name'=>$mother_name,
            'weight'=>$weight,
            'age'=>$age,
-           'ip' =>$ip,
-           'added_by' =>$addedby,
-           'is_active' =>1,
+           
+          
            'date'=>$cur_date
          
                 );
