@@ -19,6 +19,8 @@ class Toolscontroller extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
             $this->form_validation->set_rules('feeding', 'feeding', 'required|xss_clean|trim');
             $this->form_validation->set_rules('total_feeding_days', 'total_feeding_days', 'required|xss_clean|trim');
@@ -39,6 +41,8 @@ class Toolscontroller extends CI_Controller
                 $ip = $this->input->ip_address();
                 date_default_timezone_set("Asia/Calcutta");
                 $cur_date = date("Y-m-d H:i:s");
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
                 $data = array(
@@ -64,6 +68,13 @@ class Toolscontroller extends CI_Controller
                 echo json_encode($res);
             } else {
                 $res = array(
+                  'message' => 'Permission Denied!',
+                  'status' => 201
+                );
+                echo json_encode($res);
+              }
+            } else {
+                $res = array(
                     'message' => validation_errors(),
                     'status' => 201
                 );
@@ -85,6 +96,8 @@ class Toolscontroller extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
             $this->form_validation->set_rules('estrous_cycle_heat_detection', 'estrous_cycle_heat_detection', 'required|xss_clean|trim');
             $this->form_validation->set_rules('age_of_pregnancy', 'age_of_pregnancy', 'required|xss_clean|trim');
@@ -95,9 +108,11 @@ class Toolscontroller extends CI_Controller
                 $ip = $this->input->ip_address();
                 date_default_timezone_set("Asia/Calcutta");
                 $cur_date = date("Y-m-d H:i:s");
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
-                $data = array(
+                $data = array(       'farmer_id' => $farmer_data->id,
                     'breeding_date' => $breeding_date,
                     'estrous_cycle_heat_detection' => $estrous_cycle_heat_detection,
                     'age_of_pregnancy' => $age_of_pregnancy,
@@ -113,6 +128,13 @@ class Toolscontroller extends CI_Controller
                     'data' => []
                 );
                 echo json_encode($res);
+            } else {
+                $res = array(
+                  'message' => 'Permission Denied!',
+                  'status' => 201
+                );
+                echo json_encode($res);
+              }
             } else {
                 $res = array(
                     'message' => validation_errors(),

@@ -88,8 +88,7 @@ class Managementcontroller extends CI_Controller
           $data = [];
           $data = array(
             'date' => $date,
-
-
+            'farmer_id' => $farmer_data->id,
             'green_forage' => $green_forage,
             'silage' => $silage,
             'dry_fodder' => $dry_fodder,
@@ -159,7 +158,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
-
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('farmer_id', 'farmer_id', 'xss_clean|trim');
       $this->form_validation->set_rules('date', 'date', 'xss_clean|trim');
       $this->form_validation->set_rules('entry_milk', 'entry_milk', 'xss_clean|trim');
@@ -181,8 +181,10 @@ class Managementcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array( 'farmer_id' => $farmer_data->id,
           'date' => $date,
           'entry_milk' => $entry_milk,
           'price_milk' => $price_milk,
@@ -202,6 +204,13 @@ class Managementcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -225,6 +234,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('animal_name', 'animal_name', 'xss_clean|trim');
       $this->form_validation->set_rules('milk_production', 'milk_production', 'xss_clean|trim');
       $this->form_validation->set_rules('lactation', 'lactation', 'xss_clean|trim');
@@ -361,10 +372,11 @@ class Managementcontroller extends CI_Controller
           }
         }
 
-
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
 
         $data = [];
-        $data = array(
+        $data = array( 'farmer_id' => $farmer_data->id,
           'animal_name' => $animal_name,
           'milk_production' => $milk_production,
           'lactation' => $lactation,
@@ -390,6 +402,13 @@ class Managementcontroller extends CI_Controller
         echo json_encode($res);
       } else {
         $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+      } else {
+        $res = array(
           'message' => validation_errors(),
           'status' => 201
         );
@@ -411,6 +430,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('doctor_visit_fees', 'doctor_visit_fees', 'required|xss_clean|trim');
       $this->form_validation->set_rules('treatment_expenses', 'treatment_expenses', 'required|xss_clean|trim');
@@ -435,8 +456,10 @@ class Managementcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array(  'farmer_id' => $farmer_data->id,
           'date' => $date,
           'doctor_visit_fees' => $doctor_visit_fees,
           'treatment_expenses' => $treatment_expenses,
@@ -449,6 +472,7 @@ class Managementcontroller extends CI_Controller
           'other5' => $other5,
           'ip' => $ip,
           'date' => $cur_date
+          
         );
         $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
         $res = array(
@@ -457,6 +481,13 @@ class Managementcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -480,6 +511,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('filter_reports_by_calendar', 'filter_reports_by_calendar', 'required|xss_clean|trim');
       $this->form_validation->set_rules('sale', 'sale', 'required|xss_clean|trim');
       $this->form_validation->set_rules('purchase', 'purchase', 'required|xss_clean|trim');
@@ -502,8 +535,10 @@ class Managementcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array('farmer_id' => $farmer_data->id,
           'filter_reports_by_calendar' => $filter_reports_by_calendar,
           'sale' => $sale,
           'purchase' => $purchase,
@@ -523,6 +558,13 @@ class Managementcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -573,6 +615,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
       $this->form_validation->set_rules('dry_fodder', 'dry_fodder', 'required|xss_clean|trim');
@@ -607,8 +651,10 @@ class Managementcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array('farmer_id' => $farmer_data->id,
           'date' => $date,
           'green_forage' => $green_forage,
           'dry_fodder' => $dry_fodder,
@@ -636,6 +682,13 @@ class Managementcontroller extends CI_Controller
         echo json_encode($res);
       } else {
         $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+      } else {
+        $res = array(
           'message' => validation_errors(),
           'status' => 201
         );
@@ -656,14 +709,18 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $name = $this->input->post('name');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array('farmer_id' => $farmer_data->id,
           'name' => $name,
           'ip' => $ip,
           'date' => $cur_date
@@ -675,6 +732,13 @@ class Managementcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -697,6 +761,8 @@ class Managementcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('tank_id', 'tank_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
       $this->form_validation->set_rules('bull_name', 'bull_name', 'required|xss_clean|trim');
@@ -713,8 +779,10 @@ class Managementcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array('farmer_id' => $farmer_data->id,
           'tank_id' => $tank_id,
           'tag_no' => $tag_no,
           'bull_name' => $bull_name,
@@ -731,6 +799,13 @@ class Managementcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),

@@ -19,6 +19,8 @@ class Breedcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('group_id', 'group_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('cattle', 'cattle', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
@@ -52,8 +54,10 @@ class Breedcontroller extends CI_Controller
         $treat_cost = $this->input->post('treat_cost');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array('farmer_id' => $farmer_data->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'tag_no' => $tag_no,
@@ -80,6 +84,13 @@ class Breedcontroller extends CI_Controller
         echo json_encode($res);
       } else {
         $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+      } else {
+        $res = array(
           'message' => validation_errors(),
           'status' => 201
         );
@@ -101,6 +112,8 @@ class Breedcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('group_id', 'group_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('cattle', 'cattle', 'required|xss_clean|trim');
       $this->form_validation->set_rules('heifer_details', 'heifer_details', 'required|xss_clean|trim');
@@ -125,8 +138,10 @@ class Breedcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array(       'farmer_id' => $farmer_data->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'heifer_details' => $heifer_details,
@@ -147,6 +162,13 @@ class Breedcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -171,6 +193,8 @@ class Breedcontroller extends CI_Controller
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('animal_type', 'animal_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
@@ -193,8 +217,10 @@ class Breedcontroller extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $data = [];
-        $data = array(
+        $data = array(       'farmer_id' => $farmer_data->id,
           'animal_type' => $animal_type,
           'assign_to_group' => $assign_to_group,
           'tag_no' => $tag_no,
@@ -212,6 +238,13 @@ class Breedcontroller extends CI_Controller
           'data' => []
         );
         echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
       } else {
         $res = array(
           'message' => validation_errors(),
