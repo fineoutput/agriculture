@@ -136,6 +136,10 @@ $bull_name_number=$this->input->post('bull_name_number');
 $expenses=$this->input->post('expenses');
 $vet_name=$this->input->post('vet_name');
 $pregnancy_status=$this->input->post('pregnancy_status');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 $data=[];
@@ -148,7 +152,12 @@ $data=array('group_id'=>$group_id,
            'bull_name_number'=>$bull_name_number,
            'expenses'=>$expenses,
            'vet_name'=>$vet_name,
-           'pregnancy_status'=>$pregnancy_status
+           'pregnancy_status'=>$pregnancy_status,
+           'ip' =>$ip,
+           'added_by' =>$addedby,
+           'is_active' =>1,
+           'date'=>$cur_date
+         
          );
 
 $last_id=$this->base_model->insert_table("tbl_breeding_record",$data,1) ;
@@ -184,15 +193,44 @@ $this->load->helper('security');
 if ($this->input->post()) {
 
 $this->form_validation->set_rules('animal_type', 'animal_type', 'required|xss_clean|trim');
-$this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
+$this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('animal_name', 'animal_name', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('dob', 'dob', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('father_name', 'father_name', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('mother_name', 'mother_name', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim'); 
+$this->form_validation->set_rules('age', 'age', 'required|xss_clean|trim'); 
 
 if ($this->form_validation->run()== true) {
 $animal_type=$this->input->post('animal_type');
 $assign_to_group=$this->input->post('assign_to_group');
+$tag_no=$this->input->post('tag_no');
+$animal_name=$this->input->post('animal_name');
+$dob=$this->input->post('dob');
+$father_name=$this->input->post('father_name');
+$mother_name=$this->input->post('mother_name');
+$weight=$this->input->post('weight');
+$age=$this->input->post('age');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 $data=[];
 $data=array('animal_type'=>$animal_type,
-           'assign_to_group'=>$assign_to_group
+           'assign_to_group'=>$assign_to_group,
+           'tag_no'=>$tag_no,
+           'dob'=>$dob,
+           'father_name'=>$father_name,
+           'mother_name'=>$mother_name,
+           'weight'=>$weight,
+           'age'=>$age,
+           'ip' =>$ip,
+           'added_by' =>$addedby,
+           'is_active' =>1,
+           'date'=>$cur_date
+         
                 );
 
 $last_id=$this->base_model->insert_table("tbl_my_animal",$data,1) ;
