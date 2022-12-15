@@ -49,6 +49,7 @@ $this->form_validation->set_rules('others4', 'others4', 'required|xss_clean|trim
 $this->form_validation->set_rules('others5', 'others5', 'required|xss_clean|trim');
 
 if ($this->form_validation->run() == true) {
+$farmer_id = $this->input->post('farmer_id');
 $date = $this->input->post('date');
 $green_forage = $this->input->post('green_forage');
 $silage = $this->input->post('silage');
@@ -75,6 +76,10 @@ $others2 = $this->input->post('others2');
 $others3 = $this->input->post('others3');
 $others4 = $this->input->post('others4');
 $others5 = $this->input->post('others5');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 
@@ -83,7 +88,7 @@ $data = [];
 $data = array(
   'date' => $date,
 
-  //    'tag_no'=>$tag_no,
+     'farmer_id'=>$farmer_id,
   'green_forage' => $green_forage,
   'silage' => $silage,
   'dry_fodder' => $dry_fodder,
@@ -109,6 +114,10 @@ $data = array(
   'others3' => $others3,
   'others4' => $others4,
   'others5' => $others5,
+  'ip' =>$ip,
+  'added_by' =>$addedby,
+  'is_active' =>1,
+  'date'=>$cur_date
 
 
 );
@@ -164,6 +173,10 @@ $fat = $this->input->post('fat');
 $snf = $this->input->post('snf');
 $group_id = $this->input->post('group_id');
 $animal = $this->input->post('animal');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 
@@ -179,6 +192,10 @@ $data = array(
   'snf' => $snf,
   'group_id' => $group_id,
   'animal' => $animal,
+  'ip' =>$ip,
+  'added_by' =>$addedby,
+  'is_active' =>1,
+  'date'=>$cur_date
 
 
 );
@@ -234,6 +251,10 @@ $location = $this->input->post('location');
 $parturate_pregnant = $this->input->post('parturate_pregnant');
 $expected_price = $this->input->post('expected_price');
 $animal_expense = $this->input->post('animal_expense');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 //================================IMAGE UPLODE BANNER
 
 $this->load->library('upload');
@@ -367,6 +388,11 @@ $data = array(
   'image2' => $nnnn2,
   'image3' => $nnnn3,
   'image4' => $nnnn4,
+  'ip' =>$ip,
+  'added_by' =>$addedby,
+  'is_active' =>1,
+  'date'=>$cur_date
+
 
 );
 
@@ -425,6 +451,10 @@ $other2=$this->input->post('other2');
 $other3=$this->input->post('other3');
 $other4=$this->input->post('other4');
 $other5=$this->input->post('other5');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 $data=[];
@@ -437,7 +467,11 @@ $data=array('date'=>$date,
 'other2'=>$other2,
 'other3'=>$other3,
 'other4'=>$other4,
-'other5'=>$other5
+'other5'=>$other5,
+'ip' =>$ip,
+'added_by' =>$addedby,
+'is_active' =>1,
+'date'=>$cur_date
 );
 
 $last_id=$this->base_model->insert_table("tbl_medical_expenses",$data,1) ;
@@ -492,6 +526,10 @@ $milk_income=$this->input->post('milk_income');
 $breeding_income=$this->input->post('breeding_income');
 $animal_expenses=$this->input->post('animal_expenses');
 $animal_income=$this->input->post('animal_income');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 $data=[];
 $data=array('filter_reports_by_calendar'=>$filter_reports_by_calendar,
@@ -502,7 +540,11 @@ $data=array('filter_reports_by_calendar'=>$filter_reports_by_calendar,
 'milk_income'=>$milk_income,
 'breeding_income'=>$breeding_income,
 'animal_expenses'=>$animal_expenses,
-'animal_income'=>$animal_income
+'animal_income'=>$animal_income,
+'ip' =>$ip,
+'added_by' =>$addedby,
+'is_active' =>1,
+'date'=>$cur_date
 );
 
 $last_id=$this->base_model->insert_table("tbl_reports",$data,1) ;
@@ -536,13 +578,17 @@ public function disease_info()
 $Disease_data = $this->db->get_where('tbl_disease', array('is_active'=> 1))->result();
 $data=[];
 foreach ($Disease_data as $Disease) {
-if (!empty($Disease->image)) {
-$image=base_url().$Disease->image;
+if (!empty($Disease->image1)) {
+$image1=base_url().$Disease->image1;
 } else {
-$image='';
+$image1='';
 }
-$data[]=array('title'=>$Disease->title,
- 'content'=>$Disease->content
+
+$data[]=array('name'=>$Disease->name,
+'title'=>$Disease->title,
+ 'content'=>$Disease->content,
+ 'image1'=>$Disease->image1,
+
 );
 }
 $res=array(
@@ -552,50 +598,7 @@ $res=array(
 );
 echo json_encode($res);
 }
-//================================= Post Data =================================//
-//***********************************Select Tank Function************************************
-public function select_tank()
-{
-$this->load->helper(array('form', 'url'));
-$this->load->library('form_validation');
-$this->load->helper('security');
-if ($this->input->post()) {
 
-$this->form_validation->set_rules('tank_name', 'tank_name', 'required|xss_clean|trim');
-$this->form_validation->set_rules('number_of_conisters', 'number_of_conisters', 'required|xss_clean|trim');
-
-if ($this->form_validation->run()== true) {
-$tank_name=$this->input->post('tank_name');
-$number_of_conisters=$this->input->post('number_of_conisters');
-
-$data=[];
-$data=array('tank_name'=>$tank_name,
-'number_of_conisters'=>$number_of_conisters
-);
-
-$last_id=$this->base_model->insert_table("tbl_select_tank",$data,1) ;
-
-$res=array(
-'message'=>"success",
-'status'=>200,
-'data'=>[]
-);
-echo json_encode($res);
-} else {
-$res=array(
-'message'=>validation_errors(),
-'status'=>201
-);
-echo json_encode($res);
-}
-} else {
-$res=array(
-'message'=>'please insert data',
-'status'=>201
-);
-echo json_encode($res);
-}
-}
 //================================= Post Data =================================//
 //***********************************Stock Handling Function************************************
 public function stock_handling()
@@ -637,6 +640,11 @@ $toxins=$this->input->post('toxins');
 $buffer=$this->input->post('buffer');
 $yeast=$this->input->post('yeast');
 $calcium=$this->input->post('calcium');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
+
 
 
 $data=[];
@@ -654,7 +662,11 @@ $data=array('date'=>$date,
 'toxins'=>$toxins,
 'buffer'=>$buffer,
 'yeast'=>$yeast,
-'calcium'=>$calcium
+'calcium'=>$calcium,
+'ip' =>$ip,
+'added_by' =>$addedby,
+'is_active' =>1,
+'date'=>$cur_date
 );
 
 $last_id=$this->base_model->insert_table("tbl_stock_handling",$data,1) ;
@@ -680,7 +692,133 @@ $res=array(
 echo json_encode($res);
 }
 }
+//==============================================TANK ============================================================//
+public function tank()
+{
+$this->load->helper(array('form', 'url'));
+$this->load->library('form_validation');
+$this->load->helper('security');
+if ($this->input->post()) {
+
+$this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
 
 
+if ($this->form_validation->run()== true) {
+$name=$this->input->post('name');
+
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
+
+
+
+$data=[];
+$data=array('name'=>$name,
+
+'ip' =>$ip,
+'added_by' =>$addedby,
+'is_active' =>1,
+'date'=>$cur_date
+);
+
+$last_id=$this->base_model->insert_table("tbl_tank",$data,1) ;
+
+$res=array(
+'message'=>"success",
+'status'=>200,
+'data'=>[]
+);
+echo json_encode($res);
+} else {
+$res=array(
+'message'=>validation_errors(),
+'status'=>201
+);
+echo json_encode($res);
+}
+} else {
+$res=array(
+'message'=>'please insert data',
+'status'=>201
+);
+echo json_encode($res);
+}
+}
+//==============================================================CANISTER==============================================//
+public function canister()
+{
+$this->load->helper(array('form', 'url'));
+$this->load->library('form_validation');
+$this->load->helper('security');
+if ($this->input->post()) {
+
+$this->form_validation->set_rules('tank_id', 'tank_id', 'required|xss_clean|trim');
+$this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
+$this->form_validation->set_rules('bull_name', 'bull_name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('company_name', 'company_name', 'required|xss_clean|trim');
+$this->form_validation->set_rules('no_of_units', 'no_of_units', 'required|xss_clean|trim');
+$this->form_validation->set_rules('milk_production_of_mounts', 'milk_production_of_mounts', 'required|xss_clean|trim');
+
+
+if ($this->form_validation->run() == true) {
+$tank_id = $this->input->post('tank_id');
+$tag_no = $this->input->post('tag_no');
+$bull_name = $this->input->post('bull_name');
+$company_name = $this->input->post('company_name');
+$no_of_units = $this->input->post('no_of_units');
+$milk_production_of_mounts = $this->input->post('milk_production_of_mounts');
+;
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
+
+
+
+
+$data = [];
+$data = array(
+
+
+     'tank_id'=>$tank_id,
+  'tag_no' => $tag_no,
+  'bull_name' => $bull_name,
+  'company_name' => $company_name,
+  'no_of_units' => $no_of_units,
+  'milk_production_of_mounts' => $milk_production_of_mounts,
+ 
+
+  'ip' =>$ip,
+  'added_by' =>$addedby,
+  'is_active' =>1,
+  'date'=>$cur_date
+
+
+);
+
+$last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
+
+$res = array(
+  'message' => "success",
+  'status' => 200,
+  'data' => []
+);
+echo json_encode($res);
+} else {
+$res = array(
+  'message' => validation_errors(),
+  'status' => 201
+);
+echo json_encode($res);
+}
+} else {
+$res = array(
+'message' => 'please insert data',
+'status' => 201
+);
+echo json_encode($res);
+}
+}
 
 }?>

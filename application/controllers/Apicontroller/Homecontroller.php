@@ -102,6 +102,29 @@ public function subscription_plan()
     echo json_encode($res);
 }
 
+//=======================================================NOTIFICATIONS===============================================//
+public function notifications()
 
+{
+    $notifications_data = $this->db->get_where('tbl_notification', array('is_active'=> 1))->result();
+    $data=[];
+    foreach ($notifications_data as $notifications) {
+        if (!empty($notifications->image)) {
+            $image=base_url().$notifications->image;
+        } else {
+            $image='';
+        }
+        $data[]=array('name'=>$notifications->name,
+        'dsc'=>$notifications->dsc,
+            'image'=>$notifications->image
+                 );
+    }
+    $res=array(
+                'message'=>"success",
+                'status'=>200,
+                'data'=>$data
+                );
+    echo json_encode($res);
+}
 
 }?>

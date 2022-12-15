@@ -38,6 +38,10 @@ $breadth=$this->input->post('breadth');
 $height=$this->input->post('height');
 $number_of_pits=$this->input->post('number_of_pits');
 $fodder_required=$this->input->post('fodder_required');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 $data=[];
@@ -48,7 +52,12 @@ $data=array('number_of_cows'=>$number_of_cows,
            'breadth'=>$breadth,
            'height'=>$height,
            'number_of_pits'=>$number_of_pits,
-           'fodder_required'=>$fodder_required
+           'fodder_required'=>$fodder_required,
+           'ip' =>$ip,
+                                'added_by' =>$addedby,
+                                'is_active' =>1,
+                                'date'=>$cur_date
+
          );
 
 $last_id=$this->base_model->insert_table("tbl_silage_making",$data,1) ;
@@ -91,12 +100,20 @@ if ($this->form_validation->run()== true) {
 $breeding_date=$this->input->post('breeding_date');
 $estrous_cycle_heat_detection=$this->input->post('estrous_cycle_heat_detection');
 $age_of_pregnancy=$this->input->post('age_of_pregnancy');
+$ip = $this->input->ip_address();
+date_default_timezone_set("Asia/Calcutta");
+$cur_date=date("Y-m-d H:i:s");
+$addedby=$this->session->userdata('admin_id');
 
 
 $data=[];
 $data=array('breeding_date'=>$breeding_date,
            'estrous_cycle_heat_detection'=>$estrous_cycle_heat_detection,
-           'age_of_pregnancy'=>$age_of_pregnancy
+           'age_of_pregnancy'=>$age_of_pregnancy,
+           'ip' =>$ip,
+                                'added_by' =>$addedby,
+                                'is_active' =>1,
+                                'date'=>$cur_date
          );
 
 $last_id=$this->base_model->insert_table("tbl_pregnancy_calculator",$data,1) ;
@@ -174,7 +191,8 @@ public function doctor_on_call()
                    'email'=>$DOCTOR->email,
                     'degree_english'=>$DOCTOR->degree_english,
                     'degree_hindi'=>$DOCTOR->degree_hindi,
-                    'degree_punjabi'=>$DOCTOR->degree_punjabi
+                    'degree_punjabi'=>$DOCTOR->degree_punjabi,
+                    'image'=>$DOCTOR->image
                  );
     }
     $res=array(
@@ -193,11 +211,11 @@ public function expert_advice()
     $data=[];
     foreach ($Expert_data as $Expert)
     {
-        // if (!empty($Expert->image)) {
-        //     $image=base_url().$Expert->image;
-        // } else {
-        //     $image='';
-        // }
+        if (!empty($Expert->image)) {
+            $image=base_url().$Expert->image;
+        } else {
+            $image='';
+        }
 
         $data[]=array('name_english'=>$Expert->name_english,
                    'name_hindi'=>$Expert->name_hindi,
@@ -210,7 +228,8 @@ public function expert_advice()
                     'education_qualification'=>$Expert->education_qualification,
                     'city'=>$Expert->city,
                     'state'=>$Expert->state,
-                    'phone_number'=>$Expert->phone_number
+                    'phone_number'=>$Expert->phone_number,
+                    'image'=>$Expert->image
                  );
     }
     $res=array(
