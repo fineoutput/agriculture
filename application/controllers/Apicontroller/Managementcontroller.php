@@ -20,8 +20,8 @@ $this->load->helper(array('form', 'url'));
 $this->load->library('form_validation');
 $this->load->helper('security');
 if ($this->input->post()) {
-
-$this->form_validation->set_rules('farmer_id', 'farmer_id', 'required|xss_clean|trim');
+  $headers = apache_request_headers();
+  $authentication=$headers['Authentication'];
 $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
 $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
 $this->form_validation->set_rules('silage', 'silage', 'required|xss_clean|trim');
@@ -49,7 +49,7 @@ $this->form_validation->set_rules('others4', 'others4', 'required|xss_clean|trim
 $this->form_validation->set_rules('others5', 'others5', 'required|xss_clean|trim');
 
 if ($this->form_validation->run() == true) {
-$farmer_id = $this->input->post('farmer_id');
+
 $date = $this->input->post('date');
 $green_forage = $this->input->post('green_forage');
 $silage = $this->input->post('silage');
@@ -81,14 +81,14 @@ date_default_timezone_set("Asia/Calcutta");
 $cur_date=date("Y-m-d H:i:s");
 
 
-
+$farmer_data = $this->db->get_where('tbl_farmers', array('is_active'=> 1,'authentication'=> $authentication))->result();
+if(!empty($farmer_data)){
 
 
 $data = [];
 $data = array(
   'date' => $date,
 
-     'farmer_id'=>$farmer_id,
   'green_forage' => $green_forage,
   'silage' => $silage,
   'dry_fodder' => $dry_fodder,
@@ -129,6 +129,13 @@ $res = array(
   'data' => []
 );
 echo json_encode($res);
+}else{
+  $res = array(
+    'message' => 'Permission Denied!',
+    'status' => 201
+  );
+  echo json_encode($res);
+}
 } else {
 $res = array(
   'message' => validation_errors(),
