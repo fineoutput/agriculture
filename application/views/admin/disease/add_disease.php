@@ -43,7 +43,7 @@
 <td> <strong>Image1</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image1"  class="form-control" placeholder="" required value="" />  </td>
 </tr>
-  <tr>
+  <!-- <tr>
 <td> <strong>Image2</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image2"  class="form-control" placeholder=""  value="" />  </td>
 </tr>
@@ -55,15 +55,28 @@
   <tr>
 <td> <strong>Image4</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image4"  class="form-control" placeholder=""  value="" />  </td>
-</tr>
-  <tr>
+</tr> -->
+  <!-- <tr>
 <td> <strong>Title</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="title"  class="form-control" placeholder="" required value="" />  </td>
+</tr> -->
+
+<tr>
+<td> <strong>Title</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <textarea type="text" name="title" id="editor1"  class="form-control" placeholder="" required value="" /></textarea>  </td>
 </tr>
-  <tr>
+
+
+
+<tr>
+<td> <strong>Content</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <textarea type="text" name="content" id="editor2"  class="form-control" placeholder="" required value="" /></textarea>  </td>
+</tr>
+
+  <!-- <tr>
 <td> <strong>Content</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="content"  class="form-control" placeholder="" required value="" />  </td>
-</tr>
+</tr> -->
 
 
                                  <tr>
@@ -90,5 +103,23 @@
                  </div>
 
 
-<script type="text/javascript" src=" <?php echo base_url()  ?>assets/slider/ajaxupload.3.5.js"></script>
-     <link href=" <? echo base_url()  ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+
+
+                 <script type="text/javascript" src=" <?php echo base_url()  ?>assets/slider/ajaxupload.3.5.js"></script>
+<link href=" <? echo base_url()  ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+<script src="<?php echo base_url() ?>assets/admin/plugins/ckeditor/ckeditor.js"></script>
+<script>
+      // Replace the <textarea id="editor1"> with a CKEditor
+
+      // instance, using default configuration.
+
+      CKEDITOR.replace( 'editor1' );
+      // CKEDITOR.instances['editor1'].setData('<p>nitesh</p><br><br><p>shah</p>');
+
+      CKEDITOR.replace( 'editor2' );
+      // CKEDITOR.instances['editor1'].setData('<p>nitesh</p><br><br><p>shah</p>');
+
+     
+
+
+  </script>

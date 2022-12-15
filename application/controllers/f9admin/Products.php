@@ -82,9 +82,19 @@ $this->form_validation->set_rules('description_english', 'description', 'require
 $this->form_validation->set_rules('description_hindi', 'description', 'required|xss_clean|trim');
 $this->form_validation->set_rules('description_punjabi', 'description', 'required|xss_clean|trim');
 
+// $this->form_validation->set_rules('mrp', 'mrp', 'required|xss_clean|trim');
 $this->form_validation->set_rules('mrp', 'mrp', 'required|xss_clean|trim');
+
 $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
+$this->form_validation->set_rules('gst', 'gst', 'required|xss_clean|trim');
+$this->form_validation->set_rules('gstprice', 'gstprice', 'required|xss_clean|trim');
+$this->form_validation->set_rules('sellingprice', 'sellingprice', 'required|xss_clean|trim');
+
+
+
 $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
+$this->form_validation->set_rules('suffix', 'suffix', 'required|xss_clean|trim');
+
 
 if($this->form_validation->run()== TRUE)
 {
@@ -102,7 +112,15 @@ $description_punjabi=$this->input->post('description_punjabi');
 $mrp=$this->input->post('mrp');
 
 $selling_price=$this->input->post('selling_price');
+$gst=$this->input->post('gst');
+$gstprice=$this->input->post('gstprice');
+$sellingprice=$this->input->post('sellingprice');
+
+
+
 $inventory=$this->input->post('inventory');
+$suffix=$this->input->post('suffix');
+
 
 
 $ip = $this->input->ip_address();
@@ -205,8 +223,14 @@ $data_insert = array(	'name_english'=>$name_english,
 'image2'=>$image2,
 'mrp'=>$mrp,
 'selling_price'=>$selling_price,
+'gst'=>$gst,
+'gstprice'=>$gstprice,
+'sellingprice'=>$sellingprice,
+
+
 'inventory'=>$inventory,
 
+'suffix'=>$suffix,
 
 
 'ip' =>$ip,
@@ -238,7 +262,15 @@ $data_insert = array(	'name_english'=>$name_english,
 'image2'=>$image2,
 'mrp'=>$mrp,
 'selling_price'=>$selling_price,
-'inventory'=>$inventory
+'gst'=>$gst,
+'gstprice'=>$gstprice,
+'sellingprice'=>$sellingprice,
+
+
+
+'inventory'=>$inventory,
+
+'suffix'=>$suffix
 );
 
 $this->db->where('id', $idw);

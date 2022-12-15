@@ -45,7 +45,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <td> <strong>Set Comission</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="set_comission"  class="form-control" placeholder="" required value="" />
+<input type="text" name="set_comission"  class="form-control" placeholder="" required value="<?= $vendor->comission;?>" />
 </td>
 </tr>
 

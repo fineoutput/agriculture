@@ -473,8 +473,15 @@ public function set_comission_vendor($idd){
 
 if(!empty($this->session->userdata('admin_data'))){
 
-$id=base64_decode($idd);
-$data['id']=$idd;
+    $id=base64_decode($idd);
+    $data['id']=$idd;
+    
+    $this->db->select('*');
+    $this->db->from('tbl_vendor');
+    $this->db->where('id',$id);
+    $dsa= $this->db->get();
+    $data['vendor']=$dsa->row();
+    
 $data['user_name']=$this->load->get_var('user_name');
 
 $this->load->view('admin/common/header_view',$data);

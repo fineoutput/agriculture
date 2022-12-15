@@ -5,14 +5,14 @@ Farmers
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Farmers</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Farmer/View_farmer"><i class="fa fa-dashboard"></i> All Farmers</a></li>
 <li class="active">View Farmers</li>
 </ol> 
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button"style="margin-bottom:12px;"> Add Farmers</a>
+<!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Farmers/add_farmers" role="button"style="margin-bottom:12px;"> Add Farmers</a> -->
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Farmers</h3>
@@ -41,15 +41,15 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name (English)</th>
-<th>Name (Hindi)</th>
-<th>Name (Punjabi)</th>
-<th>Village (English)</th>
-<th>Village (Hindi)</th>
-<th>Village (Punjabi)</th>
-<th>District (English)</th>
-<th>District (Hindi)</th>
-<th>District (Punjabi)</th>
+<th>Name </th>
+<!-- <th>Name (Hindi)</th>
+<th>Name (Punjabi)</th> -->
+<th>Village </th>
+<!-- <th>Village (Hindi)</th>
+<th>Village (Punjabi)</th> -->
+<th>District </th>
+<!-- <th>District (Hindi)</th>
+<th>District (Punjabi)</th> -->
 
 <th>City</th>
 
@@ -67,16 +67,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <?php $i=1; foreach($farmers_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
-<td><?php echo $data->name_english ?></td>
-<td><?php echo $data->name_hindi ?></td>
-<td><?php echo $data->name_punjabi ?></td>
+<td><?php echo $data->name ?></td>
+<td><?php echo $data->village ?></td>
+<td><?php echo $data->district ?></td>
 
-<td><?php echo $data->village_english ?></td>
-<td><?php echo $data->village_hindi ?></td>
-<td><?php echo $data->village_punjabi ?></td>
-<td><?php echo $data->district_english ?></td>
-<td><?php echo $data->district_hindi ?></td>
-<td><?php echo $data->district_punjabi ?></td>
+
+<!-- <td><?php echo $data->name_hindi ?></td>
+<td><?php echo $data->name_punjabi ?></td> -->
+
+<!-- <td><?php echo $data->village_hindi ?></td>
+<td><?php echo $data->village_punjabi ?></td> -->
+<!-- <td><?php echo $data->district_hindi ?></td>
+<td><?php echo $data->district_punjabi ?></td> -->
 
 <td><?php $ct = $data->state;
 $this->db->select('*');

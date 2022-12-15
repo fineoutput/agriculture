@@ -55,13 +55,13 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <table class="table table-hover">
 
   <tr>
-  <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Name </strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$doctor->name_english?>" />
+  <input type="text" name="name"  class="form-control" placeholder="" required value="<?=$doctor->name?>" />
   </td>
   </tr>
 
-  <tr>
+  <!-- <tr>
   <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
   <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="<?=$doctor->name_hindi?>" />
@@ -73,7 +73,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <td>
   <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="<?=$doctor->name_punjabi?>" />
   </td>
-  </tr>
+  </tr> -->
 
     <tr>
     <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
@@ -139,13 +139,13 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 
     <tr>
-    <td> <strong>Degree (English)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td> <strong>Degree </strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="degree_english"  class="form-control" placeholder="" required value="<?=$doctor->degree_english?>" />
+    <input type="text" name="degree"  class="form-control" placeholder="" required value="<?=$doctor->degree?>" />
     </td>
     </tr>
 
-    <tr>
+    <!-- <tr>
     <td> <strong>Degree (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
     <input type="text" name="degree_hindi"  class="form-control" placeholder="" required value="<?=$doctor->degree_hindi?>" />
@@ -157,7 +157,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <td>
     <input type="text" name="degree_punjabi"  class="form-control" placeholder="" required value="<?=$doctor->degree_punjabi?>" />
     </td>
-    </tr>
+    </tr> -->
 
 
     <tr>
@@ -186,12 +186,12 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <tr>
     <td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="district_english"  class="form-control" placeholder="" required value="<?=$doctor->district_english?>" />
+    <input type="text" name="district"  class="form-control" placeholder="" required value="<?=$doctor->district?>" />
     </td>
     </tr>
 
 
-    <tr>
+    <!-- <tr>
     <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
     <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="<?=$doctor->district_hindi?>" />
@@ -204,7 +204,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
     <td>
     <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="<?=$doctor->district_punjabi?>" />
     </td>
-    </tr>
+    </tr> -->
 
     <tr>
     <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>

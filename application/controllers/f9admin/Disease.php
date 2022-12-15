@@ -156,121 +156,121 @@ $nnnn=$file_info['file_name'];
 }
 //-----------------------image tag end
 //------------------------------------image insert-----------------------------------------
-$this->load->library('upload');
-$img1='image2';
-$image2="";
+// $this->load->library('upload');
+// $img1='image2';
+// $image2="";
 
-$file_check=($_FILES['image2']['error']);
-if($file_check!=4){
-$image_upload_folder = FCPATH . "assets/uploads/team/";
-if (!file_exists($image_upload_folder))
-{
-mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-}
-$new_file_name="image2".date("Ymdhms");
-$this->upload_config = array(
-'upload_path'   => $image_upload_folder,
-'file_name' => $new_file_name,
-'allowed_types' =>'jpg|jpeg|png',
-'max_size'      => 25000
-);
-$this->upload->initialize($this->upload_config);
-if (!$this->upload->do_upload($img1))
-{
-$upload_error = $this->upload->display_errors();
-// echo json_encode($upload_error);
-echo $upload_error;
-}
-else
-{
+// $file_check=($_FILES['image2']['error']);
+// if($file_check!=4){
+// $image_upload_folder = FCPATH . "assets/uploads/team/";
+// if (!file_exists($image_upload_folder))
+// {
+// mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+// }
+// $new_file_name="image2".date("Ymdhms");
+// $this->upload_config = array(
+// 'upload_path'   => $image_upload_folder,
+// 'file_name' => $new_file_name,
+// 'allowed_types' =>'jpg|jpeg|png',
+// 'max_size'      => 25000
+// );
+// $this->upload->initialize($this->upload_config);
+// if (!$this->upload->do_upload($img1))
+// {
+// $upload_error = $this->upload->display_errors();
+// // echo json_encode($upload_error);
+// echo $upload_error;
+// }
+// else
+// {
 
-$file_info = $this->upload->data();
+// $file_info = $this->upload->data();
 
-$image2 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
-$file_info['new_name']=$image2;
-// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-$nnnn=$file_info['file_name'];
-// echo json_encode($file_info);
-}
-}
+// $image2 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
+// $file_info['new_name']=$image2;
+// // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+// $nnnn=$file_info['file_name'];
+// // echo json_encode($file_info);
+// }
+// }
 //-----------------------image tag end
 //------------------------------------image insert-----------------------------------------
-$this->load->library('upload');
-$img1='image3';
-$image3="";
+// $this->load->library('upload');
+// $img1='image3';
+// $image3="";
 
-$file_check=($_FILES['image3']['error']);
-if($file_check!=4){
-$image_upload_folder = FCPATH . "assets/uploads/team/";
-if (!file_exists($image_upload_folder))
-{
-mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-}
-$new_file_name="image3".date("Ymdhms");
-$this->upload_config = array(
-'upload_path'   => $image_upload_folder,
-'file_name' => $new_file_name,
-'allowed_types' =>'jpg|jpeg|png',
-'max_size'      => 25000
-);
-$this->upload->initialize($this->upload_config);
-if (!$this->upload->do_upload($img1))
-{
-$upload_error = $this->upload->display_errors();
-// echo json_encode($upload_error);
-echo $upload_error;
-}
-else
-{
+// $file_check=($_FILES['image3']['error']);
+// if($file_check!=4){
+// $image_upload_folder = FCPATH . "assets/uploads/team/";
+// if (!file_exists($image_upload_folder))
+// {
+// mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+// }
+// $new_file_name="image3".date("Ymdhms");
+// $this->upload_config = array(
+// 'upload_path'   => $image_upload_folder,
+// 'file_name' => $new_file_name,
+// 'allowed_types' =>'jpg|jpeg|png',
+// 'max_size'      => 25000
+// );
+// $this->upload->initialize($this->upload_config);
+// if (!$this->upload->do_upload($img1))
+// {
+// $upload_error = $this->upload->display_errors();
+// // echo json_encode($upload_error);
+// echo $upload_error;
+// }
+// else
+// {
 
-$file_info = $this->upload->data();
+// $file_info = $this->upload->data();
 
-$image3 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
-$file_info['new_name']=$image3;
-// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-$nnnn=$file_info['file_name'];
-// echo json_encode($file_info);
-}
-}
+// $image3 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
+// $file_info['new_name']=$image3;
+// // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+// $nnnn=$file_info['file_name'];
+// // echo json_encode($file_info);
+// }
+// }
 //-----------------------image tag end
 //------------------------------------image insert-----------------------------------------
-$this->load->library('upload');
-$img1='image4';
-$image4="";
+// $this->load->library('upload');
+// $img1='image4';
+// $image4="";
 
-$file_check=($_FILES['image4']['error']);
-if($file_check!=4){
-$image_upload_folder = FCPATH . "assets/uploads/team/";
-if (!file_exists($image_upload_folder))
-{
-mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-}
-$new_file_name="image4".date("Ymdhms");
-$this->upload_config = array(
-'upload_path'   => $image_upload_folder,
-'file_name' => $new_file_name,
-'allowed_types' =>'jpg|jpeg|png',
-'max_size'      => 25000
-);
-$this->upload->initialize($this->upload_config);
-if (!$this->upload->do_upload($img1))
-{
-$upload_error = $this->upload->display_errors();
-// echo json_encode($upload_error);
-echo $upload_error;
-}
-else
-{
+// $file_check=($_FILES['image4']['error']);
+// if($file_check!=4){
+// $image_upload_folder = FCPATH . "assets/uploads/team/";
+// if (!file_exists($image_upload_folder))
+// {
+// mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+// }
+// $new_file_name="image4".date("Ymdhms");
+// $this->upload_config = array(
+// 'upload_path'   => $image_upload_folder,
+// 'file_name' => $new_file_name,
+// 'allowed_types' =>'jpg|jpeg|png',
+// 'max_size'      => 25000
+// );
+// $this->upload->initialize($this->upload_config);
+// if (!$this->upload->do_upload($img1))
+// {
+// $upload_error = $this->upload->display_errors();
+// // echo json_encode($upload_error);
+// echo $upload_error;
+// }
+// else
+// {
 
-$file_info = $this->upload->data();
+// $file_info = $this->upload->data();
 
-$image4 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
-$file_info['new_name']=$image4;
-// $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-$nnnn=$file_info['file_name'];
-// echo json_encode($file_info);
-}
-}
+// $image4 = "assets/uploads/team/".$new_file_name.$file_info['file_ext'];
+// $file_info['new_name']=$image4;
+// // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+// $nnnn=$file_info['file_name'];
+// // echo json_encode($file_info);
+// }
+// }
 //-----------------------image tag end------------------------------------------
 $ip = $this->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
@@ -285,9 +285,9 @@ $data_insert = array('name'=>$name,
 'title'=>$title,
 'content'=>$content,
 'image1'=>$image1,
-'image2'=>$image2,
-'image3'=>$image3,
-'image4'=>$image4,
+// 'image2'=>$image2,
+// 'image3'=>$image3,
+// 'image4'=>$image4,
 'ip' =>$ip,
 'added_by' =>$addedby,
 'is_active' =>1,
@@ -309,9 +309,9 @@ $data_insert = array(
 'title'=>$title,
 'content'=>$content,
 'image1'=>$image1,
-'image2'=>$image2,
-'image3'=>$image3,
-'image4'=>$image4
+// 'image2'=>$image2,
+// 'image3'=>$image3,
+// 'image4'=>$image4
 );
 
 

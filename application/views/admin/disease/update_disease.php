@@ -39,12 +39,24 @@ if(!empty($this->session->flashdata('emessage'))){  ?>
 <td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="name"  class="form-control" placeholder="" required value="<?=$disease_data->name;?>" />  </td>
 </tr>
+
+
 <tr>
 <td> <strong>Image 1</strong>  <span style="color:red;">*</span></strong> </td>
-<td> <input type="file" name="image1"  class="form-control" placeholder="" />
-<?php if($disease_data->image1!=""){ ?> <img id="slide_img_path" height=200 width=300 src="<?php echo base_url().$disease_data->image1; ?> "> <?php }else{ ?> Sorry No File Found <?php } ?>  </td>
+<td>
+<input type="file" name="image1"  class="form-control" placeholder="" required value="<?=$disease_data->image1?>" />
+</td>
+
+<td>
+<?php if ($disease_data->image1!="") {  ?>
+<img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$disease_data->image1 ?>">
+<?php } else {  ?>
+Sorry No image Found
+<?php } ?>
+</td>
+
 </tr>
-<tr>
+<!-- <tr>
 <td> <strong>Image 2</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="file" name="image2"  class="form-control" placeholder="" />
 <?php if($disease_data->image2!=""){ ?> <img id="slide_img_path" height=200 width=300 src="<?php echo base_url().$disease_data->image2; ?> "> <?php }else{ ?> Sorry No File Found <?php } ?>  </td>
@@ -62,15 +74,29 @@ if(!empty($this->session->flashdata('emessage'))){  ?>
  <?php }
  else{ ?> Sorry No File Found <?php } ?>
 </td>
-</tr>
-<tr>
+</tr> -->
+
+<!-- <tr>
 <td> <strong>Title</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="title"  class="form-control" placeholder=""  value="<?=$disease_data->title;?>" />  </td>
 </tr>
 <tr>
 <td> <strong>Content</strong>  <span style="color:red;">*</span></strong> </td>
 <td> <input type="text" name="content"  class="form-control" placeholder=""  value="<?=$disease_data->content;?>" />  </td>
+</tr> -->
+
+<tr>
+<td> <strong>Title</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <textarea type="text" name="title" id="editor1"  class="form-control" placeholder="" required value="" /><?=$disease_data->title?></textarea>  </td>
 </tr>
+
+
+
+<tr>
+<td> <strong>Content</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <textarea type="text" name="content" id="editor2"  class="form-control" placeholder="" required value="" /><?=$disease_data->content?></textarea>  </td>
+</tr>
+
 
 
 <tr>
@@ -99,3 +125,18 @@ if(!empty($this->session->flashdata('emessage'))){  ?>
 
 <script type="text/javascript" src=" <?php echo base_url()  ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href=" <? echo base_url()  ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+<script src="<?php echo base_url() ?>assets/admin/plugins/ckeditor/ckeditor.js"></script>
+<script>
+      // Replace the <textarea id="editor1"> with a CKEditor
+
+      // instance, using default configuration.
+
+      CKEDITOR.replace( 'editor1' );
+      // CKEDITOR.instances['editor1'].setData('<p>nitesh</p><br><br><p>shah</p>');
+
+      CKEDITOR.replace( 'editor2' );
+      // CKEDITOR.instances['editor1'].setData('<p>nitesh</p><br><br><p>shah</p>');
+
+
+
+  </script>

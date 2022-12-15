@@ -1,12 +1,12 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Doctor 
+Update Doctor Pay Request
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Doctor </a></li>
-
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Doctor Pay Request </a></li>
+ 
 </ol>
 </section>
 <section class="content">
@@ -14,9 +14,8 @@ Add New Doctor
 <div class="col-lg-12">
 
 <div class="panel panel-default">
-
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Doctor</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Doctor Pay Request</h3>
 </div>
 
 <? if(!empty($this->session->flashdata('smessage'))){ ?>
@@ -37,16 +36,35 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <div class="panel-body">
 <div class="col-lg-10">
-<form action="<?php echo base_url() ?>dcadmin/doctor/add_doctor_data2/<? echo $id; ?>" method="POST" id="slide_frm" enctype="multipart/form-data">
+  <form action="<?php echo base_url() ?>dcadmin/Doctor_pay_req/add_doctor_pay_req_data/<? echo base64_encode(2); ?>/<?=$id?>" method="POST" id="slide_frm" enctype="multipart/form-data">
 <div class="table-responsive">
 <table class="table table-hover">
 
 
 
+
+  <tr>
+  <td> <strong>Doctor </strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="doctor_id"  class="form-control" placeholder="" required value="<?=$doctor_pay_req->doctor_id?>" />
+  </td>
+  </tr>
+
+ 
+
 <tr>
-<td> <strong>Set Comission</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Credit</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="set_comission"  class="form-control" placeholder="" required value="<?= $doctor->comission;?>" />
+<input type="text" name="credit"  class="form-control" placeholder="" required value="<?=$doctor_pay_req->credit?>" />
+</td>
+</tr>
+
+
+
+<tr>
+<td> <strong>Debit</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text" name="debit"  class="form-control" placeholder="" required value="<?=$doctor_pay_req->debit?>" />
 </td>
 </tr>
 
@@ -75,3 +93,5 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+
+

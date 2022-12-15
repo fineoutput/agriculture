@@ -1,6 +1,6 @@
   <div class="content-wrapper">
   <section class="content-header">
-    <style>
+    <!-- <style>
         input[type=radio]#Yellow {
             accent-color: pink;
         }
@@ -12,7 +12,7 @@
         input[type=radio]#Red {
             accent-color: #FF0000;
         }
-    </style>
+    </style> -->
   <h1>
   Add New doctor
   </h1>
@@ -55,13 +55,13 @@
   <table class="table table-hover">
 
     <tr>
-    <td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+    <td> <strong>Name</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
-    <input type="text" name="name_english"  class="form-control" placeholder="" required value="" />
+    <input type="text" name="name"  class="form-control" placeholder="" required value="" />
     </td>
     </tr>
 
-    <tr>
+    <!-- <tr>
     <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
     <td>
     <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="" />
@@ -73,7 +73,7 @@
     <td>
     <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="" />
     </td>
-    </tr>
+    </tr> -->
 
       <tr>
       <td> <strong>Email</strong>  <span style="color:red;">*</span></strong> </td>
@@ -94,14 +94,15 @@
                 <tr>
                 <td> <strong>Type</strong>  <span style="color:red;">*</span></strong> </td>
 
-                <td><input type="radio" id="Red" onclick="change(1)">
-                <label for="Red">Vet</label>
+                <td><input type="radio" id="Vet"  name="type_colume"
+                 onclick="change(1)">
+                <label for="Vet">Vet</label>
                 <br>
-                <input type="radio" id="Green" name="type_colume" value="Assistant"onclick="change(2)">
-                <label for="Green">Assistant</label>
+                <input type="radio" id="Assistant" name="type_colume" value="Assistant"onclick="change(2)">
+                <label for="Assistant">Assistant</label>
                 <br>
-                <input type="radio"  id="Yellow" name="type_colume" value="Private Practitioner">
-                <label for="Yellow">Private Practitioner
+                <input type="radio"  id="Private Practitione" name="type_colume" value="Private Practitioner">
+                <label for="Private Practitione">Private Practitioner
                 </label>
                 </td>
                 </tr>
@@ -111,12 +112,12 @@
   <!-- *******************************************************************************************************************  -->
 
       <tr>
-      <td> <strong>Degree (English)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td> <strong>Degree </strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="degree_english"  class="form-control" placeholder="" required value="" />
+      <input type="text" name="degree"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
-
+<!-- 
       <tr>
       <td> <strong>Degree (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
@@ -129,7 +130,7 @@
       <td>
       <input type="text" name="degree_punjabi"  class="form-control" placeholder="" required value="" />
       </td>
-      </tr>
+      </tr> -->
 
 
       <tr>
@@ -167,14 +168,14 @@
       </tr>
 
       <tr>
-      <td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
+      <td> <strong>Distrct </strong>  <span style="color:red;">*</span></strong> </td>
       <td>
-      <input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+      <input type="text" name="district"  class="form-control" placeholder="" required value="" />
       </td>
       </tr>
 
 
-      <tr>
+      <!-- <tr>
       <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
       <td>
       <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
@@ -187,7 +188,7 @@
       <td>
       <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
       </td>
-      </tr>
+      </tr> -->
 
       <tr>
       <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>

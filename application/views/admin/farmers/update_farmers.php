@@ -39,15 +39,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <form action="<?php echo base_url() ?>dcadmin/Farmers/add_farmers_data/<? echo base64_encode(2); ?>/<?=$id?>" method="POST" id="slide_frm" enctype="multipart/form-data">
 <div class="table-responsive">
 <table class="table table-hover">
+
+
+
 <tr>
-<td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Name </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder="" required value="<?=$farmers->name_english?>
+<input type="text" name="name"  class="form-control" placeholder="" required value="<?=$farmers->name?>
 " />
 </td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="name_hindi"  class="form-control" placeholder="" required value="<?=$farmers->name_hindi?>" />
@@ -59,17 +62,17 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="name_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->name_punjabi?>" />
 </td>
-</tr>
+</tr> -->
 
 
 <tr>
-<td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Village </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_english"  class="form-control" placeholder="" required value="<?=$farmers->village_english?>" />
+<input type="text" name="village"  class="form-control" placeholder="" required value="<?=$farmers->village?>" />
 </td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="village_hindi"  class="form-control" placeholder="" required value="<?=$farmers->village_hindi?>" />
@@ -81,17 +84,17 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->village_punjabi?>" />
 </td>
-</tr>
+</tr> -->
 
 
 <tr>
-<td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Distrct </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_english"  class="form-control" placeholder="" required value="<?=$farmers->district_english?>" />
+<input type="text" name="district"  class="form-control" placeholder="" required value="<?=$farmers->district?>" />
 </td>
 </tr>
 
-
+<!-- 
 <tr>
 <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
@@ -105,61 +108,34 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="<?=$farmers->district_punjabi?>" />
 </td>
-</tr>
-
-
-<tr>
-
-<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
-
-<td>
-
-  <select name="state" class="form-control" >
-
-    <option value="">-----select category-----</option>
-
-  <?php $i=1; foreach($state_data->result() as $cat) { ?>
-
-  <option value="<?=$cat->id?>" <?if($cat->id==$farmers->state){echo 'selected';}?>><?=$cat->state_name?></option>
-
-<?php } ?>
-
-</select>
-
-</td>
-
-</tr>
-
-
-
-
-
+</tr> -->
 
 <tr>
+  <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <select class="form-control" name="state" id="states">
+    <option value="">---state---</option>
+    <?php foreach ($state_data->result() as $a){?>
+      <option value="<?=$a->id?>" <?if($a->id==$farmers->state){echo 'selected';}?>><?=$a->state_name?></option>
+    <?php } ?>
 
-<td> <strong>state</strong>  <span style="color:red;">*</span></strong> </td>
-
-<td>
-
-  <select name="city" class="form-control" >
-
-    <option value="">-----select city -----</option>
-
-  <?php $i=1; foreach($city_data->result() as $cat) { ?>
-
-  <option value="<?=$cat->id?>" <?if($cat->id==$farmers->city){echo 'selected';}?>><?=$cat->city_name?></option>
-
-<?php } ?>
-
-</select>
-
-</td>
-
+  </td>
 </tr>
 
+  <tr>
+  <td> <strong>City</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <select class="form-control" name="city" id="cities">
+    <option value="">---City---</option>
+    <?php foreach ($city_data->result() as $a){?>
+      <option value="<?=$a->id?>" <?if($a->id==$farmers->city){echo 'selected';}?>><?=$a->city_name?></option>
+    <?php } ?>
+  </td>
+  </tr>
 
 
-<tr>
+
+  <tr>
 <td> <strong>Pincode</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text"   onkeypress="return isNumberKey(event)" name="Pincode"  class="form-control" placeholder=""
@@ -168,10 +144,17 @@ maxlength="6" minlength="6"  required value="<?=$farmers->pincode?>" />
 </tr>
 
 
-<tr>
+<!-- <tr>
 <td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"required value="<?=$farmers->phone_number?>" />
+</td>
+</tr> -->
+
+<tr>
+<td> <strong>Phone Number</strong>  <span style="color:red;">*</span></strong> </td>
+<td>
+<input type="text"onkeypress="return isNumberKey(event)" name="phone_number"  class="form-control" placeholder="" maxlength="10" minlength="10"  required value="<?=$farmers->phone_number?>" />
 </td>
 </tr>
 
@@ -201,6 +184,7 @@ maxlength="6" minlength="6"  required value="<?=$farmers->pincode?>" />
 
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+
 
 
 <script >
@@ -235,7 +219,7 @@ $(document).ready(function(){
 						}
 						else
 						{
-							alert('No subcategory Found');
+							alert('No city Found');
 							return false;
 						}
 
@@ -247,4 +231,12 @@ $(document).ready(function(){
 
 	})
   });
+</script>
+<script>
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
 </script>

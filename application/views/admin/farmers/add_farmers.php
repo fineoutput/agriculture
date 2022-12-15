@@ -41,12 +41,12 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <table class="table table-hover">
 
 <tr>
-<td> <strong>Name (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Name </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="name_english"  class="form-control" placeholder=""  required value="" />
+<input type="text" name="name"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
-
+<!-- 
 <tr>
 <td> <strong>Name (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
@@ -59,17 +59,17 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="name_punjabi"  class="form-control" placeholder=""  required value="" />
 </td>
-</tr>
+</tr> -->
 
 
 <tr>
-<td> <strong>Village (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>Village </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="village_english"  class="form-control" placeholder=""  required value="" />
+<input type="text" name="village"  class="form-control" placeholder=""  required value="" />
 </td>
 </tr>
 
-<tr>
+<!-- <tr>
 <td> <strong>Village (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="village_hindi"  class="form-control" placeholder=""  required value="" />
@@ -81,18 +81,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="village_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
-</tr>
+</tr> -->
 
 
 <tr>
-<td> <strong>Distrct (English)</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>District </strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="district_english"  class="form-control" placeholder="" required value="" />
+<input type="text" name="district"  class="form-control" placeholder="" required value="" />
 </td>
 </tr>
 
 
-<tr>
+<!-- <tr>
 <td> <strong>District (Hindi)</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
 <input type="text" name="district_hindi"  class="form-control" placeholder="" required value="" />
@@ -105,18 +105,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td>
 <input type="text" name="district_punjabi"  class="form-control" placeholder="" required value="" />
 </td>
-</tr>
+</tr> -->
 
 
 
 
 <tr>
 
- <td> <strong>State name</strong>  <span style="color:red;">*</span></strong> </td>
+ <td> <strong>State</strong>  <span style="color:red;">*</span></strong> </td>
 
  <td>
 
-   <select name="name" class="form-control" id="states" required>
+   <select name="state" class="form-control" id="states" required>
 
      <option value="">-----select state-----</option>
 

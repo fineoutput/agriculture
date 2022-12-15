@@ -4,8 +4,8 @@
   Vendor
   </h1>
   <ol class="breadcrumb">
-  <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-  <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Vendor </a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/Vendor/View_vendor"><i class="fa fa-dashboard"></i> All Vendor </a></li>
   <li class="active">View Vendor</li>
   </ol> 
   </section>
@@ -142,7 +142,7 @@
   <p class="label bg-yellow" >pending</p>
 
   <?php } else { ?>
-  <p class="label bg-green" >Approve</p>
+  <p class="label bg-green" >Approved</p>
 
 
   <?php		}   ?>

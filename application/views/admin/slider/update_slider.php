@@ -1,11 +1,11 @@
 <div class="content-wrapper">
 <section class="content-header">
 <h1>
-Add New Doctor 
+Update new slider
 </h1>
 <ol class="breadcrumb">
 <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Doctor </a></li>
+<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All slider </a></li>
 
 </ol>
 </section>
@@ -14,9 +14,8 @@ Add New Doctor
 <div class="col-lg-12">
 
 <div class="panel panel-default">
-
 <div class="panel-heading">
-<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Doctor</h3>
+<h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New slider</h3>
 </div>
 
 <? if(!empty($this->session->flashdata('smessage'))){ ?>
@@ -37,18 +36,41 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 
 <div class="panel-body">
 <div class="col-lg-10">
-<form action="<?php echo base_url() ?>dcadmin/doctor/add_doctor_data2/<? echo $id; ?>" method="POST" id="slide_frm" enctype="multipart/form-data">
+<form action="<?php echo base_url() ?>dcadmin/slider/add_slider_data/<? echo base64_encode(2); ?>/<?=$id?>" method="POST" id="slide_frm" enctype="multipart/form-data">
 <div class="table-responsive">
 <table class="table table-hover">
+
+ 
+
+
+
+
 
 
 
 <tr>
-<td> <strong>Set Comission</strong>  <span style="color:red;">*</span></strong> </td>
+<td> <strong>image</strong>  <span style="color:red;">*</span></strong> </td>
 <td>
-<input type="text" name="set_comission"  class="form-control" placeholder="" required value="<?= $doctor->comission;?>" />
+<input type="file" name="image"  class="form-control" placeholder="" required value="<?=$slider->image?>" />
+</td>
+
+<td>
+<?php if ($slider->image!="") {  ?>
+<img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$slider->image ?>">
+<?php } else {  ?>
+Sorry No image Found
+<?php } ?>
 </td>
 </tr>
+
+
+
+
+
+
+
+
+
 
 <td colspan="2" >
 <input type="submit" class="btn btn-success" value="save">

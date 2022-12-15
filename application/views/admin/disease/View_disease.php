@@ -4,12 +4,17 @@
 <h1>
 View Disease
 </h1>
+<ol class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/Disease/View_disease"><i class="fa fa-dashboard"></i> All Disease </a></li>
+  <li class="active">View Vendor</li>
+  </ol> 
 </section>
 <section class="content">
 <div class="row">
 <div class="col-lg-12">
-<a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/disease/add_disease"
-role="button" style="margin-bottom:12px;"> Add disease</a>
+<!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/disease/add_disease"
+role="button" style="margin-bottom:12px;"> Add disease</a> -->
 <div class="panel panel-default">
 <div class="panel-heading">
 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View disease</h3>
@@ -40,10 +45,10 @@ role="button" style="margin-bottom:12px;"> Add disease</a>
         <th>#</th>
 
  	 <th>Name</th>
- 	 <th>Image1</th>
- 	 <th>Image2</th>
+ 	 <th>Image</th>
+ 	 <!-- <th>Image2</th>
  	 <th>Image3</th>
- 	 <th>Image4</th>
+ 	 <th>Image4</th> -->
  	 <th>Title</th>
  	 <th>Content</th>
 
@@ -68,7 +73,7 @@ role="button" style="margin-bottom:12px;"> Add disease</a>
         <?php } ?>
         </td>
 
-
+<!-- 
         <td>
         <?php if($data->image2!=""){ ?>
         <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image2
@@ -76,9 +81,9 @@ role="button" style="margin-bottom:12px;"> Add disease</a>
         <?php }else { ?>
         Sorry No File Found
         <?php } ?>
-        </td>
+        </td> -->
 
-
+<!-- 
         <td>
         <?php if($data->image3!=""){ ?>
         <img id="slide_img_path" height=50 width=100 src="<?php echo base_url().$data->image3
@@ -96,7 +101,7 @@ role="button" style="margin-bottom:12px;"> Add disease</a>
         <?php }else { ?>
         Sorry No File Found
         <?php } ?>
-        </td>
+        </td> -->
 
 	 <td><?php echo $data->title ?></td>
  	 <td><?php echo $data->content ?></td>

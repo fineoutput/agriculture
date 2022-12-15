@@ -4,8 +4,8 @@
 Doctor
 </h1>
 <ol class="breadcrumb">
-<li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-<li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Doctor </a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Home</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Doctor/View_doctor"><i class="fa fa-dashboard"></i> All Doctor </a></li>
 <li class="active">View Doctor</li>
 </ol>
 </section>
@@ -42,9 +42,9 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <thead>
 <tr>
 <th>#</th>
-<th>Name (English)</th>
-<th>Name (Hindi)</th>
-<th>Name (Punjabi)</th>
+<th>Name </th>
+<!-- <th>Name (Hindi)</th>
+<th>Name (Punjabi)</th> -->
 <th>Email</th>
 <th>Aadhar Upload</th>
 <th>Type</th>
@@ -52,18 +52,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>Private Practitioner</th>
 
 
-<th>Degree (English</th>
-<th>Degree (Hindi)</th>
-<th>Degree (Punjabi)</th>
+<th>Degree </th>
+<!-- <th>Degree (Hindi)</th>
+<th>Degree (Punjabi)</th> -->
 <th>Experiance</th>
 <th>Assistant</th>
 <th>Fees</th>
 <th>Expertise</th>
 <th>Comission</th>
 <th>Education Qualification</th>
-<th>District (English)</th>
-<th>District (Hindi)</th>
-<th>District (Punjabi)</th>
+<th>District </th>
+<!-- <th>District (Hindi)</th>
+<th>District (Punjabi)</th> -->
 <th>State</th>
 <th>City</th>
 <th>Phone Number</th>
@@ -77,9 +77,9 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <?php $i=1; foreach($doctor_data->result() as $data) { ?>
 <tr>
 <td><?php echo $i ?> </td>
-<td><?php echo $data->name_english ?></td>
-<td><?php echo $data->name_hindi ?></td>
-<td><?php echo $data->name_punjabi ?></td>
+<td><?php echo $data->name ?></td>
+<!-- <td><?php echo $data->name_hindi ?></td>
+<td><?php echo $data->name_punjabi ?></td> -->
 
 <td><?php echo $data->email ?></td>
 <td>
@@ -120,9 +120,9 @@ else{
 
 
 
-<td><?php echo $data->degree_english ?></td>
-<td><?php echo $data->degree_hindi ?></td>
-<td><?php echo $data->degree_punjabi ?></td>
+<td><?php echo $data->degree ?></td>
+<!-- <td><?php echo $data->degree_hindi ?></td>
+<td><?php echo $data->degree_punjabi ?></td> -->
 
 <td><?php echo $data->experience ?></td>
 <td><?php echo $data->assistant ?></td>
@@ -131,9 +131,9 @@ else{
 <td><?php echo $data->comission ?></td>
 
 <td><?php echo $data->education_qualification	 ?></td>
-<td><?php echo $data->district_english ?></td>
-<td><?php echo $data->district_hindi ?></td>
-<td><?php echo $data->district_punjabi ?></td>
+<td><?php echo $data->district ?></td>
+<!-- <td><?php echo $data->district_hindi ?></td>
+<td><?php echo $data->district_punjabi ?></td> -->
 
 <td><?php $cid = $data->state;
 $this->db->select('*');
@@ -176,7 +176,7 @@ $this->db->select('*');
 <p class="label bg-yellow" >pending</p>
 
 <?php } else { ?>
-<p class="label bg-green" >Approve</p>
+<p class="label bg-green" >Approved</p>
 
 
 <?php		}   ?>
@@ -194,9 +194,9 @@ $this->db->select('*');
 
 
 <?php if($data->is_active2==1){ ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/inactive">Convert into expert doctor</a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/inactive">Convert into Normal Doctor</a></li>
 <?php } else { ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Doctor/add_fees_doctor/<?php echo base64_encode($data->id) ?>/active">Convert into expert doctor</a></li>
+  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/active">Convert into Expert Doctor</a></li>
 <?php		}   ?>
 
 

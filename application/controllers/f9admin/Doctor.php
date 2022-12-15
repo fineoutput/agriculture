@@ -91,9 +91,9 @@ if($this->input->post())
 {
 // print_r($this->input->post());
 // exit;
-$this->form_validation->set_rules('name_english', 'name', 'required|xss_clean');
-$this->form_validation->set_rules('name_hindi', 'name', 'required|xss_clean');
-$this->form_validation->set_rules('name_punjabi', 'name', 'required|xss_clean');
+$this->form_validation->set_rules('name', 'name', 'required|xss_clean');
+$this->form_validation->set_rules('degree', 'degree', 'required|xss_clean');
+$this->form_validation->set_rules('district', 'district', 'required|xss_clean');
 
 
 $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
@@ -103,17 +103,17 @@ $this->form_validation->set_rules('type_colume', 'type_colume', 'xss_clean');
 $this->form_validation->set_rules('vet', 'vet', 'xss_clean');
 $this->form_validation->set_rules('private_colume', 'private_colume', 'required|xss_clean');
 
-$this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
-$this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
-$this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'required|xss_clean');
+// $this->form_validation->set_rules('degree_english', 'degree_english', 'required|required|xss_clean');
+// $this->form_validation->set_rules('degree_hindi', 'degree_hindi', 'required|xss_clean');
+// $this->form_validation->set_rules('degree_punjabi', 'degree_punjabi', 'required|xss_clean');
 
 $this->form_validation->set_rules('experiance_colume', 'experiance_colume', 'required|xss_clean');
 $this->form_validation->set_rules('assistant_colume', 'assistant_colume', 'required|xss_clean');
 $this->form_validation->set_rules('education_colume', 'education_colume', 'required|xss_clean');
 
-$this->form_validation->set_rules('district_english', 'district_english', 'required|xss_clean');
-$this->form_validation->set_rules('district_hindi', 'district_hindi', 'required|xss_clean');
-$this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'required|xss_clean');
+// $this->form_validation->set_rules('district_english', 'district_english', 'required|xss_clean');
+// $this->form_validation->set_rules('district_hindi', 'district_hindi', 'required|xss_clean');
+// $this->form_validation->set_rules('district_punjabi', 'district_punjabi', 'required|xss_clean');
 
 $this->form_validation->set_rules('state_colume', 'state_colume', 'required|xss_clean');
 $this->form_validation->set_rules('city_colume', 'city_colume', 'required|xss_clean');
@@ -122,24 +122,28 @@ $this->form_validation->set_rules('phone_colume', 'phone_colume', 'required|xss_
 if($this->form_validation->run()== TRUE)
 {
 
-$name_english=$this->input->post('name_english');
-$name_hindi=$this->input->post('name_hindi');
-$name_punjabi=$this->input->post('name_punjabi');
+$name=$this->input->post('name');
+$degree=$this->input->post('degree');
+$district=$this->input->post('district');
+
 $email=$this->input->post('email');
 $type_colume=$this->input->post('type_colume');
 // $type_colume2=$this->input->post('type_colume2');
 $vet=$this->input->post('vet');
 $private_colume=$this->input->post('private_colume');
 
-$degree_english=$this->input->post('degree_english');
-$degree_hindi=$this->input->post('degree_hindi');
-$degree_punjabi=$this->input->post('degree_punjabi');
+// $degree_english=$this->input->post('degree_english');
+// $degree_hindi=$this->input->post('degree_hindi');
+// $degree_punjabi=$this->input->post('degree_punjabi');
+
 $experiance_colume=$this->input->post('experiance_colume');
 $assistant_colume=$this->input->post('assistant_colume');
 $education_colume=$this->input->post('education_colume');
-$district_english=$this->input->post('district_english');
-$district_hindi=$this->input->post('district_hindi');
-$district_punjabi=$this->input->post('district_punjabi');
+
+// $district_english=$this->input->post('district_english');
+// $district_hindi=$this->input->post('district_hindi');
+// $district_punjabi=$this->input->post('district_punjabi');
+
 $state_colume=$this->input->post('state_colume');
 $city_colume=$this->input->post('city_colume');
 $phone_colume=$this->input->post('phone_colume');
@@ -190,9 +194,9 @@ $addedby=$this->session->userdata('admin_id');
 $typ=base64_decode($t);
 if($typ==1){
 $data_insert = array(
-'name_english'=>$name_english,
-'name_hindi'=>$name_hindi,
-'name_punjabi'=>$name_punjabi,
+'name'=>$name,
+// 'name_hindi'=>$name_hindi,
+// 'name_punjabi'=>$name_punjabi,
 'email'=>$email,
 'image'=>$image,
 'type'=>$type_colume,
@@ -201,15 +205,15 @@ $data_insert = array(
 'private_practitioner'=>$private_colume,
 
 
-'degree_english'=>$degree_english,
-'degree_hindi'=>$degree_hindi,
-'degree_punjabi'=>$degree_punjabi,
+'degree'=>$degree,
+// 'degree_hindi'=>$degree_hindi,
+// 'degree_punjabi'=>$degree_punjabi,
 'experience'=>$experiance_colume,
 'assistant'=>$assistant_colume,
 'education_qualification'=>$education_colume,
-'district_english'=>$district_english,
-'district_hindi'=>$district_hindi,
-'district_punjabi'=>$district_punjabi,
+'district'=>$district,
+// 'district_hindi'=>$district_hindi,
+// 'district_punjabi'=>$district_punjabi,
 
 'state'=>$state_colume,
 'city'=>$city_colume,
@@ -234,9 +238,9 @@ if($typ==2){
 $idw=base64_decode($iw);
 
 $data_insert = array(
-'name_english'=>$name_english,
-'name_hindi'=>$name_hindi,
-'name_punjabi'=>$name_punjabi,
+'name'=>$name,
+// 'name_hindi'=>$name_hindi,
+// 'name_punjabi'=>$name_punjabi,
 'email'=>$email,
 'image'=>$image,
 'type'=>$type_colume,
@@ -244,15 +248,15 @@ $data_insert = array(
 'private_practitioner'=>$private_colume,
 
 
-'degree_english'=>$degree_english,
-'degree_hindi'=>$degree_hindi,
-'degree_punjabi'=>$degree_punjabi,
+'degree'=>$degree,
+// 'degree_hindi'=>$degree_hindi,
+// 'degree_punjabi'=>$degree_punjabi,
 'experience'=>$experiance_colume,
 'assistant'=>$assistant_colume,
 'education_qualification'=>$education_colume,
-'district_english'=>$district_english,
-'district_hindi'=>$district_hindi,
-'district_punjabi'=>$district_punjabi,
+'district'=>$district,
+// 'district_hindi'=>$district_hindi,
+// 'district_punjabi'=>$district_punjabi,
 
 'state'=>$state_colume,
 'city'=>$city_colume,
@@ -461,8 +465,15 @@ public function set_comission_doctor($idd){
 
 if(!empty($this->session->userdata('admin_data'))){
 
-$id=base64_decode($idd);
-$data['id']=$idd;
+    $id=base64_decode($idd);
+    $data['id']=$idd;
+    
+    $this->db->select('*');
+    $this->db->from('tbl_doctor');
+    $this->db->where('id',$id);
+    $dsa= $this->db->get();
+    $data['doctor']=$dsa->row();
+    
 $data['user_name']=$this->load->get_var('user_name');
 
 
