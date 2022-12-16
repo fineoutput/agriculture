@@ -88,7 +88,7 @@ class Managementcontroller extends CI_Controller
           $data = [];
           $data = array(
             'date' => $date,
-            'farmer_id' => $farmer_data->id,
+            'farmer_id' => $farmer_data[0]->id,
             'green_forage' => $green_forage,
             'silage' => $silage,
             'dry_fodder' => $dry_fodder,
@@ -171,6 +171,7 @@ class Managementcontroller extends CI_Controller
 
 
       if ($this->form_validation->run() == true) {
+        $farmer_id = $this->input->post('farmer_id');
         $date = $this->input->post('date');
         $entry_milk = $this->input->post('entry_milk');
         $price_milk = $this->input->post('price_milk');
