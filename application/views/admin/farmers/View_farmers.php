@@ -42,12 +42,14 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <tr>
 <th>#</th>
 <th>Name </th>
+<th>Village </th>
+<th>District </th>
+
+
 <!-- <th>Name (Hindi)</th>
 <th>Name (Punjabi)</th> -->
-<th>Village </th>
 <!-- <th>Village (Hindi)</th>
 <th>Village (Punjabi)</th> -->
-<th>District </th>
 <!-- <th>District (Hindi)</th>
 <th>District (Punjabi)</th> -->
 
@@ -106,16 +108,6 @@ $this->db->select('*');
 
 
  ?></td>
-<!-- <td><?php $ct = $data->state;
-// $this->db->select('*');
-//             $this->db->from('all_states');
-//             $this->db->where('id',$ct);
-//             $dsa= $this->db->get();
-//             $da=$dsa->row();
-//           if(!empty($da)){
-//             echo $da->state_name;
-//           }
-
 
  ?></td> -->
 <td><?php echo $data->pincode ?></td>
