@@ -88,7 +88,7 @@ class Managementcontroller extends CI_Controller
           $data = [];
           $data = array(
             'date' => $date,
-            'farmer_id' => $farmer_data->id,
+            'farmer_id' => $farmer_data[0]->id,
             'green_forage' => $green_forage,
             'silage' => $silage,
             'dry_fodder' => $dry_fodder,
@@ -124,7 +124,7 @@ class Managementcontroller extends CI_Controller
           $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
 
           $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => []
           );
@@ -145,7 +145,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -171,6 +171,7 @@ class Managementcontroller extends CI_Controller
 
 
       if ($this->form_validation->run() == true) {
+       
         $date = $this->input->post('date');
         $entry_milk = $this->input->post('entry_milk');
         $price_milk = $this->input->post('price_milk');
@@ -184,7 +185,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array( 'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'entry_milk' => $entry_milk,
           'price_milk' => $price_milk,
@@ -199,7 +200,7 @@ class Managementcontroller extends CI_Controller
         $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
 
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -220,7 +221,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -376,7 +377,7 @@ class Managementcontroller extends CI_Controller
         if (!empty($farmer_data)) {
 
         $data = [];
-        $data = array( 'farmer_id' => $farmer_data->id,
+        $data = array( 'farmer_id' => $farmer_data[0]->id,
           'animal_name' => $animal_name,
           'milk_production' => $milk_production,
           'lactation' => $lactation,
@@ -395,7 +396,7 @@ class Managementcontroller extends CI_Controller
 
         $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -416,7 +417,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -459,7 +460,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(  'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'doctor_visit_fees' => $doctor_visit_fees,
           'treatment_expenses' => $treatment_expenses,
@@ -476,7 +477,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -497,7 +498,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -538,7 +539,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'filter_reports_by_calendar' => $filter_reports_by_calendar,
           'sale' => $sale,
           'purchase' => $purchase,
@@ -553,7 +554,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_reports", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -574,7 +575,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -600,7 +601,7 @@ class Managementcontroller extends CI_Controller
       );
     }
     $res = array(
-      'message' => "success",
+      'message' => "Success",
       'status' => 200,
       'data' => $data
     );
@@ -654,7 +655,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'green_forage' => $green_forage,
           'dry_fodder' => $dry_fodder,
@@ -675,7 +676,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -696,7 +697,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -720,14 +721,14 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'name' => $name,
           'ip' => $ip,
           'date' => $cur_date
         );
         $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -748,7 +749,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -782,7 +783,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'tank_id' => $tank_id,
           'tag_no' => $tag_no,
           'bull_name' => $bull_name,
@@ -794,7 +795,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -815,7 +816,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);

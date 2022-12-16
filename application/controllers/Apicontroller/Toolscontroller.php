@@ -45,7 +45,7 @@ class Toolscontroller extends CI_Controller
                 if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
-                $data = array(
+                $data = array('farmer_id' => $farmer_data[0]->id,
                     'number_of_cows' => $number_of_cows,
                     'feeding' => $feeding,
                     'total_feeding_days' => $total_feeding_days,
@@ -61,7 +61,7 @@ class Toolscontroller extends CI_Controller
                 );
                 $last_id = $this->base_model->insert_table("tbl_silage_making", $data, 1);
                 $res = array(
-                    'message' => "success",
+                    'message' => "Success",
                     'status' => 200,
                     'data' => []
                 );
@@ -82,7 +82,7 @@ class Toolscontroller extends CI_Controller
             }
         } else {
             $res = array(
-                'message' => 'please insert data',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
@@ -112,7 +112,7 @@ class Toolscontroller extends CI_Controller
                 if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
-                $data = array(       'farmer_id' => $farmer_data->id,
+                $data = array('farmer_id' => $farmer_data[0]->id,
                     'breeding_date' => $breeding_date,
                     'estrous_cycle_heat_detection' => $estrous_cycle_heat_detection,
                     'age_of_pregnancy' => $age_of_pregnancy,
@@ -123,7 +123,7 @@ class Toolscontroller extends CI_Controller
                 );
                 $last_id = $this->base_model->insert_table("tbl_pregnancy_calculator", $data, 1);
                 $res = array(
-                    'message' => "success",
+                    'message' => "Success",
                     'status' => 200,
                     'data' => []
                 );
@@ -144,7 +144,7 @@ class Toolscontroller extends CI_Controller
             }
         } else {
             $res = array(
-                'message' => 'please insert data',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
@@ -177,7 +177,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -208,7 +208,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -243,7 +243,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -275,7 +275,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );

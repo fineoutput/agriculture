@@ -57,7 +57,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'tag_no' => $tag_no,
@@ -77,7 +77,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -98,7 +98,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -141,7 +141,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(       'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'heifer_details' => $heifer_details,
@@ -157,7 +157,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -178,7 +178,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -220,7 +220,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(       'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'animal_type' => $animal_type,
           'assign_to_group' => $assign_to_group,
           'tag_no' => $tag_no,
@@ -233,7 +233,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -254,7 +254,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
