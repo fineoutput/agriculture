@@ -57,7 +57,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'tag_no' => $tag_no,
@@ -141,7 +141,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(       'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'group_id' => $group_id,
           'cattle' => $cattle,
           'heifer_details' => $heifer_details,
@@ -220,7 +220,7 @@ class Breedcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(       'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'animal_type' => $animal_type,
           'assign_to_group' => $assign_to_group,
           'tag_no' => $tag_no,

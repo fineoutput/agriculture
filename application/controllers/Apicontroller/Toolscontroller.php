@@ -45,7 +45,7 @@ class Toolscontroller extends CI_Controller
                 if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
-                $data = array(
+                $data = array('farmer_id' => $farmer_data[0]->id,
                     'number_of_cows' => $number_of_cows,
                     'feeding' => $feeding,
                     'total_feeding_days' => $total_feeding_days,
@@ -112,7 +112,7 @@ class Toolscontroller extends CI_Controller
                 if (!empty($farmer_data)) {
                 $addedby = $this->session->userdata('admin_id');
                 $data = [];
-                $data = array(       'farmer_id' => $farmer_data->id,
+                $data = array('farmer_id' => $farmer_data[0]->id,
                     'breeding_date' => $breeding_date,
                     'estrous_cycle_heat_detection' => $estrous_cycle_heat_detection,
                     'age_of_pregnancy' => $age_of_pregnancy,

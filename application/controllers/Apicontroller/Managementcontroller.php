@@ -171,7 +171,7 @@ class Managementcontroller extends CI_Controller
 
 
       if ($this->form_validation->run() == true) {
-        $farmer_id = $this->input->post('farmer_id');
+       
         $date = $this->input->post('date');
         $entry_milk = $this->input->post('entry_milk');
         $price_milk = $this->input->post('price_milk');
@@ -185,7 +185,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array( 'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'entry_milk' => $entry_milk,
           'price_milk' => $price_milk,
@@ -377,7 +377,7 @@ class Managementcontroller extends CI_Controller
         if (!empty($farmer_data)) {
 
         $data = [];
-        $data = array( 'farmer_id' => $farmer_data->id,
+        $data = array( 'farmer_id' => $farmer_data[0]->id,
           'animal_name' => $animal_name,
           'milk_production' => $milk_production,
           'lactation' => $lactation,
@@ -460,7 +460,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array(  'farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'doctor_visit_fees' => $doctor_visit_fees,
           'treatment_expenses' => $treatment_expenses,
@@ -539,7 +539,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'filter_reports_by_calendar' => $filter_reports_by_calendar,
           'sale' => $sale,
           'purchase' => $purchase,
@@ -655,7 +655,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'date' => $date,
           'green_forage' => $green_forage,
           'dry_fodder' => $dry_fodder,
@@ -721,7 +721,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'name' => $name,
           'ip' => $ip,
           'date' => $cur_date
@@ -783,7 +783,7 @@ class Managementcontroller extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
         $data = [];
-        $data = array('farmer_id' => $farmer_data->id,
+        $data = array('farmer_id' => $farmer_data[0]->id,
           'tank_id' => $tank_id,
           'tag_no' => $tag_no,
           'bull_name' => $bull_name,
