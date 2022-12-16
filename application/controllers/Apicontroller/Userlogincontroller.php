@@ -49,7 +49,7 @@ class Userlogincontroller extends CI_Controller
             }
         } else {
             $respone['status'] = false;
-            $respone['message'] = 'Please insert some data';
+            $respone['message'] = 'Please Insert Some Data';
             echo json_encode($respone);
         }
     }
@@ -76,7 +76,7 @@ class Userlogincontroller extends CI_Controller
             }
         } else {
             $respone['status'] = false;
-            $respone['message'] = 'Please insert some data';
+            $respone['message'] = 'Please Insert Some Data';
             echo json_encode($respone);
         }
     }
@@ -100,7 +100,7 @@ class Userlogincontroller extends CI_Controller
             }
         } else {
             $respone['status'] = false;
-            $respone['message'] = 'Please insert some data';
+            $respone['message'] = 'Please Insert Some Data';
             echo json_encode($respone);
         }
     }
@@ -126,7 +126,7 @@ class Userlogincontroller extends CI_Controller
             }
         } else {
             $respone['status'] = false;
-            $respone['message'] = 'Please insert some data';
+            $respone['message'] = 'Please Insert Some Data';
             echo json_encode($respone);
         }
     }
@@ -146,10 +146,10 @@ class Userlogincontroller extends CI_Controller
                 $this->db->where('id', $this->session->userdata('user_id'));
                 $zapak2 = $this->db->update('tbl_users', $update);
                 if ($zapak2==1) {
-                    $this->session->set_flashdata('smessage', 'Profile updated successfully!');
+                    $this->session->set_flashdata('smessage', 'Profile Updated Successfully!');
                     redirect('Home/my_profile/account', 'refresh');
                 } else {
-                    $this->session->set_flashdata('emessage', 'Some unknown error occurred');
+                    $this->session->set_flashdata('emessage', 'Some Unknown Error Occurred');
                     redirect('Home/my_profile/account', 'refresh');
                 }
             } else {
@@ -157,7 +157,7 @@ class Userlogincontroller extends CI_Controller
                 redirect($_SERVER['HTTP_REFERER']);
             }
         } else {
-            $this->session->set_flashdata('emessage', 'Please insert some data, No data available');
+            $this->session->set_flashdata('emessage', 'Please Insert Some Data, No Data Available');
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
@@ -185,10 +185,10 @@ class Userlogincontroller extends CI_Controller
                 $this->db->where('id', $this->session->userdata('user_id'));
                 $zapak2 = $this->db->update('tbl_reseller', $update);
                 if ($zapak2==1) {
-                    $this->session->set_flashdata('smessage', 'Profile updated successfully!');
+                    $this->session->set_flashdata('smessage', 'Profile Updated Successfully!');
                     redirect('Home/my_profile', 'refresh');
                 } else {
-                    $this->session->set_flashdata('emessage', 'Some unknown error occurred');
+                    $this->session->set_flashdata('emessage', 'Some Unknown Error Occurred');
                     redirect('Home/my_profile', 'refresh');
                 }
             } else {
@@ -196,7 +196,7 @@ class Userlogincontroller extends CI_Controller
                 redirect($_SERVER['HTTP_REFERER']);
             }
         } else {
-            $this->session->set_flashdata('emessage', 'Please insert some data, No data available');
+            $this->session->set_flashdata('emessage', 'Please Insert Some Data, No Data Available');
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
@@ -223,7 +223,7 @@ class Userlogincontroller extends CI_Controller
                 redirect($_SERVER['HTTP_REFERER']);
             }
         } else {
-            $this->session->set_flashdata('emessage', 'Please insert some data, No data available');
+            $this->session->set_flashdata('emessage', 'Please Insert Some Data, No Data Available');
             redirect($_SERVER['HTTP_REFERER']);
         }
     }

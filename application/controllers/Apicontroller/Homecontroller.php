@@ -29,7 +29,7 @@ class Homecontroller extends CI_Controller
                 );
                 $last_id = $this->base_model->insert_table("tbl_group", $data, 1);
                 $res = array(
-                    'message' => "success",
+                    'message' => "Success",
                     'status' => 200,
                     'data' => []
                 );
@@ -43,7 +43,7 @@ class Homecontroller extends CI_Controller
             }
         } else {
             $res = array(
-                'message' => 'please insert data',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
@@ -67,7 +67,7 @@ class Homecontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -92,7 +92,7 @@ class Homecontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -118,7 +118,7 @@ class Homecontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );

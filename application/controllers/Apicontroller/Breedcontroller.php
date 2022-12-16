@@ -77,7 +77,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -98,7 +98,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -157,7 +157,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -178,7 +178,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -233,7 +233,7 @@ class Breedcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -254,7 +254,7 @@ class Breedcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);

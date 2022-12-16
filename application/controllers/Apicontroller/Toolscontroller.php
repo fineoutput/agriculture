@@ -61,7 +61,7 @@ class Toolscontroller extends CI_Controller
                 );
                 $last_id = $this->base_model->insert_table("tbl_silage_making", $data, 1);
                 $res = array(
-                    'message' => "success",
+                    'message' => "Success",
                     'status' => 200,
                     'data' => []
                 );
@@ -82,7 +82,7 @@ class Toolscontroller extends CI_Controller
             }
         } else {
             $res = array(
-                'message' => 'please insert data',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
@@ -123,7 +123,7 @@ class Toolscontroller extends CI_Controller
                 );
                 $last_id = $this->base_model->insert_table("tbl_pregnancy_calculator", $data, 1);
                 $res = array(
-                    'message' => "success",
+                    'message' => "Success",
                     'status' => 200,
                     'data' => []
                 );
@@ -144,7 +144,7 @@ class Toolscontroller extends CI_Controller
             }
         } else {
             $res = array(
-                'message' => 'please insert data',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
@@ -177,7 +177,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -208,7 +208,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -243,7 +243,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );
@@ -275,7 +275,7 @@ class Toolscontroller extends CI_Controller
             );
         }
         $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => $data
         );

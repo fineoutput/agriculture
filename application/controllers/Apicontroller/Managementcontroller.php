@@ -124,7 +124,7 @@ class Managementcontroller extends CI_Controller
           $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
 
           $res = array(
-            'message' => "success",
+            'message' => "Success",
             'status' => 200,
             'data' => []
           );
@@ -145,7 +145,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -200,7 +200,7 @@ class Managementcontroller extends CI_Controller
         $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
 
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -221,7 +221,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -396,7 +396,7 @@ class Managementcontroller extends CI_Controller
 
         $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -417,7 +417,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -477,7 +477,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -498,7 +498,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -554,7 +554,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_reports", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -575,7 +575,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -601,7 +601,7 @@ class Managementcontroller extends CI_Controller
       );
     }
     $res = array(
-      'message' => "success",
+      'message' => "Success",
       'status' => 200,
       'data' => $data
     );
@@ -676,7 +676,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -697,7 +697,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -728,7 +728,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -749,7 +749,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
@@ -795,7 +795,7 @@ class Managementcontroller extends CI_Controller
         );
         $last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
         $res = array(
-          'message' => "success",
+          'message' => "Success",
           'status' => 200,
           'data' => []
         );
@@ -816,7 +816,7 @@ class Managementcontroller extends CI_Controller
       }
     } else {
       $res = array(
-        'message' => 'please insert data',
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
