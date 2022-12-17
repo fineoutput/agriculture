@@ -53,19 +53,19 @@ class CI_Login
                     $msg ='Dear User, Your OTP for signup to CABME is '.$OTP.' Valid for 30 minutes. Please do not share this OTP. Regards, CABME INDIA';
                     $temp_id=1707166480333123421;
                     // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
-                    $respone['status'] = true;
+                    $respone['status'] = 200;
                     $respone['message'] ='Please enter otp sent to your register mobile number';
                     // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
                     return json_encode($respone);
                     log_message('error', json_encode($respone));
                 } else {
-                    $respone['status'] = false;
+                    $respone['status'] = 201;
                     $respone['message'] ='Some error occurred!';
                     // $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
                     return json_encode($respone);
                 }
             } else {
-                $respone['status'] = false;
+                $respone['status'] = 201;
                 $respone['message'] ='User Already Exist!';
                 // $this->CI->session->set_flashdata('emessage', 'User Already Exist!');
                 return json_encode($respone);
@@ -177,12 +177,12 @@ class CI_Login
                         $msg ='Dear User, Your OTP for login to CABME is '.$OTP.' Valid for 30 minutes. Please do not share this OTP. Thank You, CABME INDIA';
                         $temp_id=1707166572968709050;
                         // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
-                        $respone['status'] = true;
+                        $respone['status'] = 200;
                         $respone['message'] ='Please enter otp sent to your register mobile number';
                         // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
                         return json_encode($respone);
                     } else {
-                        $respone['status'] = false;
+                        $respone['status'] = 201;
                         $respone['message'] ='Some error occurred!';
                         // $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
                         return json_encode($respone);
@@ -190,7 +190,7 @@ class CI_Login
                 }
                 //------ user is inactive --------
                 else {
-                    $respone['status'] = false;
+                    $respone['status'] = 201;
                     $respone['message'] ='Your Account is blocked! Please contact to admin';
                     // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
                     return json_encode($respone);
@@ -222,32 +222,32 @@ class CI_Login
                           );
                             $this->CI->db->where('id', $user_data[0]->id);
                             $zapak=$this->CI->db->update('tbl_farmers', $data_update);
-                            $respone['status'] = true;
+                            $respone['status'] = 200;
                             $respone['message'] ='Login Successfully';
                             $respone['data'] =$auth;
                             return json_encode($respone);
                         } else {
-                            $respone['status'] = true;
+                            $respone['status'] = 200;
                             $respone['message'] ='Your account is inactive!';
                             return json_encode($respone);
                         }
                     } else {
-                        $respone['status'] = false;
+                        $respone['status'] = 201;
                         $respone['message'] ='Some error occurred! Please try again';
                         return json_encode($respone);
                     }
                 } else {
-                    $respone['status'] = false;
+                    $respone['status'] = 201;
                     $respone['message'] ='OTP is already used!';
                     return json_encode($respone);
                 }
             } else {
-                $respone['status'] = false;
+                $respone['status'] = 201;
                 $respone['message'] ='Wrong OTP Entered!';
                 return json_encode($respone);
             }
         } else {
-            $respone['status'] = false;
+            $respone['status'] = 201;
             $respone['message'] ='Invalid OTP!';
             return json_encode($respone);
         }
