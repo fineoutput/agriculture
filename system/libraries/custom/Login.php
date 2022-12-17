@@ -114,30 +114,30 @@ class CI_Login
                   $this->CI->session->set_userdata('state', $temp_data[0]->state);
                   $this->CI->session->set_userdata('pincode', $temp_data[0]->pincode);
                   $this->CI->session->set_userdata('user_id', $last_id2);
-                  $respone['status'] = true;
+                  $respone['status'] = 200;
                   $respone['message'] ='Successfully Registered!';
                   // $this->CI->session->set_flashdata('smessage', 'Successfully Registered!');
                   return json_encode($respone);
               } else {
-                  $respone['status'] = false;
+                  $respone['status'] = 201;
                   $respone['message'] ='Some error occurred! Please try again';
                   // $this->CI->session->set_flashdata('emessage', 'Some error occurred! Please try again');
                   return json_encode($respone);
               }
           } else {
-              $respone['status'] = false;
+              $respone['status'] = 201;
               $respone['message'] ='OTP is already used!';
               // $this->CI->session->set_flashdata('emessage', 'OTP is already used!');
               return json_encode($respone);
           }
       } else {
-          $respone['status'] = false;
+          $respone['status'] = 201;
           $respone['message'] ='Wrong OTP Entered!';
           // $this->CI->session->set_flashdata('emessage', 'Wrong OTP Entered!');
           return json_encode($respone);
       }
             } else {
-                $respone['status'] = false;
+                $respone['status'] = 201;
                 $respone['message'] ='Invalid OTP!';
                 // $this->CI->session->set_flashdata('emessage', 'Invalid OTP!');
                 return json_encode($respone);
