@@ -46,12 +46,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <th>District </th>
 
 
-<!-- <th>Name (Hindi)</th>
-<th>Name (Punjabi)</th> -->
-<!-- <th>Village (Hindi)</th>
-<th>Village (Punjabi)</th> -->
-<!-- <th>District (Hindi)</th>
-<th>District (Punjabi)</th> -->
+
 
 <th>City</th>
 
@@ -74,13 +69,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
 <td><?php echo $data->district ?></td>
 
 
-<!-- <td><?php echo $data->name_hindi ?></td>
-<td><?php echo $data->name_punjabi ?></td> -->
 
-<!-- <td><?php echo $data->village_hindi ?></td>
-<td><?php echo $data->village_punjabi ?></td> -->
-<!-- <td><?php echo $data->district_hindi ?></td>
-<td><?php echo $data->district_punjabi ?></td> -->
 
 <td><?php $ct = $data->state;
 $this->db->select('*');
@@ -109,7 +98,7 @@ $this->db->select('*');
 
  ?></td>
 
- ?></td> -->
+ </td> 
 <td><?php echo $data->pincode ?></td>
 <td><?php echo $data->phone_number ?></td>
 
