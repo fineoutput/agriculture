@@ -14,18 +14,29 @@ class Homecontroller extends CI_Controller
 
   //====================================================== GROUPS================================================//
 
-    public function Groups()
+    public function create_group()
     {
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
-            $this->form_validation->set_rules('create_group', 'create_group', 'required|xss_clean|trim');
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
-                $create_group = $this->input->post('create_group');
+                $name = $this->input->post('name');
+                $ip = $this->input->ip_address();
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
                 $data = [];
-                $data = array(
-                    'create_group' => $create_group
+                $data = array( 'farmer_id' => $farmer_data[0]->id,
+                    'name' => $name,
+                    'ip' => $ip,
+            'date' => $cur_date
+
+                  
                 );
                 $last_id = $this->base_model->insert_table("tbl_group", $data, 1);
                 $res = array(
@@ -35,20 +46,50 @@ class Homecontroller extends CI_Controller
                 );
                 echo json_encode($res);
             } else {
-                $res = array(
-                    'message' => validation_errors(),
-                    'status' => 201
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Please Insert Data',
+              $res = array(
+                'message' => 'Permission Denied!',
                 'status' => 201
+              );
+              echo json_encode($res);
+            }
+          } else {
+            $res = array(
+              'message' => validation_errors(),
+              'status' => 201
             );
             echo json_encode($res);
+          }
+        } else {
+          $res = array(
+            'message' => 'Please Insert Data',
+            'status' => 201
+          );
+          echo json_encode($res);
         }
+        
     }
+
+
+
+    public function get_group()
+
+    {
+        $group_data = $this->db->get_where('tbl_group', array('is_active' => 1))->result();
+        $data = [];
+        foreach ($group_data as $groups) {
+          
+            $data[] = array(
+                'name' => $groups->name
+            );
+        }
+        $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => $data
+        );
+        echo json_encode($res);
+    }
+
     //====================================================== GET SLIDER================================================//
 
     public function get_slider()
