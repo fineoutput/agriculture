@@ -31,7 +31,9 @@ class Homecontroller extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                 $data = [];
-                $data = array( 'farmer_id' => $farmer_data[0]->id,
+                $data = array( 
+                    
+                    'farmer_id' => $farmer_data[0]->id,
                     'name' => $name,
                     'ip' => $ip,
                     'is_active' =>1,
@@ -75,8 +77,11 @@ class Homecontroller extends CI_Controller
     public function get_group()
 
     
-    {
+    { $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
         $group_data = $this->db->get_where('tbl_group', array('is_active' => 1))->result();
+       
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         $data = [];
         foreach ($group_data as $a) {
             if (!empty($a->image)) {
@@ -84,7 +89,7 @@ class Homecontroller extends CI_Controller
             } else {
                 $image = '';
             }
-            $data[] = array(
+            $data[] = array('farmer_id' => $farmer_data[0]->id,
                 'name' => $a->name,
                
             );
