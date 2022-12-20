@@ -31,7 +31,9 @@ class Homecontroller extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                 $data = [];
-                $data = array( 'farmer_id' => $farmer_data[0]->id,
+                $data = array( 
+                    
+                    'farmer_id' => $farmer_data[0]->id,
                     'name' => $name,
                     'ip' => $ip,
                     'is_active' =>1,
@@ -75,26 +77,36 @@ class Homecontroller extends CI_Controller
     public function get_group()
 
     
-    {
-        $group_data = $this->db->get_where('tbl_group', array('is_active' => 1))->result();
+    { $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $group_data = $this->db->get_where('tbl_group', array('is_active' => 1,'farmer_id'=>$farmer_data[0]->id))->result();
         $data = [];
+        $i=1;
         foreach ($group_data as $a) {
-            if (!empty($a->image)) {
-                $image = base_url() . $a->image;
-            } else {
-                $image = '';
-            }
+    
             $data[] = array(
+                's_no' => $i,
+                'farmer_id' => $farmer_data[0]->id,
                 'name' => $a->name,
                
             );
-        }
+        $i++;}
         $res = array(
             'message' => "Success",
             'status' => 200,
             'data' => $data
         );
         echo json_encode($res);
+    }else {
+            $res = array(
+              'message' => 'Permission Denied!',
+              'status' => 201
+            );
+            echo json_encode($res);
+          }
     }
 
     //====================================================== GET SLIDER================================================//
