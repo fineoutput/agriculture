@@ -73,13 +73,19 @@ class Homecontroller extends CI_Controller
 
     public function get_group()
 
+    
     {
         $group_data = $this->db->get_where('tbl_group', array('is_active' => 1))->result();
         $data = [];
-        foreach ($group_data as $groups) {
-          
+        foreach ($group_data as $a) {
+            if (!empty($a->image)) {
+                $image = base_url() . $a->image;
+            } else {
+                $image = '';
+            }
             $data[] = array(
-                'name' => $groups->name
+                'name' => $a->name,
+               
             );
         }
         $res = array(
