@@ -34,6 +34,7 @@ class Homecontroller extends CI_Controller
                 $data = array( 'farmer_id' => $farmer_data[0]->id,
                     'name' => $name,
                     'ip' => $ip,
+                    'is_active' =>1,
             'date' => $cur_date
 
                   
