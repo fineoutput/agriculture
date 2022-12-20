@@ -23,7 +23,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 1);//new <orders></orders>
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "New";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -43,7 +43,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 1);//new orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "New";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -63,7 +63,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 2);//new orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -83,7 +83,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 3);//dispatched_orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Dispatched";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -103,7 +103,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 4);//delievered orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Completed";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -121,7 +121,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->from('tbl_auction');
             $this->db->where('winner', 0);
             $this->db->where('transfer', 1);
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Transfer";
             $data['order_type'] = 2;
             $this->load->view('admin/common/header_view', $data);
@@ -132,6 +132,7 @@ class Vendor_order extends CI_finecontrol
         }
     }
     //=============================cancelled_order==========================\\
+    
     public function cancelled_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
@@ -141,7 +142,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('payment_status', 1);
             $this->db->where('order_status > ', 4);//cancelled orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Rejected/Cancelled";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -160,7 +161,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 6);//rejected orders
-            $data['vendor_order1_data']= $this->db->get();
+            $data['vender_order_data']= $this->db->get();
             $data['heading'] = "Rejected";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -271,8 +272,8 @@ class Vendor_order extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_vendor_order1');
             $this->db->where('id', $id);
-            $vendor_order1_data= $this->db->get()->row();
-            $data['status']= $vendor_order1_data->order_status;
+            $vender_order_data= $this->db->get()->row();
+            $data['status']= $vender_order_data->order_status;
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/order/order_details');
             $this->load->view('admin/common/footer_view');
@@ -291,7 +292,7 @@ class Vendor_order extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_vendor_order1');
             $this->db->where('id', $id);
-            $data['vendor_order1_data']= $this->db->get()->row();
+            $data['vender_order_data']= $this->db->get()->row();
             $this->db->select('*');
             $this->db->from('tbl_order2');
             $this->db->where('main_id', $id);

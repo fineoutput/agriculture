@@ -66,7 +66,7 @@
 <th>Village </th>
 <th>District </th>
 <th>Vendor Shop Name </th>
-<th><th>Vendor Address</th>
+<th>Vendor Address</th>
  </th>
 
 
@@ -90,10 +90,11 @@ if($order_type==1){
 }else{
   $order_typee=2;
 }
- foreach ($vendor_order1_data->result() as $data) 
+ foreach ($vender_order_data->result() as $data) 
  {
 $this->db->select('*');
 $this->db->from('tbl_farmers');
+$this->db->from('tbl_vendor');
 
 // $this->db->where('id', $data->farmers_id);
 $farmers_data= $this->db->get()->row();?>
@@ -122,6 +123,14 @@ echo "online payment";
 <td><?=$farmers_data->village?></td>
 <td><?=$farmers_data->district?>
 
+
+
+<td><?php echo $data->name ?></td>
+
+<td><?php echo $data->name ?></td>
+<td><?php echo $data->address ?></td>
+
+
 <td><?php echo $data->state;?></td>
 <td><?php echo $data->city?></td>
 <!-- <td><?php echo $data->vendor_code ?></td> -->
@@ -129,7 +138,6 @@ echo "online payment";
 <td><?php echo $data->address ?></td>
 
 
-    <!-- <td><?php echo $data->ref_points ?></td> -->
     <td>
 <?
   $newdate = new DateTime($data->date);
