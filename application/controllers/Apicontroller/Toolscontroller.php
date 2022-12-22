@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
-class Toolscontroller extends CI_Controller
+class ToolsController extends CI_Controller
 {
     public function __construct()
     {

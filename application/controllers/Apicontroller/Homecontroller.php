@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
-class Homecontroller extends CI_Controller
+class HomeController extends CI_Controller
 {
     public function __construct()
     {
@@ -89,7 +89,7 @@ class Homecontroller extends CI_Controller
     
             $data[] = array(
                 's_no' => $i,
-                'farmer_id' => $farmer_data[0]->id,
+                'id' => $a->id,
                 'name' => $a->name,
                
             );
