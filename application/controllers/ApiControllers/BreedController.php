@@ -204,6 +204,11 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('mother_name', 'mother_name', 'required|xss_clean|trim');
       $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
       $this->form_validation->set_rules('age', 'age', 'required|xss_clean|trim');
+     $this->form_validation->set_rules('Breed_type', 'Breed_type', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('Semen_brand', 'Semen_brand', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('Insemination_date', 'Insemination_date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'required|xss_clean|trim');
+
       if ($this->form_validation->run() == true) {
         $animal_type = $this->input->post('animal_type');
         $assign_to_group = $this->input->post('assign_to_group');
@@ -214,6 +219,11 @@ class BreedController extends CI_Controller
         $mother_name = $this->input->post('mother_name');
         $weight = $this->input->post('weight');
         $age = $this->input->post('age');
+        $Breed_type = $this->input->post('Breed_type');
+        $Semen_brand = $this->input->post('Semen_brand');
+         $Insemination_date = $this->input->post('Insemination_date');
+         $pregnancy_test_date = $this->input->post('pregnancy_test_date');
+
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
