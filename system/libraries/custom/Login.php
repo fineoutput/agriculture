@@ -1,5 +1,4 @@
 <?php
-
 if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
@@ -70,12 +69,10 @@ class CI_Login
                 // $this->CI->session->set_flashdata('emessage', 'User Already Exist!');
                 return json_encode($respone);
             }
-        
     }
     //=================================================== REGISTER OTP VERIFY ======================================
     public function RegisterOtpVerify($phone, $input_otp)
     {
-        
             $ip = $this->CI->input->ip_address();
             date_default_timezone_set("Asia/Calcutta");
             $cur_date=date("Y-m-d H:i:s");
@@ -90,8 +87,7 @@ class CI_Login
               if (!empty($last_id)) {// check status is updated or not
                   $temp_data = $this->CI->db->get_where('tbl_farmer_temp', array('phone'=> $otpData[0]->phone))->result();
                   //------ insert user data from temp to user table -----------
-
-                  
+                  $auth =bin2hex(random_bytes(18));//--- generate auth ---
                   $data_insert = array('name'=>$temp_data[0]->name,
                        'village'=>$temp_data[0]->village,
                        'district'=>$temp_data[0]->district,
@@ -99,6 +95,7 @@ class CI_Login
                        'state'=>$temp_data[0]->state,
                        'pincode'=>$temp_data[0]->pincode,
                        'phone'=>$temp_data[0]->phone,
+                       'auth' =>$auth,
                        'ip' =>$ip,
                        'is_active' =>1,
                        'date'=>$cur_date
@@ -114,8 +111,13 @@ class CI_Login
                   $this->CI->session->set_userdata('state', $temp_data[0]->state);
                   $this->CI->session->set_userdata('pincode', $temp_data[0]->pincode);
                   $this->CI->session->set_userdata('user_id', $last_id2);
+                  $data = array(
+                    'name' => $temp_data[0]->name,
+                    'auth' => $auth,
+                );
                   $respone['status'] = 200;
                   $respone['message'] ='Successfully Registered!';
+                  $respone['data'] = $data;
                   // $this->CI->session->set_flashdata('smessage', 'Successfully Registered!');
                   return json_encode($respone);
               } else {
@@ -143,7 +145,6 @@ class CI_Login
                 return json_encode($respone);
             }
         } 
-    
     //============================================= LOGIN WITH OTP ==============================================
     public function LoginWithOtp($phone)
     {
@@ -217,14 +218,13 @@ class CI_Login
                     if (!empty($last_id)) {// check status is updated or not
                         $user_data = $this->CI->db->get_where('tbl_farmers', array('phone'=> $phone))->result();
                         if ($user_data[0]->is_active==1) {
-                            $auth =bin2hex(random_bytes(18));//--- generate auth ---
-                            $data_update = array('auth'=>$auth,
-                          );
-                            $this->CI->db->where('id', $user_data[0]->id);
-                            $zapak=$this->CI->db->update('tbl_farmers', $data_update);
+                            $data = array(
+                                'name' => $user_data[0]->name,
+                                'auth' => $user_data[0]->auth,
+                            );
                             $respone['status'] = 200;
                             $respone['message'] ='Login Successfully';
-                            $respone['data'] =$auth;
+                            $respone['data'] =$data;
                             return json_encode($respone);
                         } else {
                             $respone['status'] = 200;
