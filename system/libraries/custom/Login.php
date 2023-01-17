@@ -85,7 +85,7 @@ class CI_Login
               $this->CI->db->where('id', $otpData[0]->id);
               $last_id=$this->CI->db->update('tbl_otp', $data_insert);
               if (!empty($last_id)) {// check status is updated or not
-                  $temp_data = $this->CI->db->get_where('tbl_farmer_temp', array('phone'=> $otpData[0]->phone))->result();
+                  $temp_data = $this->CI->db->order_by('id', 'desc')->get_where('tbl_farmer_temp', array('phone'=> $otpData[0]->phone))->result();
                   //------ insert user data from temp to user table -----------
                   $auth =bin2hex(random_bytes(18));//--- generate auth ---
                   $data_insert = array('name'=>$temp_data[0]->name,
