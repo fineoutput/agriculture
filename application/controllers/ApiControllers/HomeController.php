@@ -89,8 +89,8 @@ class HomeController extends CI_Controller
     
             $data[] = array(
                 's_no' => $i,
-                'id' => $a->id,
-                'name' => $a->name,
+                'value' => $a->id,
+                'label' => $a->name,
                
             );
         $i++;}
