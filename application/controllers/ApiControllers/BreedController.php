@@ -212,6 +212,12 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('insemination_type', 'insemination_type', 'xss_clean|trim');
       $this->form_validation->set_rules('service_status', 'service_status', 'xss_clean|trim');
       $this->form_validation->set_rules('in_house', 'in_house', 'xss_clean|trim');
+      $this->form_validation->set_rules('lactation', 'lactation', 'xss_clean|trim');
+      $this->form_validation->set_rules('calving_date', 'calving_date', 'xss_clean|trim');
+      $this->form_validation->set_rules('insured_value', 'insured_value', 'xss_clean|trim');
+      $this->form_validation->set_rules('insurance_no', 'insurance_no', 'xss_clean|trim');
+      $this->form_validation->set_rules('renewal_period', 'renewal_period', 'xss_clean|trim');
+      $this->form_validation->set_rules('insurance_date', 'insurance_date', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $animal_type = $this->input->post('animal_type');
         $assign_to_group = $this->input->post('assign_to_group');
@@ -232,6 +238,12 @@ class BreedController extends CI_Controller
         $is_pregnant = $this->input->post('is_pregnant');
         $service_status = $this->input->post('service_status');
         $in_house = $this->input->post('in_house');
+        $lactation = $this->input->post('lactation');
+        $calving_date = $this->input->post('calving_date');
+        $insured_value = $this->input->post('insured_value');
+        $insurance_no = $this->input->post('insurance_no');
+        $renewal_period = $this->input->post('renewal_period');
+        $insurance_date = $this->input->post('insurance_date');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -258,6 +270,12 @@ class BreedController extends CI_Controller
             'is_pregnant' => $is_pregnant,
             'service_status' => $service_status,
             'in_house' => $in_house,
+            'lactation' => $lactation,
+            'calving_date' => $calving_date,
+            'insured_value' => $insured_value,
+            'insurance_no' => $insurance_no,
+            'renewal_period' => $renewal_period,
+            'insurance_date' => $insurance_date,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
