@@ -210,6 +210,8 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('animal_inseminated', 'animal_inseminated', 'xss_clean|trim');
       $this->form_validation->set_rules('insemination_type', 'insemination_type', 'xss_clean|trim');
       $this->form_validation->set_rules('animal_pregnant', 'animal_pregnant', 'xss_clean|trim');
+      $this->form_validation->set_rules('service_status', 'service_status', 'xss_clean|trim');
+      $this->form_validation->set_rules('in_house', 'in_house', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $animal_type = $this->input->post('animal_type');
         $assign_to_group = $this->input->post('assign_to_group');
@@ -228,6 +230,8 @@ class BreedController extends CI_Controller
         $animal_inseminated = $this->input->post('animal_inseminated');
         $insemination_type = $this->input->post('insemination_type');
         $animal_pregnant = $this->input->post('animal_pregnant');
+        $service_status = $this->input->post('service_status');
+        $in_house = $this->input->post('in_house');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -251,6 +255,8 @@ class BreedController extends CI_Controller
             'animal_inseminated' => $animal_inseminated,
             'insemination_type' => $insemination_type,
             'animal_pregnant' => $animal_pregnant,
+            'service_status' => $service_status,
+            'in_house' => $in_house,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
