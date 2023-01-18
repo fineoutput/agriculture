@@ -205,11 +205,11 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('breed_type', 'breed_type', 'xss_clean|trim');
       $this->form_validation->set_rules('semen_brand', 'semen_brand', 'xss_clean|trim');
       $this->form_validation->set_rules('insemination_date', 'insemination_date', 'xss_clean|trim');
+      $this->form_validation->set_rules('is_pregnant', 'is_pregnant', 'xss_clean|trim');
       $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'xss_clean|trim');
       $this->form_validation->set_rules('animal_gender', 'animal_gender', 'xss_clean|trim');
-      $this->form_validation->set_rules('animal_inseminated', 'animal_inseminated', 'xss_clean|trim');
+      $this->form_validation->set_rules('is_inseminated', 'is_inseminated', 'xss_clean|trim');
       $this->form_validation->set_rules('insemination_type', 'insemination_type', 'xss_clean|trim');
-      $this->form_validation->set_rules('animal_pregnant', 'animal_pregnant', 'xss_clean|trim');
       $this->form_validation->set_rules('service_status', 'service_status', 'xss_clean|trim');
       $this->form_validation->set_rules('in_house', 'in_house', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
@@ -227,9 +227,9 @@ class BreedController extends CI_Controller
         $insemination_date = $this->input->post('insemination_date');
         $pregnancy_test_date = $this->input->post('pregnancy_test_date');
         $animal_gender = $this->input->post('animal_gender');
-        $animal_inseminated = $this->input->post('animal_inseminated');
+        $is_inseminated = $this->input->post('is_inseminated');
         $insemination_type = $this->input->post('insemination_type');
-        $animal_pregnant = $this->input->post('animal_pregnant');
+        $is_pregnant = $this->input->post('is_pregnant');
         $service_status = $this->input->post('service_status');
         $in_house = $this->input->post('in_house');
         $ip = $this->input->ip_address();
@@ -253,9 +253,9 @@ class BreedController extends CI_Controller
             'insemination_date' => $insemination_date,
             'pregnancy_test_date' => $pregnancy_test_date,
             'animal_gender' => $animal_gender,
-            'animal_inseminated' => $animal_inseminated,
+            'is_inseminated' => $is_inseminated,
             'insemination_type' => $insemination_type,
-            'animal_pregnant' => $animal_pregnant,
+            'is_pregnant' => $is_pregnant,
             'service_status' => $service_status,
             'in_house' => $in_house,
             'date' => $cur_date
