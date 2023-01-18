@@ -12,7 +12,6 @@ class BreedController extends CI_Controller
     $this->load->library('pagination');
   }
   //====================================================== HEALTH INFO================================================//
-
   public function Health_info()
   {
     $this->load->helper(array('form', 'url'));
@@ -56,39 +55,40 @@ class BreedController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'group_id' => $group_id,
-          'cattle' => $cattle,
-          'tag_no' => $tag_no,
-          'date' => $date,
-          'diesse_name' => $diesse_name,
-          'vaccine' => $vaccine,
-          'medicine' => $medicine,
-          'deworming' => $deworming,
-          'other1' => $other1,
-          'other2' => $other2,
-          'other3' => $other3,
-          'other4' => $other4,
-          'other5' => $other5,
-          'milk_loss' => $milk_loss,
-          'treat_cost' => $treat_cost,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'group_id' => $group_id,
+            'cattle' => $cattle,
+            'tag_no' => $tag_no,
+            'date' => $date,
+            'diesse_name' => $diesse_name,
+            'vaccine' => $vaccine,
+            'medicine' => $medicine,
+            'deworming' => $deworming,
+            'other1' => $other1,
+            'other2' => $other2,
+            'other3' => $other3,
+            'other4' => $other4,
+            'other5' => $other5,
+            'milk_loss' => $milk_loss,
+            'treat_cost' => $treat_cost,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -105,7 +105,6 @@ class BreedController extends CI_Controller
     }
   }
   //====================================================== BREEDING RECORDS================================================//
-
   public function Breeding_Record()
   {
     $this->load->helper(array('form', 'url'));
@@ -140,35 +139,36 @@ class BreedController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'group_id' => $group_id,
-          'cattle' => $cattle,
-          'heifer_details' => $heifer_details,
-          'date' => $date,
-          'weight' => $weight,
-          'date_of_ai' => $date_of_ai,
-          'bull_name_number' => $bull_name_number,
-          'expenses' => $expenses,
-          'vet_name' => $vet_name,
-          'pregnancy_status' => $pregnancy_status,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'group_id' => $group_id,
+            'cattle' => $cattle,
+            'heifer_details' => $heifer_details,
+            'date' => $date,
+            'weight' => $weight,
+            'date_of_ai' => $date_of_ai,
+            'bull_name_number' => $bull_name_number,
+            'expenses' => $expenses,
+            'vet_name' => $vet_name,
+            'pregnancy_status' => $pregnancy_status,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -184,9 +184,7 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     }
   }
-
-    //====================================================== MY ANIMAL================================================//
-
+  //====================================================== MY ANIMAL================================================//
   public function my_animal()
   {
     $this->load->helper(array('form', 'url'));
@@ -204,7 +202,7 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('mother_name', 'mother_name', 'xss_clean|trim');
       $this->form_validation->set_rules('weight', 'weight', 'xss_clean|trim');
       $this->form_validation->set_rules('age', 'age', 'xss_clean|trim');
-     $this->form_validation->set_rules('breed_type', 'breed_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('breed_type', 'breed_type', 'xss_clean|trim');
       $this->form_validation->set_rules('semen_brand', 'semen_brand', 'xss_clean|trim');
       $this->form_validation->set_rules('insemination_date', 'insemination_date', 'xss_clean|trim');
       $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'xss_clean|trim');
@@ -224,53 +222,50 @@ class BreedController extends CI_Controller
         $age = $this->input->post('age');
         $breed_type = $this->input->post('breed_type');
         $semen_brand = $this->input->post('semen_brand');
-         $insemination_date = $this->input->post('insemination_date');
-         $pregnancy_test_date = $this->input->post('pregnancy_test_date');
-         $animal_gender = $this->input->post('animal_gender');
-         $animal_inseminated = $this->input->post('animal_inseminated');
-          $insemination_type = $this->input->post('insemination_type');
-          $animal_pregnant = $this->input->post('animal_pregnant');
-
+        $insemination_date = $this->input->post('insemination_date');
+        $pregnancy_test_date = $this->input->post('pregnancy_test_date');
+        $animal_gender = $this->input->post('animal_gender');
+        $animal_inseminated = $this->input->post('animal_inseminated');
+        $insemination_type = $this->input->post('insemination_type');
+        $animal_pregnant = $this->input->post('animal_pregnant');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'animal_type' => $animal_type,
-          'assign_to_group' => $assign_to_group,
-          'tag_no' => $tag_no,
-          'dob' => $dob,
-          'father_name' => $father_name,
-          'mother_name' => $mother_name,
-          'weight' => $weight,
-          'age' => $age,
-          'breed_type' => $breed_type,
-          'semen_brand' => $semen_brand,
-          'insemination_date' => $insemination_date,
-          'pregnancy_test_date' => $pregnancy_test_date,
-          'animal_gender' => $animal_gender,
-          'animal_inseminated' => $animal_inseminated,
-          'insemination_type' => $insemination_type,
-          'animal_pregnant' => $animal_pregnant,
-
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'animal_type' => $animal_type,
+            'assign_to_group' => $assign_to_group,
+            'tag_no' => $tag_no,
+            'dob' => $dob,
+            'father_name' => $father_name,
+            'mother_name' => $mother_name,
+            'weight' => $weight,
+            'age' => $age,
+            'breed_type' => $breed_type,
+            'semen_brand' => $semen_brand,
+            'insemination_date' => $insemination_date,
+            'pregnancy_test_date' => $pregnancy_test_date,
+            'animal_gender' => $animal_gender,
+            'animal_inseminated' => $animal_inseminated,
+            'insemination_type' => $insemination_type,
+            'animal_pregnant' => $animal_pregnant,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
+          $res = array(
+            'message' => "Animal Successfully Registered!",
+            'status' => 200,
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
