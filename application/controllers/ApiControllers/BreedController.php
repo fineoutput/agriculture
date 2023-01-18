@@ -241,6 +241,7 @@ class BreedController extends CI_Controller
             'farmer_id' => $farmer_data[0]->id,
             'animal_type' => $animal_type,
             'assign_to_group' => $assign_to_group,
+            'animal_name' => $animal_name,
             'tag_no' => $tag_no,
             'dob' => $dob,
             'father_name' => $father_name,
