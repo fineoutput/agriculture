@@ -159,8 +159,6 @@ class HomeController extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
             $this->form_validation->set_rules('animal_type', 'animal_type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
