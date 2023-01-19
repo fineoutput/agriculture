@@ -20,28 +20,30 @@ class BreedController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('group_id', 'group_id', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('cattle', 'cattle', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('diesse_name', 'diesse_name', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('vaccine', 'vaccine', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('medicine', 'medicine', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('deworming', 'deworming', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other1', 'other1', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other2', 'other2', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other3', 'other3', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other4', 'other4', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other5', 'other5', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('milk_loss', 'milk_loss', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('treat_cost', 'treat_cost', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('information_type', 'information_type', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
+      $this->form_validation->set_rules('cattle_type', 'cattle_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('tag_no', 'tag_no', 'xss_clean|trim');
+      $this->form_validation->set_rules('vaccination_date', 'vaccination_date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('diesse_name', 'diesse_name', 'xss_clean|trim');
+      $this->form_validation->set_rules('vaccination', 'vaccination', 'xss_clean|trim');
+      $this->form_validation->set_rules('medicine', 'medicine', 'xss_clean|trim');
+      $this->form_validation->set_rules('deworming', 'deworming', 'xss_clean|trim');
+      $this->form_validation->set_rules('other1', 'other1', 'xss_clean|trim');
+      $this->form_validation->set_rules('other2', 'other2', 'xss_clean|trim');
+      $this->form_validation->set_rules('other3', 'other3', 'xss_clean|trim');
+      $this->form_validation->set_rules('other4', 'other4', 'xss_clean|trim');
+      $this->form_validation->set_rules('other5', 'other5', 'xss_clean|trim');
+      $this->form_validation->set_rules('milk_loss', 'milk_loss', 'xss_clean|trim');
+      $this->form_validation->set_rules('treatment_cost', 'treatment_cost', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
+        $information_type = $this->input->post('information_type');
         $group_id = $this->input->post('group_id');
-        $cattle = $this->input->post('cattle');
+        $cattle_type = $this->input->post('cattle_type');
         $tag_no = $this->input->post('tag_no');
-        $date = $this->input->post('date');
+        $vaccination_date = $this->input->post('vaccination_date');
         $diesse_name = $this->input->post('diesse_name');
-        $vaccine = $this->input->post('vaccine');
+        $vaccination = $this->input->post('vaccination');
         $medicine = $this->input->post('medicine');
         $deworming = $this->input->post('deworming');
         $other1 = $this->input->post('other1');
@@ -50,7 +52,7 @@ class BreedController extends CI_Controller
         $other4 = $this->input->post('other4');
         $other5 = $this->input->post('other5');
         $milk_loss = $this->input->post('milk_loss');
-        $treat_cost = $this->input->post('treat_cost');
+        $treatment_cost = $this->input->post('treatment_cost');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -58,12 +60,13 @@ class BreedController extends CI_Controller
           $data = [];
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
+            'information_type' => $information_type,
             'group_id' => $group_id,
-            'cattle' => $cattle,
+            'cattle_type' => $cattle_type,
             'tag_no' => $tag_no,
-            'date' => $date,
+            'vaccination_date' => $vaccination_date,
             'diesse_name' => $diesse_name,
-            'vaccine' => $vaccine,
+            'vaccination' => $vaccination,
             'medicine' => $medicine,
             'deworming' => $deworming,
             'other1' => $other1,
@@ -72,7 +75,7 @@ class BreedController extends CI_Controller
             'other4' => $other4,
             'other5' => $other5,
             'milk_loss' => $milk_loss,
-            'treat_cost' => $treat_cost,
+            'treatment_cost' => $treatment_cost,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
