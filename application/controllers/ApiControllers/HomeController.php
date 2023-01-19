@@ -104,12 +104,9 @@ class HomeController extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $assign_to_group = $this->input->post('assign_to_group');
-                $animal_type = $this->input->post('animal_type');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $this->db->distinct();
