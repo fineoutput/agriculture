@@ -221,7 +221,7 @@ class HomeController extends CI_Controller
                     $data = [];
                     $i = 1;
                     foreach ($animal_data as $a) {
-                        $data[] = array(
+                        $data = array(
                             'id' => $a->id,
                             'tag_no' => $a->tag_no,
                             'animal_name' => $a->animal_name,
