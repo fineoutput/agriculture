@@ -119,7 +119,7 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('group_id', 'group_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('cattle_type', 'cattle_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
       $this->form_validation->set_rules('date_of_ai', 'date_of_ai', 'required|xss_clean|trim');
       $this->form_validation->set_rules('bull_name_number', 'bull_name_number', 'required|xss_clean|trim');
