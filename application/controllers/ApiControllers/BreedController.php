@@ -80,7 +80,7 @@ class BreedController extends CI_Controller
           );
           $last_id = $this->base_model->insert_table("tbl_health_info", $data, 1);
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Inserted!",
             'status' => 200,
             'data' => []
           );
