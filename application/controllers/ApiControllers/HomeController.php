@@ -96,6 +96,64 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    public function get_cattle()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $assign_to_group = $this->input->post('assign_to_group');
+                $animal_type = $this->input->post('animal_type');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $this->db->distinct();
+                    $this->db->select('animal_type');
+                    $this->db->where('farmer_id', $farmer_data[0]->id); 
+                    $this->db->where('assign_to_group', $assign_to_group); 
+                    $query = $this->db->get('tbl_my_animal');
+                    $data = [];
+                    $i = 1;
+                    foreach ($query->result() as $a) {
+                        $data[] = array(
+                            'value' => $a->animal_type,
+                            'label' => $a->animal_type,
+                        );
+                        $i++;
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     public function get_tag_no()
     {
         $headers = apache_request_headers();
@@ -118,8 +176,8 @@ class HomeController extends CI_Controller
                     $i = 1;
                     foreach ($tag_data as $a) {
                         $data[] = array(
-                            'value' => $a->id,
-                            'label' => $a->name,
+                            'value' => $a->tag_no,
+                            'label' => $a->tag_no,
                         );
                         $i++;
                     }
