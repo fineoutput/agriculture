@@ -160,7 +160,7 @@ class BreedController extends CI_Controller
           );
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Inserted!",
             'status' => 200,
             'data' => []
           );
@@ -252,6 +252,8 @@ class BreedController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
+          $animal_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $tag_no))->result();
+          if(empty($animal_data)){
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
             'animal_type' => $animal_type,
@@ -287,6 +289,13 @@ class BreedController extends CI_Controller
             'status' => 200,
           );
           echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Tag number already exist!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
         } else {
           $res = array(
             'message' => 'Permission Denied!',

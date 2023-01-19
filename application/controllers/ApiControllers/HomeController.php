@@ -204,6 +204,62 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    public function get_animal_data()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $tag_no = $this->input->post('tag_no');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $animal_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $tag_no))->result();
+                    $data = [];
+                    $i = 1;
+                    foreach ($animal_data as $a) {
+                        $data[] = array(
+                            'id' => $a->id,
+                            'tag_no' => $a->tag_no,
+                            'animal_name' => $a->animal_name,
+                            'animal_type' => $a->animal_type,
+                            'breed_type' => $a->breed_type,
+                            'dob' => $a->dob,
+                            'animal_gender' => $a->animal_gender,
+                        );
+                        $i++;
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //====================================================== GET SLIDER================================================//
     public function get_slider()
     {
