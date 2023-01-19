@@ -25,7 +25,7 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('cattle_type', 'cattle_type', 'xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'xss_clean|trim');
       $this->form_validation->set_rules('vaccination_date', 'vaccination_date', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('diesse_name', 'diesse_name', 'xss_clean|trim');
+      $this->form_validation->set_rules('disease_name', 'disease_name', 'xss_clean|trim');
       $this->form_validation->set_rules('vaccination', 'vaccination', 'xss_clean|trim');
       $this->form_validation->set_rules('medicine', 'medicine', 'xss_clean|trim');
       $this->form_validation->set_rules('deworming', 'deworming', 'xss_clean|trim');
@@ -42,7 +42,7 @@ class BreedController extends CI_Controller
         $cattle_type = $this->input->post('cattle_type');
         $tag_no = $this->input->post('tag_no');
         $vaccination_date = $this->input->post('vaccination_date');
-        $diesse_name = $this->input->post('diesse_name');
+        $diesse_name = $this->input->post('disease_name');
         $vaccination = $this->input->post('vaccination');
         $medicine = $this->input->post('medicine');
         $deworming = $this->input->post('deworming');
