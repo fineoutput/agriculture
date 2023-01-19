@@ -117,26 +117,28 @@ class BreedController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('group_id', 'group_id', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('cattle', 'cattle', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('heifer_details', 'heifer_details', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('cattle_type', 'cattle_type', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
       $this->form_validation->set_rules('date_of_ai', 'date_of_ai', 'required|xss_clean|trim');
       $this->form_validation->set_rules('bull_name_number', 'bull_name_number', 'required|xss_clean|trim');
       $this->form_validation->set_rules('expenses', 'expenses', 'required|xss_clean|trim');
       $this->form_validation->set_rules('vet_name', 'vet_name', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('pregnancy_status', 'pregnancy_status', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('is_pregnant', 'is_pregnant', 'xss_clean|trim');
+      $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $group_id = $this->input->post('group_id');
-        $cattle = $this->input->post('cattle');
-        $heifer_details = $this->input->post('heifer_details');
-        $date = $this->input->post('date');
+        $cattle_type = $this->input->post('cattle_type');
+        $tag_no = $this->input->post('tag_no');
+        $breeding_date = $this->input->post('breeding_date');
         $weight = $this->input->post('weight');
         $date_of_ai = $this->input->post('date_of_ai');
         $bull_name_number = $this->input->post('bull_name_number');
         $expenses = $this->input->post('expenses');
         $vet_name = $this->input->post('vet_name');
-        $pregnancy_status = $this->input->post('pregnancy_status');
+        $is_pregnant = $this->input->post('is_pregnant');
+        $pregnancy_test_date = $this->input->post('pregnancy_test_date');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -146,16 +148,16 @@ class BreedController extends CI_Controller
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
             'group_id' => $group_id,
-            'cattle' => $cattle,
-            'heifer_details' => $heifer_details,
-            'date' => $date,
+            'cattle_type' => $cattle_type,
+            'tag_no' => $tag_no,
+            'breeding_date' => $breeding_date,
             'weight' => $weight,
             'date_of_ai' => $date_of_ai,
             'bull_name_number' => $bull_name_number,
             'expenses' => $expenses,
             'vet_name' => $vet_name,
-            'pregnancy_status' => $pregnancy_status,
-            'ip' => $ip,
+            'is_pregnant' => $is_pregnant,
+            'pregnancy_test_date' => $pregnancy_test_date,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
