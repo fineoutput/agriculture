@@ -12,7 +12,6 @@ class ToolsController extends CI_Controller
         $this->load->library('pagination');
     }
     //====================================================== SILAGE MAKING================================================//
-
     public function Silage_making()
     {
         $this->load->helper(array('form', 'url'));
@@ -43,36 +42,37 @@ class ToolsController extends CI_Controller
                 $cur_date = date("Y-m-d H:i:s");
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                $addedby = $this->session->userdata('admin_id');
-                $data = [];
-                $data = array('farmer_id' => $farmer_data[0]->id,
-                    'number_of_cows' => $number_of_cows,
-                    'feeding' => $feeding,
-                    'total_feeding_days' => $total_feeding_days,
-                    'density' => $density,
-                    'breadth' => $breadth,
-                    'height' => $height,
-                    'number_of_pits' => $number_of_pits,
-                    'fodder_required' => $fodder_required,
-                    'ip' => $ip,
-                    'added_by' => $addedby,
-                    'is_active' => 1,
-                    'date' => $cur_date
-                );
-                $last_id = $this->base_model->insert_table("tbl_silage_making", $data, 1);
-                $res = array(
-                    'message' => "Success",
-                    'status' => 200,
-                    'data' => []
-                );
-                echo json_encode($res);
-            } else {
-                $res = array(
-                  'message' => 'Permission Denied!',
-                  'status' => 201
-                );
-                echo json_encode($res);
-              }
+                    $addedby = $this->session->userdata('admin_id');
+                    $data = [];
+                    $data = array(
+                        'farmer_id' => $farmer_data[0]->id,
+                        'number_of_cows' => $number_of_cows,
+                        'feeding' => $feeding,
+                        'total_feeding_days' => $total_feeding_days,
+                        'density' => $density,
+                        'breadth' => $breadth,
+                        'height' => $height,
+                        'number_of_pits' => $number_of_pits,
+                        'fodder_required' => $fodder_required,
+                        'ip' => $ip,
+                        'added_by' => $addedby,
+                        'is_active' => 1,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_silage_making", $data, 1);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => []
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
                 $res = array(
                     'message' => validation_errors(),
@@ -88,8 +88,7 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-  //====================================================== PREGNANCY CALCULATOR================================================//
-
+    //====================================================== PREGNANCY CALCULATOR================================================//
     public function pregnancy_calculator()
     {
         $this->load->helper(array('form', 'url'));
@@ -99,42 +98,37 @@ class ToolsController extends CI_Controller
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('estrous_cycle_heat_detection', 'estrous_cycle_heat_detection', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('age_of_pregnancy', 'age_of_pregnancy', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $breeding_date = $this->input->post('breeding_date');
-                $estrous_cycle_heat_detection = $this->input->post('estrous_cycle_heat_detection');
-                $age_of_pregnancy = $this->input->post('age_of_pregnancy');
-                $ip = $this->input->ip_address();
-                date_default_timezone_set("Asia/Calcutta");
-                $cur_date = date("Y-m-d H:i:s");
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                $addedby = $this->session->userdata('admin_id');
-                $data = [];
-                $data = array('farmer_id' => $farmer_data[0]->id,
-                    'breeding_date' => $breeding_date,
-                    'estrous_cycle_heat_detection' => $estrous_cycle_heat_detection,
-                    'age_of_pregnancy' => $age_of_pregnancy,
-                    'ip' => $ip,
-                    'added_by' => $addedby,
-                    'is_active' => 1,
-                    'date' => $cur_date
-                );
-                $last_id = $this->base_model->insert_table("tbl_pregnancy_calculator", $data, 1);
-                $res = array(
-                    'message' => "Success",
-                    'status' => 200,
-                    'data' => []
-                );
-                echo json_encode($res);
-            } else {
-                $res = array(
-                  'message' => 'Permission Denied!',
-                  'status' => 201
-                );
-                echo json_encode($res);
-              }
+                    $date = strtotime($breeding_date);
+                    $cycle1 = strtotime("+21 day", $date);
+                    $cycle2 = strtotime("+42 day", $date);
+                    $cycle3 = strtotime("+63 day", $date);
+                    $calving = strtotime("+283 day", $date);
+                    $weaning = strtotime("+488 day", $date);
+                    $data = [];
+                    $data = array(
+                        'cycle1_date' => date('d/m/Y', $cycle1),
+                        'cycle2_date' =>  date('d/m/Y', $cycle2),
+                        'cycle3_date' =>  date('d/m/Y', $cycle3),
+                        'calving_date' =>  date('d/m/Y', $calving),
+                        'weaning_date' =>  date('d/m/Y', $weaning),
+                    );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
                 $res = array(
                     'message' => validation_errors(),
@@ -150,8 +144,7 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-  //====================================================== DAIRY MART ================================================//
-
+    //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
     {
         $City_data = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
@@ -183,10 +176,8 @@ class ToolsController extends CI_Controller
         );
         echo json_encode($res);
     }
-     //====================================================== DOCTOR ON CALL================================================//
-
+    //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
-
     {
         $City_data = $this->db->get_where('tbl_doctor', array('is_active2' => 0))->result();
         $data = [];
@@ -214,8 +205,7 @@ class ToolsController extends CI_Controller
         );
         echo json_encode($res);
     }
-   //====================================================== EXPERT ADVICE ================================================//
-
+    //====================================================== EXPERT ADVICE ================================================//
     public function expert_advice()
     {
         $Expert_data = $this->db->get_where('tbl_doctor', array('is_active2' => 1))->result();
@@ -249,14 +239,13 @@ class ToolsController extends CI_Controller
         );
         echo json_encode($res);
     }
-  //====================================================== RADIUS VENDOR================================================//
-
+    //====================================================== RADIUS VENDOR================================================//
     public function radius_vendor()
     {
         $Vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 0))->result();
         $data = [];
         foreach ($Vendor_data as $Vendor) {
-                   $data[] = array(
+            $data[] = array(
                 'name_english' => $Vendor->name_english,
                 'name_hindi' => $Vendor->name_hindi,
                 'name_punjabi' => $Vendor->name_punjabi,
