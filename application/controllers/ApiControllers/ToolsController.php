@@ -27,7 +27,6 @@ class ToolsController extends CI_Controller
             $this->form_validation->set_rules('breadth', 'breadth', 'required|xss_clean|trim');
             $this->form_validation->set_rules('height', 'height', 'required|xss_clean|trim');
             $this->form_validation->set_rules('number_of_pits', 'number_of_pits', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('fodder_required', 'fodder_required', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $number_of_cows = $this->input->post('number_of_cows');
                 $feeding = $this->input->post('feeding');
@@ -36,34 +35,23 @@ class ToolsController extends CI_Controller
                 $breadth = $this->input->post('breadth');
                 $height = $this->input->post('height');
                 $number_of_pits = $this->input->post('number_of_pits');
-                $fodder_required = $this->input->post('fodder_required');
-                $ip = $this->input->ip_address();
-                date_default_timezone_set("Asia/Calcutta");
-                $cur_date = date("Y-m-d H:i:s");
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    $addedby = $this->session->userdata('admin_id');
                     $data = [];
+                    $silage_qty_required = round(($number_of_cows * $feeding * $total_feeding_days), 2);
+                    $pit_vol_required = round(($silage_qty_required / $density), 2);
+                    $length = round(($pit_vol_required / ($breadth * $height * $number_of_pits)), 2);
+                    $fodder_required = round((($silage_qty_required * 15 / 10) / 1000), 2);
                     $data = array(
-                        'farmer_id' => $farmer_data[0]->id,
-                        'number_of_cows' => $number_of_cows,
-                        'feeding' => $feeding,
-                        'total_feeding_days' => $total_feeding_days,
-                        'density' => $density,
-                        'breadth' => $breadth,
-                        'height' => $height,
-                        'number_of_pits' => $number_of_pits,
+                        'silage_qty_required' => $silage_qty_required,
+                        'pit_vol_required' => $pit_vol_required,
+                        'length' => $length,
                         'fodder_required' => $fodder_required,
-                        'ip' => $ip,
-                        'added_by' => $addedby,
-                        'is_active' => 1,
-                        'date' => $cur_date
                     );
-                    $last_id = $this->base_model->insert_table("tbl_silage_making", $data, 1);
                     $res = array(
-                        'message' => "Success",
+                        'message' => "Success!",
                         'status' => 200,
-                        'data' => []
+                        'data' => $data
                     );
                     echo json_encode($res);
                 } else {
