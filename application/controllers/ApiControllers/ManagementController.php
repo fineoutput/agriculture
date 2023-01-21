@@ -422,7 +422,6 @@ class ManagementController extends CI_Controller
         $other3 = $this->input->post('other3');
         $other4 = $this->input->post('other4');
         $other5 = $this->input->post('other5');
-        $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -439,7 +438,6 @@ class ManagementController extends CI_Controller
           'other3' => $other3,
           'other4' => $other4,
           'other5' => $other5,
-          'ip' => $ip,
           'date' => $cur_date
         );
         $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
