@@ -147,7 +147,7 @@ class ManagementController extends CI_Controller
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('information_type', 'information_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
-      $this->form_validation->set_rules('animal_type', 'animal_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('cattle_type', 'cattle_type', 'xss_clean|trim');
       $this->form_validation->set_rules('milking_slot', 'milking_slot', 'required|xss_clean|trim');
       $this->form_validation->set_rules('milk_date', 'milk_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('entry_milk', 'entry_milk', 'required|xss_clean|trim');
@@ -157,7 +157,7 @@ class ManagementController extends CI_Controller
       if ($this->form_validation->run() == true) {
         $information_type = $this->input->post('information_type');
         $group_id = $this->input->post('group_id');
-        $animal_type = $this->input->post('animal_type');
+        $cattle_type = $this->input->post('cattle_type');
         $milking_slot = $this->input->post('milking_slot');
         $milk_date = $this->input->post('milk_date');
         $entry_milk = $this->input->post('entry_milk');
@@ -173,7 +173,7 @@ class ManagementController extends CI_Controller
             'farmer_id' => $farmer_data[0]->id,
             'information_type' => $information_type,
             'group_id' => $group_id,
-            'animal_type' => $animal_type,
+            'cattle_type' => $cattle_type,
             'milking_slot' => $milking_slot,
             'milk_date' => $milk_date,
             'entry_milk' => $entry_milk,
