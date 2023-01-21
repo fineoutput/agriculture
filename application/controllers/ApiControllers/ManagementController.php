@@ -11,9 +11,7 @@ class ManagementController extends CI_Controller
     $this->load->model("admin/base_model");
     $this->load->library('pagination');
   }
-
   //================================================ DAILY RECORDS==============================================//
-
   public function daily_records()
   {
     $this->load->helper(array('form', 'url'));
@@ -47,9 +45,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('others3', 'others3', 'required|xss_clean|trim');
       $this->form_validation->set_rules('others4', 'others4', 'required|xss_clean|trim');
       $this->form_validation->set_rules('others5', 'others5', 'required|xss_clean|trim');
-
       if ($this->form_validation->run() == true) {
-
         $date = $this->input->post('date');
         $green_forage = $this->input->post('green_forage');
         $silage = $this->input->post('silage');
@@ -70,7 +66,6 @@ class ManagementController extends CI_Controller
         $animal_purchase = $this->input->post('animal_purchase');
         $labour_cost = $this->input->post('labour_cost');
         $farm_equipments = $this->input->post('farm_equipments');
-
         $others1 = $this->input->post('others1');
         $others2 = $this->input->post('others2');
         $others3 = $this->input->post('others3');
@@ -79,12 +74,8 @@ class ManagementController extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
-
-
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-
-
           $data = [];
           $data = array(
             'date' => $date,
@@ -108,21 +99,15 @@ class ManagementController extends CI_Controller
             'animal_purchase' => $animal_purchase,
             'labour_cost' => $labour_cost,
             'farm_equipments' => $farm_equipments,
-
             'others1' => $others1,
             'others2' => $others2,
             'others3' => $others3,
             'others4' => $others4,
             'others5' => $others5,
             'ip' => $ip,
-
             'date' => $cur_date
-
-
           );
-
           $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
-
           $res = array(
             'message' => "Success",
             'status' => 200,
@@ -168,10 +153,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('snf', 'snf', 'xss_clean|trim');
       $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
       $this->form_validation->set_rules('animal', 'animal', 'xss_clean|trim');
-
-
       if ($this->form_validation->run() == true) {
-       
         $date = $this->input->post('date');
         $entry_milk = $this->input->post('entry_milk');
         $price_milk = $this->input->post('price_milk');
@@ -196,9 +178,7 @@ class ManagementController extends CI_Controller
           'ip' => $ip,
           'date' => $cur_date
         );
-
         $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
-
         $res = array(
           'message' => "Success",
           'status' => 200,
@@ -228,7 +208,6 @@ class ManagementController extends CI_Controller
     }
   }
   //====================================================== SALE PURCHASE================================================//
-
   public function sale_purchase()
   {
     $this->load->helper(array('form', 'url'));
@@ -256,9 +235,7 @@ class ManagementController extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
-
         //=============================================IMAGE1 ====================================================//
-
         $this->load->library('upload');
         $img1 = 'image1';
         $nnnn = '';
@@ -278,7 +255,6 @@ class ManagementController extends CI_Controller
           $this->upload->initialize($this->upload_config);
           if (!$this->upload->do_upload($img1)) {
             $upload_error = $this->upload->display_errors();
-
             $this->session->set_flashdata('emessage', $upload_error);
             redirect($_SERVER['HTTP_REFERER']);
           } else {
@@ -306,7 +282,6 @@ class ManagementController extends CI_Controller
           $this->upload->initialize($this->upload_config);
           if (!$this->upload->do_upload($img2)) {
             $upload_error = $this->upload->display_errors();
-
             $this->session->set_flashdata('emessage', $upload_error);
             redirect($_SERVER['HTTP_REFERER']);
           } else {
@@ -315,7 +290,6 @@ class ManagementController extends CI_Controller
             $nnnn2 = $videoNAmePath;
           }
         }
-
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
@@ -335,7 +309,6 @@ class ManagementController extends CI_Controller
           $this->upload->initialize($this->upload_config);
           if (!$this->upload->do_upload($img3)) {
             $upload_error = $this->upload->display_errors();
-
             $this->session->set_flashdata('emessage', $upload_error);
             redirect($_SERVER['HTTP_REFERER']);
           } else {
@@ -363,7 +336,6 @@ class ManagementController extends CI_Controller
           $this->upload->initialize($this->upload_config);
           if (!$this->upload->do_upload($img4)) {
             $upload_error = $this->upload->display_errors();
-
             $this->session->set_flashdata('emessage', $upload_error);
             redirect($_SERVER['HTTP_REFERER']);
           } else {
@@ -372,10 +344,8 @@ class ManagementController extends CI_Controller
             $nnnn4 = $videoNAmePath;
           }
         }
-
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-
         $data = [];
         $data = array( 'farmer_id' => $farmer_data[0]->id,
           'animal_name' => $animal_name,
@@ -393,7 +363,6 @@ class ManagementController extends CI_Controller
           'ip' => $ip,
           'date' => $cur_date
         );
-
         $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
         $res = array(
           'message' => "Success",
@@ -424,7 +393,6 @@ class ManagementController extends CI_Controller
     }
   }
   //====================================================== MEDICAL EXPENSES================================================//
-
   public function medical_expenses()
   {
     $this->load->helper(array('form', 'url'));
@@ -433,7 +401,7 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('expense_date', 'expense_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('doctor_visit_fees', 'doctor_visit_fees', 'required|xss_clean|trim');
       $this->form_validation->set_rules('treatment_expenses', 'treatment_expenses', 'required|xss_clean|trim');
       $this->form_validation->set_rules('vaccination_expenses', 'vaccination_expenses', 'required|xss_clean|trim');
@@ -444,7 +412,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('other4', 'other4', 'required|xss_clean|trim');
       $this->form_validation->set_rules('other5', 'other5', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
-        $date = $this->input->post('date');
+        $expense_date = $this->input->post('expense_date');
         $doctor_visit_fees = $this->input->post('doctor_visit_fees');
         $treatment_expenses = $this->input->post('treatment_expenses');
         $vaccination_expenses = $this->input->post('vaccination_expenses');
@@ -461,7 +429,7 @@ class ManagementController extends CI_Controller
         if (!empty($farmer_data)) {
         $data = [];
         $data = array('farmer_id' => $farmer_data[0]->id,
-          'date' => $date,
+          'expense_date' => $expense_date,
           'doctor_visit_fees' => $doctor_visit_fees,
           'treatment_expenses' => $treatment_expenses,
           'vaccination_expenses' => $vaccination_expenses,
@@ -473,11 +441,10 @@ class ManagementController extends CI_Controller
           'other5' => $other5,
           'ip' => $ip,
           'date' => $cur_date
-          
         );
         $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
         $res = array(
-          'message' => "Success",
+          'message' => "Record Successfully Inserted!",
           'status' => 200,
           'data' => []
         );
@@ -505,7 +472,6 @@ class ManagementController extends CI_Controller
     }
   }
   //======================================================REPORTS================================================//
-
   public function Reports()
   {
     $this->load->helper(array('form', 'url'));
@@ -582,7 +548,6 @@ class ManagementController extends CI_Controller
     }
   }
    //====================================================== DISEASE INFO================================================//
-
   public function disease_info()
   {
     $Disease_data = $this->db->get_where('tbl_disease', array('is_active' => 1))->result();
@@ -607,9 +572,7 @@ class ManagementController extends CI_Controller
     );
     echo json_encode($res);
   }
-
   //====================================================== STOCK HANDLING================================================//
-
   public function stock_handling()
   {
     $this->load->helper(array('form', 'url'));
