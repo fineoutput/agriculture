@@ -402,15 +402,15 @@ class ManagementController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('expense_date', 'expense_date', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('doctor_visit_fees', 'doctor_visit_fees', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('treatment_expenses', 'treatment_expenses', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('vaccination_expenses', 'vaccination_expenses', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('deworming_expenses', 'deworming_expenses', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other1', 'other1', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other2', 'other2', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other3', 'other3', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other4', 'other4', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('other5', 'other5', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('doctor_visit_fees', 'doctor_visit_fees', 'xss_clean|trim');
+      $this->form_validation->set_rules('treatment_expenses', 'treatment_expenses', 'xss_clean|trim');
+      $this->form_validation->set_rules('vaccination_expenses', 'vaccination_expenses', 'xss_clean|trim');
+      $this->form_validation->set_rules('deworming_expenses', 'deworming_expenses', 'xss_clean|trim');
+      $this->form_validation->set_rules('other1', 'other1', 'xss_clean|trim');
+      $this->form_validation->set_rules('other2', 'other2', 'xss_clean|trim');
+      $this->form_validation->set_rules('other3', 'other3', 'xss_clean|trim');
+      $this->form_validation->set_rules('other4', 'other4', 'xss_clean|trim');
+      $this->form_validation->set_rules('other5', 'other5', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $expense_date = $this->input->post('expense_date');
         $doctor_visit_fees = $this->input->post('doctor_visit_fees');
