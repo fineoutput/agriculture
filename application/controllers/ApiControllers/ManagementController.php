@@ -145,53 +145,57 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('farmer_id', 'farmer_id', 'xss_clean|trim');
-      $this->form_validation->set_rules('date', 'date', 'xss_clean|trim');
-      $this->form_validation->set_rules('entry_milk', 'entry_milk', 'xss_clean|trim');
-      $this->form_validation->set_rules('price_milk', 'price_milk', 'xss_clean|trim');
-      $this->form_validation->set_rules('fat', 'fat', 'xss_clean|trim');
-      $this->form_validation->set_rules('snf', 'snf', 'xss_clean|trim');
+      $this->form_validation->set_rules('information_type', 'information_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
-      $this->form_validation->set_rules('animal', 'animal', 'xss_clean|trim');
+      $this->form_validation->set_rules('animal_type', 'animal_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('milking_slot', 'milking_slot', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('milk_date', 'milk_date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('entry_milk', 'entry_milk', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('price_milk', 'price_milk', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('fat', 'fat', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('snf', 'snf', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
-        $date = $this->input->post('date');
+        $information_type = $this->input->post('information_type');
+        $group_id = $this->input->post('group_id');
+        $animal_type = $this->input->post('animal_type');
+        $milking_slot = $this->input->post('milking_slot');
+        $milk_date = $this->input->post('milk_date');
         $entry_milk = $this->input->post('entry_milk');
         $price_milk = $this->input->post('price_milk');
         $fat = $this->input->post('fat');
         $snf = $this->input->post('snf');
-        $group_id = $this->input->post('group_id');
-        $animal = $this->input->post('animal');
-        $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'date' => $date,
-          'entry_milk' => $entry_milk,
-          'price_milk' => $price_milk,
-          'fat' => $fat,
-          'snf' => $snf,
-          'group_id' => $group_id,
-          'animal' => $animal,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'information_type' => $information_type,
+            'group_id' => $group_id,
+            'animal_type' => $animal_type,
+            'milking_slot' => $milking_slot,
+            'milk_date' => $milk_date,
+            'entry_milk' => $entry_milk,
+            'price_milk' => $price_milk,
+            'fat' => $fat,
+            'snf' => $snf,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
+          $res = array(
+            'message' => "Record Successfully Inserted!",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -346,37 +350,38 @@ class ManagementController extends CI_Controller
         }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array( 'farmer_id' => $farmer_data[0]->id,
-          'animal_name' => $animal_name,
-          'milk_production' => $milk_production,
-          'lactation' => $lactation,
-          'price' => $price,
-          'location' => $location,
-          'parturate_pregnant' => $parturate_pregnant,
-          'expected_price' => $expected_price,
-          'animal_expense' => $animal_expense,
-          'image1' => $nnnn,
-          'image2' => $nnnn2,
-          'image3' => $nnnn3,
-          'image4' => $nnnn4,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'animal_name' => $animal_name,
+            'milk_production' => $milk_production,
+            'lactation' => $lactation,
+            'price' => $price,
+            'location' => $location,
+            'parturate_pregnant' => $parturate_pregnant,
+            'expected_price' => $expected_price,
+            'animal_expense' => $animal_expense,
+            'image1' => $nnnn,
+            'image2' => $nnnn2,
+            'image3' => $nnnn3,
+            'image4' => $nnnn4,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -426,34 +431,35 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'expense_date' => $expense_date,
-          'doctor_visit_fees' => $doctor_visit_fees,
-          'treatment_expenses' => $treatment_expenses,
-          'vaccination_expenses' => $vaccination_expenses,
-          'deworming_expenses' => $deworming_expenses,
-          'other1' => $other1,
-          'other2' => $other2,
-          'other3' => $other3,
-          'other4' => $other4,
-          'other5' => $other5,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
-        $res = array(
-          'message' => "Record Successfully Inserted!",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'expense_date' => $expense_date,
+            'doctor_visit_fees' => $doctor_visit_fees,
+            'treatment_expenses' => $treatment_expenses,
+            'vaccination_expenses' => $vaccination_expenses,
+            'deworming_expenses' => $deworming_expenses,
+            'other1' => $other1,
+            'other2' => $other2,
+            'other3' => $other3,
+            'other4' => $other4,
+            'other5' => $other5,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
+          $res = array(
+            'message' => "Record Successfully Inserted!",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -502,34 +508,35 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'filter_reports_by_calendar' => $filter_reports_by_calendar,
-          'sale' => $sale,
-          'purchase' => $purchase,
-          'profit_loss' => $profit_loss,
-          'feed_expenses' => $feed_expenses,
-          'milk_income' => $milk_income,
-          'breeding_income' => $breeding_income,
-          'animal_expenses' => $animal_expenses,
-          'animal_income' => $animal_income,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_reports", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'filter_reports_by_calendar' => $filter_reports_by_calendar,
+            'sale' => $sale,
+            'purchase' => $purchase,
+            'profit_loss' => $profit_loss,
+            'feed_expenses' => $feed_expenses,
+            'milk_income' => $milk_income,
+            'breeding_income' => $breeding_income,
+            'animal_expenses' => $animal_expenses,
+            'animal_income' => $animal_income,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_reports", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -545,7 +552,7 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
-   //====================================================== DISEASE INFO================================================//
+  //====================================================== DISEASE INFO================================================//
   public function disease_info()
   {
     $Disease_data = $this->db->get_where('tbl_disease', array('is_active' => 1))->result();
@@ -615,40 +622,41 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'date' => $date,
-          'green_forage' => $green_forage,
-          'dry_fodder' => $dry_fodder,
-          'silage' => $silage,
-          'cake' => $cake,
-          'grains' => $grains,
-          'biproducts' => $biproducts,
-          'churi' => $churi,
-          'oil_seeds' => $oil_seeds,
-          'minerals' => $minerals,
-          'bypass_fat' => $bypass_fat,
-          'toxins' => $toxins,
-          'buffer' => $buffer,
-          'yeast' => $yeast,
-          'calcium' => $calcium,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'date' => $date,
+            'green_forage' => $green_forage,
+            'dry_fodder' => $dry_fodder,
+            'silage' => $silage,
+            'cake' => $cake,
+            'grains' => $grains,
+            'biproducts' => $biproducts,
+            'churi' => $churi,
+            'oil_seeds' => $oil_seeds,
+            'minerals' => $minerals,
+            'bypass_fat' => $bypass_fat,
+            'toxins' => $toxins,
+            'buffer' => $buffer,
+            'yeast' => $yeast,
+            'calcium' => $calcium,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -681,26 +689,27 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'name' => $name,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'name' => $name,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
@@ -743,31 +752,32 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $data = [];
-        $data = array('farmer_id' => $farmer_data[0]->id,
-          'tank_id' => $tank_id,
-          'tag_no' => $tag_no,
-          'bull_name' => $bull_name,
-          'company_name' => $company_name,
-          'no_of_units' => $no_of_units,
-          'milk_production_of_mounts' => $milk_production_of_mounts,
-          'ip' => $ip,
-          'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
-        $res = array(
-          'message' => "Success",
-          'status' => 200,
-          'data' => []
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+          $data = [];
+          $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'tank_id' => $tank_id,
+            'tag_no' => $tag_no,
+            'bull_name' => $bull_name,
+            'company_name' => $company_name,
+            'no_of_units' => $no_of_units,
+            'milk_production_of_mounts' => $milk_production_of_mounts,
+            'ip' => $ip,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
+          $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => []
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
       } else {
         $res = array(
           'message' => validation_errors(),
