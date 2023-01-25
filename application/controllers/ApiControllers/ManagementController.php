@@ -296,7 +296,7 @@ class ManagementController extends CI_Controller
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
-        if (!empty($_FILES['image3'])) {
+        if (!empty($_FILES['image3']['name'])) {
         $file_check = ($_FILES['image3']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -325,7 +325,7 @@ class ManagementController extends CI_Controller
         //=======================================================IMAGE4======================================================//
         $img4 = 'image4';
         $nnnn4 = '';
-        if (!empty($_FILES['image3'])) {
+        if (!empty($_FILES['image4']['name'])) {
         $file_check = ($_FILES['image4']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
