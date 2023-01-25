@@ -296,6 +296,7 @@ class ManagementController extends CI_Controller
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
+        if (!empty($_FILES['image3'])) {
         $file_check = ($_FILES['image3']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -320,9 +321,11 @@ class ManagementController extends CI_Controller
             $nnnn3 = $videoNAmePath;
           }
         }
+      }
         //=======================================================IMAGE4======================================================//
         $img4 = 'image4';
         $nnnn4 = '';
+        if (!empty($_FILES['image3'])) {
         $file_check = ($_FILES['image4']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -347,6 +350,7 @@ class ManagementController extends CI_Controller
             $nnnn4 = $videoNAmePath;
           }
         }
+      }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
@@ -358,7 +362,6 @@ class ManagementController extends CI_Controller
             'lactation' => $lactation,
             'location' => $location,
             'pastorate_pregnant' => $pastorate_pregnant,
-            'animal_expense' => $animal_expense,
             'image1' => $nnnn,
             'image2' => $nnnn2,
             'image3' => $nnnn3,
