@@ -242,7 +242,8 @@ class ManagementController extends CI_Controller
         $this->load->library('upload');
         $img1 = 'image1';
         $nnnn = '';
-        if (!empty($_FILES['image1']['name'])) {
+        if ($_FILES['image1']['size'] == 0 && $_FILES['image1']['error'] == 0)
+        {
         $file_check = ($_FILES['image1']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -270,7 +271,8 @@ class ManagementController extends CI_Controller
         //===================================================IMAGE2====================================================//
         $img2 = 'image2';
         $nnnn2 = '';
-        if (!empty($_FILES['image2']['name'])) {
+        if ($_FILES['image2']['size'] == 0 && $_FILES['image2']['error'] == 0)
+        {
         $file_check = ($_FILES['image2']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -298,7 +300,8 @@ class ManagementController extends CI_Controller
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
-        if (!empty($_FILES['image3']['name'])) {
+        if ($_FILES['image3']['size'] == 0 && $_FILES['image3']['error'] == 0)
+        {
         $file_check = ($_FILES['image3']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -327,7 +330,8 @@ class ManagementController extends CI_Controller
         //=======================================================IMAGE4======================================================//
         $img4 = 'image4';
         $nnnn4 = '';
-        if (!empty($_FILES['image4']['name'])) {
+        if ($_FILES['image4']['size'] == 0 && $_FILES['image4']['error'] == 0)
+{
         $file_check = ($_FILES['image4']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
