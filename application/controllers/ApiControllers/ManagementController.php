@@ -363,7 +363,6 @@ class ManagementController extends CI_Controller
             'image2' => $nnnn2,
             'image3' => $nnnn3,
             'image4' => $nnnn4,
-            'ip' => $ip,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
