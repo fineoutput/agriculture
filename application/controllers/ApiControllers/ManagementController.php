@@ -220,22 +220,21 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('information_type', 'information_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('animal_name', 'animal_name', 'xss_clean|trim');
-      $this->form_validation->set_rules('milk_production', 'milk_production', 'xss_clean|trim');
-      $this->form_validation->set_rules('lactation', 'lactation', 'xss_clean|trim');
-      $this->form_validation->set_rules('price', 'price', 'xss_clean|trim');
-      $this->form_validation->set_rules('location', 'location', 'xss_clean|trim');
-      $this->form_validation->set_rules('parturate_pregnant', 'parturate_pregnant', 'xss_clean|trim');
-      $this->form_validation->set_rules('expected_price', 'expected_price', 'xss_clean|trim');
+      $this->form_validation->set_rules('milk_production', 'milk_production', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('lactation', 'lactation', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('pastorate_pregnant', 'pastorate_pregnant', 'xss_clean|trim');
+      $this->form_validation->set_rules('expected_price', 'expected_price', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('location', 'location', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
+        $information_type = $this->input->post('information_type');
         $animal_name = $this->input->post('animal_name');
         $milk_production = $this->input->post('milk_production');
         $lactation = $this->input->post('lactation');
-        $price = $this->input->post('price');
-        $location = $this->input->post('location');
-        $parturate_pregnant = $this->input->post('parturate_pregnant');
         $expected_price = $this->input->post('expected_price');
-        $animal_expense = $this->input->post('animal_expense');
+        $pastorate_pregnant = $this->input->post('pastorate_pregnant');
+        $location = $this->input->post('location');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -354,12 +353,11 @@ class ManagementController extends CI_Controller
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
             'animal_name' => $animal_name,
+            'animal_name' => $animal_name,
             'milk_production' => $milk_production,
             'lactation' => $lactation,
-            'price' => $price,
             'location' => $location,
-            'parturate_pregnant' => $parturate_pregnant,
-            'expected_price' => $expected_price,
+            'pastorate_pregnant' => $pastorate_pregnant,
             'animal_expense' => $animal_expense,
             'image1' => $nnnn,
             'image2' => $nnnn2,
@@ -370,7 +368,7 @@ class ManagementController extends CI_Controller
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Inserted!",
             'status' => 200,
             'data' => []
           );
