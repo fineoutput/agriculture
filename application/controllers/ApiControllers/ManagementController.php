@@ -242,6 +242,7 @@ class ManagementController extends CI_Controller
         $this->load->library('upload');
         $img1 = 'image1';
         $nnnn = '';
+        if (!empty($_FILES['image1']['name'])) {
         $file_check = ($_FILES['image1']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -265,10 +266,11 @@ class ManagementController extends CI_Controller
             $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
             $nnnn = $videoNAmePath;
           }
-        }
+        }}
         //===================================================IMAGE2====================================================//
         $img2 = 'image2';
         $nnnn2 = '';
+        if (!empty($_FILES['image2']['name'])) {
         $file_check = ($_FILES['image2']['error']);
         if ($file_check != 4) {
           $image_upload_folder = FCPATH . "assets/uploads/sales/";
@@ -292,7 +294,7 @@ class ManagementController extends CI_Controller
             $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
             $nnnn2 = $videoNAmePath;
           }
-        }
+        }}
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
@@ -356,11 +358,12 @@ class ManagementController extends CI_Controller
           $data = [];
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
-            'animal_name' => $animal_name,
+            'information_type' => $information_type,
             'animal_name' => $animal_name,
             'milk_production' => $milk_production,
             'lactation' => $lactation,
             'location' => $location,
+            'expected_price' => $expected_price,
             'pastorate_pregnant' => $pastorate_pregnant,
             'image1' => $nnnn,
             'image2' => $nnnn2,
