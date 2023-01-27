@@ -107,6 +107,7 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     }
   }
+  //================= view health info -----------------------------
   public function ViewHealth_info()
   {
     $headers = apache_request_headers();
@@ -121,7 +122,7 @@ class BreedController extends CI_Controller
           $group_data = $this->db->get_where('tbl_group', array('id' => $heath->group_id))->result();
           $group = $group_data[0]->name;
         } else {
-          $group='';
+          $group = '';
         }
         $newdate = new DateTime($heath->date);
         $data[] = array(
@@ -160,7 +161,7 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     }
   }
-  //====================================================== BREEDING RECORDS================================================//
+  //================================== BREEDING RECORDS ============================//
   public function Breeding_Record()
   {
     $this->load->helper(array('form', 'url'));
@@ -237,6 +238,55 @@ class BreedController extends CI_Controller
     } else {
       $res = array(
         'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  //================= view Breeding Record -----------------------------
+  public function ViewBreedingRecord()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $breed_data = $this->db->order_by('id', 'desc')->get_where('tbl_breeding_record', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($breed_data as $breed) {
+        if (!empty($breed->group_id)) {
+          $group_data = $this->db->get_where('tbl_group', array('id' => $breed->group_id))->result();
+          $group = $group_data[0]->name;
+        } else {
+          $group = '';
+        }
+        $newdate = new DateTime($breed->date);
+        $data[] = array(
+          's_no' => $i,
+          'group' => $group,
+          'cattle_type' => $breed->cattle_type,
+          'tag_no' => $breed->tag_no,
+          'breeding_date' => $breed->breeding_date,
+          'weight' => $breed->weight,
+          'date_of_ai' => $breed->date_of_ai,
+          'bull_name_number' => $breed->bull_name_number,
+          'expenses' => $breed->expenses,
+          'vet_name' => $breed->vet_name,
+          'is_pregnant' => $breed->is_pregnant,
+          'pregnancy_test_date' => $breed->pregnancy_test_date,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
         'status' => 201
       );
       echo json_encode($res);
