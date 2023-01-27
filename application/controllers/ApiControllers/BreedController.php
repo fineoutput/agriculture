@@ -123,6 +123,7 @@ class BreedController extends CI_Controller
         } else {
           $group='';
         }
+        $newdate = new DateTime($heath->date);
         $data[] = array(
           's_no' => $i,
           'information_type' => $heath->information_type,
@@ -141,7 +142,7 @@ class BreedController extends CI_Controller
           'other5' => $heath->other5,
           'milk_loss' => $heath->milk_loss,
           'treatment_cost' => $heath->treatment_cost,
-          'date' => $heath->date
+          'date' => $newdate->format('d/m/Y')
         );
         $i++;
       }
