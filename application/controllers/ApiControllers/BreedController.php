@@ -107,6 +107,58 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     }
   }
+  public function ViewHealth_info()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $health_data = $this->db->order_by('id', 'desc')->get_where('tbl_health_info', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($health_data as $heath) {
+        if (!empty($heath->group_id)) {
+          $group_data = $this->db->get_where('tbl_group', array('id' => $heath->group_id))->result();
+          $group = $group_data[0]->name;
+        } else {
+          $group='';
+        }
+        $data[] = array(
+          's_no' => $i,
+          'information_type' => $heath->information_type,
+          'group' => $group,
+          'cattle_type' => $heath->cattle_type,
+          'tag_no' => $heath->tag_no,
+          'vaccination_date' => $heath->vaccination_date,
+          'diesse_name' => $heath->diesse_name,
+          'vaccination' => $heath->vaccination,
+          'medicine' => $heath->medicine,
+          'deworming' => $heath->deworming,
+          'other1' => $heath->other1,
+          'other2' => $heath->other2,
+          'other3' => $heath->other3,
+          'other4' => $heath->other4,
+          'other5' => $heath->other5,
+          'milk_loss' => $heath->milk_loss,
+          'treatment_cost' => $heath->treatment_cost,
+          'date' => $heath->date
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //====================================================== BREEDING RECORDS================================================//
   public function Breeding_Record()
   {
@@ -255,49 +307,49 @@ class BreedController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $animal_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $tag_no))->result();
-          if(empty($animal_data)){
-          $data = array(
-            'farmer_id' => $farmer_data[0]->id,
-            'animal_type' => $animal_type,
-            'assign_to_group' => $assign_to_group,
-            'animal_name' => $animal_name,
-            'tag_no' => $tag_no,
-            'dob' => $dob,
-            'father_name' => $father_name,
-            'mother_name' => $mother_name,
-            'weight' => $weight,
-            'age' => $age,
-            'breed_type' => $breed_type,
-            'semen_brand' => $semen_brand,
-            'insemination_date' => $insemination_date,
-            'pregnancy_test_date' => $pregnancy_test_date,
-            'animal_gender' => $animal_gender,
-            'is_inseminated' => $is_inseminated,
-            'insemination_type' => $insemination_type,
-            'is_pregnant' => $is_pregnant,
-            'service_status' => $service_status,
-            'in_house' => $in_house,
-            'lactation' => $lactation,
-            'calving_date' => $calving_date,
-            'insured_value' => $insured_value,
-            'insurance_no' => $insurance_no,
-            'renewal_period' => $renewal_period,
-            'insurance_date' => $insurance_date,
-            'date' => $cur_date
-          );
-          $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
-          $res = array(
-            'message' => "Animal Successfully Registered!",
-            'status' => 200,
-          );
-          echo json_encode($res);
-        } else {
-          $res = array(
-            'message' => 'Tag number already exist!',
-            'status' => 201
-          );
-          echo json_encode($res);
-        }
+          if (empty($animal_data)) {
+            $data = array(
+              'farmer_id' => $farmer_data[0]->id,
+              'animal_type' => $animal_type,
+              'assign_to_group' => $assign_to_group,
+              'animal_name' => $animal_name,
+              'tag_no' => $tag_no,
+              'dob' => $dob,
+              'father_name' => $father_name,
+              'mother_name' => $mother_name,
+              'weight' => $weight,
+              'age' => $age,
+              'breed_type' => $breed_type,
+              'semen_brand' => $semen_brand,
+              'insemination_date' => $insemination_date,
+              'pregnancy_test_date' => $pregnancy_test_date,
+              'animal_gender' => $animal_gender,
+              'is_inseminated' => $is_inseminated,
+              'insemination_type' => $insemination_type,
+              'is_pregnant' => $is_pregnant,
+              'service_status' => $service_status,
+              'in_house' => $in_house,
+              'lactation' => $lactation,
+              'calving_date' => $calving_date,
+              'insured_value' => $insured_value,
+              'insurance_no' => $insurance_no,
+              'renewal_period' => $renewal_period,
+              'insurance_date' => $insurance_date,
+              'date' => $cur_date
+            );
+            $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
+            $res = array(
+              'message' => "Animal Successfully Registered!",
+              'status' => 200,
+            );
+            echo json_encode($res);
+          } else {
+            $res = array(
+              'message' => 'Tag number already exist!',
+              'status' => 201
+            );
+            echo json_encode($res);
+          }
         } else {
           $res = array(
             'message' => 'Permission Denied!',
