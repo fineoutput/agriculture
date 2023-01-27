@@ -571,14 +571,13 @@ class ManagementController extends CI_Controller
         $image1 = '';
       }
       $data[] = array(
-        'name' => $Disease->name,
         'title' => $Disease->title,
-        'content' => $Disease->content,
-        'image1' => $Disease->image1,
+        'description' => $Disease->content,
+        'image' => $Disease->image1,
       );
     }
     $res = array(
-      'message' => "Success",
+      'message' => "Success!",
       'status' => 200,
       'data' => $data
     );
