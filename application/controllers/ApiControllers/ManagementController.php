@@ -241,122 +241,127 @@ class ManagementController extends CI_Controller
         $this->load->library('upload');
         $img1 = 'image1';
         $nnnn = '';
-        if(!empty($_FILES['image1'])){
-        if ($_FILES['image1']['size'] != 0 && $_FILES['image1']['error'] == 0) {
-          $file_check = ($_FILES['image1']['error']);
-          if ($file_check != 4) {
-            $image_upload_folder = FCPATH . "assets/uploads/sales/";
-            if (!file_exists($image_upload_folder)) {
-              mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-            }
-            $new_file_name = "upload_image1" . date("Ymdhms");
-            $this->upload_config = array(
-              'upload_path'   => $image_upload_folder,
-              'file_name' => $new_file_name,
-              'allowed_types' => 'jpg|jpeg|png',
-              'max_size'      => 25000
-            );
-            $this->upload->initialize($this->upload_config);
-            if (!$this->upload->do_upload($img1)) {
-              $upload_error = $this->upload->display_errors();
-              $this->session->set_flashdata('emessage', $upload_error);
-              redirect($_SERVER['HTTP_REFERER']);
-            } else {
-              $file_info = $this->upload->data();
-              $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
-              $nnnn = $videoNAmePath;
+        if (!empty($_FILES['image1'])) {
+          if ($_FILES['image1']['size'] != 0 && $_FILES['image1']['error'] == 0) {
+            $file_check = ($_FILES['image1']['error']);
+            if ($file_check != 4) {
+              $image_upload_folder = FCPATH . "assets/uploads/sales/";
+              if (!file_exists($image_upload_folder)) {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+              }
+              $new_file_name = "upload_image1" . date("Ymdhms");
+              $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' => 'jpg|jpeg|png',
+                'max_size'      => 25000
+              );
+              $this->upload->initialize($this->upload_config);
+              if (!$this->upload->do_upload($img1)) {
+                $upload_error = $this->upload->display_errors();
+                $this->session->set_flashdata('emessage', $upload_error);
+                redirect($_SERVER['HTTP_REFERER']);
+              } else {
+                $file_info = $this->upload->data();
+                $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
+                $nnnn = $videoNAmePath;
+              }
             }
           }
-        }}
+        }
         //===================================================IMAGE2====================================================//
         $img2 = 'image2';
         $nnnn2 = '';
-        if(!empty($_FILES['image2'])){
+        if (!empty($_FILES['image2'])) {
           if ($_FILES['image2']['size'] != 0 && $_FILES['image2']['error'] == 0) {
-        $file_check = ($_FILES['image2']['error']);
-        if ($file_check != 4) {
-          $image_upload_folder = FCPATH . "assets/uploads/sales/";
-          if (!file_exists($image_upload_folder)) {
-            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+            $file_check = ($_FILES['image2']['error']);
+            if ($file_check != 4) {
+              $image_upload_folder = FCPATH . "assets/uploads/sales/";
+              if (!file_exists($image_upload_folder)) {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+              }
+              $new_file_name = "upload_image2" . date("Ymdhms");
+              $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' => 'jpg|jpeg|png',
+                'max_size'      => 25000
+              );
+              $this->upload->initialize($this->upload_config);
+              if (!$this->upload->do_upload($img2)) {
+                $upload_error = $this->upload->display_errors();
+                $this->session->set_flashdata('emessage', $upload_error);
+                redirect($_SERVER['HTTP_REFERER']);
+              } else {
+                $file_info = $this->upload->data();
+                $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
+                $nnnn2 = $videoNAmePath;
+              }
+            }
           }
-          $new_file_name = "upload_image2" . date("Ymdhms");
-          $this->upload_config = array(
-            'upload_path'   => $image_upload_folder,
-            'file_name' => $new_file_name,
-            'allowed_types' => 'jpg|jpeg|png',
-            'max_size'      => 25000
-          );
-          $this->upload->initialize($this->upload_config);
-          if (!$this->upload->do_upload($img2)) {
-            $upload_error = $this->upload->display_errors();
-            $this->session->set_flashdata('emessage', $upload_error);
-            redirect($_SERVER['HTTP_REFERER']);
-          } else {
-            $file_info = $this->upload->data();
-            $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
-            $nnnn2 = $videoNAmePath;
-          }
-        }}}
+        }
         //=======================================================IMAGE3===================================================//
         $img3 = 'image3';
         $nnnn3 = '';
-        if(!empty($_FILES['image3'])){
+        if (!empty($_FILES['image3'])) {
           if ($_FILES['image3']['size'] != 0 && $_FILES['image3']['error'] == 0) {
-          $file_check = ($_FILES['image3']['error']);
-          if ($file_check != 4) {
-            $image_upload_folder = FCPATH . "assets/uploads/sales/";
-            if (!file_exists($image_upload_folder)) {
-              mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-            }
-            $new_file_name = "upload_image3" . date("Ymdhms");
-            $this->upload_config = array(
-              'upload_path'   => $image_upload_folder,
-              'file_name' => $new_file_name,
-              'allowed_types' => 'jpg|jpeg|png',
-              'max_size'      => 25000
-            );
-            $this->upload->initialize($this->upload_config);
-            if (!$this->upload->do_upload($img3)) {
-              $upload_error = $this->upload->display_errors();
-              $this->session->set_flashdata('emessage', $upload_error);
-              redirect($_SERVER['HTTP_REFERER']);
-            } else {
-              $file_info = $this->upload->data();
-              $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
-              $nnnn3 = $videoNAmePath;
+            $file_check = ($_FILES['image3']['error']);
+            if ($file_check != 4) {
+              $image_upload_folder = FCPATH . "assets/uploads/sales/";
+              if (!file_exists($image_upload_folder)) {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+              }
+              $new_file_name = "upload_image3" . date("Ymdhms");
+              $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' => 'jpg|jpeg|png',
+                'max_size'      => 25000
+              );
+              $this->upload->initialize($this->upload_config);
+              if (!$this->upload->do_upload($img3)) {
+                $upload_error = $this->upload->display_errors();
+                $this->session->set_flashdata('emessage', $upload_error);
+                redirect($_SERVER['HTTP_REFERER']);
+              } else {
+                $file_info = $this->upload->data();
+                $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
+                $nnnn3 = $videoNAmePath;
+              }
             }
           }
-        }}
+        }
         //=======================================================IMAGE4======================================================//
         $img4 = 'image4';
         $nnnn4 = '';
-        if(!empty($_FILES['image4'])){
+        if (!empty($_FILES['image4'])) {
           if ($_FILES['image4']['size'] != 0 && $_FILES['image4']['error'] == 0) {
-                $file_check = ($_FILES['image4']['error']);
-                if ($file_check != 4) {
-                  $image_upload_folder = FCPATH . "assets/uploads/sales/";
-                  if (!file_exists($image_upload_folder)) {
-                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-                  }
-                  $new_file_name = "upload_image3" . date("Ymdhms");
-                  $this->upload_config = array(
-                    'upload_path'   => $image_upload_folder,
-                    'file_name' => $new_file_name,
-                    'allowed_types' => 'jpg|jpeg|png',
-                    'max_size'      => 25000
-                  );
-                  $this->upload->initialize($this->upload_config);
-                  if (!$this->upload->do_upload($img4)) {
-                    $upload_error = $this->upload->display_errors();
-                    $this->session->set_flashdata('emessage', $upload_error);
-                    redirect($_SERVER['HTTP_REFERER']);
-                  } else {
-                    $file_info = $this->upload->data();
-                    $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
-                    $nnnn4 = $videoNAmePath;
-                  }
-                }
-              }}
+            $file_check = ($_FILES['image4']['error']);
+            if ($file_check != 4) {
+              $image_upload_folder = FCPATH . "assets/uploads/sales/";
+              if (!file_exists($image_upload_folder)) {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+              }
+              $new_file_name = "upload_image3" . date("Ymdhms");
+              $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' => 'jpg|jpeg|png',
+                'max_size'      => 25000
+              );
+              $this->upload->initialize($this->upload_config);
+              if (!$this->upload->do_upload($img4)) {
+                $upload_error = $this->upload->display_errors();
+                $this->session->set_flashdata('emessage', $upload_error);
+                redirect($_SERVER['HTTP_REFERER']);
+              } else {
+                $file_info = $this->upload->data();
+                $videoNAmePath = "assets/uploads/sales/" . $new_file_name . $file_info['file_ext'];
+                $nnnn4 = $videoNAmePath;
+              }
+            }
+          }
+        }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
@@ -562,26 +567,37 @@ class ManagementController extends CI_Controller
   //====================================================== DISEASE INFO================================================//
   public function disease_info()
   {
-    $Disease_data = $this->db->get_where('tbl_disease', array('is_active' => 1))->result();
-    $data = [];
-    foreach ($Disease_data as $Disease) {
-      if (!empty($Disease->image1)) {
-        $image1 = base_url() . $Disease->image1;
-      } else {
-        $image1 = '';
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $Disease_data = $this->db->get_where('tbl_disease', array('is_active' => 1))->result();
+      $data = [];
+      foreach ($Disease_data as $Disease) {
+        if (!empty($Disease->image1)) {
+          $image1 = base_url() . $Disease->image1;
+        } else {
+          $image1 = '';
+        }
+        $data[] = array(
+          'title' => $Disease->title,
+          'description' => $Disease->content,
+          'image' => $image1,
+        );
       }
-      $data[] = array(
-        'title' => $Disease->title,
-        'description' => $Disease->content,
-        'image' => $Disease->image1,
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
       );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
     }
-    $res = array(
-      'message' => "Success!",
-      'status' => 200,
-      'data' => $data
-    );
-    echo json_encode($res);
   }
   //====================================================== STOCK HANDLING================================================//
   public function stock_handling()
