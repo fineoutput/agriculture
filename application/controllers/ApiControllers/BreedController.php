@@ -131,7 +131,7 @@ class BreedController extends CI_Controller
           'cattle_type' => $heath->cattle_type,
           'tag_no' => $heath->tag_no,
           'vaccination_date' => $heath->vaccination_date,
-          'diesse_name' => $heath->diesse_name,
+          'dieses_name' => $heath->diesse_name,
           'vaccination' => $heath->vaccination,
           'medicine' => $heath->medicine,
           'deworming' => $heath->deworming,
