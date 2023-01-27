@@ -235,13 +235,12 @@ class ManagementController extends CI_Controller
         $expected_price = $this->input->post('expected_price');
         $pastorate_pregnant = $this->input->post('pastorate_pregnant');
         $location = $this->input->post('location');
-        $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         //=============================================IMAGE1 ====================================================//
         $this->load->library('upload');
-        $img1 = 'image1';
-        $nnnn = '';
+        // $img1 = 'image1';
+        // $nnnn = '';
         // if ($_FILES['image1']['size'] == 0 && $_FILES['image1']['error'] == 0)
         // {
         // $file_check = ($_FILES['image1']['error']);
@@ -269,8 +268,8 @@ class ManagementController extends CI_Controller
         //   }
         // }}
         //===================================================IMAGE2====================================================//
-        $img2 = 'image2';
-        $nnnn2 = '';
+        // $img2 = 'image2';
+        // $nnnn2 = '';
         // if ($_FILES['image2']['size'] == 0 && $_FILES['image2']['error'] == 0)
         // {
         // $file_check = ($_FILES['image2']['error']);
@@ -298,8 +297,8 @@ class ManagementController extends CI_Controller
         //   }
         // }}
         //=======================================================IMAGE3===================================================//
-        $img3 = 'image3';
-        $nnnn3 = '';
+        // $img3 = 'image3';
+        // $nnnn3 = '';
       //   if ($_FILES['image3']['size'] == 0 && $_FILES['image3']['error'] == 0)
       //   {
       //   $file_check = ($_FILES['image3']['error']);
@@ -328,8 +327,8 @@ class ManagementController extends CI_Controller
       //   }
       // }
         //=======================================================IMAGE4======================================================//
-        $img4 = 'image4';
-        $nnnn4 = '';
+        // $img4 = 'image4';
+        // $nnnn4 = '';
 //         if ($_FILES['image4']['size'] == 0 && $_FILES['image4']['error'] == 0)
 // {
 //         $file_check = ($_FILES['image4']['error']);
@@ -369,10 +368,10 @@ class ManagementController extends CI_Controller
             'location' => $location,
             'expected_price' => $expected_price,
             'pastorate_pregnant' => $pastorate_pregnant,
-            'image1' => $nnnn,
-            'image2' => $nnnn2,
-            'image3' => $nnnn3,
-            'image4' => $nnnn4,
+            // 'image1' => $nnnn,
+            // 'image2' => $nnnn2,
+            // 'image3' => $nnnn3,
+            // 'image4' => $nnnn4,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
