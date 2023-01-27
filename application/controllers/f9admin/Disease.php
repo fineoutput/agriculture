@@ -102,8 +102,8 @@ $this->upload->initialize($this->upload_config);
 if (!$this->upload->do_upload($img1))
 {
 $upload_error = $this->upload->display_errors();
-// echo json_encode($upload_error);
-echo $upload_error;
+$this->session->set_flashdata('emessage',$upload_error);
+redirect($_SERVER['HTTP_REFERER']);
 }
 else
 {
@@ -245,4 +245,3 @@ redirect("login/admin_login","refresh");
 }
 }
 }
-?>
