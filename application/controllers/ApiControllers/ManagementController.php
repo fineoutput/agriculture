@@ -211,6 +211,53 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
+  //================= view Milk Record -----------------------------
+  public function view_milk_records()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $milk_data = $this->db->order_by('id', 'desc')->get_where('tbl_milk_records', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($milk_data as $milk) {
+        if (!empty($milk->group_id)) {
+          $group_data = $this->db->get_where('tbl_group', array('id' => $milk->group_id))->result();
+          $group = $group_data[0]->name;
+        } else {
+          $group = '';
+        }
+        $newdate = new DateTime($milk->date);
+        $data[] = array(
+          's_no' => $i,
+          'information_type' => $milk->information_type,
+          'group' => $group,
+          'cattle_type' => $milk->cattle_type,
+          'milking_slot' => $milk->milking_slot,
+          'milk_date' => $milk->milk_date,
+          'entry_milk' => $milk->entry_milk,
+          'price_milk' => $milk->price_milk,
+          'fat' => $milk->fat,
+          'snf' => $milk->snf,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //====================================================== SALE PURCHASE================================================//
   public function sale_purchase()
   {
@@ -409,6 +456,69 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
+  //================= view Sale Purchase -----------------------------
+  public function view_sale_purchase()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $exp_data = $this->db->order_by('id', 'desc')->get_where('tbl_sale_purchase', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($exp_data as $exp) {
+        $newdate = new DateTime($exp->date);
+        if(!empty($exp->image1)){
+          $image1=base_url().$exp->image1;
+        }else{
+          $image1='';
+        }
+        if(!empty($exp->image2)){
+          $image2=base_url().$exp->image2;
+        }else{
+          $image2='';
+        }
+        if(!empty($exp->image3)){
+          $image3=base_url().$exp->image3;
+        }else{
+          $image3='';
+        }
+        if(!empty($exp->image4)){
+          $image4=base_url().$exp->image4;
+        }else{
+          $image4='';
+        }
+        $data[] = array(
+          's_no' => $i,
+          'information_type' => $exp->information_type,
+          'animal_name' => $exp->animal_name,
+          'milk_production' => $exp->milk_production,
+          'lactation' => $exp->lactation,
+          'location' => $exp->location,
+          'expected_price' => $exp->expected_price,
+          'pastorate_pregnant' => $exp->pastorate_pregnant,
+          'image1' => $image1,
+          'image2' => $image2,
+          'image3' => $image3,
+          'image4' => $image4,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //====================================================== MEDICAL EXPENSES================================================//
   public function medical_expenses()
   {
@@ -482,6 +592,48 @@ class ManagementController extends CI_Controller
     } else {
       $res = array(
         'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  //================= view Medical Expense -----------------------------
+  public function view_medical_expense()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $exp_data = $this->db->order_by('id', 'desc')->get_where('tbl_medical_expenses', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($exp_data as $exp) {
+        $newdate = new DateTime($exp->date);
+        $data[] = array(
+          's_no' => $i,
+          'expense_date' => $exp->expense_date,
+          'doctor_visit_fees' => $exp->doctor_visit_fees,
+          'treatment_expenses' => $exp->treatment_expenses,
+          'vaccination_expenses' => $exp->vaccination_expenses,
+          'deworming_expenses' => $exp->deworming_expenses,
+          'other1' => $exp->other1,
+          'other2' => $exp->other2,
+          'other3' => $exp->other3,
+          'other4' => $exp->other4,
+          'other5' => $exp->other5,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
         'status' => 201
       );
       echo json_encode($res);
