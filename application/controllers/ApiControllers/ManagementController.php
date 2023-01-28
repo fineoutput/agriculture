@@ -863,28 +863,36 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-          $data = [];
-          $data = array(
-            'farmer_id' => $farmer_data[0]->id,
-            'name' => $name,
-            'date' => $cur_date
-          );
-          $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
-          //---- create 6 canister ----
-          for ($i = 0; $i < 6; $i++) {
+          $check = $this->db->get_where('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'name' => $name))->result();
+          if (empty($check)) {
             $data = array(
               'farmer_id' => $farmer_data[0]->id,
-              'tank_id' => $last_id,
+              'name' => $name,
               'date' => $cur_date
             );
-            $last_id2 = $this->base_model->insert_table("tbl_canister", $data, 1);
+            $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
+            //---- create 6 canister ----
+            for ($i = 0; $i < 6; $i++) {
+              $data = array(
+                'farmer_id' => $farmer_data[0]->id,
+                'tank_id' => $last_id,
+                'date' => $cur_date
+              );
+              $last_id2 = $this->base_model->insert_table("tbl_canister", $data, 1);
+            }
+            $res = array(
+              'message' => "Success",
+              'status' => 200,
+              'data' => []
+            );
+            echo json_encode($res);
+          } else {
+            $res = array(
+              'message' => "Tank name already exist!",
+              'status' => 201,
+            );
+            echo json_encode($res);
           }
-          $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => []
-          );
-          echo json_encode($res);
         } else {
           $res = array(
             'message' => 'Permission Denied!',
@@ -950,7 +958,7 @@ class ManagementController extends CI_Controller
             'date' => $cur_date
           );
           $this->db->where('id', $canister_id);
-          $zapak=$this->db->update('tbl_canister', $data_update);
+          $zapak = $this->db->update('tbl_canister', $data_update);
           $res = array(
             'message' => "Record Successfully Updated!",
             'status' => 200,
