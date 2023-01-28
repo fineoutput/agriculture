@@ -956,6 +956,7 @@ class ManagementController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('farm_bull', 'farm_bull', 'xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'xss_clean|trim');
       $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
       $this->form_validation->set_rules('company_name', 'company_name', 'xss_clean|trim');
@@ -963,6 +964,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('milk_production_of_mother', 'milk_production_of_mother', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $canister_id = $this->input->post('canister_id');
+        $farm_bull = $this->input->post('farm_bull');
         $tag_no = $this->input->post('tag_no');
         $bull_name = $this->input->post('bull_name');
         $company_name = $this->input->post('company_name');
@@ -975,6 +977,7 @@ class ManagementController extends CI_Controller
         if (!empty($farmer_data)) {
           $data = [];
           $data_update = array(
+            'farm_bull' => $farm_bull,
             'tag_no' => $tag_no,
             'bull_name' => $bull_name,
             'company_name' => $company_name,
