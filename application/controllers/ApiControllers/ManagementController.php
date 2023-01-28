@@ -957,20 +957,18 @@ class ManagementController extends CI_Controller
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('tank_id', 'tank_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
       $this->form_validation->set_rules('bull_name', 'bull_name', 'required|xss_clean|trim');
       $this->form_validation->set_rules('company_name', 'company_name', 'required|xss_clean|trim');
       $this->form_validation->set_rules('no_of_units', 'no_of_units', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('milk_production_of_mounts', 'milk_production_of_mounts', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('milk_production_of_months', 'milk_production_of_months', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $canister_id = $this->input->post('canister_id');
-        $tank_id = $this->input->post('tank_id');
         $tag_no = $this->input->post('tag_no');
         $bull_name = $this->input->post('bull_name');
         $company_name = $this->input->post('company_name');
         $no_of_units = $this->input->post('no_of_units');
-        $milk_production_of_mounts = $this->input->post('milk_production_of_mounts');;
+        $milk_production_of_months = $this->input->post('milk_production_of_months');;
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -978,13 +976,11 @@ class ManagementController extends CI_Controller
         if (!empty($farmer_data)) {
           $data = [];
           $data_update = array(
-            'farmer_id' => $farmer_data[0]->id,
-            'tank_id' => $tank_id,
             'tag_no' => $tag_no,
             'bull_name' => $bull_name,
             'company_name' => $company_name,
             'no_of_units' => $no_of_units,
-            'milk_production_of_mounts' => $milk_production_of_mounts,
+            'milk_production_of_months' => $milk_production_of_months,
             'date' => $cur_date
           );
           $this->db->where('id', $canister_id);
