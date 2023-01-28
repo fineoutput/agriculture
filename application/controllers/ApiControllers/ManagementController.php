@@ -956,11 +956,11 @@ class ManagementController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('bull_name', 'bull_name', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('company_name', 'company_name', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('no_of_units', 'no_of_units', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('milk_production_of_mother', 'milk_production_of_mother', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('tag_no', 'tag_no', 'xss_clean|trim');
+      $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
+      $this->form_validation->set_rules('company_name', 'company_name', 'xss_clean|trim');
+      $this->form_validation->set_rules('no_of_units', 'no_of_units', 'xss_clean|trim');
+      $this->form_validation->set_rules('milk_production_of_mother', 'milk_production_of_mother', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $canister_id = $this->input->post('canister_id');
         $tag_no = $this->input->post('tag_no');
