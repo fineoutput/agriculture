@@ -846,7 +846,37 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
-  //===================================================TANK =========================================================//
+  //==================================TANK =========================================//
+  public function view_semen_tank()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $tank_data = $this->db->get_where('tbl_tank', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i=1;
+      foreach ($tank_data as $tank) {
+        $data[] = array(
+          's_no' => $i,
+          'name' => $tank->name,
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   public function add_semen_tank()
   {
     $this->load->helper(array('form', 'url'));
@@ -881,9 +911,8 @@ class ManagementController extends CI_Controller
               $last_id2 = $this->base_model->insert_table("tbl_canister", $data, 1);
             }
             $res = array(
-              'message' => "Success",
+              'message' => "Record Successfully Inserted!",
               'status' => 200,
-              'data' => []
             );
             echo json_encode($res);
           } else {
