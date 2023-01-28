@@ -847,7 +847,7 @@ class ManagementController extends CI_Controller
     }
   }
   //===================================================TANK =========================================================//
-  public function tank()
+  public function add_semen_tank()
   {
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
@@ -867,10 +867,18 @@ class ManagementController extends CI_Controller
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
             'name' => $name,
-            'ip' => $ip,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_tank", $data, 1);
+          //---- create 6 canister ----
+          for ($i = 0; $i < 6; $i++) {
+            $data = array(
+              'farmer_id' => $farmer_data[0]->id,
+              'tank_id' => $last_id,
+              'date' => $cur_date
+            );
+            $last_id2 = $this->base_model->insert_table("tbl_canister", $data, 1);
+          }
           $res = array(
             'message' => "Success",
             'status' => 200,
@@ -900,7 +908,7 @@ class ManagementController extends CI_Controller
     }
   }
   //==============================================================CANISTER==============================================//
-  public function canister()
+  public function update_canister()
   {
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
@@ -908,6 +916,8 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tank_id', 'tank_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'required|xss_clean|trim');
       $this->form_validation->set_rules('bull_name', 'bull_name', 'required|xss_clean|trim');
@@ -915,6 +925,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('no_of_units', 'no_of_units', 'required|xss_clean|trim');
       $this->form_validation->set_rules('milk_production_of_mounts', 'milk_production_of_mounts', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
+        $canister_id = $this->input->post('canister_id');
         $tank_id = $this->input->post('tank_id');
         $tag_no = $this->input->post('tag_no');
         $bull_name = $this->input->post('bull_name');
@@ -927,7 +938,7 @@ class ManagementController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
-          $data = array(
+          $data_update = array(
             'farmer_id' => $farmer_data[0]->id,
             'tank_id' => $tank_id,
             'tag_no' => $tag_no,
@@ -938,11 +949,11 @@ class ManagementController extends CI_Controller
             'ip' => $ip,
             'date' => $cur_date
           );
-          $last_id = $this->base_model->insert_table("tbl_canister", $data, 1);
+          $this->db->where('id', $canister_id);
+          $zapak=$this->db->update('tbl_canister', $data_update);
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Updated!",
             'status' => 200,
-            'data' => []
           );
           echo json_encode($res);
         } else {
