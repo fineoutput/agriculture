@@ -468,25 +468,25 @@ class ManagementController extends CI_Controller
       $i = 1;
       foreach ($exp_data as $exp) {
         $newdate = new DateTime($exp->date);
-        if(!empty($exp->image1)){
-          $image1=base_url().$exp->image1;
-        }else{
-          $image1='';
+        if (!empty($exp->image1)) {
+          $image1 = base_url() . $exp->image1;
+        } else {
+          $image1 = '';
         }
-        if(!empty($exp->image2)){
-          $image2=base_url().$exp->image2;
-        }else{
-          $image2='';
+        if (!empty($exp->image2)) {
+          $image2 = base_url() . $exp->image2;
+        } else {
+          $image2 = '';
         }
-        if(!empty($exp->image3)){
-          $image3=base_url().$exp->image3;
-        }else{
-          $image3='';
+        if (!empty($exp->image3)) {
+          $image3 = base_url() . $exp->image3;
+        } else {
+          $image3 = '';
         }
-        if(!empty($exp->image4)){
-          $image4=base_url().$exp->image4;
-        }else{
-          $image4='';
+        if (!empty($exp->image4)) {
+          $image4 = base_url() . $exp->image4;
+        } else {
+          $image4 = '';
         }
         $data[] = array(
           's_no' => $i,
@@ -962,6 +962,44 @@ class ManagementController extends CI_Controller
     } else {
       $res = array(
         'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  //====================================================== farm_summary ================================================//
+  public function farm_summary()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
+      $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
+      $bull_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Bull'))->num_rows();
+      $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
+      $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
+      $data = array(
+        'open' => 1,
+        'inseminate' => 2,
+        'pregnant' => $pregnant_count,
+        'not_pregnant' => $not_pregnant_count,
+        'dry' => 5,
+        'milking' => $milking_count,
+        'calves' => 7,
+        'bull' => $bull_count,
+        'heifers' => $heifer_count,
+        'repeater' => 10,
+      );
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
         'status' => 201
       );
       echo json_encode($res);
