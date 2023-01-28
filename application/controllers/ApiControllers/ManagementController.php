@@ -974,22 +974,24 @@ class ManagementController extends CI_Controller
     $authentication = $headers['Authentication'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
+      $inseminate_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
       $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
       $bull_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Bull'))->num_rows();
       $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
       $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
+      $calf_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Calf'))->num_rows();
       $data = array(
         'open' => 1,
-        'inseminate' => 2,
+        'inseminate' => $inseminate_count,
         'pregnant' => $pregnant_count,
         'not_pregnant' => $not_pregnant_count,
         'dry' => 5,
         'milking' => $milking_count,
-        'calves' => 7,
+        'calves' => $calf_count,
         'bull' => $bull_count,
         'heifers' => $heifer_count,
-        'repeater' => 10,
+        'repeater' => 0,
       );
       $res = array(
         'message' => "Success!",
