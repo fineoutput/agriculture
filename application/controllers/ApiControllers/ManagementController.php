@@ -855,11 +855,13 @@ class ManagementController extends CI_Controller
     if (!empty($farmer_data)) {
       $tank_data = $this->db->get_where('tbl_tank', array('farmer_id' => $farmer_data[0]->id))->result();
       $data = [];
-      $i=1;
+      $i = 1;
       foreach ($tank_data as $tank) {
+        $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id' => $tank->id))->result();
         $data[] = array(
           's_no' => $i,
           'name' => $tank->name,
+          'canister' => $canister_data,
         );
         $i++;
       }
@@ -983,7 +985,6 @@ class ManagementController extends CI_Controller
             'company_name' => $company_name,
             'no_of_units' => $no_of_units,
             'milk_production_of_mounts' => $milk_production_of_mounts,
-            'ip' => $ip,
             'date' => $cur_date
           );
           $this->db->where('id', $canister_id);
