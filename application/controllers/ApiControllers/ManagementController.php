@@ -760,7 +760,7 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('stock_date', 'stock_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('green_forage', 'green_forage', 'xss_clean|trim');
       $this->form_validation->set_rules('dry_fodder', 'dry_fodder', 'xss_clean|trim');
       $this->form_validation->set_rules('silage', 'silage', 'xss_clean|trim');
@@ -776,7 +776,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('yeast', 'yeast', 'xss_clean|trim');
       $this->form_validation->set_rules('calcium', 'calcium', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
-        $date = $this->input->post('date');
+        $stock_date = $this->input->post('stock_date');
         $green_forage = $this->input->post('green_forage');
         $dry_fodder = $this->input->post('dry_fodder');
         $silage = $this->input->post('silage');
@@ -798,7 +798,7 @@ class ManagementController extends CI_Controller
           $data = [];
           $data = array(
             'farmer_id' => $farmer_data[0]->id,
-            'date' => $date,
+            'stock_date' => $stock_date,
             'green_forage' => $green_forage,
             'dry_fodder' => $dry_fodder,
             'silage' => $silage,
