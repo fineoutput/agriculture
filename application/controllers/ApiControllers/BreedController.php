@@ -176,7 +176,9 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
       $this->form_validation->set_rules('date_of_ai', 'date_of_ai', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('bull_name_number', 'bull_name_number', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('farm_bull', 'farm_bull', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('bull_tag_no', 'bull_tag_no', 'xss_clean|trim');
+      $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
       $this->form_validation->set_rules('expenses', 'expenses', 'required|xss_clean|trim');
       $this->form_validation->set_rules('vet_name', 'vet_name', 'required|xss_clean|trim');
       $this->form_validation->set_rules('is_pregnant', 'is_pregnant', 'xss_clean|trim');
@@ -188,7 +190,9 @@ class BreedController extends CI_Controller
         $breeding_date = $this->input->post('breeding_date');
         $weight = $this->input->post('weight');
         $date_of_ai = $this->input->post('date_of_ai');
-        $bull_name_number = $this->input->post('bull_name_number');
+        $farm_bull = $this->input->post('farm_bull');
+        $bull_tag_no = $this->input->post('bull_tag_no');
+        $bull_name = $this->input->post('bull_name');
         $expenses = $this->input->post('expenses');
         $vet_name = $this->input->post('vet_name');
         $is_pregnant = $this->input->post('is_pregnant');
@@ -207,7 +211,9 @@ class BreedController extends CI_Controller
             'breeding_date' => $breeding_date,
             'weight' => $weight,
             'date_of_ai' => $date_of_ai,
-            'bull_name_number' => $bull_name_number,
+            'farm_bull' => $farm_bull,
+            'bull_tag_no' => $bull_tag_no,
+            'bull_name' => $bull_name,
             'expenses' => $expenses,
             'vet_name' => $vet_name,
             'is_pregnant' => $is_pregnant,
@@ -269,7 +275,9 @@ class BreedController extends CI_Controller
           'breeding_date' => $breed->breeding_date,
           'weight' => $breed->weight,
           'date_of_ai' => $breed->date_of_ai,
-          'bull_name_number' => $breed->bull_name_number,
+          'farm_bull' => $breed->farm_bull,
+          'bull_tag_no' => $breed->bull_tag_no,
+          'bull_name' => $breed->bull_name,
           'expenses' => $breed->expenses,
           'vet_name' => $breed->vet_name,
           'is_pregnant' => $breed->is_pregnant,
