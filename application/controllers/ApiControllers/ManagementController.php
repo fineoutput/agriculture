@@ -761,20 +761,20 @@ class ManagementController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('dry_fodder', 'dry_fodder', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('silage', 'silage', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('cake', 'cake', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('grains', 'grains', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('biproducts', 'biproducts', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('churi', 'churi', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('oil_seeds', 'oil_seeds', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('minerals', 'minerals', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('bypass_fat', 'bypass_fat', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('toxins', 'toxins', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('buffer', 'buffer', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('yeast', 'yeast', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('calcium', 'calcium', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('green_forage', 'green_forage', 'xss_clean|trim');
+      $this->form_validation->set_rules('dry_fodder', 'dry_fodder', 'xss_clean|trim');
+      $this->form_validation->set_rules('silage', 'silage', 'xss_clean|trim');
+      $this->form_validation->set_rules('cake', 'cake', 'xss_clean|trim');
+      $this->form_validation->set_rules('grains', 'grains', 'xss_clean|trim');
+      $this->form_validation->set_rules('biproducts', 'biproducts', 'xss_clean|trim');
+      $this->form_validation->set_rules('churi', 'churi', 'xss_clean|trim');
+      $this->form_validation->set_rules('oil_seeds', 'oil_seeds', 'xss_clean|trim');
+      $this->form_validation->set_rules('minerals', 'minerals', 'xss_clean|trim');
+      $this->form_validation->set_rules('bypass_fat', 'bypass_fat', 'xss_clean|trim');
+      $this->form_validation->set_rules('toxins', 'toxins', 'xss_clean|trim');
+      $this->form_validation->set_rules('buffer', 'buffer', 'xss_clean|trim');
+      $this->form_validation->set_rules('yeast', 'yeast', 'xss_clean|trim');
+      $this->form_validation->set_rules('calcium', 'calcium', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $date = $this->input->post('date');
         $green_forage = $this->input->post('green_forage');
@@ -791,7 +791,6 @@ class ManagementController extends CI_Controller
         $buffer = $this->input->post('buffer');
         $yeast = $this->input->post('yeast');
         $calcium = $this->input->post('calcium');
-        $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -814,14 +813,12 @@ class ManagementController extends CI_Controller
             'buffer' => $buffer,
             'yeast' => $yeast,
             'calcium' => $calcium,
-            'ip' => $ip,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Inserted!",
             'status' => 200,
-            'data' => []
           );
           echo json_encode($res);
         } else {
