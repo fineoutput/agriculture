@@ -766,7 +766,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('silage', 'silage', 'xss_clean|trim');
       $this->form_validation->set_rules('cake', 'cake', 'xss_clean|trim');
       $this->form_validation->set_rules('grains', 'grains', 'xss_clean|trim');
-      $this->form_validation->set_rules('biproducts', 'biproducts', 'xss_clean|trim');
+      $this->form_validation->set_rules('bioproducts', 'bioproducts', 'xss_clean|trim');
       $this->form_validation->set_rules('churi', 'churi', 'xss_clean|trim');
       $this->form_validation->set_rules('oil_seeds', 'oil_seeds', 'xss_clean|trim');
       $this->form_validation->set_rules('minerals', 'minerals', 'xss_clean|trim');
@@ -782,7 +782,7 @@ class ManagementController extends CI_Controller
         $silage = $this->input->post('silage');
         $cake = $this->input->post('cake');
         $grains = $this->input->post('grains');
-        $biproducts = $this->input->post('biproducts');
+        $bioproducts = $this->input->post('bioproducts');
         $churi = $this->input->post('churi');
         $oil_seeds = $this->input->post('oil_seeds');
         $minerals = $this->input->post('minerals');
@@ -804,7 +804,7 @@ class ManagementController extends CI_Controller
             'silage' => $silage,
             'cake' => $cake,
             'grains' => $grains,
-            'biproducts' => $biproducts,
+            'bioproducts' => $bioproducts,
             'churi' => $churi,
             'oil_seeds' => $oil_seeds,
             'minerals' => $minerals,
