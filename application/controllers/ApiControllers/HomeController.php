@@ -105,14 +105,19 @@ class HomeController extends CI_Controller
         $this->load->helper('security');
         if ($this->input->post()) {
             $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milking', 'milking', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $assign_to_group = $this->input->post('assign_to_group');
+                $milking = $this->input->post('milking');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $this->db->distinct();
                     $this->db->select('animal_type');
                     $this->db->where('farmer_id', $farmer_data[0]->id); 
                     $this->db->where('assign_to_group', $assign_to_group); 
+                    if(!empty($milking)){
+                    $this->db->where('animal_type', 'Milking'); 
+                    }
                     $query = $this->db->get('tbl_my_animal');
                     $data = [];
                     $i = 1;
