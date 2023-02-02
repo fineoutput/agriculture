@@ -849,7 +849,7 @@ class ManagementController extends CI_Controller
     $authentication = $headers['Authentication'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $stock_data = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->result();
+      $stock_data = $this->db->order_by('id', 'desc')->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->result();
       $data = [];
       $i = 1;
       foreach ($stock_data as $stock) {
