@@ -842,6 +842,51 @@ class ManagementController extends CI_Controller
       );
       echo json_encode($res);
     }
+  }//==================================view_stokes =========================================//
+  public function view_stocks()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $stock_data = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->result();
+      $data = [];
+      $i = 1;
+      foreach ($stock_data as $stock) {
+        $newdate = new DateTime($stock->date);
+        $data[] = array(
+          'stock_date' => $stock->stock_date,
+          'green_forage' => $stock->green_forage,
+          'dry_fodder' => $stock->dry_fodder,
+          'silage' => $stock->silage,
+          'cake' => $stock->cake,
+          'grains' => $stock->grains,
+          'bioproducts' => $stock->bioproducts,
+          'churi' => $stock->churi,
+          'oil_seeds' => $stock->oil_seeds,
+          'minerals' => $stock->minerals,
+          'bypass_fat' => $stock->bypass_fat,
+          'toxins' => $stock->toxins,
+          'buffer' => $stock->buffer,
+          'yeast' => $stock->yeast,
+          'calcium' => $stock->calcium,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
   }
   //==================================TANK =========================================//
   public function view_semen_tank()
