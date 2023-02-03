@@ -1127,13 +1127,14 @@ class ManagementController extends CI_Controller
           $this->db->select('*');
           $this->db->from('tbl_my_animal');
           $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->order_by('id', 'desc');
           if (!empty($animal_type)) {
             $this->db->where('animal_type', $animal_type);
           }
           if (!empty($other)) {
             if ($other == "inseminate") {
               $this->db->where('is_inseminated', 'Yes');
-            } else if ($other == "pregnant" || $other =='Dry') {
+            } else if ($other == "pregnant" || $other == 'Dry') {
               $this->db->where('is_pregnant', 'Yes');
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
@@ -1146,15 +1147,16 @@ class ManagementController extends CI_Controller
             if ($other == "Dry") {
               $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($animal->pregnancy_test_date)));
               if ($cur_date > $dry_date) {
-                $a=1;
-              }else{
-                $a=0;
+                $a = 1;
+              } else {
+                $a = 0;
               }
             }
+            $group_data = $this->db->get_where('tbl_group', array('id' => $animal->assign_to_group, 'farmer_id' => $farmer_data[0]->id))->result();
             if ($a == 1) {
               $data[] = array(
                 'animal_type' => $animal->animal_type,
-                'assign_to_group' => $animal->assign_to_group,
+                'assign_to_group' => $group_data[0]->name,
                 'animal_name' => $animal->animal_name,
                 'tag_no' => $animal->tag_no,
                 'dob' => $animal->dob,
