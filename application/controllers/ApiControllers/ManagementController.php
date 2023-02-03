@@ -1116,9 +1116,11 @@ class ManagementController extends CI_Controller
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('animal_type', 'animal_type', 'xss_clean|trim');
       $this->form_validation->set_rules('other', 'other', 'xss_clean|trim');
+      $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $animal_type = $this->input->post('animal_type');
         $other = $this->input->post('other');
+        $group_id = $this->input->post('group_id');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -1130,6 +1132,9 @@ class ManagementController extends CI_Controller
           $this->db->order_by('id', 'desc');
           if (!empty($animal_type)) {
             $this->db->where('animal_type', $animal_type);
+          }
+          if (!empty($group_id)) {
+            $this->db->where('assign_to_group', $group_id);
           }
           if (!empty($other)) {
             if ($other == "inseminate") {
@@ -1154,6 +1159,11 @@ class ManagementController extends CI_Controller
             }
             $group_data = $this->db->get_where('tbl_group', array('id' => $animal->assign_to_group, 'farmer_id' => $farmer_data[0]->id))->result();
             if ($a == 1) {
+              if($animal->insemination_date = "undefined"){
+                $insemination_date = '';
+              }else{
+                $insemination_date = $animal->insemination_date;
+              }
               $data[] = array(
                 'animal_type' => $animal->animal_type,
                 'assign_to_group' => $group_data[0]->name,
@@ -1166,12 +1176,12 @@ class ManagementController extends CI_Controller
                 'age' => $animal->age,
                 'breed_type' => $animal->breed_type,
                 'semen_brand' => $animal->semen_brand,
-                'insemination_date' => $animal->insemination_date,
-                'pregnancy_test_date' => $animal->pregnancy_test_date,
                 'animal_gender' => $animal->animal_gender,
                 'is_inseminated' => $animal->is_inseminated,
                 'insemination_type' => $animal->insemination_type,
+                'insemination_date' => $insemination_date,
                 'is_pregnant' => $animal->is_pregnant,
+                'pregnancy_test_date' => $animal->pregnancy_test_date,
                 'service_status' => $animal->service_status,
                 'in_house' => $animal->in_house,
                 'lactation' => $animal->lactation,
