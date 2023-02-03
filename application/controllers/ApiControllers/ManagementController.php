@@ -842,7 +842,7 @@ class ManagementController extends CI_Controller
       );
       echo json_encode($res);
     }
-  }//==================================view_stokes =========================================//
+  } //==================================view_stokes =========================================//
   public function view_stocks()
   {
     $headers = apache_request_headers();
@@ -1066,16 +1066,26 @@ class ManagementController extends CI_Controller
       $inseminate_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
       $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
+      $pregnant_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->result();
       $bull_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Bull'))->num_rows();
       $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
       $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
       $calf_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Calf'))->num_rows();
+      $dry_count = 0;
+      date_default_timezone_set("Asia/Calcutta");
+      $cur_date = date("Y-m-d");
+      foreach ($pregnant_data as $pregnant) {
+        $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($pregnant->pregnancy_test_date)));
+        if ($cur_date > $dry_date) {
+          $dry_count++;
+        }
+      }
       $data = array(
         'open' => 1,
         'inseminate' => $inseminate_count,
         'pregnant' => $pregnant_count,
         'not_pregnant' => $not_pregnant_count,
-        'dry' => 5,
+        'dry' => $dry_count,
         'milking' => $milking_count,
         'calves' => $calf_count,
         'bull' => $bull_count,
@@ -1091,6 +1101,110 @@ class ManagementController extends CI_Controller
     } else {
       $res = array(
         'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  public function get_animals()
+  {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('animal_type', 'animal_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('other', 'other', 'xss_clean|trim');
+      if ($this->form_validation->run() == true) {
+        $animal_type = $this->input->post('animal_type');
+        $other = $this->input->post('other');
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+          $data = [];
+          $this->db->select('*');
+          $this->db->from('tbl_my_animal');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          if (!empty($animal_type)) {
+            $this->db->where('animal_type', $animal_type);
+          }
+          if (!empty($other)) {
+            if ($other == "inseminate") {
+              $this->db->where('is_inseminated', 'Yes');
+            } else if ($other == "pregnant" || $other =='Dry') {
+              $this->db->where('is_pregnant', 'Yes');
+            } else if ($other == "not_pregnant") {
+              $this->db->where('is_pregnant', 'No');
+            }
+          }
+          $animal_data = $this->db->get();
+          foreach ($animal_data->result() as $animal) {
+            $newdate = new DateTime($animal->date);
+            $a = 1;
+            if ($other == "Dry") {
+              $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($animal->pregnancy_test_date)));
+              if ($cur_date > $dry_date) {
+                $a=1;
+              }else{
+                $a=0;
+              }
+            }
+            if ($a == 1) {
+              $data[] = array(
+                'animal_type' => $animal->animal_type,
+                'assign_to_group' => $animal->assign_to_group,
+                'animal_name' => $animal->animal_name,
+                'tag_no' => $animal->tag_no,
+                'dob' => $animal->dob,
+                'father_name' => $animal->father_name,
+                'mother_name' => $animal->mother_name,
+                'weight' => $animal->weight,
+                'age' => $animal->age,
+                'breed_type' => $animal->breed_type,
+                'semen_brand' => $animal->semen_brand,
+                'insemination_date' => $animal->insemination_date,
+                'pregnancy_test_date' => $animal->pregnancy_test_date,
+                'animal_gender' => $animal->animal_gender,
+                'is_inseminated' => $animal->is_inseminated,
+                'insemination_type' => $animal->insemination_type,
+                'is_pregnant' => $animal->is_pregnant,
+                'service_status' => $animal->service_status,
+                'in_house' => $animal->in_house,
+                'lactation' => $animal->lactation,
+                'calving_date' => $animal->calving_date,
+                'insured_value' => $animal->insured_value,
+                'insurance_no' => $animal->insurance_no,
+                'renewal_period' => $animal->renewal_period,
+                'insurance_date' => $animal->insurance_date,
+                'date' => $newdate->format('d/m/Y')
+              );
+            }
+          }
+          $res = array(
+            'message' => "Success!",
+            'status' => 200,
+            'data' => $data,
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
         'status' => 201
       );
       echo json_encode($res);
