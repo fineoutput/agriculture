@@ -1133,7 +1133,7 @@ class ManagementController extends CI_Controller
           if (!empty($animal_type)) {
             $this->db->where('animal_type', $animal_type);
           }
-          if (!empty($group_id)) {
+          if (!empty($group_id) && $group_id!='none') {
             $this->db->where('assign_to_group', $group_id);
           }
           if (!empty($other)) {
@@ -1148,7 +1148,7 @@ class ManagementController extends CI_Controller
           $animal_data = $this->db->get();
           $groups[] = array(
             'value' => "none",
-            'label' => "none",
+            'label' => "None",
           );;
           foreach ($animal_data->result() as $animal) {
             $newdate = new DateTime($animal->date);
