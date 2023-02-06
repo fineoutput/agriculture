@@ -1146,7 +1146,10 @@ class ManagementController extends CI_Controller
             }
           }
           $animal_data = $this->db->get();
-          $groups = [];
+          $groups[] = array(
+            'value' => "none",
+            'label' => "none",
+          );;
           foreach ($animal_data->result() as $animal) {
             $newdate = new DateTime($animal->date);
             $a = 1;
@@ -1206,7 +1209,9 @@ class ManagementController extends CI_Controller
             'message' => "Success!",
             'status' => 200,
             'data' => $data,
-            'groups' => $groups
+            'groups' => $groups,
+            'group_id'=>$group_id
+
           );
           echo json_encode($res);
         } else {
