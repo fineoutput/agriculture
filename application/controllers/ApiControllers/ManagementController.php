@@ -1165,10 +1165,13 @@ class ManagementController extends CI_Controller
               } else {
                 $insemination_date = $animal->insemination_date;
               }
-              $groups[] = array(
-                'value' => $group_data[0]->id,
-                'label' => $group_data[0]->name,
-              );
+              $labels = array_column($groups, 'label');
+              if (!in_array($group_data[0]->name, $labels)) {
+                $groups[] = array(
+                  'value' => $group_data[0]->id,
+                  'label' => $group_data[0]->name,
+                );
+              }
               $data[] = array(
                 'animal_type' => $animal->animal_type,
                 'assign_to_group' => $group_data[0]->name,
@@ -1203,7 +1206,7 @@ class ManagementController extends CI_Controller
             'message' => "Success!",
             'status' => 200,
             'data' => $data,
-            'groups' => array_unique($groups, SORT_REGULAR)
+            'groups' => $groups
           );
           echo json_encode($res);
         } else {
