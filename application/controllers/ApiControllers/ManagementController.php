@@ -1146,6 +1146,7 @@ class ManagementController extends CI_Controller
             }
           }
           $animal_data = $this->db->get();
+          $groups = [];
           foreach ($animal_data->result() as $animal) {
             $newdate = new DateTime($animal->date);
             $a = 1;
@@ -1159,11 +1160,15 @@ class ManagementController extends CI_Controller
             }
             $group_data = $this->db->get_where('tbl_group', array('id' => $animal->assign_to_group, 'farmer_id' => $farmer_data[0]->id))->result();
             if ($a == 1) {
-              if($animal->insemination_date = "undefined"){
+              if ($animal->insemination_date = "undefined") {
                 $insemination_date = '';
-              }else{
+              } else {
                 $insemination_date = $animal->insemination_date;
               }
+              $groups[] = array(
+                'value' => $group_data[0]->id,
+                'label' => $group_data[0]->name,
+              );
               $data[] = array(
                 'animal_type' => $animal->animal_type,
                 'assign_to_group' => $group_data[0]->name,
@@ -1190,7 +1195,7 @@ class ManagementController extends CI_Controller
                 'insurance_no' => $animal->insurance_no,
                 'renewal_period' => $animal->renewal_period,
                 'insurance_date' => $animal->insurance_date,
-                'date' => $newdate->format('d/m/Y')
+                'date' => $newdate->format('d/m/Y'),
               );
             }
           }
@@ -1198,6 +1203,7 @@ class ManagementController extends CI_Controller
             'message' => "Success!",
             'status' => 200,
             'data' => $data,
+            'groups' => array_unique($groups, SORT_REGULAR)
           );
           echo json_encode($res);
         } else {
