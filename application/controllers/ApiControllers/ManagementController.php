@@ -1158,6 +1158,7 @@ class ManagementController extends CI_Controller
                 );
               }
               $data[] = array(
+                'id' => $animal->id,
                 'animal_type' => $animal->animal_type,
                 'assign_to_group' => $group_data[0]->name,
                 'animal_name' => $animal->animal_name,
