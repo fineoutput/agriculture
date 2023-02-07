@@ -93,7 +93,7 @@ class ManagementController extends CI_Controller
         foreach ($daily_data as $daily) {
           $newdate = new DateTime($daily->date);
           $data[] = array(
-            'record_date' => $daily->date,
+            'record_date' => $daily->record_date,
             'name' => $daily->name,
             'qty' => $daily->qty,
             'price' => $daily->price,
