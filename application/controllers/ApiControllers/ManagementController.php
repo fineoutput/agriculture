@@ -30,11 +30,13 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
+          $entry_id = bin2hex(random_bytes(5));
           foreach ($data as $d) {
             if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
               $data = array(
                 'record_date' => $date,
                 'farmer_id' => $farmer_data[0]->id,
+                'entry_id' => $entry_id,
                 'name' => $d->name,
                 'qty' => $d->values->qty,
                 'price' => $d->values->price,
