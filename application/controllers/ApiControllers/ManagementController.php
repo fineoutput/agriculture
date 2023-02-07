@@ -1125,6 +1125,10 @@ class ManagementController extends CI_Controller
               $this->db->where('is_pregnant', 'Yes');
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
+            } else if ($other == "Open") {
+              $this->db->where('delivery_date', NULL, FALSE);
+            } else if ($other == "Dry") {
+              $this->db->where('dry_date', NULL, FALSE);
             }
           }
           $animal_data = $this->db->get();
@@ -1258,6 +1262,7 @@ class ManagementController extends CI_Controller
               'delivered_date' => $date,
               'is_pregnant' => 'No',
               'pregnancy_test_date' => '',
+              'dry_date' => '',
             );
           }
           $this->db->where('id', $id);
