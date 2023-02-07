@@ -1131,6 +1131,8 @@ class ManagementController extends CI_Controller
               $this->db->where('delivered_date is NOT NULL', NULL, FALSE);
             } else if ($other == "Dry") {
               $this->db->where('dry_date is NOT NULL', NULL, FALSE);
+            }else if($other == "repeater"){
+              $this->db->where('id', 0);
             }
           }
           $animal_data = $this->db->get();
