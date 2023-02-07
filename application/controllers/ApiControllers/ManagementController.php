@@ -86,7 +86,7 @@ class ManagementController extends CI_Controller
       $query = $this->db->get('tbl_daily_records');
       $query->num_rows();
       $data = [];
-      $big =[]; 
+      $big = [];
       $i = 1;
       foreach ($query->result() as $entry) {
         $daily_data = $this->db->order_by('id', 'desc')->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
@@ -102,7 +102,7 @@ class ManagementController extends CI_Controller
           );
         }
         $i++;
-        $big[] =$data;
+        $big[] = $data;
       }
       $res = array(
         'message' => "Success!",
@@ -1183,6 +1183,8 @@ class ManagementController extends CI_Controller
                 'insurance_no' => $animal->insurance_no,
                 'renewal_period' => $animal->renewal_period,
                 'insurance_date' => $animal->insurance_date,
+                'dry_date' => $animal->dry_date,
+                'delivered_date' => $animal->delivered_date,
                 'date' => $newdate->format('d/m/Y'),
               );
             }
@@ -1193,6 +1195,73 @@ class ManagementController extends CI_Controller
             'data' => $data,
             'groups' => $groups,
             'group_id' => $group_id
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  public function update_animal_status()
+  {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('status', 'status', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
+      if ($this->form_validation->run() == true) {
+        $id = $this->input->post('id');
+        $status = $this->input->post('status');
+        $date = $this->input->post('date');
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+          //---animal cycle entry -----
+          $data = array(
+            'record_date' => $date,
+            'farmer_id' => $farmer_data[0]->id,
+            'animal_id' => $id,
+            'status' => $status,
+            'date' => $cur_date
+          );
+          $last_id = $this->base_model->insert_table("tbl_animal_cycle", $data, 1);
+          if ($status == 'Dry') {
+            $data_update = array(
+              'dry_date' => $date,
+            );
+          } else {
+            $data_update = array(
+              'delivered_date' => $date,
+            );
+          }
+          $this->db->where('id', $id);
+          $zapak = $this->db->update('tbl_my_animal', $data_update);
+          $res = array(
+            'message' => "Record Successfully Updated!",
+            'status' => 200,
           );
           echo json_encode($res);
         } else {
