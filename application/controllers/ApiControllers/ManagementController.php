@@ -1054,7 +1054,7 @@ class ManagementController extends CI_Controller
       $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
       $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
       $calf_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Calf'))->num_rows();
-      $dry_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'dry_date is NOT NULL', NULL, FALSE))->num_rows();
+      $dry_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'dry_date is NOT NULL'=> NULL, FALSE))->num_rows();
       // $dry_count = 0;
       // date_default_timezone_set("Asia/Calcutta");
       // $cur_date = date("Y-m-d");
