@@ -21,97 +21,32 @@ class ManagementController extends CI_Controller
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('green_forage', 'green_forage', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('silage', 'silage', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('dry_fodder', 'dry_fodder', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('cake', 'cake', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('grains', 'grains', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('biproducts', 'biproducts', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('churi', 'churi', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('oil_seeds', 'oil_seeds', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('feed', 'feed', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('minerals', 'minerals', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('btpass_fat', 'btpass_fat', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('tocins', 'tocins', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('buffer', 'buffer', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('yeast', 'yeast', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('milk_records', 'milk_records', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('pregnancy_care', 'pregnancy_care', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('animal_purchase', 'animal_purchase', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('labour_cost', 'labour_cost', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('farm_equipments', 'farm_equipments', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('others1', 'others1', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('others2', 'others2', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('others3', 'others3', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('others4', 'others4', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('others5', 'others5', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('data', 'data', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $date = $this->input->post('date');
-        $green_forage = $this->input->post('green_forage');
-        $silage = $this->input->post('silage');
-        $dry_fodder = $this->input->post('dry_fodder');
-        $cake = $this->input->post('cake');
-        $grains = $this->input->post('grains');
-        $biproducts = $this->input->post('biproducts');
-        $churi = $this->input->post('churi');
-        $oil_seeds = $this->input->post('oil_seeds');
-        $feed = $this->input->post('feed');
-        $minerals = $this->input->post('minerals');
-        $btpass_fat = $this->input->post('btpass_fat');
-        $tocins = $this->input->post('tocins');
-        $buffer = $this->input->post('buffer');
-        $yeast = $this->input->post('yeast');
-        $milk_records = $this->input->post('milk_records');
-        $pregnancy_care = $this->input->post('pregnancy_care');
-        $animal_purchase = $this->input->post('animal_purchase');
-        $labour_cost = $this->input->post('labour_cost');
-        $farm_equipments = $this->input->post('farm_equipments');
-        $others1 = $this->input->post('others1');
-        $others2 = $this->input->post('others2');
-        $others3 = $this->input->post('others3');
-        $others4 = $this->input->post('others4');
-        $others5 = $this->input->post('others5');
+        $data = json_decode($this->input->post('data'));
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-          $data = [];
-          $data = array(
-            'date' => $date,
-            'farmer_id' => $farmer_data[0]->id,
-            'green_forage' => $green_forage,
-            'silage' => $silage,
-            'dry_fodder' => $dry_fodder,
-            'cake' => $cake,
-            'grains' => $grains,
-            'biproducts' => $biproducts,
-            'churi' => $churi,
-            'oil_seeds' => $oil_seeds,
-            'feed' => $feed,
-            'minerals' => $minerals,
-            'btpass_fat' => $btpass_fat,
-            'tocins' => $tocins,
-            'buffer' => $buffer,
-            'yeast' => $yeast,
-            'milk_records' => $milk_records,
-            'pregnancy_care' => $pregnancy_care,
-            'animal_purchase' => $animal_purchase,
-            'labour_cost' => $labour_cost,
-            'farm_equipments' => $farm_equipments,
-            'others1' => $others1,
-            'others2' => $others2,
-            'others3' => $others3,
-            'others4' => $others4,
-            'others5' => $others5,
-            'ip' => $ip,
-            'date' => $cur_date
-          );
-          $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
+          foreach ($data as $d) {
+            if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
+              $data = array(
+                'record_date' => $date,
+                'farmer_id' => $farmer_data[0]->id,
+                'name' => $d->name,
+                'qty' => $d->values->qty,
+                'price' => $d->values->price,
+                'amount' => $d->values->amount,
+                'date' => $cur_date
+              );
+              $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
+            }
+          }
           $res = array(
-            'message' => "Success",
+            'message' => "Record Successfully Inserted!",
             'status' => 200,
-            'data' => []
           );
           echo json_encode($res);
         } else {
@@ -1133,7 +1068,7 @@ class ManagementController extends CI_Controller
           if (!empty($animal_type)) {
             $this->db->where('animal_type', $animal_type);
           }
-          if (!empty($group_id) && $group_id!='none') {
+          if (!empty($group_id) && $group_id != 'none') {
             $this->db->where('assign_to_group', $group_id);
           }
           if (!empty($other)) {
@@ -1210,8 +1145,7 @@ class ManagementController extends CI_Controller
             'status' => 200,
             'data' => $data,
             'groups' => $groups,
-            'group_id'=>$group_id
-
+            'group_id' => $group_id
           );
           echo json_encode($res);
         } else {
