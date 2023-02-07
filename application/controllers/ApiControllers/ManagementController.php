@@ -1141,14 +1141,14 @@ class ManagementController extends CI_Controller
           foreach ($animal_data->result() as $animal) {
             $newdate = new DateTime($animal->date);
             $a = 1;
-            if ($other == "Dry") {
-              $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($animal->pregnancy_test_date)));
-              if ($cur_date > $dry_date) {
-                $a = 1;
-              } else {
-                $a = 0;
-              }
-            }
+            // if ($other == "Dry") {
+            //   $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($animal->pregnancy_test_date)));
+            //   if ($cur_date > $dry_date) {
+            //     $a = 1;
+            //   } else {
+            //     $a = 0;
+            //   }
+            // }
             $group_data = $this->db->get_where('tbl_group', array('id' => $animal->assign_to_group, 'farmer_id' => $farmer_data[0]->id))->result();
             if ($a == 1) {
               if ($animal->insemination_date = "undefined") {
