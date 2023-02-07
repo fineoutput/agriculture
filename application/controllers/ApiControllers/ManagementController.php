@@ -1045,7 +1045,7 @@ class ManagementController extends CI_Controller
     $authentication = $headers['Authentication'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $open_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
+      $open_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'delivered_date is NOT NULL'=> NULL, FALSE))->num_rows();
       $inseminate_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
       $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
@@ -1054,15 +1054,16 @@ class ManagementController extends CI_Controller
       $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
       $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
       $calf_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Calf'))->num_rows();
-      $dry_count = 0;
-      date_default_timezone_set("Asia/Calcutta");
-      $cur_date = date("Y-m-d");
-      foreach ($pregnant_data as $pregnant) {
-        $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($pregnant->pregnancy_test_date)));
-        if ($cur_date > $dry_date) {
-          $dry_count++;
-        }
-      }
+      $dry_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'dry_date is NOT NULL', NULL, FALSE))->num_rows();
+      // $dry_count = 0;
+      // date_default_timezone_set("Asia/Calcutta");
+      // $cur_date = date("Y-m-d");
+      // foreach ($pregnant_data as $pregnant) {
+      //   $dry_date = date('Y-m-d', strtotime("+7 months", strtotime($pregnant->pregnancy_test_date)));
+      //   if ($cur_date > $dry_date) {
+      //     $dry_count++;
+      //   }
+      // }
       $data = array(
         'open' => $open_count,
         'inseminate' => $inseminate_count,
@@ -1127,9 +1128,9 @@ class ManagementController extends CI_Controller
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
             } else if ($other == "Open") {
-              $this->db->where('delivered_date', NULL, FALSE);
+              $this->db->where('delivered_date is NOT NULL', NULL, FALSE);
             } else if ($other == "Dry") {
-              $this->db->where('dry_date', NULL, FALSE);
+              $this->db->where('dry_date is NOT NULL', NULL, FALSE);
             }
           }
           $animal_data = $this->db->get();
