@@ -73,6 +73,51 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
+  //================= view Milk Record -----------------------------
+  public function view_daily_records()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $this->db->select('entry_id');
+      $this->db->distinct();
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $query = $this->db->get('tbl_daily_records');
+      $query->num_rows();
+      $data = [];
+      $big =[]; 
+      $i = 1;
+      foreach ($query->result() as $entry) {
+        $daily_data = $this->db->order_by('id', 'desc')->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
+        foreach ($daily_data as $daily) {
+          $newdate = new DateTime($daily->date);
+          $data[] = array(
+            'record_date' => $daily->date,
+            'name' => $daily->name,
+            'qty' => $daily->qty,
+            'price' => $daily->price,
+            'amount' => $daily->amount,
+            'date' => $newdate->format('d/m/Y')
+          );
+        }
+        $i++;
+        $big[] =$data;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $big
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //====================================================== MILK RECORDS================================================//
   public function milk_records()
   {
