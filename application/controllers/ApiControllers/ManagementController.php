@@ -1123,7 +1123,7 @@ class ManagementController extends CI_Controller
           if (!empty($other)) {
             if ($other == "inseminate") {
               $this->db->where('is_inseminated', 'Yes');
-            } else if ($other == "pregnant" || $other == 'Dry') {
+            } else if ($other == "pregnant" ) {
               $this->db->where('is_pregnant', 'Yes');
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
