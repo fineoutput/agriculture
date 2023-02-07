@@ -1256,6 +1256,8 @@ class ManagementController extends CI_Controller
           } else {
             $data_update = array(
               'delivered_date' => $date,
+              'is_pregnant' => 'No',
+              'pregnancy_test_date' => '',
             );
           }
           $this->db->where('id', $id);
