@@ -1045,6 +1045,7 @@ class ManagementController extends CI_Controller
     $authentication = $headers['Authentication'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
+      $open_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $inseminate_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
       $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
@@ -1063,7 +1064,7 @@ class ManagementController extends CI_Controller
         }
       }
       $data = array(
-        'open' => 1,
+        'open' => $open_count,
         'inseminate' => $inseminate_count,
         'pregnant' => $pregnant_count,
         'not_pregnant' => $not_pregnant_count,
@@ -1126,7 +1127,7 @@ class ManagementController extends CI_Controller
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
             } else if ($other == "Open") {
-              $this->db->where('delivery_date', NULL, FALSE);
+              $this->db->where('delivered_date', NULL, FALSE);
             } else if ($other == "Dry") {
               $this->db->where('dry_date', NULL, FALSE);
             }
