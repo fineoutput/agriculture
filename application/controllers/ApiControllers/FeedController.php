@@ -11,7 +11,7 @@ class FeedController extends CI_Controller
         $this->load->model("admin/base_model");
         $this->load->library('pagination');
     }
-    //====================================================== SILAGE MAKING================================================//
+    //====================================================== CalculateWeight================================================//
     public function CalculateWeight()
     {
         $this->load->helper(array('form', 'url'));
@@ -62,8 +62,8 @@ class FeedController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== PREGNANCY CALCULATOR================================================//
-    public function pregnancy_calculator()
+    //====================================================== DMI CALCULATOR================================================//
+    public function dmi_calculator()
     {
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
@@ -71,24 +71,42 @@ class FeedController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('feed_percentage', 'feed_percentage', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milk_yield', 'milk_yield', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
-                $breeding_date = $this->input->post('breeding_date');
+                $feed_percentage = $this->input->post('feed_percentage');
+                $milk_yield = $this->input->post('milk_yield');
+                $weight = $this->input->post('weight');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    $date = strtotime($breeding_date);
-                    $cycle1 = strtotime("+21 day", $date);
-                    $cycle2 = strtotime("+42 day", $date);
-                    $cycle3 = strtotime("+63 day", $date);
-                    $calving = strtotime("+283 day", $date);
-                    $weaning = strtotime("+488 day", $date);
+                    $dry_matter_intake = 33/100*$milk_yield + 2/100*$weight;
+                    $feed = $feed_percentage / 100 * $dry_matter_intake;
+                    $fodder = $dry_matter_intake - $feed;
+                    $feed_qty = 100 / 90 * $feed;
+                    //---green fodder ------
+                    $green_fodder = 60 / 100 * $fodder;
+                    $maize = 100 / 22 * $green_fodder;
+                    $barseem = 100 / 17 * $green_fodder;
+                    //--- dry fodder ------
+                    $dry_fodder = 40 / 100 * $fodder;
+                    $hary = 100 / 95 * $dry_fodder;
+                    //---silage ------
+                    $silage_dm = $fodder;
+                    $silage = 100 / 30 * $silage_dm;
                     $data = [];
                     $data = array(
-                        'cycle1_date' => date('d/m/Y', $cycle1),
-                        'cycle2_date' =>  date('d/m/Y', $cycle2),
-                        'cycle3_date' =>  date('d/m/Y', $cycle3),
-                        'calving_date' =>  date('d/m/Y', $calving),
-                        'weaning_date' =>  date('d/m/Y', $weaning),
+                        'dry_matter_intake' => round($dry_matter_intake,2),
+                        'feed' => round($feed,2),
+                        'fodder' => round($fodder,2),
+                        'feed_qty' => round($feed_qty,2),
+                        'green_fodder' => round($green_fodder,2),
+                        'maize' => round($maize,2),
+                        'barseem' => round($barseem,2),
+                        'dry_fodder' => round($dry_fodder,2),
+                        'hary' => round($hary,2),
+                        'silage_dm' => round($silage_dm,2),
+                        'silage' => round($silage,2),
                     );
                     $res = array(
                         'message' => "Success!",
