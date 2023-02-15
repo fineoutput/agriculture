@@ -136,6 +136,70 @@ class FeedController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //====================================================== FEED CALCULATOR================================================//
+    public function feed_calculator()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('ProteinData', 'ProteinData', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('EnergyData', 'EnergyData', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('ProductData', 'ProductData', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('MedicineData', 'MedicineData', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $ProteinData = $this->input->post('ProteinData');
+                $EnergyData = $this->input->post('EnergyData');
+                $ProductData = $this->input->post('ProductData');
+                $MedicineData = $this->input->post('MedicineData');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $data = [];
+                    $dry_fodder=0;
+                    $data = array(
+                        'CP' => round($dry_fodder,2),
+                        'FAT' => round($dry_fodder,2),
+                        'FIBER' => round($dry_fodder,2),
+                        'TDN' => round($dry_fodder,2),
+                        'ENERGY' => round($dry_fodder,2),
+                        'CA' =>round($dry_fodder,2),
+                        'P' => round($dry_fodder,2),
+                        'RUDP' => round($dry_fodder,2),
+                        'ADF' => round($dry_fodder,2),
+                        'NDF' => round($dry_fodder,2),
+                        'NEL' => round($dry_fodder,2),
+                        'ENDF' => round($dry_fodder,2),
+                    );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
     {
