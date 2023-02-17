@@ -145,10 +145,10 @@ class FeedController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('ProteinData', 'ProteinData', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('EnergyData', 'EnergyData', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('ProductData', 'ProductData', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('MedicineData', 'MedicineData', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('ProteinData', 'ProteinData', 'xss_clean|trim');
+            $this->form_validation->set_rules('EnergyData', 'EnergyData', 'xss_clean|trim');
+            $this->form_validation->set_rules('ProductData', 'ProductData', 'xss_clean|trim');
+            $this->form_validation->set_rules('MedicineData', 'MedicineData', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $ProteinData = $this->input->post('ProteinData');
                 $EnergyData = $this->input->post('EnergyData');
