@@ -210,7 +210,7 @@ class FeedController extends CI_Controller
                     foreach ($Product as $pro) {
                         if (!empty($pro[15])) {
                             $cp += $pro[3] ? $pro[3] * $pro[15] / 100 : 0;
-                            $ee += $pro[4] ? $pro[4] * $enr[15] / 100 : 0;
+                            $ee += $pro[4] ? $pro[4] * $pro[15] / 100 : 0;
                             $cf += $pro[5] ? $pro[5] * $pro[15] / 100 : 0;
                             $tdn += $pro[6] ? $pro[6] * $pro[15] / 100 : 0;
                             $me += $pro[7] ? $pro[7] * $pro[15] / 100 : 0;
