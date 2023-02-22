@@ -76,6 +76,56 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //====================================================== SILAGE MAKING================================================//
+    public function project_requirements()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $number_of_cows = $this->input->post('number_of_cows');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $data = [];
+                    $message =$this->load->view('pdf/test.html', null, true);
+                    // $data = array(
+                    //     'silage_qty_required' => $silage_qty_required,
+                    //     'pit_vol_required' => $pit_vol_required,
+                    //     'length' => $length,
+                    //     'fodder_required' => $fodder_required,
+                    // );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $message
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //====================================================== PREGNANCY CALCULATOR================================================//
     public function pregnancy_calculator()
     {
