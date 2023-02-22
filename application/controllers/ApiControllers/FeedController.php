@@ -347,7 +347,7 @@ class FeedController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     // $data = [];
-                    $message =$this->load->view('pdf/test',TRUE);
+                    $message =$this->load->view('pdf/test.html', null, true);
                     // $data = array(
                     //     'dry_matter_intake' => round($dry_matter_intake, 2),
                     //     'feed' => round($feed, 2),
