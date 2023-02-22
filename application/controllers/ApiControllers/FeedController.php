@@ -257,7 +257,7 @@ class FeedController extends CI_Controller
                         'ENDF' => round($endf, 2),
                     );
                     $dmb =  array(
-                        'CP' => $cp > 0 ? round(($cp * 12/100 + $cp), 2) : 0,
+                        'CP' => $cp > 0 ? round(($cp * 12 / 100 + $cp), 2) : 0,
                         'FAT' => $ee > 0 ? round(($ee * 12 / 100 + $ee), 2) : 0,
                         'FIBER' => $cf > 0 ? round(($cf * 12 / 100 + $cf), 2) : 0,
                         'TDN' => $tdn > 0 ? round(($tdn * 12 / 100 + $tdn), 2) : 0,
@@ -267,7 +267,7 @@ class FeedController extends CI_Controller
                         'RUDP' => $rudp > 0 ? round(($rudp * 12 / 100 + $rudp), 2) : 0,
                         'ADF' => $adf > 0 ? round(($adf * 12 / 100 + $adf), 2) : 0,
                         'NDF' => $ndf > 0 ? round(($ndf * 12 / 100 + $ndf), 2) : 0,
-                        'NEL' => round((0.0245*$tdn-0.12),2),
+                        'NEL' => round((0.0245 * $tdn - 0.12), 2),
                         'ENDF' => $endf > 0 ? round(($endf * 12 / 100 + $endf), 2) : 0,
                     );
                     $data = array(
@@ -280,6 +280,91 @@ class FeedController extends CI_Controller
                         'message' => "Success!",
                         'status' => 200,
                         'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //====================================================== DMI CALCULATOR================================================//
+    public function animalRequirements()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('group', 'group', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('feeding_system', 'feeding_system', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milk_production', 'milk_production', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('days_milk', 'days_milk', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milk_fat', 'milk_fat', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milk_protein', 'milk_protein', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('milk_lactose', 'milk_lactose', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('weight_variation', 'weight_variation', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('bcs', 'bcs', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('gestation_days', 'gestation_days', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('temp', 'temp', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('humidity', 'humidity', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('thi', 'thi', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('fat_4', 'fat_4', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $group = $this->input->post('group');
+                $feeding_system = $this->input->post('feeding_system');
+                $weight = $this->input->post('weight');
+                $milk_production = $this->input->post('milk_production');
+                $days_milk = $this->input->post('days_milk');
+                $milk_fat = $this->input->post('milk_fat');
+                $milk_protein = $this->input->post('milk_protein');
+                $milk_lactose = $this->input->post('milk_lactose');
+                $weight_variation = $this->input->post('weight_variation');
+                $bcs = $this->input->post('bcs');
+                $gestation_days = $this->input->post('gestation_days');
+                $temp = $this->input->post('temp');
+                $humidity = $this->input->post('humidity');
+                $thi = $this->input->post('thi');
+                $fat_4 = $this->input->post('fat_4');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    // $data = [];
+                    $message =$this->load->view('pdf/test',TRUE);
+                    // $data = array(
+                    //     'dry_matter_intake' => round($dry_matter_intake, 2),
+                    //     'feed' => round($feed, 2),
+                    //     'fodder' => round($fodder, 2),
+                    //     'feed_qty' => round($feed_qty, 2),
+                    //     'green_fodder' => round($green_fodder, 2),
+                    //     'maize' => round($maize, 2),
+                    //     'barseem' => round($barseem, 2),
+                    //     'dry_fodder' => round($dry_fodder, 2),
+                    //     'hary' => round($hary, 2),
+                    //     'silage_dm' => round($silage_dm, 2),
+                    //     'silage' => round($silage, 2),
+                    // );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $message
                     );
                     echo json_encode($res);
                 } else {
