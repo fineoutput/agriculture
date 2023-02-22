@@ -304,7 +304,7 @@ class FeedController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== DMI CALCULATOR================================================//
+    //====================================================== Animal Requirements ================================================//
     public function animalRequirements()
     {
         $this->load->helper(array('form', 'url'));
@@ -346,21 +346,36 @@ class FeedController extends CI_Controller
                 $fat_4 = $this->input->post('fat_4');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    // $data = [];
-                    $message =$this->load->view('pdf/test.html', null, true);
-                    // $data = array(
-                    //     'dry_matter_intake' => round($dry_matter_intake, 2),
-                    //     'feed' => round($feed, 2),
-                    //     'fodder' => round($fodder, 2),
-                    //     'feed_qty' => round($feed_qty, 2),
-                    //     'green_fodder' => round($green_fodder, 2),
-                    //     'maize' => round($maize, 2),
-                    //     'barseem' => round($barseem, 2),
-                    //     'dry_fodder' => round($dry_fodder, 2),
-                    //     'hary' => round($hary, 2),
-                    //     'silage_dm' => round($silage_dm, 2),
-                    //     'silage' => round($silage, 2),
-                    // );
+                    $input = array(
+                        'group' => $group,
+                        'feeding_system' => $feeding_system,
+                        'weight' => $weight,
+                        'milk_production' => $milk_production,
+                        'days_milk' => $days_milk,
+                        'milk_fat' => $milk_fat,
+                        'milk_protein' => $milk_protein,
+                        'milk_lactose' => $milk_lactose,
+                        'weight_variation' => $weight_variation,
+                        'bcs' => $bcs,
+                        'gestation_days' => $gestation_days,
+                        'temp' => $temp,
+                        'humidity' => $humidity,
+                        'thi' => $thi,
+                        'fat_4' => $fat_4,
+                    );
+                    $data['input'] = $input;
+                    $dmi_1 = round((0.4385 * $fat_4 + 0.07506 * pow($weight, 0.75)) * (1 - exp(-0.03202 * (24.9576 + $days_milk))) * ($group == "Bos taurus" ? 1 : 1), 1);
+                    $dmi_2 = round(($dmi_1 / $weight) * 100, 2);
+                    $dwi_1 = round(1.82 * $milk_production + 0.69 * $dmi_1 + 0.53 * $temp, 2);
+                    $dwi_2 = round($dwi_1 / $weight * 100, 2);
+                    $result = array(
+                        'dmi_1' => $dmi_1,
+                        'dmi_2' => $dmi_2,
+                        'dwi_1' => $dwi_1,
+                        'dwi_2' => $dwi_2,
+                    );
+                    $data['result'] = $result;
+                    $message = $this->load->view('pdf/animal_requirements', $data, TRUE);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -388,6 +403,55 @@ class FeedController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    //====================================================== Animal Requirements ================================================//
+    public function test()
+    {
+        $input = array(
+            'group' => 'Bos taurus',
+            'feeding_system' => 'Pasture',
+            'weight' => 500,
+            'milk_production' => 30,
+            'days_milk' => 10,
+            'milk_fat' => 3.8,
+            'milk_protein' => 3,
+            'milk_lactose' => 4.6,
+            'weight_variation' => 0,
+            'bcs' => 2.5,
+            'gestation_days' => 5,
+            'temp' => 22,
+            'humidity' => 65,
+            'thi' => 69.1,
+            'fat_4' => 29.1,
+        );
+        $data['input'] = $input;
+        $dmi_1 = round((0.4385 * $input['fat_4'] + 0.07506 * pow($input['weight'], 0.75)) * (1 - exp(-0.03202 * (24.9576 + $input['days_milk']))) * ($input['group'] == "Bos taurus" ? 1 : 1), 1);
+        $dmi_2 = round(($dmi_1 / $input['weight']) * 100, 2);
+        $dwi_1 = round(1.82 * $input['milk_production'] + 0.69 * $dmi_1 + 0.53 * $input['temp'], 2);
+        $dwi_2 = round($dwi_1 / $input['weight'] * 100, 2);
+        $result = array(
+            'dmi_1' => $dmi_1,
+            'dmi_2' => $dmi_2,
+            'dwi_1' => $dwi_1,
+            'dwi_2' => $dwi_2,
+        );
+        $data['result'] = $result;
+        //  echo $result;die();
+        // $data = array(
+        //     'dry_matter_intake' => round($dry_matter_intake, 2),
+        //     'feed' => round($feed, 2),
+        //     'fodder' => round($fodder, 2),
+        //     'feed_qty' => round($feed_qty, 2),
+        //     'green_fodder' => round($green_fodder, 2),
+        //     'maize' => round($maize, 2),
+        //     'barseem' => round($barseem, 2),
+        //     'dry_fodder' => round($dry_fodder, 2),
+        //     'hary' => round($hary, 2),
+        //     'silage_dm' => round($silage_dm, 2),
+        //     'silage' => round($silage, 2),
+        // );
+        $message = $this->load->view('pdf/animal_requirements', $data, TRUE);
+        print_r($message);
     }
     //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
