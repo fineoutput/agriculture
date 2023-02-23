@@ -239,7 +239,7 @@
                         <li class="marginTop"><span style="text-decoration:underline">Objection to Processing</span>
                             <ol style="list-style:dot" class="marginTop">
                                 <li>You have the right to object to the processing of your personal information based on grounds specific to your situation if such processing is for direct marketing or is for a purpose based on a legitimate interest or public interest. If you object to processing based on legitimate or public interests, we will no longer process your personal information for these purposes unless we can demonstrate compelling legitimate grounds for such processing or where the processing is otherwise required for the establishment, exercise or defence of legal claims.</li>
-                                <li>Where your personal information is processed for direct marketing purposes, you may, at any time ask us to cease processing your data for these direct marketing purposes by sending an e-mail to<!-- --> <a href="mailto:aashna.singh@mooo.farm"> <span style="color:blue;text-decoration:underline">aashna.singh@mooo.farm</span> </a>.</li>
+                                <li>Where your personal information is processed for direct marketing purposes, you may, at any time ask us to cease processing your data for these direct marketing purposes by sending an e-mail to<!-- --> <a href="mailto:info@dairymuneem.com"> <span style="color:blue;text-decoration:underline">info@dairymuneem.com</span> </a>.</li>
                             </ol>
                         </li>
                         <li class="marginTop"><span style="text-decoration:underline">Lodging Complaints:</span>
@@ -265,7 +265,6 @@
                     <h1 class="terms-content-text terms-text-bold upper-case">Our Communications<!-- --> </h1>
                     <ul class="terms-content-text" style="list-style-type:bullets">
                         <li>We may from time to time send you Services-related announcements when we consider it necessary to do so (such as when we temporarily suspend the&nbsp;Services&nbsp;for maintenance, or security, privacy, or administrative-related communications). We send these to you via SMS&nbsp;or email, as we deem fit.&nbsp;You may not opt-out of such Service-related communications.</li>
-                        <li>The&nbsp;Platform and Services are made available by Dairy Muneem Pvt. Ltd., having its registered office at WeWork 32nd Milestone, Galaxy Hotel, NH-8, Sector 15 Part 2, Gurugram, Haryana 122001 - India. Our grievance officer&nbsp;is Aashna Singh, accessible via email at:<a href="mailto:aashna.singh@mooo.farm"> <span style="color:blue;text-decoration:underline">aashna.singh@mooo.farm</span> </a> <!-- -->(“<span class="terms-text-bold ">Grievance Officer</span>”). You can contact our data protection officer confidentially by email to enquire about the treatment of your data, including the deleting of your personal data&nbsp;as identified in this document.</li>
                     </ul>
                 </li>
                 <li>
