@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Dairy Muneem Dmi Calculation</title>
     <meta charset="utf-8">
@@ -8,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
     <div class="container-fluid p-5  text-center" style="width:440px;height:120px; color:blue;">
         <h1>Dairy Muneem </h1>
@@ -23,13 +21,11 @@
                         border-collapse: collapse;
                         margin: 50px auto;
                     }
-
                     th {
                         background: #3498db;
                         color: white;
                         font-weight: bold;
                     }
-
                     td,
                     th {
                         padding: 10px;
@@ -37,17 +33,14 @@
                         text-align: left;
                         font-size: 18px;
                     }
-
                     .labels tr td {
                         background-color: #2cc16a;
                         font-weight: bold;
                         color: #fff;
                     }
-
                     .label tr td label {
                         display: block;
                     }
-
                     [data-toggle="toggle"] {
                         display: none;
                     }
@@ -67,7 +60,7 @@
                     <tbody class="hide">
                         <tr>
                             <td>Lactation Phase</td>
-                            <td><?= $input['phase'] ?></td>
+                            <td><?= $input['lactation'] ?></td>
                             <td>Feed In Percentage:</td>
                             <td><?= $input['feed_percentage'] ?></td>
                         </tr>
@@ -137,10 +130,7 @@
                             <td colspan="2"><?= $result['silage'] ?></td>
                         </tr>
                     </tbody>
-
 </body>
-
 </html>
 </body>
-
 </html>
