@@ -91,7 +91,8 @@ class ToolsController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $data = [];
-                    $message =$this->load->view('pdf/test.html', null, true);
+                    $data['number_of_cows']=50;
+                    $message = $this->load->view('pdf/25_cows', $data, true);
                     // $data = array(
                     //     'silage_qty_required' => $silage_qty_required,
                     //     'pit_vol_required' => $pit_vol_required,
@@ -125,6 +126,19 @@ class ToolsController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    //====================================================== SILAGE MAKING================================================//
+    public function project_test()
+    {
+        $data['number_of_cows']=50;
+        $message = $this->load->view('pdf/25_cows', $data, true);
+        print_r($message);
+        // $data = array(
+        //     'silage_qty_required' => $silage_qty_required,
+        //     'pit_vol_required' => $pit_vol_required,
+        //     'length' => $length,
+        //     'fodder_required' => $fodder_required,
+        // );
     }
     //====================================================== PREGNANCY CALCULATOR================================================//
     public function pregnancy_calculator()
