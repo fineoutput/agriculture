@@ -162,7 +162,7 @@ class FeedController extends CI_Controller
             echo json_encode($res);
         }
     }
-    public function dmi_test()
+    public function feed_test()
     {
         $feed_percentage = 45;
         $milk_yield = 12;
@@ -233,7 +233,7 @@ class FeedController extends CI_Controller
                 $MedicineData = $this->input->post('MedicineData');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    $data = [];
+                    $send = [];
                     $cp = 0;
                     $ee = 0;
                     $cf = 0;
@@ -347,16 +347,25 @@ class FeedController extends CI_Controller
                         'NEL' => round((0.0245 * $tdn - 0.12), 2),
                         'ENDF' => $endf > 0 ? round(($endf * 12 / 100 + $endf), 2) : 0,
                     );
-                    $data = array(
+                    $data1 = array(
                         'fresh' => $fresh,
                         'dmb' => $dmb,
                         'row_ton' => round(($value), 2),
                         'row_qtl' => round(($value / 10), 2),
                     );
+                    $data['result'] = $data1;
+                    $message = $this->load->view('pdf/feed', $data, TRUE);
+                    $send = array(
+                        'fresh' => $fresh,
+                        'dmb' => $dmb,
+                        'row_ton' => round(($value), 2),
+                        'row_qtl' => round(($value / 10), 2),
+                        'html' => $message,
+                    );
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
-                        'data' => $data
+                        'data' => $send
                     );
                     echo json_encode($res);
                 } else {
