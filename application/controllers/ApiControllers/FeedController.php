@@ -71,10 +71,13 @@ class FeedController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('lactation', 'lactation', 'required|xss_clean|trim');
             $this->form_validation->set_rules('feed_percentage', 'feed_percentage', 'required|xss_clean|trim');
             $this->form_validation->set_rules('milk_yield', 'milk_yield', 'required|xss_clean|trim');
             $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
+                $lactation = $this->input->post('lactation');
                 $feed_percentage = $this->input->post('feed_percentage');
                 $milk_yield = $this->input->post('milk_yield');
                 $weight = $this->input->post('weight');
@@ -94,8 +97,15 @@ class FeedController extends CI_Controller
                     //---silage ------
                     $silage_dm = $fodder;
                     $silage = 100 / 30 * $silage_dm;
-                    $data = [];
-                    $data = array(
+                    $send = [];
+                    $inputs = array(
+                        'lactation' => $lactation,
+                        'feed_percentage' => $feed_percentage,
+                        'milk_yield' => $milk_yield,
+                        'weight' => $weight,
+                    );
+                    $data['input'] = $inputs;
+                    $data1 = array(
                         'dry_matter_intake' => round($dry_matter_intake, 2),
                         'feed' => round($feed, 2),
                         'fodder' => round($fodder, 2),
@@ -108,10 +118,26 @@ class FeedController extends CI_Controller
                         'silage_dm' => round($silage_dm, 2),
                         'silage' => round($silage, 2),
                     );
+                    $data['result'] = $data1;
+                    $message = $this->load->view('pdf/dmi', $data, TRUE);
+                    $send = array(
+                        'dry_matter_intake' => round($dry_matter_intake, 2),
+                        'feed' => round($feed, 2),
+                        'fodder' => round($fodder, 2),
+                        'feed_qty' => round($feed_qty, 2),
+                        'green_fodder' => round($green_fodder, 2),
+                        'maize' => round($maize, 2),
+                        'barseem' => round($barseem, 2),
+                        'dry_fodder' => round($dry_fodder, 2),
+                        'hary' => round($hary, 2),
+                        'silage_dm' => round($silage_dm, 2),
+                        'silage' => round($silage, 2),
+                        'html' => $message,
+                    );
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
-                        'data' => $data
+                        'data' => $send
                     );
                     echo json_encode($res);
                 } else {
@@ -135,6 +161,57 @@ class FeedController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    public function dmi_test()
+    {
+        $feed_percentage = 45;
+        $milk_yield = 12;
+        $weight = 25;
+        $dry_matter_intake = 33 / 100 * $milk_yield + 2 / 100 * $weight;
+        $feed = $feed_percentage / 100 * $dry_matter_intake;
+        $fodder = $dry_matter_intake - $feed;
+        $feed_qty = 100 / 90 * $feed;
+        //---green fodder ------
+        $green_fodder = 60 / 100 * $fodder;
+        $maize = 100 / 22 * $green_fodder;
+        $barseem = 100 / 17 * $green_fodder;
+        //--- dry fodder ------
+        $dry_fodder = 40 / 100 * $fodder;
+        $hary = 100 / 95 * $dry_fodder;
+        //---silage ------
+        $silage_dm = $fodder;
+        $silage = 100 / 30 * $silage_dm;
+        $data1 = [];
+        $inputs = array(
+            'phase' => 'Mid-lactation',
+            'feed_percentage' => $feed_percentage,
+            'milk_yield' => $milk_yield,
+            'weight' => $weight,
+        );
+        $data['input'] = $inputs;
+        $data1 = array(
+            'dry_matter_intake' => round($dry_matter_intake, 2),
+            'feed' => round($feed, 2),
+            'fodder' => round($fodder, 2),
+            'feed_qty' => round($feed_qty, 2),
+            'green_fodder' => round($green_fodder, 2),
+            'maize' => round($maize, 2),
+            'barseem' => round($barseem, 2),
+            'dry_fodder' => round($dry_fodder, 2),
+            'hary' => round($hary, 2),
+            'silage_dm' => round($silage_dm, 2),
+            'silage' => round($silage, 2),
+        );
+        $data['result'] = $data1;
+        $message = $this->load->view('pdf/dmi', $data, TRUE);
+        print_r($message);
+        die();
+        $res = array(
+            'message' => "Success!",
+            'status' => 200,
+            'data' => $data1
+        );
+        echo json_encode($res);
     }
     //====================================================== FEED CALCULATOR================================================//
     public function feed_calculator()
