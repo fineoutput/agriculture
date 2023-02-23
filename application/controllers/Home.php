@@ -1,25 +1,24 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Home extends CI_Controller{
-function __construct()
-		{
-			parent::__construct();
-			$this->load->model("admin/login_model");
-			$this->load->model("admin/base_model");
-		}
-public function index()
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+class Home extends CI_Controller
+{
+	function __construct()
 	{
-			$this->load->view('index');
-
+		parent::__construct();
+		$this->load->model("admin/login_model");
+		$this->load->model("admin/base_model");
 	}
-
+	public function index()
+	{
+		$this->load->view('index');
+	}
 	public function error404()
-		{
-				$this->load->view('errors/error404');
-
-		}
-
-
-
+	{
+		$this->load->view('errors/error404');
+	}
+	public function privacy_policy()
+	{
+		$this->load->view('privacy_policy');
+	}
 	// public function blog()
 	// {
 	//
@@ -38,15 +37,12 @@ public function index()
 	// 		$this->load->view('blog/footer');
 	//     // }
 	// }
-
-
-		// public function single()
-		// {
-		//
-		// 		$this->load->view('blog/single-header');
-		// 		$this->load->view('blog/blogsingle');
-		// 		$this->load->view('blog/footer');
-		//
-		// }
-
+	// public function single()
+	// {
+	//
+	// 		$this->load->view('blog/single-header');
+	// 		$this->load->view('blog/blogsingle');
+	// 		$this->load->view('blog/footer');
+	//
+	// }
 }

@@ -67,3 +67,4 @@ $route['dcadmin/(:any)/(:any)/(:any)/(:any)/(:any)'] = 'f9admin/$1/$2/$3/$5';
 
 $route['404_override'] = 'Home/error404';
 $route['translate_uri_dashes'] = FALSE;
+$route['privacy_policy'] = 'Home/privacy_policy';
