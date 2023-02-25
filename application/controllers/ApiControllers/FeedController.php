@@ -515,11 +515,86 @@ class FeedController extends CI_Controller
         $dmi_2 = round(($dmi_1 / $input['weight']) * 100, 2);
         $dwi_1 = round(1.82 * $input['milk_production'] + 0.69 * $dmi_1 + 0.53 * $input['temp'], 2);
         $dwi_2 = round($dwi_1 / $input['weight'] * 100, 2);
+        //-------------------//
+        $dld= 6.8;
+        $dmd= $dld/4.9;
+        //-------------------//
+        $ca_intake = round((1.83*$dmi_1+0.12*$dmi_1+1.17*$input['milk_production'])/0.74);
+        $ca_diet = round($ca_intake/$dmi_1*100/1000, 2);
+        $p_intake = round((0.93*$dmi_1+0.01*$dmi_1+$input['milk_production']*0.9)/0.74);
+        $p_diet = round($p_intake/$dmi_1*100/1000, 2);
+        $na_intake = round(((0.038 * $input['weight']) + ($input['weight_variation'] < 0 ? 0 : ($input['weight_variation'] * 1.4)) + ($input['gestation_days'] > 190 ? 1.39 : 0)) + 0.63 * $input['milk_production'] + 0.1 * $input['weight'] / 100 / 0.9);
+        $na_diet = round($na_intake/$dmi_1*100/1000, 2);
+        $k_intake = round((0.33 * pow($input['weight'], 0.75) + $input['milk_production'] * 1.6) / 0.67);
+        $k_diet = round(($k_intake / $dmi_1 * 100) / 1000 ,2);
+        $s_diet = 0.2;
+        $s_intake = round($s_diet * $dmi_1 * 1000 / 100);
+        $mg_diet = 0.35;
+        $mg_intake = round($mg_diet * $dmi_1 / 100 * 1000, 1);
+        //-------------------//
+        $zn_intake = round((1.18 * pow($input['weight'], 0.75) + 3.8 * $input['milk_production']) / 0.36);
+        $zn_diet = round($zn_intake / $dmi_1);
+        $cu_intake = round((1.25 * pow($input['weight'], 0.75) + $input['milk_production'] * 0.04) / 0.4);
+        $cu_diet = round($cu_intake / $dmi_1);
+        $fe_diet = 10;
+        $fe_intake = round($fe_diet * $dmi_1);
+        $mn_diet = 30;
+        $mn_intake = round($mn_diet * $dmi_1);
+        $co_diet = 1;
+        $co_intake = round($co_diet * $dmi_1, 1);
+        $i_intake = round((0.13 / 0.3 * $input['weight'] / 100) * 0.85 + 0.3 * $input['milk_production'], 1);
+        $i_diet = round($i_intake / $dmi_1, 2);
+        $se_diet = 0.30;
+        $se_intake = round($se_diet * $dmi_1, 1);
+        $cr_diet = round($input['days_milk'] < 100 ? 0.5 : 0, 2);
+        $cr_intake = round($cr_diet * $dmi_1, 2);
+        //-------------------//
+        $vAd = round((30000 + 1000 * $input['milk_production']) * ($input['feeding_system'] == "Confinement" ? 1 : 0.3) / $dmi_1);
+        $vDd = round($input['feeding_system'] == "Confinement" ? 45 * $input['weight'] / $dmi_1 : 9 * $input['weight'] / $dmi_1);
+        $vEd = round(($input['thi'] > 75 ? 2000 / $dmi_1 : 1000) / $dmi_1 * ($input['feeding_system'] == "Pasture" ? 0.3 : 1));
+        //-------------------//
+        $methane = round(87.68 + 2.52 * $input['milk_production'] + 0.58 * pow($input['weight'], 0.75) + 8.25 * $dmi_1);
         $result = array(
             'dmi_1' => $dmi_1,
             'dmi_2' => $dmi_2,
             'dwi_1' => $dwi_1,
             'dwi_2' => $dwi_2,
+            //-------------------//
+            'ca_intake' => $ca_intake,
+            'ca_diet' => $ca_diet,
+            'p_intake' => $p_intake,
+            'p_diet' => $p_diet,
+            'na_intake' => $na_intake,
+            'na_diet' => $na_diet,
+            'k_intake' => $k_intake,
+            'k_diet' => $k_diet,
+            's_diet' => $s_diet,
+            's_intake' => $s_intake,
+            'mg_diet' => $mg_diet,
+            'mg_intake' => $mg_intake,
+            //-------------------//
+            'zn_intake' => $zn_intake,
+            'zn_diet' => $zn_diet,
+            'cu_intake' => $cu_intake,
+            'cu_diet' => $cu_diet,
+            'fe_diet' => $fe_diet,
+            'fe_intake' => $fe_intake,
+            'mn_diet' => $mn_diet,
+            'mn_intake' => $mn_intake,
+            'co_diet' => $co_diet,
+            'co_intake' => $co_intake,
+            'i_intake' => $i_intake,
+            'i_diet' => $i_diet,
+            'se_diet' => $se_diet,
+            'se_intake' => $se_intake,
+            'cr_diet' => $cr_diet,
+            'cr_intake' => $cr_intake,
+            //-------------------//
+            'vAd' => $vAd,
+            'vDd' => $vDd,
+            'vEd' => $vEd,
+            //-------------------//
+            'methane' => $methane,
         );
         $data['result'] = $result;
         //  echo $result;die();

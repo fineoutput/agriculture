@@ -135,14 +135,14 @@
                     </tbody>
                     <tbody class="hide">
                         <tr>
-                            <td  colspan="2">1.Dry intake(DMI):</td>
-                            <td colspan="1"><?=$result['dmi_1']?> kg/cow/day</td>
-                            <td colspan="1"><?=$result['dmi_2']?> % BW/day</td>
+                            <td colspan="2">1.Dry intake(DMI):</td>
+                            <td colspan="1"><?= $result['dmi_1'] ?> kg/cow/day</td>
+                            <td colspan="1"><?= $result['dmi_2'] ?> % BW/day</td>
                         </tr>
                         <tr>
                             <td colspan="2">2.Drinking Water Intake:</td>
-                            <td colspan="1"><?=$result['dwi_1']?> L/cow/day</td>
-                            <td colspan="1"><?=$result['dwi_2']?> % BW/day</td>
+                            <td colspan="1"><?= $result['dwi_1'] ?> L/cow/day</td>
+                            <td colspan="1"><?= $result['dwi_2'] ?> % BW/day</td>
                         </tr>
                     </tbody>
                     <tbody class="labels">
@@ -165,9 +165,9 @@
                     <tbody class="hide">
                         <tr>
                             <td>Total Net Energy (NE) intake:</td>
-                            <td>35.09Mcal/cow/day</td>
+                            <td>35.09 Mcal/cow/day</td>
                             <td>Crude protein (CP) intake:</td>
-                            <td>3.00kg/cow/day</td>
+                            <td>3.00 kg/cow/day</td>
                         </tr>
                         <tr>
                             <td>NE diet: </td>
@@ -232,103 +232,109 @@
                     <tbody class="labels">
                         <tr>
                             <td colspan="2" style="background-color: #3498db;">
-                                <label for="management">3 Macro minerals requirements:</label>
-                                <input type="checkbox" name="management" id="management" data-toggle="toggle">
+                                <label>3. Macro Minerals Requirements:</label>
                             </td>
                             <td colspan="2" style="background-color: #3498db;">
-                                <label for="management">4 Trace minerals requirements:</label>
-                                <input type="checkbox" name="management" id="management" data-toggle="toggle">
+                                <label>4. Trace Minerals Requirements:</label>
                             </td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
                         <tr>
-                            <td>Ca intake:</td>
-                            <td>84g/cow/day</td>
-                            <td>Zn intake:</td>
-                            <td>663mg/cow/day</td>
+                            <td>Ca Intake:</td>
+                            <td><?=$result['ca_intake']?> g/cow/day</td>
+                            <td>Zn Intake:</td>
+                            <td><?=$result['zn_intake']?> mg/cow/day</td>
                         </tr>
                         <tr>
-                            <td>Ca diet:</td>
-                            <td>0.60% DM</td>
-                            <td>Zn diet:</td>
-                            <td>48mg/kg DM</td>
+                            <td>Ca Diet:</td>
+                            <td><?=$result['ca_diet']?> % DM</td>
+                            <td>Zn Diet:</td>
+                            <td><?=$result['zn_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
-                            <td>P intake:</td>
-                            <td>54g/cow/day</td>
-                            <td>Cu intake:</td>
-                            <td>333mg/cow/day</td>
+                            <td>P Intake:</td>
+                            <td><?=$result['p_intake']?> g/cow/day</td>
+                            <td>Cu Intake:</td>
+                            <td><?=$result['cu_intake']?> mg/cow/day</td>
                         </tr>
                         <tr>
-                            <td>P diet:</td>
-                            <td>0.39% DM</td>
-                            <td>Cu diet</td>
-                            <td>24mg/kg DM</td>
+                            <td>P Diet:</td>
+                            <td><?=$result['p_diet']?> % DM</td>
+                            <td>Cu Diet</td>
+                            <td><?=$result['cu_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
-                            <td>Na intake:</td>
-                            <td>43g/cow/day</td>
-                            <td>Fe intake</td>
-                            <td>139mg/cow/day</td>
+                            <td>Na Intake:</td>
+                            <td><?=$result['na_intake']?> g/cow/day</td>
+                            <td>Fe Intake</td>
+                            <td><?=$result['fe_intake']?> mg/cow/day</td>
                         </tr>
                         <tr>
-                            <td>Na diet:</td>
-                            <td>0.31% DM</td>
-                            <td>Fe diet</td>
-                            <td>10mg/kg DM</td>
+                            <td>Na Diet:</td>
+                            <td><?=$result['na_diet']?> % DM</td>
+                            <td>Fe Diet</td>
+                            <td><?=$result['fe_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
-                            <td>K intake:</td>
-                            <td>124g/cow/day</td>
-                            <td>Mn intale</td>
-                            <td>418mg/cow/day</td>
+                            <td>K Intake:</td>
+                            <td><?=$result['k_intake']?> g/cow/day</td>
+                            <td>Mn Intake</td>
+                            <td><?=$result['mn_intake']?> mg/cow/day</td>
                         </tr>
                         <tr>
-                            <td>K diet:</td>
-                            <td>0.89% DM</td>
-                            <td>Mn diet</td>
-                            <td>30mg/kg DM</td>
+                            <td>K Diet:</td>
+                            <td><?=$result['k_diet']?> % DM</td>
+                            <td>Mn Diet</td>
+                            <td><?=$result['mn_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
-                            <td>S intake:</td>
-                            <td>28g/cow/day</td>
-                            <td>Co intake</td>
-                            <td>13.9mg/cow/day</td>
+                            <td>S Intake:</td>
+                            <td><?=$result['s_intake']?> g/cow/day</td>
+                            <td>Co Intake</td>
+                            <td><?=$result['co_intake']?> mg/cow/day</td>
                         </tr>
                         <tr>
-                            <td>S diet:</td>
-                            <td>0.20% DM</td>
-                            <td>Co diet</td>
-                            <td>1 mg/kg DM</td>
+                            <td>S Diet:</td>
+                            <td><?=$result['s_diet']?> % DM</td>
+                            <td>Co Diet</td>
+                            <td><?=$result['co_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
-                            <td>Mg intake:</td>
-                            <td>48.8g/cow/day</td>
-                            <td>I intake</td>
-                            <td> 10.8mg/cow/day</td>
+                            <td>Mg Intake:</td>
+                            <td><?=$result['mg_intake']?> g/cow/day</td>
+                            <td>I Intake</td>
+                            <td><?=$result['i_intake']?> g/cow/day</td>
                         </tr>
                         <tr>
-                            <td>Mg diet:</td>
-                            <td>0.35% DM</td>
-                            <td>I diet</td>
-                            <td>0.78mg/kg DM</td>
+                            <td>Mg Diet:</td>
+                            <td><?=$result['mg_diet']?> % DM</td>
+                            <td>I Diet</td>
+                            <td><?=$result['i_diet']?> mg/kg DM</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td>Se intake</td>
-                            <td>4.2 mg/cow/day</td>
+                            <td>Se Intake</td>
+                            <td><?=$result['se_intake']?> mg/cow/day</td>
                         </tr>
-                        <td></td>
-                        <td></td>
-                        <td>Se diet</td>
-                        <td>0.30mg/kg DM</td>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Se Diet</td>
+                            <td><?=$result['se_diet']?> mg/kg DM</td>
                         </tr>
-                        <td></td>
-                        <td></td>
-                        <td>Cr intake</td>
-                        <td>7.0mg/cow/day</td>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Cr Intake</td>
+                            <td><?=$result['cr_intake']?> mg/cow/day</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Cr Diet</td>
+                            <td><?=$result['cr_diet']?> mg/kg DM</td>
                         </tr>
                     <tbody class="labels">
                         <tr>
@@ -337,43 +343,40 @@
                                 <input type="checkbox" name="management" id="management" data-toggle="toggle">
                             </td>
                             <td colspan="2" style="background-color: #3498db;">
-                                <label for="management">6.Others recomendations:</label>
+                                <label for="management">6. Others recomendations:</label>
                                 <input type="checkbox" name="management" id="management" data-toggle="toggle">
                             </td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
                         <tr>
-                            <td>Vitamin A diet</td>
-                            <td>1,291IU/kg DM</td>
+                            <td>Vitamin A Diet</td>
+                            <td><?= $result['vAd'] ?> IU/kg DM</td>
                             <td>peNDF diet:</td>
                             <td>≥21% DM</td>
                         </tr>
                         <tr>
-                            <td>Vitamin D diet</td>
-                            <td>323IU/kg DM</td>
+                            <td>Vitamin D Diet</td>
+                            <td><?= $result['vDd'] ?> IU/kg DM</td>
                             <td>Fat acid diet:</td>
                             <td>≥6% DM</td>
                         </tr>
                         <tr>
-                            <td>Vitamin E diet</td>
-                            <td>22IU/kg DM</td>
+                            <td>Vitamin E Diet</td>
+                            <td><?= $result['vEd'] ?> IU/kg DM</td>
                             <td></td>
                             <td></td>
                         </tr>
                     <tbody class="labels">
                         <td colspan="6" style="background-color: #3498db;">
-                            <label for="management">
-                                7.Methane enteric emission:
-                            </label>
-                            <input type="checkbox" name="management" id="management" data-toggle="toggle">
+                            <label for="management">7.Methane Enteric Emission:</label>
                         </td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
                         <tr>
                             <td>Methane</td>
-                            <td>340g/cow/day</td>
+                            <td><?= $result['methane'] ?> g/cow/day</td>
                             <td></td>
                             <td></td>
                         </tr>
