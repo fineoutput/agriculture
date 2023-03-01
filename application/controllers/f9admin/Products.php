@@ -88,7 +88,7 @@ class Products extends CI_finecontrol
                         if (!file_exists($image_upload_folder)) {
                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                         }
-                        $new_file_name = "image1" . date("Ymdhms");
+                        $new_file_name = "image" . date("Ymdhms");
                         $this->upload_config = array(
                             'upload_path'   => $image_upload_folder,
                             'file_name' => $new_file_name,
@@ -103,7 +103,7 @@ class Products extends CI_finecontrol
                         } else {
                             $file_info = $this->upload->data();
                             $image = "assets/uploads/team/" . $new_file_name . $file_info['file_ext'];
-                            $file_info['new_name'] = $image1;
+                            $file_info['new_name'] = $image;
                             // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
                             $nnnn = $file_info['file_name'];
                             // echo json_encode($file_info);
