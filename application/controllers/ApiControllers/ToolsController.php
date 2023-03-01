@@ -258,6 +258,7 @@ class ToolsController extends CI_Controller
                 $stock = 'Out of Stock';
             }
             $data[] = array(
+                'pro_id' => $pro->id,
                 'name_english' => $pro->name_english,
                 'name_hindi' => $pro->name_hindi,
                 'name_punjabi' => $pro->name_punjabi,
