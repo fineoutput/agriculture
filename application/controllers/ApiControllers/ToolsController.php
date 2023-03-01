@@ -240,6 +240,10 @@ class ToolsController extends CI_Controller
     //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
     {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
         $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
         $data = [];
         foreach ($ProData as $pro) {
@@ -272,6 +276,13 @@ class ToolsController extends CI_Controller
             'data' => $data
         );
         echo json_encode($res);
+    } else {
+        $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+        );
+        echo json_encode($res);
+    }
     }
     //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
