@@ -269,7 +269,8 @@ class ToolsController extends CI_Controller
                 'mrp' => $pro->mrp,
                 'selling_price' => $pro->selling_price,
                 'suffix' => $pro->suffix,
-                'stock' => $stock
+                'stock' => $stock,
+                'vendor_id'=>$pro->added_by
             );
         }
         $res = array(
