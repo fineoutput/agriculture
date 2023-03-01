@@ -114,8 +114,8 @@ class FarmerController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
             $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
-            $data=[];
-            $total =0;
+            $data = [];
+            $total = 0;
             if (!empty($CartData)) {
                 foreach ($CartData as $cart) {
                     if ($cart->is_admin == 1) {
@@ -125,7 +125,7 @@ class FarmerController extends CI_Controller
                         //---vendor products ----
                         $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
                     }
-                    $ProData=$ProData[0];
+                    $ProData = $ProData[0];
                     if (!empty($ProData)) {
                         if (!empty($ProData->image)) {
                             $image = base_url() . $ProData->image;
@@ -138,7 +138,7 @@ class FarmerController extends CI_Controller
                         } else {
                             $stock = 'Out of Stock';
                         }
-                        $total += $ProData->selling_price *$cart->qty;
+                        $total += $ProData->selling_price * $cart->qty;
                         $data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
@@ -167,7 +167,7 @@ class FarmerController extends CI_Controller
                     'status' => 200,
                     'data' => $data,
                     'count' => $count,
-                    'total'=>$total
+                    'total' => $total
                 );
                 echo json_encode($res);
             } else {
@@ -183,6 +183,110 @@ class FarmerController extends CI_Controller
         } else {
             $res = array(
                 'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //============================================= UpdateCart ============================================//
+    public function UpdateCart()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('product_id', 'product_id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('qty', 'qty', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $product_id = $this->input->post('product_id');
+                $qty = $this->input->post('qty');
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                //----- Verify Auth --------
+                if (!empty($farmer_data)) {
+                    $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+                    if (!empty($CartData)) {
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $product_id))->result();
+                        if (!empty($ProData)) {
+                            //----- Check Inventory  --------
+                            if ($ProData[0]->inventory >= $qty) {
+                                $data_update = array('qty' => $qty,);
+                                $this->db->where('product_id', $product_id);
+                                $this->db->where('farmer_id', $farmer_data[0]->id);
+                                $zapak = $this->db->update('tbl_cart', $data_update);
+                                $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+                                $amount = 0;
+                                $total = 0;
+                                foreach ($CartData as $cart) {
+                                    if ($cart->is_admin == 1) {
+                                        //---admin products ----
+                                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                    } else {
+                                        //---vendor products ----
+                                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                    }
+                                    $ProData = $ProData[0];
+                                    if (!empty($ProData)) {
+                                        if ($cart->product_id == $product_id) {
+                                            $amount = $ProData->selling_price * $cart->qty;
+                                        }
+                                        $total += $ProData->selling_price * $cart->qty;
+                                    } else {
+                                        $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
+                                    }
+                                }
+                                $res = array(
+                                    'message' => "Success!",
+                                    'status' => 200,
+                                    'qty' => $qty,
+                                    'amount' => $amount,
+                                    'total' => $total,
+                                );
+                                echo json_encode($res);
+                            } else {
+                                $res = array(
+                                    'message' => "Product is out of Stock!",
+                                    'status' => 201,
+                                    'data' => []
+                                );
+                                echo json_encode($res);
+                            }
+                        } else {
+                            $res = array(
+                                'message' => "Product Not Found!",
+                                'status' => 201,
+                                'data' => []
+                            );
+                            echo json_encode($res);
+                        }
+                    } else {
+                        $res = array(
+                            'message' => "Cart is empty!",
+                            'status' => 201,
+                            'data' => []
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
