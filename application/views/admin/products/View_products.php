@@ -18,7 +18,6 @@
             <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Products</h3>
           </div>
           <div class="panel panel-default">
-
             <? if (!empty($this->session->flashdata('smessage'))) { ?>
               <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -33,8 +32,6 @@
                 <? echo $this->session->flashdata('emessage'); ?>
               </div>
             <? } ?>
-
-
             <div class="panel-body">
               <div class="box-body table-responsive no-padding">
                 <table class="table table-bordered table-hover table-striped" id="userTable">
@@ -47,8 +44,7 @@
                       <th>Description(English)</th>
                       <th>Description(Hindi)</th>
                       <th>Description(Punjabi)</th>
-                      <th>Image1</th>
-                      <th>Image2</th>
+                      <th>Image</th>
                       <th>Mrp</th>
                       <th>Selling Price</th>
                       <th>GST%</th>
@@ -65,31 +61,19 @@
                     foreach ($products_data->result() as $data) { ?>
                       <tr>
                         <td><?php echo $i ?> </td>
-
                         <td><?php echo $data->name_english ?></td>
                         <td><?php echo $data->name_hindi ?></td>
                         <td><?php echo $data->name_punjabi ?></td>
-
                         <td><?php echo $data->description_english ?></td>
                         <td><?php echo $data->description_hindi ?></td>
                         <td><?php echo $data->description_punjabi ?></td>
-
                         <td>
-                          <?php if ($data->image1 != "") {  ?>
-                            <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image1 ?>">
+                          <?php if ($data->image != "") {  ?>
+                            <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image ?>">
                           <?php } else {  ?>
                             Sorry No image Found
                           <?php } ?>
                         </td>
-                        <td>
-                          <?php if ($data->image2 != "") {  ?>
-                            <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image2 ?>">
-                          <?php } else {  ?>
-                            Sorry No image Found
-                          <?php } ?>
-                        </td>
-
-
                         <td>₹<?php echo $data->mrp ?></td>
                         <td>₹<?php echo $data->selling_price ?></td>
                         <td><?php echo $data->gst ?>%</td>
@@ -108,7 +92,6 @@
                             <div class="btn-group">
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
                               <ul class="dropdown-menu" role="menu">
-
                                 <?php if ($data->is_active == 1) { ?>
                                   <li><a href="<?php echo base_url() ?>dcadmin/Products/updateProductsStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
                                 <?php } else { ?>
@@ -119,7 +102,6 @@
                               </ul>
                             </div>
                           </div>
-
                           <div style="display:none" id="cnfbox<?php echo $i ?>">
                             <p> Are you sure delete this </p>
                             <a href="<?php echo base_url() ?>dcadmin/Products/delete_products/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
@@ -131,24 +113,14 @@
                     } ?>
                   </tbody>
                 </table>
-
-
-
-
-
-
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </section>
 </div>
-
-
 <style>
   label {
     margin: 5px;
@@ -162,24 +134,18 @@
     // responsive: true,
     // // bSort: true
     // });
-
     $(document.body).on('click', '.dCnf', function() {
       var i = $(this).attr("mydata");
       console.log(i);
-
       $("#btns" + i).hide();
       $("#cnfbox" + i).show();
-
     });
-
     $(document.body).on('click', '.cans', function() {
       var i = $(this).attr("mydatas");
       console.log(i);
-
       $("#btns" + i).show();
       $("#cnfbox" + i).hide();
     })
-
   });
 </script>
 <!-- <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>

@@ -80,8 +80,8 @@ class Products extends CI_finecontrol
                     $addedby = $this->session->userdata('admin_id');
                     //------------------------------------image insert-----------------------------------------
                     $this->load->library('upload');
-                    $img1 = 'image1';
-                    $image1 = "";
+                    $img1 = 'image';
+                    $image = "";
                     $file_check = ($_FILES['image1']['error']);
                     if ($file_check != 4) {
                         $image_upload_folder = FCPATH . "assets/uploads/team/";
@@ -102,39 +102,8 @@ class Products extends CI_finecontrol
                             echo $upload_error;
                         } else {
                             $file_info = $this->upload->data();
-                            $image1 = "assets/uploads/team/" . $new_file_name . $file_info['file_ext'];
+                            $image = "assets/uploads/team/" . $new_file_name . $file_info['file_ext'];
                             $file_info['new_name'] = $image1;
-                            // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-                            $nnnn = $file_info['file_name'];
-                            // echo json_encode($file_info);
-                        }
-                    }
-                    //------------------------------------image 2 insert-----------------------------------------
-                    $this->load->library('upload');
-                    $img1 = 'image2';
-                    $image2 = "";
-                    $file_check = ($_FILES['image2']['error']);
-                    if ($file_check != 4) {
-                        $image_upload_folder = FCPATH . "assets/uploads/team/";
-                        if (!file_exists($image_upload_folder)) {
-                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-                        }
-                        $new_file_name = "image2" . date("Ymdhms");
-                        $this->upload_config = array(
-                            'upload_path'   => $image_upload_folder,
-                            'file_name' => $new_file_name,
-                            'allowed_types' => 'jpg|jpeg|png',
-                            'max_size'      => 25000
-                        );
-                        $this->upload->initialize($this->upload_config);
-                        if (!$this->upload->do_upload($img1)) {
-                            $upload_error = $this->upload->display_errors();
-                            // echo json_encode($upload_error);
-                            echo $upload_error;
-                        } else {
-                            $file_info = $this->upload->data();
-                            $image2 = "assets/uploads/team/" . $new_file_name . $file_info['file_ext'];
-                            $file_info['new_name'] = $image2;
                             // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
                             $nnnn = $file_info['file_name'];
                             // echo json_encode($file_info);
@@ -150,8 +119,7 @@ class Products extends CI_finecontrol
                             'description_english' => $description_english,
                             'description_hindi' => $description_hindi,
                             'description_punjabi' => $description_punjabi,
-                            'image1' => $image1,
-                            'image2' => $image2,
+                            'image' => $image,
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'gst' => $gst,
@@ -169,11 +137,8 @@ class Products extends CI_finecontrol
                     if ($typ == 2) {
                         $idw = base64_decode($iw);
                         $pro_data = $this->db->get_where('tbl_products', array('id' => $idw))->result();
-                        if (empty($image1)) {
-                            $image1 = $pro_data[0]->image1;
-                        }
-                        if (empty($image2)) {
-                            $image2 = $pro_data[0]->image2;
+                        if (empty($image)) {
+                            $image = $pro_data[0]->image;
                         }
                         $data_insert = array(
                             'name_english' => $name_english,
@@ -182,8 +147,7 @@ class Products extends CI_finecontrol
                             'description_english' => $description_english,
                             'description_hindi' => $description_hindi,
                             'description_punjabi' => $description_punjabi,
-                            'image1' => $image1,
-                            'image2' => $image2,
+                            'image' => $image,
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'gst' => $gst,

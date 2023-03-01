@@ -243,15 +243,10 @@ class ToolsController extends CI_Controller
         $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
         $data = [];
         foreach ($ProData as $pro) {
-            if (!empty($pro->image1)) {
-                $image1 = base_url() . $pro->image1;
+            if (!empty($pro->image)) {
+                $image = base_url() . $pro->image;
             } else {
-                $image1 = '';
-            }
-            if (!empty($pro->image2)) {
-                $image2 = base_url() . $pro->image2;
-            } else {
-                $image2 = '';
+                $image = '';
             }
             if ($pro->inventory != 0) {
                 $stock = 'In Stock';
@@ -265,8 +260,7 @@ class ToolsController extends CI_Controller
                 'description_english' => $pro->description_english,
                 'description_hindi' => $pro->description_hindi,
                 'description_punjabi' => $pro->description_punjabi,
-                'image1' => $image1,
-                'image2' => $image2,
+                'image' => $image,
                 'mrp' => $pro->mrp,
                 'selling_price' => $pro->selling_price,
                 'stock' => $stock
