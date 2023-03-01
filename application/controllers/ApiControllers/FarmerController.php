@@ -105,5 +105,82 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================================= GetCart ============================================//
+    public function GetCart()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+            $data=[];
+            if (!empty($CartData)) {
+                foreach ($CartData as $cart) {
+                    if ($cart->is_admin == 1) {
+                        //---admin products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    } else {
+                        //---vendor products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    }
+                    $ProData=$ProData[0];
+                    if (!empty($ProData)) {
+                        if (!empty($ProData->image)) {
+                            $image = base_url() . $ProData->image;
+                        } else {
+                            $image = '';
+                        }
+                        //----- Check Inventory  --------
+                        if ($ProData->inventory != 0) {
+                            $stock = 'In Stock';
+                        } else {
+                            $stock = 'Out of Stock';
+                        }
+                        $data[] = array(
+                            'pro_id' => $ProData->id,
+                            'name_english' => $ProData->name_english,
+                            'name_hindi' => $ProData->name_hindi,
+                            'name_punjabi' => $ProData->name_punjabi,
+                            'description_english' => $ProData->description_english,
+                            'description_hindi' => $ProData->description_hindi,
+                            'description_punjabi' => $ProData->description_punjabi,
+                            'image' => $image,
+                            'mrp' => $ProData->mrp,
+                            'selling_price' => $ProData->selling_price,
+                            'suffix' => $ProData->suffix,
+                            'stock' => $stock,
+                            'vendor_id' => $ProData->added_by
+                        );
+                    } else {
+                        $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
+                    }
+                }
+                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                $res = array(
+                    'message' => "Success!",
+                    'status' => 200,
+                    'data' => $data,
+                    'count' => $count
+                );
+                echo json_encode($res);
+            } else {
+                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                $res = array(
+                    'message' => "Cart is empty!",
+                    'status' => 201,
+                    'data' => [],
+                    'count' => $count
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
-  //======================================================END FarmerController================================================//
+  //=========================================END FarmerController======================================//
