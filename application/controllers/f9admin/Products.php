@@ -82,7 +82,7 @@ class Products extends CI_finecontrol
                     $this->load->library('upload');
                     $img1 = 'image';
                     $image = "";
-                    $file_check = ($_FILES['image1']['error']);
+                    $file_check = ($_FILES['image']['error']);
                     if ($file_check != 4) {
                         $image_upload_folder = FCPATH . "assets/uploads/team/";
                         if (!file_exists($image_upload_folder)) {
