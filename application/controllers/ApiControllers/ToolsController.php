@@ -240,30 +240,40 @@ class ToolsController extends CI_Controller
     //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
     {
-        $City_data = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
+        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
         $data = [];
-        foreach ($City_data as $API) {
-            if (!empty($API->image)) {
-                $image = base_url() . $API->image;
+        foreach ($ProData as $pro) {
+            if (!empty($pro->image1)) {
+                $image1 = base_url() . $pro->image1;
             } else {
-                $image = '';
+                $image1 = '';
+            }
+            if (!empty($pro->image2)) {
+                $image2 = base_url() . $pro->image2;
+            } else {
+                $image2 = '';
+            }
+            if ($pro->inventory != 0) {
+                $stock = 'In Stock';
+            } else {
+                $stock = 'Out of Stock';
             }
             $data[] = array(
-                'name_english' => $API->name_english,
-                'name_hindi' => $API->name_hindi,
-                'name_punjabi' => $API->name_punjabi,
-                'description_english' => $API->description_english,
-                'description_hindi' => $API->description_hindi,
-                'description_punjabi' => $API->description_punjabi,
-                'image1' => $API->image1,
-                'image2' => $API->image2,
-                'mrp' => $API->mrp,
-                'selling_price' => $API->selling_price,
-                'inventory' => $API->inventory
+                'name_english' => $pro->name_english,
+                'name_hindi' => $pro->name_hindi,
+                'name_punjabi' => $pro->name_punjabi,
+                'description_english' => $pro->description_english,
+                'description_hindi' => $pro->description_hindi,
+                'description_punjabi' => $pro->description_punjabi,
+                'image1' => $image1,
+                'image2' => $image2,
+                'mrp' => $pro->mrp,
+                'selling_price' => $pro->selling_price,
+                'stock' => $stock
             );
         }
         $res = array(
-            'message' => "Success",
+            'message' => "Success!",
             'status' => 200,
             'data' => $data
         );
