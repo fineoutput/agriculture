@@ -150,7 +150,7 @@ class FarmerController extends CI_Controller
                             'description_punjabi' => $ProData->description_punjabi,
                             'image' => $image,
                             // 'mrp' => $ProData->mrp,
-                            'selling_price' => $ProData->selling_price,
+                            'selling_price' => $ProData->selling_price*$cart->qty,
                             // 'suffix' => $ProData->suffix,
                             'stock' => $stock,
                             'vendor_id' => $ProData->added_by,
