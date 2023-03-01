@@ -241,8 +241,6 @@ class FarmerController extends CI_Controller
                                 $res = array(
                                     'message' => "Success!",
                                     'status' => 200,
-                                    'cart_id' => $cart->cart_id,
-                                    'qty' => $qty,
                                     'amount' => $amount,
                                     'total' => $total,
                                 );
