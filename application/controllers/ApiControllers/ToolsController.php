@@ -267,6 +267,7 @@ class ToolsController extends CI_Controller
                 'image' => $image,
                 'mrp' => $pro->mrp,
                 'selling_price' => $pro->selling_price,
+                'suffix' => $pro->suffix,
                 'stock' => $stock
             );
         }
