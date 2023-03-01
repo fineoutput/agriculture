@@ -115,6 +115,7 @@ class FarmerController extends CI_Controller
         if (!empty($farmer_data)) {
             $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
             $data=[];
+            $total =0;
             if (!empty($CartData)) {
                 foreach ($CartData as $cart) {
                     if ($cart->is_admin == 1) {
@@ -137,6 +138,7 @@ class FarmerController extends CI_Controller
                         } else {
                             $stock = 'Out of Stock';
                         }
+                        $total += $ProData->selling_price *$cart->qty;
                         $data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
@@ -147,9 +149,9 @@ class FarmerController extends CI_Controller
                             'description_hindi' => $ProData->description_hindi,
                             'description_punjabi' => $ProData->description_punjabi,
                             'image' => $image,
-                            'mrp' => $ProData->mrp,
+                            // 'mrp' => $ProData->mrp,
                             'selling_price' => $ProData->selling_price,
-                            'suffix' => $ProData->suffix,
+                            // 'suffix' => $ProData->suffix,
                             'stock' => $stock,
                             'vendor_id' => $ProData->added_by,
                             'is_admin' => $cart->is_admin,
@@ -164,7 +166,8 @@ class FarmerController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
-                    'count' => $count
+                    'count' => $count,
+                    'total'=>$total
                 );
                 echo json_encode($res);
             } else {
