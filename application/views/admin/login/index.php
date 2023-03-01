@@ -37,7 +37,7 @@
 </head>
 
 <body>
-	<div class="video-w3l" data-vide-bg="<? echo base_url() ?>assets/admin/login/video/1">
+	<div class="video-w3l" data-vide-bg="<? echo base_url() ?>assets/admin/bg.png">
 		<!--header-->
 		<div class="header-w3l">
 			<h1>

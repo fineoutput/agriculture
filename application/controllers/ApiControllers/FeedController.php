@@ -75,7 +75,6 @@ class FeedController extends CI_Controller
             $this->form_validation->set_rules('feed_percentage', 'feed_percentage', 'required|xss_clean|trim');
             $this->form_validation->set_rules('milk_yield', 'milk_yield', 'required|xss_clean|trim');
             $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('weight', 'weight', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $lactation = $this->input->post('lactation');
                 $feed_percentage = $this->input->post('feed_percentage');
