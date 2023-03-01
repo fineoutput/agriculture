@@ -52,7 +52,7 @@ class FarmerController extends CI_Controller
                                     'date' => $cur_date
                                 );
                                 $last_id = $this->base_model->insert_table("tbl_cart", $data, 1);
-                                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]))->num_rows();
+                                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
                                 $res = array(
                                     'message' => "Product Successfully Added!",
                                     'status' => 200,
