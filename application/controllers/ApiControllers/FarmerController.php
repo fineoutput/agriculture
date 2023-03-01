@@ -138,6 +138,7 @@ class FarmerController extends CI_Controller
                             $stock = 'Out of Stock';
                         }
                         $data[] = array(
+                            'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
                             'name_english' => $ProData->name_english,
                             'name_hindi' => $ProData->name_hindi,
@@ -150,7 +151,9 @@ class FarmerController extends CI_Controller
                             'selling_price' => $ProData->selling_price,
                             'suffix' => $ProData->suffix,
                             'stock' => $stock,
-                            'vendor_id' => $ProData->added_by
+                            'vendor_id' => $ProData->added_by,
+                            'is_admin' => $cart->is_admin,
+                            'qty' => $cart->qty,
                         );
                     } else {
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
