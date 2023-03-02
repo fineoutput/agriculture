@@ -244,78 +244,127 @@ class ToolsController extends CI_Controller
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
-        $data = [];
-        foreach ($ProData as $pro) {
-            if (!empty($pro->image)) {
-                $image = base_url() . $pro->image;
-            } else {
-                $image = '';
+            $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
+            $data = [];
+            foreach ($ProData as $pro) {
+                if (!empty($pro->image)) {
+                    $image = base_url() . $pro->image;
+                } else {
+                    $image = '';
+                }
+                if ($pro->inventory != 0) {
+                    $stock = 'In Stock';
+                } else {
+                    $stock = 'Out of Stock';
+                }
+                $data[] = array(
+                    'pro_id' => $pro->id,
+                    'name_english' => $pro->name_english,
+                    'name_hindi' => $pro->name_hindi,
+                    'name_punjabi' => $pro->name_punjabi,
+                    'description_english' => $pro->description_english,
+                    'description_hindi' => $pro->description_hindi,
+                    'description_punjabi' => $pro->description_punjabi,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'vendor_id' => $pro->added_by
+                );
             }
-            if ($pro->inventory != 0) {
-                $stock = 'In Stock';
-            } else {
-                $stock = 'Out of Stock';
-            }
-            $data[] = array(
-                'pro_id' => $pro->id,
-                'name_english' => $pro->name_english,
-                'name_hindi' => $pro->name_hindi,
-                'name_punjabi' => $pro->name_punjabi,
-                'description_english' => $pro->description_english,
-                'description_hindi' => $pro->description_hindi,
-                'description_punjabi' => $pro->description_punjabi,
-                'image' => $image,
-                'mrp' => $pro->mrp,
-                'selling_price' => $pro->selling_price,
-                'suffix' => $pro->suffix,
-                'stock' => $stock,
-                'vendor_id'=>$pro->added_by
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
             );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
-        $res = array(
-            'message' => "Success!",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
-    } else {
-        $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-        );
-        echo json_encode($res);
     }
-    }
+    //------ Distance calculator ---------
+    function distance($lat1, $lon1, $lat2, $lon2) {
+
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
+        return ($miles * 1.609344);
+      }
     //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
     {
-        $City_data = $this->db->get_where('tbl_doctor', array('is_active2' => 0))->result();
-        $data = [];
-        foreach ($City_data as $DOCTOR) {
-            if (!empty($DOCTOR->image)) {
-                $image = base_url() . $DOCTOR->image;
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('$lat1', '$lat1', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('$lon1', '$lon1', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('$lat2', '$lat2', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('$lon2', '$lon2', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $lat1 = $this->input->post('lat1');
+                $lon1 = $this->input->post('lon1');
+                $lat2 = $this->input->post('lat2');
+                $lon2 = $this->input->post('lon2');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $City_data = $this->db->get_where('tbl_doctor', array('is_active2' => 0))->result();
+                    $data = [];
+                    foreach ($City_data as $DOCTOR) {
+                        if (!empty($DOCTOR->image)) {
+                            $image = base_url() . $DOCTOR->image;
+                        } else {
+                            $image = '';
+                        }
+                        $data[] = array(
+                            'name_english' => $DOCTOR->name_english,
+                            'name_hindi' => $DOCTOR->name_hindi,
+                            'name_punjabi' => $DOCTOR->name_punjabi,
+                            'email' => $DOCTOR->email,
+                            'degree_english' => $DOCTOR->degree_english,
+                            'degree_hindi' => $DOCTOR->degree_hindi,
+                            'degree_punjabi' => $DOCTOR->degree_punjabi,
+                            'image' => $image
+                        );
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
-                $image = '';
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
             }
-            $data[] = array(
-                'name_english' => $DOCTOR->name_english,
-                'name_hindi' => $DOCTOR->name_hindi,
-                'name_punjabi' => $DOCTOR->name_punjabi,
-                'email' => $DOCTOR->email,
-                'degree_english' => $DOCTOR->degree_english,
-                'degree_hindi' => $DOCTOR->degree_hindi,
-                'degree_punjabi' => $DOCTOR->degree_punjabi,
-                'image' => $DOCTOR->image
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
             );
+            echo json_encode($res);
         }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
     }
+
     //====================================================== EXPERT ADVICE ================================================//
     public function expert_advice()
     {
