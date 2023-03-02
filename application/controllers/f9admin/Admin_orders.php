@@ -1,10 +1,9 @@
 <?php
-
 if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 require_once(APPPATH . 'core/CI_finecontrol.php');
-class Order extends CI_finecontrol
+class Admin_orders extends CI_finecontrol
 {
     public function __construct()
     {
@@ -13,28 +12,8 @@ class Order extends CI_finecontrol
         $this->load->model("admin/base_model");
         $this->load->library('user_agent');
     }
-    //==============================view_orders=========================\\
-    public function view_order()
-    {
-        if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
-            $this->db->select('*');
-            $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
-            $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 1);//new orders
-            $data['order1_data']= $this->db->get();
-            $data['heading'] = "New";
-            $data['order_type'] = 1;
-            $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/order/view_order');
-            $this->load->view('admin/common/footer_view');
-        } else {
-            redirect("login/admin_login", "refresh");
-        }
-    }
-    //===========================placed_orders===========================\\
-    public function placed_order()
+    //==============================new_order=========================\\
+    public function new_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name']=$this->load->get_var('user_name');
@@ -62,7 +41,7 @@ class Order extends CI_finecontrol
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 2);//new orders
+            $this->db->where('order_status', 2);//accepted orders
             $data['order1_data']= $this->db->get();
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
@@ -106,24 +85,6 @@ class Order extends CI_finecontrol
             $data['order1_data']= $this->db->get();
             $data['heading'] = "Completed";
             $data['order_type'] = 1;
-            $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/order/view_order');
-            $this->load->view('admin/common/footer_view');
-        } else {
-            redirect("login/admin_login", "refresh");
-        }
-    }
-    //=========================delievered_orders=========================\\
-    public function transfer_orders()
-    {
-        if (!empty($this->session->userdata('admin_data'))) {
-            $this->db->select('*');
-            $this->db->from('tbl_auction');
-            $this->db->where('winner', 0);
-            $this->db->where('transfer', 1);
-            $data['order1_data']= $this->db->get();
-            $data['heading'] = "Transfer";
-            $data['order_type'] = 2;
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/order/view_order');
             $this->load->view('admin/common/footer_view');
@@ -229,14 +190,14 @@ class Order extends CI_finecontrol
                 $data_order2= $this->db->get();
                 foreach ($data_order2->result() as $data) {
                     $this->db->select('*');
-                    $this->db->from('tbl_type');
-                    $this->db->where('id', $data->type_id);
+                    $this->db->from('tbl_products');
+                    $this->db->where('id', $data->product_id);
                     $pro_data= $this->db->get()->row();
                     if (!empty($pro_data)) {
                         $update_inv = $pro_data->inventory + $data->quantity;
                         $data_update = array('inventory'=>$update_inv);
                         $this->db->where('id', $pro_data->id);
-                        $zapak2=$this->db->update('tbl_type', $data_update);
+                        $zapak2=$this->db->update('tbl_products', $data_update);
                     }
                 }
                 if ($zapak!=0) {
@@ -263,11 +224,6 @@ class Order extends CI_finecontrol
             $this->db->from('tbl_order2');
             $this->db->where('main_id', $id);
             $data['order2_data']= $this->db->get();
-            if (!empty($t)) {
-                $data['order_type']= 2;
-            } else {
-                $data['order_type']= 1;
-            }
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('id', $id);
@@ -297,27 +253,6 @@ class Order extends CI_finecontrol
             $this->db->where('main_id', $id);
             $data['order2_data']= $this->db->get();
             $this->load->view('admin/order/view_bill', $data);
-        } else {
-            redirect("login/admin_login", "refresh");
-        }
-    }
-    public function view_bid($idd)
-    {
-        if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
-            $id=base64_decode($idd);
-            $data['id']=$idd;
-            // $this->db->select('*');
-            // $this->db->from('tbl_auction');
-            // $data['auction_data']= $this->db->get();
-            $this->db->select('*');
-            $this->db->from('tbl_auction_bid');
-            $this->db->order_by('auction_id', $id);
-            // $this->db->where('is_active', 1);
-            $data['bid_data']= $this->db->get();
-            $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/order/view_bid');
-            $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
         }
