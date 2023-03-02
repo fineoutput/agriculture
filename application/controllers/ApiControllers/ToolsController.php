@@ -288,15 +288,15 @@ class ToolsController extends CI_Controller
         }
     }
     //------ Distance calculator ---------
-    function distance($lat1, $lon1, $lat2, $lon2) {
-
+    function distance($lat1, $lon1, $lat2, $lon2)
+    {
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
         $dist = acos($dist);
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
-        return ($miles * 1.609344);
-      }
+        return (round($miles * 1.609344, 2));
+    }
     //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
     {
@@ -306,35 +306,38 @@ class ToolsController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('$lat1', '$lat1', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('$lon1', '$lon1', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('$lat2', '$lat2', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('$lon2', '$lon2', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
-                $lat1 = $this->input->post('lat1');
-                $lon1 = $this->input->post('lon1');
-                $lat2 = $this->input->post('lat2');
-                $lon2 = $this->input->post('lon2');
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
+                $radius = $this->input->post('radius');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    $City_data = $this->db->get_where('tbl_doctor', array('is_active2' => 0))->result();
+                    $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 0))->result();
                     $data = [];
-                    foreach ($City_data as $DOCTOR) {
-                        if (!empty($DOCTOR->image)) {
-                            $image = base_url() . $DOCTOR->image;
-                        } else {
-                            $image = '';
+                    foreach ($DoctorData as $doctor) {
+                        if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                            $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                            echo $km;
+                            echo "<br>";
+                            if ($km <= $radius) {
+                                if (!empty($doctor->image)) {
+                                    $image = base_url() . $doctor->image;
+                                } else {
+                                    $image = '';
+                                }
+                                $data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'image' => $image
+                                );
+                            }
                         }
-                        $data[] = array(
-                            'name_english' => $DOCTOR->name_english,
-                            'name_hindi' => $DOCTOR->name_hindi,
-                            'name_punjabi' => $DOCTOR->name_punjabi,
-                            'email' => $DOCTOR->email,
-                            'degree_english' => $DOCTOR->degree_english,
-                            'degree_hindi' => $DOCTOR->degree_hindi,
-                            'degree_punjabi' => $DOCTOR->degree_punjabi,
-                            'image' => $image
-                        );
                     }
                     $res = array(
                         'message' => "Success",
@@ -364,7 +367,6 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-
     //====================================================== EXPERT ADVICE ================================================//
     public function expert_advice()
     {
