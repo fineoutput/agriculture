@@ -455,11 +455,13 @@ class ToolsController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('reason', 'latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('reason', 'reason', 'required|xss_clean|trim');
             $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('fees', 'fees', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $reason = $this->input->post('reason');
                 $description = $this->input->post('description');
+                $fees = $this->input->post('fees');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     //=============================================IMAGE1 ====================================================//
