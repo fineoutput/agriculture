@@ -461,10 +461,10 @@ class FarmerController extends CI_Controller
                     foreach ($orderDetails as $order2) {
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order->product_name,
-                            'qty' => $order->qty,
-                            'selling_price' => $order->selling_price,
-                            'total_amount' => $order->total_amount,
+                            'product_name' => $order2->product_name,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
                         );
                     }
                     $data[] = array(
