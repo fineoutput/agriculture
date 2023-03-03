@@ -625,8 +625,8 @@ class ToolsController extends CI_Controller
                     $cur_date = date("Y-m-d H:i:s");
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
-                        'information_type' => $reason,
-                        'animal_name' => $description,
+                        'reason' => $reason,
+                        'description' => $description,
                         'fees' => $fees,
                         'payment_status' => 0,
                         'status' => 0,
