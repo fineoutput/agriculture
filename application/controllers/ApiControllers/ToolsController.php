@@ -455,10 +455,12 @@ class ToolsController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('doctor_id', 'doctor_id', 'required|xss_clean|trim');
             $this->form_validation->set_rules('reason', 'reason', 'required|xss_clean|trim');
             $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
             $this->form_validation->set_rules('fees', 'fees', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
+                $doctor_id = $this->input->post('doctor_id');
                 $reason = $this->input->post('reason');
                 $description = $this->input->post('description');
                 $fees = $this->input->post('fees');
@@ -625,6 +627,7 @@ class ToolsController extends CI_Controller
                     $cur_date = date("Y-m-d H:i:s");
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
+                        'doctor_id' => $doctor_id,
                         'reason' => $reason,
                         'description' => $description,
                         'fees' => $fees,
