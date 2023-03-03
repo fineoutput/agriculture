@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <!-- Css file include -->
-  <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/frontend/css/style.css">
-  <link rel="shortcut icon" href="<?=base_url()?>assets/rklogo.png" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/frontend/css/style.css">
+  <link rel="shortcut icon" href="<?= base_url() ?>assets/rklogo.png" type="image/x-icon" />
   <title>Dairy Muneem Bill</title>
 </head>
+
 <body style="padding-top:75px;">
   <div class="container main_container">
     <div class="row">
       <div class="col-sm-6 oswal_logo">
-        <img src="<?=base_url()?>assets/bill_logo.png" class="img-fluid" alt="Logo">
+        <img src="<?= base_url() ?>assets/bill_logo.png" class="img-fluid" alt="Logo">
       </div>
       <div class="col-sm-6 content_part">Tax Invoice/Bill of Supply/Cash Memo
         <p>(Original for Recipient)</p>
@@ -32,53 +34,53 @@
         <div class="col-sm-6 billing_content"><span class="font-weight-bold ">Vendor Details:</span><br>
           <!-- code here -->
           <?php
-if (!empty($order1_data->vendor_id)) {
-    $this->db->select('*');
-    $this->db->from('tbl_vendor');
-    $this->db->where('id', $order1_data->vendor_id);
-    $vendor_data= $this->db->get()->row();
-    if (!empty($vendor_data)) {
-        $vendor_name= $vendor_data->name;
-        $vendor_company= $vendor_data->company_name;
-        $vendor_phone= $vendor_data->phone;
-        $vendor_address= $vendor_data->address;
-        $vendor_email= $vendor_data->email;
-        $vendor_gstin= $vendor_data->gstin;
-    } else {
-        $vendor_name="Owner";
-        $vendor_company="Dairy Muneem";
-        $vendor_phone="";
-        $vendor_address="Jaipur";
-        $vendor_email="";
-        $vendor_gstin="";
-    }
-} else {
-    $vendor_name="";
-    $vendor_company="";
-    $vendor_phone="";
-    $vendor_address="";
-    $vendor_email="";
-    $vendor_gstin="";
-}
-?>
-          Name: <?=$vendor_name;?><br>
-          Company Name: <?=$vendor_company;?>
-          <br>Contact: <?=$vendor_phone;?><br>
-          Email: <?=$vendor_email;?><br>
-          GST: <?=$vendor_gstin;?><br>
+          if (!empty($order1_data->vendor_id)) {
+            $this->db->select('*');
+            $this->db->from('tbl_vendor');
+            $this->db->where('id', $order1_data->vendor_id);
+            $vendor_data = $this->db->get()->row();
+            if (!empty($vendor_data)) {
+              $vendor_name = $vendor_data->name;
+              $vendor_company = $vendor_data->company_name;
+              $vendor_phone = $vendor_data->phone;
+              $vendor_address = $vendor_data->address;
+              $vendor_email = $vendor_data->email;
+              $vendor_gstin = $vendor_data->gstin;
+            } else {
+              $vendor_name = "Owner";
+              $vendor_company = "Dairy Muneem";
+              $vendor_phone = "";
+              $vendor_address = "Jaipur";
+              $vendor_email = "";
+              $vendor_gstin = "";
+            }
+          } else {
+            $vendor_name = "";
+            $vendor_company = "";
+            $vendor_phone = "";
+            $vendor_address = "";
+            $vendor_email = "";
+            $vendor_gstin = "";
+          }
+          ?>
+          Name: <?= $vendor_name; ?><br>
+          Company Name: <?= $vendor_company; ?>
+          <br>Contact: <?= $vendor_phone; ?><br>
+          Email: <?= $vendor_email; ?><br>
+          GST: <?= $vendor_gstin; ?><br>
           <?php
-  if (!empty($order1_data)) {
-    $this->db->select('*');
-    $this->db->from('tbl_farmers');
-    $this->db->where('id', $order1_data->farmer_id);
-    $farmers_data = $this->db->get()->row();
-      $name=$farmers_data->name;
-      $phone=$farmers_data->phone;
-      $pincode=$farmers_data->pincode;
-      $state=$farmers_data->city;
-      $city=$farmers_data->city;
-  }
-      ?>
+          if (!empty($order1_data)) {
+            $this->db->select('*');
+            $this->db->from('tbl_farmers');
+            $this->db->where('id', $order1_data->farmer_id);
+            $farmers_data = $this->db->get()->row();
+            $name = $farmers_data->name;
+            $phone = $farmers_data->phone;
+            $pincode = $farmers_data->pincode;
+            $state = $farmers_data->city;
+            $city = $farmers_data->city;
+          }
+          ?>
         </div>
       </div>
       <br>
@@ -86,41 +88,41 @@ if (!empty($order1_data->vendor_id)) {
         <div class="col-sm-6"></div>
         <div class="col-sm-6 shipping_content"><span class="font-weight-bold ">Shipping Address:</span> <br>
           Name:<?php
-          if (!empty($name)) {
-              echo $name;
-          } else {
-              echo "No Name Found";
-          }
-        ?> <br>
+                if (!empty($name)) {
+                  echo $name;
+                } else {
+                  echo "No Name Found";
+                }
+                ?> <br>
           Phone:<?php
-          if (!empty($phone)) {
-              echo $phone;
-          } else {
-              echo "no phone number";
-          }
-          ?> <br>
-          Pincode: <?php echo $pincode;?><br>
+                if (!empty($phone)) {
+                  echo $phone;
+                } else {
+                  echo "no phone number";
+                }
+                ?> <br>
+          Pincode: <?php echo $pincode; ?><br>
           State:
-          <?php echo $state;?><br>
+          <?php echo $state; ?><br>
           City:<?php
-if (!empty($city)) {
-    echo $city;
-} else {
-    echo "";
-}
-?> <br>
+                if (!empty($city)) {
+                  echo $city;
+                } else {
+                  echo "";
+                }
+                ?> <br>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-6">Order No: &nbsp; <?php if (!empty($order1_data)) {
-    echo '#'.$order1_data->id;
-}?><br>
+                                                  echo '#' . $order1_data->id;
+                                                } ?><br>
           <p> Order Date: &nbsp;
             <?php if (!empty($order1_data)) {
-    $source = $order1_data->date;
-    $date = new DateTime($source);
-    echo $date->format('F j, Y, g:i a');
-}?>
+              $source = $order1_data->date;
+              $date = new DateTime($source);
+              echo $date->format('F j, Y, g:i a');
+            } ?>
           <div><br> <br>
           </div>
         </div>
@@ -140,90 +142,94 @@ if (!empty($city)) {
             </thead>
             <tbody>
               <?php
-  $total_weight = 0;
-  $total_gst_percentt = 0;
-  $total_gst_pricee = 0;
-if (!empty($order2_data)) {
-    $i=1;
-    foreach ($order2_data->result() as $data) {
-        $this->db->select('*');
-        $this->db->from('tbl_products');
-        $this->db->where('id', $data->product_id);
-        $product_data= $this->db->get()->row(); ?>
-              <tr class="product_table2">
-                <td><?php echo $i; ?></td>
-                <td><?php
-if (!empty($product_data)) {
-    echo $product_name= $product_data->name_english;
-} else {
-    $product_name= "";
-} ?></td>
-                <td><?php echo $data->qty; ?></td>
-                <td><?php echo "₹".$data->selling_price_wo_gst; ?></td>
-                <td><?php echo "₹".$data->total_amount; ?> </td>
-                <?php if ($state == "Rajasthan [RJ]") {?>
-                <td><span> <?php  $half= $data->gst/2; echo $half."%"; ?> </span> <br> <span> <?php  $half= $data->gst/2; echo $half."%"; ?> </span></td>
-                <?php } else {?>
-                <td><?php echo $data->gst."%";?></td>
-                <?php } ?>
-                <?php if ($state == "Rajasthan [RJ]") {?>
-                <td><span> CGST </span> <br> <span> SGST </span></td>
-                <?php } else {?>
-                <td>IGST</td>
-                <?php } ?>
-                <?php if ($state == "Rajasthan [RJ]") {?>
-                <td>
-                  <span> <?php
-                  $total_gst = $data->selling_price * $data->gst /100 ;
-                  $total_gst_amount=$total_gst * $data->qty;
-                  $half_P= $total_gst_amount/2; echo "₹".$half_P;?>
-                  </span>
-                  <br>
-                  <span> <?php  $total_gst_amount=$total_gst * $data->qty;
-    $half_P= $total_gst_amount/2; echo "₹".$half_P;?>
-                  </span>
-                </td>
-                <?php } else {?>
-                <td><?php echo "₹".$data->selling_price * $data->gst/100 * $data->qty;?></td>
-                <?php } ?>
-                <td><?php
-        $total = $data->total_amount;
-        echo "₹".round($total, 2); ?></td>
-              </tr>
+              $total_weight = 0;
+              $total_gst_percentt = 0;
+              $total_gst_pricee = 0;
+              if (!empty($order2_data)) {
+                $i = 1;
+                foreach ($order2_data->result() as $data) {
+                  $this->db->select('*');
+                  $this->db->from('tbl_products');
+                  $this->db->where('id', $data->product_id);
+                  $product_data = $this->db->get()->row(); ?>
+                  <tr class="product_table2">
+                    <td><?php echo $i; ?></td>
+                    <td><?php
+                        if (!empty($product_data)) {
+                          echo $product_name = $product_data->name_english;
+                        } else {
+                          $product_name = "";
+                        } ?></td>
+                    <td><?php echo $data->qty; ?></td>
+                    <td><?php echo "₹" . $data->selling_price_wo_gst; ?></td>
+                    <td><?php echo "₹" . $data->total_amount; ?> </td>
+                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                      <td><span> <?php $half = $data->gst / 2;
+                                  echo $half . "%"; ?> </span> <br> <span> <?php $half = $data->gst / 2;
+                                                                            echo $half . "%"; ?> </span></td>
+                    <?php } else { ?>
+                      <td><?php echo $data->gst . "%"; ?></td>
+                    <?php } ?>
+                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                      <td><span> CGST </span> <br> <span> SGST </span></td>
+                    <?php } else { ?>
+                      <td>IGST</td>
+                    <?php } ?>
+                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                      <td>
+                        <span> <?php
+                                $total_gst = $data->selling_price * $data->gst / 100;
+                                $total_gst_amount = $total_gst * $data->qty;
+                                $half_P = $total_gst_amount / 2;
+                                echo "₹" . $half_P; ?>
+                        </span>
+                        <br>
+                        <span> <?php $total_gst_amount = $total_gst * $data->qty;
+                                $half_P = $total_gst_amount / 2;
+                                echo "₹" . $half_P; ?>
+                        </span>
+                      </td>
+                    <?php } else { ?>
+                      <td><?php echo "₹" . $data->selling_price * $data->gst / 100 * $data->qty; ?></td>
+                    <?php } ?>
+                    <td><?php
+                        $total = $data->total_amount;
+                        echo "₹" . round($total, 2); ?></td>
+                  </tr>
               <?php $i++;
-    }
-}?>
+                }
+              } ?>
               </tr>
               <tr>
-              <!-- <tr>
+              <tr>
                 <th>Total</th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-    echo "";
-}?></th>
-                <th class="product_table" colspan="7"><?php if (!empty($order1_data)) {
-    echo "";
-}?></th>
+                                            echo "";
+                                          } ?></th>
+                <th class="product_table" colspan="6"><?php if (!empty($order1_data)) {
+                                                        echo "";
+                                                      } ?></th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-    echo "₹".$order1_data->final_amount;
-}?></th>
-              </tr> -->
-              <!-- <tr>
+                                            echo "₹" . $order1_data->total_amount;
+                                          } ?></th>
+              </tr>
+              <tr>
                 <th>Shipping</th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-        echo "";
-    }?></th>
-                <th class="product_table" colspan="7"><?php if (!empty($order1_data)) {
-        echo "";
-    }?></th>
+                                            echo "";
+                                          } ?></th>
+                <th class="product_table" colspan="6"><?php if (!empty($order1_data)) {
+                                                        echo "";
+                                                      } ?></th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-        echo "₹50.00";
-    }?></th>
-              </tr> -->
+                                            echo "₹". $order1_data->charges;
+                                          } ?></th>
+              </tr>
               <tr>
                 <th colspan="8">SubTotal</th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-        echo "₹".$order1_data->final_amount;
-    }?></th>
+                                            echo "₹" . $order1_data->final_amount;
+                                          } ?></th>
               </tr>
             </tbody>
           </table>
@@ -231,8 +237,8 @@ if (!empty($product_data)) {
             <span id="checks123" style="text-transform: capitalize;font-style: revert;"></span>
           </h6><br>
           <input type="hidden" value="<?php if (!empty($order1_data)) {
-        echo round($order1_data->final_amount);
-    }?>" id="tot_amnt">
+                                        echo round($order1_data->final_amount);
+                                      } ?>" id="tot_amnt">
           <h4 class="oswal_head"><br><br>
             Authorized Signatory </h4>
           </tr>
@@ -270,6 +276,7 @@ if (!empty($product_data)) {
   };
   var a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen'];
   var b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
   function inWords(num) {
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
@@ -285,4 +292,5 @@ if (!empty($product_data)) {
     $("#checks123").text(str);
   }
 </script>
+
 </html>

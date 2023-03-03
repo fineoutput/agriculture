@@ -41,6 +41,8 @@
                       <th>Farmer Name</th>
                       <th>Farmer Number</th>
                       <th>Amount</th>
+                      <th>Charges</th>
+                      <th>Sub Total</th>
                       <th>Date</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -58,6 +60,8 @@
                         <td>#<?= $data->id ?></td>
                         <td><?= $farmers_data->name ?></td>
                         <td><?= $farmers_data->phone ?></td>
+                        <td><?php echo "₹" . $data->total_amount ?></td>
+                        <td><?php echo "₹" . $data->charges ?></td>
                         <td><?php echo "₹" . $data->final_amount ?></td>
                         <td>
                           <?

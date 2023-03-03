@@ -303,6 +303,7 @@ class FarmerController extends CI_Controller
             $data = [];
             $total = 0;
             $is_admin = 0;
+            $charges = 0;
             $vendor_id = 0;
             date_default_timezone_set("Asia/Calcutta");
             $cur_date = date("Y-m-d H:i:s");
@@ -326,10 +327,18 @@ class FarmerController extends CI_Controller
                                 'status' => 201
                             );
                             echo json_encode($res);
+                            die();
                         }
+                        $charges = $cart->qty * VENDOR_CHARGES;
                         $total += $ProData->selling_price * $cart->qty;
                     } else {
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
+                    }
+                }
+                //--- CALCULATE CHARGES ------ 
+                if ($cart->is_admin == 1) {
+                    if($total <= ADMIN_AMOUNT){
+                       $charges=ADMIN_CHARGES;
                     }
                 }
                 //------- order1 entry -----------
@@ -337,7 +346,9 @@ class FarmerController extends CI_Controller
                     'farmer_id' => $farmer_data[0]->id,
                     'is_admin' => $is_admin,
                     'vendor_id' => $vendor_id,
-                    'final_amount' => $total,
+                    'total_amount' => $total,
+                    'charges' => $charges,
+                    'final_amount' => $total + $charges,
                     'date' => $cur_date,
                 );
                 $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
