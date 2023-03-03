@@ -323,20 +323,20 @@ class ToolsController extends CI_Controller
                             // echo $km;
                             // echo "<br>";
                             // if ($km <= $radius) {
-                                if (!empty($doctor->image)) {
-                                    $image = base_url() . $doctor->image;
-                                } else {
-                                    $image = '';
-                                }
-                                $data[] = array(
-                                    'id' => $doctor->id,
-                                    'name' => $doctor->name,
-                                    'email' => $doctor->email,
-                                    'degree' => $doctor->degree,
-                                    'phone' => $doctor->phone,
-                                    'type' => $doctor->type,
-                                    'image' => $image
-                                );
+                            if (!empty($doctor->image)) {
+                                $image = base_url() . $doctor->image;
+                            } else {
+                                $image = '';
+                            }
+                            $data[] = array(
+                                'id' => $doctor->id,
+                                'name' => $doctor->name,
+                                'email' => $doctor->email,
+                                'degree' => $doctor->degree,
+                                'phone' => $doctor->phone,
+                                'type' => $doctor->type,
+                                'image' => $image
+                            );
                             // }
                         }
                     }
@@ -394,27 +394,27 @@ class ToolsController extends CI_Controller
                             // echo $km;
                             // echo "<br>";
                             // if ($km <= $radius) {
-                                if (!empty($doctor->image)) {
-                                    $image = base_url() . $doctor->image;
-                                } else {
-                                    $image = '';
-                                }
-                                $data[] = array(
-                                    'id' => $doctor->id,
-                                    'name' => $doctor->name,
-                                    'email' => $doctor->email,
-                                    'degree' => $doctor->degree,
-                                    'phone' => $doctor->phone,
-                                    'type' => $doctor->type,
-                                    'experience' => $doctor->experience,
-                                    'fees' => $doctor->fees,
-                                    'expertise' => $doctor->expertise,
-                                    'qualification' => $doctor->qualification,
-                                    'district' => $doctor->district,
-                                    'city' => $doctor->city,
-                                    'state' => $doctor->state,
-                                    'image' => $image
-                                );
+                            if (!empty($doctor->image)) {
+                                $image = base_url() . $doctor->image;
+                            } else {
+                                $image = '';
+                            }
+                            $data[] = array(
+                                'id' => $doctor->id,
+                                'name' => $doctor->name,
+                                'email' => $doctor->email,
+                                'degree' => $doctor->degree,
+                                'phone' => $doctor->phone,
+                                'type' => $doctor->type,
+                                'experience' => $doctor->experience,
+                                'fees' => $doctor->fees,
+                                'expertise' => $doctor->expertise,
+                                'qualification' => $doctor->qualification,
+                                'district' => $doctor->district,
+                                'city' => $doctor->city,
+                                'state' => $doctor->state,
+                                'image' => $image
+                            );
                             // }
                         }
                     }
@@ -422,6 +422,224 @@ class ToolsController extends CI_Controller
                         'message' => "Success",
                         'status' => 200,
                         'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //====================================================== EXPERT ADVICE ================================================//
+    public function request_expert_doctor()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('reason', 'latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $reason = $this->input->post('reason');
+                $description = $this->input->post('description');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    //=============================================IMAGE1 ====================================================//
+                    $this->load->library('upload');
+                    $img1 = 'image1';
+                    $nnnn = '';
+                    if (!empty($_FILES['image1'])) {
+                        if ($_FILES['image1']['size'] != 0 && $_FILES['image1']['error'] == 0) {
+                            $file_check = ($_FILES['image1']['error']);
+                            if ($file_check != 4) {
+                                $image_upload_folder = FCPATH . "assets/uploads/export_doctor/";
+                                if (!file_exists($image_upload_folder)) {
+                                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                }
+                                $new_file_name = "upload_image1" . date("Ymdhms");
+                                $this->upload_config = array(
+                                    'upload_path'   => $image_upload_folder,
+                                    'file_name' => $new_file_name,
+                                    'allowed_types' => 'jpg|jpeg|png',
+                                    'max_size'      => 25000
+                                );
+                                $this->upload->initialize($this->upload_config);
+                                if (!$this->upload->do_upload($img1)) {
+                                    $upload_error = $this->upload->display_errors();
+                                    $this->session->set_flashdata('emessage', $upload_error);
+                                    redirect($_SERVER['HTTP_REFERER']);
+                                } else {
+                                    $file_info = $this->upload->data();
+                                    $videoNAmePath = "assets/uploads/export_doctor/" . $new_file_name . $file_info['file_ext'];
+                                    $nnnn = $videoNAmePath;
+                                }
+                            }
+                        }
+                    }
+                    //===================================================IMAGE2====================================================//
+                    $img2 = 'image2';
+                    $nnnn2 = '';
+                    if (!empty($_FILES['image2'])) {
+                        if ($_FILES['image2']['size'] != 0 && $_FILES['image2']['error'] == 0) {
+                            $file_check = ($_FILES['image2']['error']);
+                            if ($file_check != 4) {
+                                $image_upload_folder = FCPATH . "assets/uploads/export_doctor/";
+                                if (!file_exists($image_upload_folder)) {
+                                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                }
+                                $new_file_name = "upload_image2" . date("Ymdhms");
+                                $this->upload_config = array(
+                                    'upload_path'   => $image_upload_folder,
+                                    'file_name' => $new_file_name,
+                                    'allowed_types' => 'jpg|jpeg|png',
+                                    'max_size'      => 25000
+                                );
+                                $this->upload->initialize($this->upload_config);
+                                if (!$this->upload->do_upload($img2)) {
+                                    $upload_error = $this->upload->display_errors();
+                                    $this->session->set_flashdata('emessage', $upload_error);
+                                    redirect($_SERVER['HTTP_REFERER']);
+                                } else {
+                                    $file_info = $this->upload->data();
+                                    $videoNAmePath = "assets/uploads/export_doctor/" . $new_file_name . $file_info['file_ext'];
+                                    $nnnn2 = $videoNAmePath;
+                                }
+                            }
+                        }
+                    }
+                    //=======================================================IMAGE3===================================================//
+                    $img3 = 'image3';
+                    $nnnn3 = '';
+                    if (!empty($_FILES['image3'])) {
+                        if ($_FILES['image3']['size'] != 0 && $_FILES['image3']['error'] == 0) {
+                            $file_check = ($_FILES['image3']['error']);
+                            if ($file_check != 4) {
+                                $image_upload_folder = FCPATH . "assets/uploads/export_doctor/";
+                                if (!file_exists($image_upload_folder)) {
+                                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                }
+                                $new_file_name = "upload_image3" . date("Ymdhms");
+                                $this->upload_config = array(
+                                    'upload_path'   => $image_upload_folder,
+                                    'file_name' => $new_file_name,
+                                    'allowed_types' => 'jpg|jpeg|png',
+                                    'max_size'      => 25000
+                                );
+                                $this->upload->initialize($this->upload_config);
+                                if (!$this->upload->do_upload($img3)) {
+                                    $upload_error = $this->upload->display_errors();
+                                    $this->session->set_flashdata('emessage', $upload_error);
+                                    redirect($_SERVER['HTTP_REFERER']);
+                                } else {
+                                    $file_info = $this->upload->data();
+                                    $videoNAmePath = "assets/uploads/export_doctor/" . $new_file_name . $file_info['file_ext'];
+                                    $nnnn3 = $videoNAmePath;
+                                }
+                            }
+                        }
+                    }
+                    //=======================================================IMAGE4======================================================//
+                    $img4 = 'image4';
+                    $nnnn4 = '';
+                    if (!empty($_FILES['image4'])) {
+                        if ($_FILES['image4']['size'] != 0 && $_FILES['image4']['error'] == 0) {
+                            $file_check = ($_FILES['image4']['error']);
+                            if ($file_check != 4) {
+                                $image_upload_folder = FCPATH . "assets/uploads/export_doctor/";
+                                if (!file_exists($image_upload_folder)) {
+                                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                }
+                                $new_file_name = "upload_image3" . date("Ymdhms");
+                                $this->upload_config = array(
+                                    'upload_path'   => $image_upload_folder,
+                                    'file_name' => $new_file_name,
+                                    'allowed_types' => 'jpg|jpeg|png',
+                                    'max_size'      => 25000
+                                );
+                                $this->upload->initialize($this->upload_config);
+                                if (!$this->upload->do_upload($img4)) {
+                                    $upload_error = $this->upload->display_errors();
+                                    $this->session->set_flashdata('emessage', $upload_error);
+                                    redirect($_SERVER['HTTP_REFERER']);
+                                } else {
+                                    $file_info = $this->upload->data();
+                                    $videoNAmePath = "assets/uploads/export_doctor/" . $new_file_name . $file_info['file_ext'];
+                                    $nnnn4 = $videoNAmePath;
+                                }
+                            }
+                        }
+                    }
+                    //=======================================================IMAGE5======================================================//
+                    $img5 = 'image5';
+                    $nnnn5 = '';
+                    if (!empty($_FILES['image5'])) {
+                        if ($_FILES['image5']['size'] != 0 && $_FILES['image5']['error'] == 0) {
+                            $file_check = ($_FILES['image5']['error']);
+                            if ($file_check != 4) {
+                                $image_upload_folder = FCPATH . "assets/uploads/export_doctor/";
+                                if (!file_exists($image_upload_folder)) {
+                                    mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                                }
+                                $new_file_name = "upload_image3" . date("Ymdhms");
+                                $this->upload_config = array(
+                                    'upload_path'   => $image_upload_folder,
+                                    'file_name' => $new_file_name,
+                                    'allowed_types' => 'jpg|jpeg|png',
+                                    'max_size'      => 25000
+                                );
+                                $this->upload->initialize($this->upload_config);
+                                if (!$this->upload->do_upload($img5)) {
+                                    $upload_error = $this->upload->display_errors();
+                                    $this->session->set_flashdata('emessage', $upload_error);
+                                    redirect($_SERVER['HTTP_REFERER']);
+                                } else {
+                                    $file_info = $this->upload->data();
+                                    $videoNAmePath = "assets/uploads/export_doctor/" . $new_file_name . $file_info['file_ext'];
+                                    $nnnn5 = $videoNAmePath;
+                                }
+                            }
+                        }
+                    }
+                    $data = [];
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $data = array(
+                        'farmer_id' => $farmer_data[0]->id,
+                        'information_type' => $reason,
+                        'animal_name' => $description,
+                        'fees' => $fees,
+                        'payment_status' => 0,
+                        'status' => 0,
+                        'image1' => $nnnn,
+                        'image2' => $nnnn2,
+                        'image3' => $nnnn3,
+                        'image4' => $nnnn4,
+                        'image5' => $nnnn5,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_expert_doctor_req", $data, 1);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $last_id
                     );
                     echo json_encode($res);
                 } else {
