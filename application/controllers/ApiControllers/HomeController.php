@@ -65,6 +65,8 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //========================================= get_group ===================================//
+
     public function get_group()
     {
         $headers = apache_request_headers();
@@ -96,6 +98,8 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //========================================= get_cattle ===================================//
+
     public function get_cattle()
     {
         $headers = apache_request_headers();
@@ -113,10 +117,10 @@ class HomeController extends CI_Controller
                 if (!empty($farmer_data)) {
                     $this->db->distinct();
                     $this->db->select('animal_type');
-                    $this->db->where('farmer_id', $farmer_data[0]->id); 
-                    $this->db->where('assign_to_group', $assign_to_group); 
-                    if(!empty($milking)){
-                    $this->db->where('animal_type', 'Milking'); 
+                    $this->db->where('farmer_id', $farmer_data[0]->id);
+                    $this->db->where('assign_to_group', $assign_to_group);
+                    if (!empty($milking)) {
+                        $this->db->where('animal_type', 'Milking');
                     }
                     $query = $this->db->get('tbl_my_animal');
                     $data = [];
@@ -156,6 +160,8 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //========================================= get_tag_no ===================================//
+
     public function get_tag_no()
     {
         $headers = apache_request_headers();
@@ -209,36 +215,40 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //========================================= get_bull_tag_no ===================================//
+
     public function get_bull_tag_no()
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-                if (!empty($farmer_data)) {
-                    $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id,'animal_type' => 'Bull'))->result();
-                    $data = [];
-                    $i = 1;
-                    foreach ($tag_data as $a) {
-                        $data[] = array(
-                            'value' => $a->tag_no,
-                            'label' => $a->tag_no,
-                        );
-                        $i++;
-                    }
-                    $res = array(
-                        'message' => "Success!",
-                        'status' => 200,
-                        'data' => $data
-                    );
-                    echo json_encode($res);
-                } else {
-                    $res = array(
-                        'message' => 'Permission Denied!',
-                        'status' => 201
-                    );
-                    echo json_encode($res);
-                }
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Bull'))->result();
+            $data = [];
+            $i = 1;
+            foreach ($tag_data as $a) {
+                $data[] = array(
+                    'value' => $a->tag_no,
+                    'label' => $a->tag_no,
+                );
+                $i++;
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
     }
+    //========================================= get_animal_data ===================================//
+
     public function get_animal_data()
     {
         $headers = apache_request_headers();
@@ -295,28 +305,6 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== GET SLIDER================================================//
-    public function get_slider()
-    {
-        $Slider_data = $this->db->get_where('tbl_slider', array('is_active' => 1))->result();
-        $data = [];
-        foreach ($Slider_data as $a) {
-            if (!empty($a->image)) {
-                $image = base_url() . $a->image;
-            } else {
-                $image = '';
-            }
-            $data[] = array(
-                'image' => $a->image
-            );
-        }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
-    }
     //====================================================== SUBSCRIPTION PLAN================================================//
     public function subscription_plan()
     {
@@ -363,6 +351,44 @@ class HomeController extends CI_Controller
             'data' => $data
         );
         echo json_encode($res);
+    }
+    //=======================================================HomeData===============================================//
+    public function HomeData()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            //---- slider data -------
+            $Slider_data = $this->db->get_where('tbl_slider', array('is_active' => 1))->result();
+            $data = [];
+            $slider = [];
+            foreach ($Slider_data as $slide) {
+                if (!empty($slide->image)) {
+                    $image = base_url() . $slide->image;
+                } else {
+                    $image = '';
+                }
+                $slider[] = array(
+                    'image' => $image
+                );
+            }
+            //---- Cart Count -------
+            $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+            $data =  array('slider' => $slider, 'CartCount' => $CartCount);
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
     }
 }
   //======================================================END HOMECONTROLLER================================================//
