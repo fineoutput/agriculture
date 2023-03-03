@@ -72,19 +72,19 @@
                                                 <td><?php echo $data->fees ?></td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>">
+                                                        <a href="<?php echo base_url() . $data->image1 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image2 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image2" height=50 width=80 src="<?php echo base_url() . $data->image2 ?>">
+                                                        <a href="<?php echo base_url() . $data->image2 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image2" height=50 width=80 src="<?php echo base_url() . $data->image2 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image3 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=50 width=80 src="<?php echo base_url() . $data->image3 ?>">
+                                                       <a href="<?php echo base_url() . $data->image3 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=50 width=80 src="<?php echo base_url() . $data->image3 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image4 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=50 width=80 src="<?php echo base_url() . $data->image4 ?>">
+                                                       <a href="<?php echo base_url() . $data->image4 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=50 width=80 src="<?php echo base_url() . $data->image4 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image5 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image5" height=50 width=80 src="<?php echo base_url() . $data->image5 ?>">
+                                                        <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=50 width=80 src="<?php echo base_url() . $data->image5 ?>"></a>
                                                     <?php }  ?>
                                                 </td>
                                                 <td><?php if ($data->status == 0) { ?>
