@@ -339,6 +339,8 @@ class FarmerController extends CI_Controller
                 if ($is_admin == 1) {
                     if($total <= ADMIN_AMOUNT){
                        $charges=ADMIN_CHARGES;
+                    }else{
+                        $charges=0;
                     }
                 }
                 //------- order1 entry -----------
