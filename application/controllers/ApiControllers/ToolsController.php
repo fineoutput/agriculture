@@ -638,10 +638,14 @@ class ToolsController extends CI_Controller
                         'date' => $cur_date
                     );
                     $last_id = $this->base_model->insert_table("tbl_expert_doctor_req", $data, 1);
+                    $send = array(
+                        'order_id' => $last_id,
+                        'amount' => $fees,
+                    );
                     $res = array(
                         'message' => "Success",
                         'status' => 200,
-                        'data' => $last_id
+                        'data' => $send
                     );
                     echo json_encode($res);
                 } else {
