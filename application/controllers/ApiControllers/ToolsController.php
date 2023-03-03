@@ -371,36 +371,73 @@ class ToolsController extends CI_Controller
     //====================================================== EXPERT ADVICE ================================================//
     public function expert_advice()
     {
-        $Expert_data = $this->db->get_where('tbl_doctor', array('is_active2' => 1))->result();
-        $data = [];
-        foreach ($Expert_data as $Expert) {
-            if (!empty($Expert->image)) {
-                $image = base_url() . $Expert->image;
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
+                $radius = $this->input->post('radius');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
+                    $data = [];
+                    foreach ($DoctorData as $doctor) {
+                        if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                            $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                            // echo $km;
+                            // echo "<br>";
+                            // if ($km <= $radius) {
+                                if (!empty($doctor->image)) {
+                                    $image = base_url() . $doctor->image;
+                                } else {
+                                    $image = '';
+                                }
+                                $data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
+                            // }
+                        }
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
-                $image = '';
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
             }
-            $data[] = array(
-                'name_english' => $Expert->name_english,
-                'name_hindi' => $Expert->name_hindi,
-                'name_punjabi' => $Expert->name_punjabi,
-                'email' => $Expert->email,
-                'type' => $Expert->type,
-                'degree_english' => $Expert->degree_english,
-                'degree_hindi' => $Expert->degree_hindi,
-                'degree_punjabi' => $Expert->degree_punjabi,
-                'education_qualification' => $Expert->education_qualification,
-                'city' => $Expert->city,
-                'state' => $Expert->state,
-                'phone_number' => $Expert->phone_number,
-                'image' => $Expert->image
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
             );
+            echo json_encode($res);
         }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
     }
     //====================================================== RADIUS VENDOR================================================//
     public function radius_vendor()
