@@ -55,11 +55,11 @@
                                             $this->db->select('*');
                                             $this->db->from('tbl_farmers');
                                             $this->db->where('id', $data->farmer_id);
-                                            $farmer_data = $this->db->get();
+                                            $farmer_data = $this->db->get()->row();
                                             $this->db->select('*');
                                             $this->db->from('tbl_doctor');
                                             $this->db->where('id', $data->doctor_id);
-                                            $doctor_data = $this->db->get();
+                                            $doctor_data = $this->db->get()->row();
                                         ?>
                                             <tr>
                                                 <td><?php echo $i ?> </td>
