@@ -631,7 +631,7 @@ class ToolsController extends CI_Controller
                         'reason' => $reason,
                         'description' => $description,
                         'fees' => $fees,
-                        'payment_status' => 0,
+                        'payment_status' => 1,
                         'status' => 0,
                         'image1' => $nnnn,
                         'image2' => $nnnn2,
