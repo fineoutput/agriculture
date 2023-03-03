@@ -569,7 +569,7 @@ class FarmerController extends CI_Controller
                         'doctor_image' => $doctor_image,
                         'reason' => $request->reason,
                         'description' => $request->description,
-                        'charges' => $request->fees,
+                        'fees' => $request->fees,
                         'image1' => $image1,
                         'image2' => $image2,
                         'image3' => $image3,
