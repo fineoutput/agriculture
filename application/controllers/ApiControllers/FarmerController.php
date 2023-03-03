@@ -369,6 +369,8 @@ class FarmerController extends CI_Controller
                     $Order2Data = array(
                         'main_id' => $order1_id,
                         'product_id' => $ProData->id,
+                        'product_name' => $ProData->name_english,
+                        'image' => $ProData->image,
                         'qty' => $cart->qty,
                         'mrp' => $ProData->mrp,
                         'selling_price' => $ProData->selling_price,
