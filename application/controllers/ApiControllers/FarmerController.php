@@ -337,10 +337,10 @@ class FarmerController extends CI_Controller
                 }
                 //--- CALCULATE CHARGES ------ 
                 if ($is_admin == 1) {
-                    if($total <= ADMIN_AMOUNT){
-                       $charges=ADMIN_CHARGES;
-                    }else{
-                        $charges=0;
+                    if ($total <= ADMIN_AMOUNT) {
+                        $charges = ADMIN_CHARGES;
+                    } else {
+                        $charges = 0;
                     }
                 }
                 //------- order1 entry -----------
@@ -416,6 +416,78 @@ class FarmerController extends CI_Controller
                     'status' => 201,
                     'data' => [],
                     'count' => $count
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //============================================= GetOrders ============================================//
+    public function GetOrders()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $orderData = $this->db->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $data = [];
+            $total = 0;
+            if (!empty($orderData)) {
+                foreach ($orderData as $order) {
+                    $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                    } else {
+                        $status = 'rejected';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order->product_name,
+                            'qty' => $order->qty,
+                            'selling_price' => $order->selling_price,
+                            'total_amount' => $order->total_amount,
+                        );
+                    }
+                    $data[] = array(
+                        'id' => $order->id,
+                        'charges' => $order->charges,
+                        'total_amount' => $order->total_amount,
+                        'final_amount' => $order->final_amount,
+                        'status' => $status,
+                        'date' => $newDate->format('d/m/Y'),
+                        'details' => $details
+                    );
+                }
+                $res = array(
+                    'message' => "Success!",
+                    'status' => 200,
+                    'data' => $data,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => "No Orders Found!",
+                    'status' => 201,
+                    'data' => [],
                 );
                 echo json_encode($res);
             }
