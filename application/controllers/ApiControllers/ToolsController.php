@@ -406,6 +406,13 @@ class ToolsController extends CI_Controller
                                     'degree' => $doctor->degree,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
+                                    'experience' => $doctor->experience,
+                                    'fees' => $doctor->fees,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
+                                    'district' => $doctor->district,
+                                    'city' => $doctor->city,
+                                    'state' => $doctor->state,
                                     'image' => $image
                                 );
                             // }
