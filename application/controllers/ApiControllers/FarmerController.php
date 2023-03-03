@@ -463,9 +463,15 @@ class FarmerController extends CI_Controller
                     $details = [];
                     $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
                     foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
                         $details[] = array(
                             'id' => $order2->id,
                             'product_name' => $order2->product_name,
+                            'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
                             'total_amount' => $order2->total_amount,
