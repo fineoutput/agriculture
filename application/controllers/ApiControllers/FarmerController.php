@@ -526,10 +526,10 @@ class FarmerController extends CI_Controller
                 foreach ($RequestData as $request) {
                     $DocData = $this->db->get_where('tbl_doctor', array('id' => $request->doctor_id))->result(); 
                     $newDate = new DateTime($request->date);
-                    if ($order->status == 0) {
+                    if ($request->status == 0) {
                         $status = 'Pending';
                         $bg_color = '#e4a11b';
-                    } elseif ($order->status == 1) {
+                    } elseif ($request->status == 1) {
                         $status = 'Completed';
                         $bg_color = '#139c49';
                     }
