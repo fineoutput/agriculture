@@ -443,19 +443,23 @@ class FarmerController extends CI_Controller
                     $newDate = new DateTime($order->date);
                     if ($order->order_status == 1) {
                         $status = 'Pending';
+                        $bg_color = '#65bcd7';
                     } elseif ($order->order_status == 2) {
                         $status = 'Accepted';
+                        $bg_color = '#3b71ca';
                     } elseif ($order->order_status == 3) {
                         $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
                     } elseif ($order->order_status == 4) {
                         $status = 'Completed';
+                        $bg_color = '#139c49';
                     } elseif ($order->order_status == 5) {
                         $status = 'Rejected';
+                        $bg_color = '#dc4c64';
                     } elseif ($order->order_status == 6) {
                         $status = 'Cancelled';
-                    } else {
-                        $status = 'rejected';
-                    }
+                        $bg_color = '#dc4c64';
+                    } 
                     $details = [];
                     $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
                     foreach ($orderDetails as $order2) {
@@ -473,6 +477,7 @@ class FarmerController extends CI_Controller
                         'total_amount' => $order->total_amount,
                         'final_amount' => $order->final_amount,
                         'status' => $status,
+                        'bg_color' => $bg_color,
                         'date' => $newDate->format('d/m/Y'),
                         'details' => $details
                     );
