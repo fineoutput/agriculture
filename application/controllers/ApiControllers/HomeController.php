@@ -369,9 +369,7 @@ class HomeController extends CI_Controller
                 } else {
                     $image = '';
                 }
-                $slider[] = array(
-                    'image' => $image
-                );
+                $slider[] = $image;
             }
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
