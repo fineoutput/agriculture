@@ -336,7 +336,7 @@ class FarmerController extends CI_Controller
                     }
                 }
                 //--- CALCULATE CHARGES ------ 
-                if ($cart->is_admin == 1) {
+                if ($is_admin == 1) {
                     if($total <= ADMIN_AMOUNT){
                        $charges=ADMIN_CHARGES;
                     }
