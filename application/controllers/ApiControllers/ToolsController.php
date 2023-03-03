@@ -320,8 +320,8 @@ class ToolsController extends CI_Controller
                     foreach ($DoctorData as $doctor) {
                         if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
-                            echo $km;
-                            echo "<br>";
+                            // echo $km;
+                            // echo "<br>";
                             if ($km <= $radius) {
                                 if (!empty($doctor->image)) {
                                     $image = base_url() . $doctor->image;
