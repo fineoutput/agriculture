@@ -349,6 +349,8 @@ class FarmerController extends CI_Controller
                     'total_amount' => $total,
                     'charges' => $charges,
                     'final_amount' => $total + $charges,
+                    'payment_status' => 1,
+                    'order_status' => 1,
                     'date' => $cur_date,
                 );
                 $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
