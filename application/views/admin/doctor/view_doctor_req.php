@@ -72,7 +72,7 @@
                                                 <td><?php echo $data->fees ?></td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
-                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image ?>">
+                                                        <img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>">
                                                     <?php }  ?>
                                                     <?php if ($data->image2 != "") {  ?>
                                                         <img style="border:solid #008000 1px;padding: 5px;" id="image2" height=50 width=80 src="<?php echo base_url() . $data->image2 ?>">
