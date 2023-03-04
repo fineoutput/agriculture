@@ -237,14 +237,18 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== DAIRY MART ================================================//
-    public function dairy_mart()
+    //====================================================== AllProducts ================================================//
+    public function AllProducts($is_admin)
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-            $ProData = $this->db->get_where('tbl_products', array('is_active' => 1))->result();
+            if ($is_admin == 1) {
+                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+            } else {
+                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0))->result();
+            }
             $data = [];
             foreach ($ProData as $pro) {
                 if (!empty($pro->image)) {
@@ -673,36 +677,72 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== RADIUS VENDOR================================================//
-    public function radius_vendor()
+    //====================================================== Vendors ================================================//
+    public function GetVendors()
     {
-        $Vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 0))->result();
-        $data = [];
-        foreach ($Vendor_data as $Vendor) {
-            $data[] = array(
-                'name_english' => $Vendor->name_english,
-                'name_hindi' => $Vendor->name_hindi,
-                'name_punjabi' => $Vendor->name_punjabi,
-                'shop_name_english' => $Vendor->shop_name_english,
-                'shop_name_hindi' => $Vendor->shop_name_hindi,
-                'shop_name_punjabi' => $Vendor->shop_name_punjabi,
-                'address_english' => $Vendor->address_english,
-                'address_hindi' => $Vendor->address_hindi,
-                'address_punjabi' => $Vendor->address_punjabi,
-                'district_english' => $Vendor->district_english,
-                'district_hindi' => $Vendor->district_hindi,
-                'district_punjabi' => $Vendor->district_punjabi,
-                'city' => $Vendor->city,
-                'state' => $Vendor->state,
-                'pincode' => $Vendor->pincode
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
+                $radius = $this->input->post('radius');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $vendorData = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1))->result();
+                    $data = [];
+                    foreach ($vendorData as $vender) {
+                        $km = $this->distance($latitude, $longitude, $vender->latitude, $vender->longitude);
+                        // echo $km;
+                        // echo "<br>";
+                        // if ($km <= $radius) {
+                        $data[] = array(
+                            'vender_id' => $vender->id,
+                            'name' => $vender->name,
+                            'shop_name' => $vender->shop_name,
+                            'address' => $vender->address,
+                            'district' => $vender->district,
+                            'city' => $vender->city,
+                            'state' => $vender->state,
+                            'pincode' => $vender->pincode,
+                            'phone' => $vender->phone,
+                            'email' => $vender->email,
+                        );
+                        // }
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
             );
+            echo json_encode($res);
         }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
     }
 }
   //====================================================== END TOOLSCONTROLLER================================================//
