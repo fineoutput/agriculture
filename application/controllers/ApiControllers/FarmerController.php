@@ -308,7 +308,7 @@ class FarmerController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 //----- Verify Auth --------
                 if (!empty($farmer_data)) {
-                    $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
+                    $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $product_id));
                     $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
 
                     $res = array(
