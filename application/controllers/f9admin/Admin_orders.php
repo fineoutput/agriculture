@@ -1,5 +1,5 @@
 <?php
-if (! defined('BASEPATH')) {
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 require_once(APPPATH . 'core/CI_finecontrol.php');
@@ -16,13 +16,13 @@ class Admin_orders extends CI_finecontrol
     public function new_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 1);//new orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status', 1); //new orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "New";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -36,13 +36,13 @@ class Admin_orders extends CI_finecontrol
     public function accepted_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 2);//accepted orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status', 2); //accepted orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -56,13 +56,13 @@ class Admin_orders extends CI_finecontrol
     public function dispatched_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 3);//dispatched_orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status', 3); //dispatched_orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "Dispatched";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -76,13 +76,13 @@ class Admin_orders extends CI_finecontrol
     public function completed_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 4);//delievered orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status', 4); //delievered orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "Completed";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -96,13 +96,13 @@ class Admin_orders extends CI_finecontrol
     public function cancelled_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->order_by('id', 'desc');
             $this->db->where('payment_status', 1);
-            $this->db->where('order_status > ', 4);//cancelled orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status > ', 4); //cancelled orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "Rejected/Cancelled";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -115,13 +115,13 @@ class Admin_orders extends CI_finecontrol
     public function rejected_order()
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $this->db->where('order_status', 6);//rejected orders
-            $data['order1_data']= $this->db->get();
+            $this->db->where('order_status', 6); //rejected orders
+            $data['order1_data'] = $this->db->get();
             $data['heading'] = "Rejected";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -135,15 +135,15 @@ class Admin_orders extends CI_finecontrol
     public function updateorderStatus($idd, $t)
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
-            $id=base64_decode($idd);
-            if ($t=="confirmed") {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $id = base64_decode($idd);
+            if ($t == "confirmed") {
                 $data_update = array(
-                                           'order_status'=>2
-                                           );
+                    'order_status' => 2
+                );
                 $this->db->where('id', $id);
-                $zapak=$this->db->update('tbl_order1', $data_update);
-                if ($zapak!=0) {
+                $zapak = $this->db->update('tbl_order1', $data_update);
+                if ($zapak != 0) {
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
@@ -151,13 +151,13 @@ class Admin_orders extends CI_finecontrol
                     exit;
                 }
             }
-            if ($t=="dispatched") {
+            if ($t == "dispatched") {
                 $data_update = array(
-                                           'order_status'=>3
-                                           );
+                    'order_status' => 3
+                );
                 $this->db->where('id', $id);
-                $zapak=$this->db->update('tbl_order1', $data_update);
-                if ($zapak!=0) {
+                $zapak = $this->db->update('tbl_order1', $data_update);
+                if ($zapak != 0) {
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
@@ -165,13 +165,13 @@ class Admin_orders extends CI_finecontrol
                     exit;
                 }
             }
-            if ($t=="completed") {
+            if ($t == "completed") {
                 $data_update = array(
-                                           'order_status'=>4
-                                           );
+                    'order_status' => 4
+                );
                 $this->db->where('id', $id);
-                $zapak=$this->db->update('tbl_order1', $data_update);
-                if ($zapak!=0) {
+                $zapak = $this->db->update('tbl_order1', $data_update);
+                if ($zapak != 0) {
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
@@ -179,32 +179,32 @@ class Admin_orders extends CI_finecontrol
                     exit;
                 }
             }
-            if ($t=="reject") {
-                $data_update = array('order_status'=>5);
+            if ($t == "reject") {
+                $data_update = array('order_status' => 5);
                 $this->db->where('id', $id);
-                $zapak=$this->db->update('tbl_order1', $data_update);
+                $zapak = $this->db->update('tbl_order1', $data_update);
                 //-------update inventory-------
                 $this->db->select('*');
                 $this->db->from('tbl_order2');
                 $this->db->where('main_id', $id);
-                $data_order2= $this->db->get();
+                $data_order2 = $this->db->get();
                 foreach ($data_order2->result() as $data) {
                     $this->db->select('*');
                     $this->db->from('tbl_products');
                     $this->db->where('id', $data->product_id);
-                    $pro_data= $this->db->get()->row();
+                    $pro_data = $this->db->get()->row();
                     if (!empty($pro_data)) {
                         $update_inv = $pro_data->inventory + $data->quantity;
-                        $data_update = array('inventory'=>$update_inv);
+                        $data_update = array('inventory' => $update_inv);
                         $this->db->where('id', $pro_data->id);
-                        $zapak2=$this->db->update('tbl_products', $data_update);
+                        $zapak2 = $this->db->update('tbl_products', $data_update);
                     }
                 }
-                if ($zapak!=0) {
+                if ($zapak != 0) {
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
-                    $data['e']="Error occurred";
+                    $data['e'] = "Error occurred";
                     // exit;
                     $this->load->view('errors/error500admin', $data);
                 }
@@ -214,21 +214,21 @@ class Admin_orders extends CI_finecontrol
         }
     }
     //==================================order_detail==========================\\
-    public function order_detail($idd, $t='')
+    public function order_detail($idd, $t = '')
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
-            $id=base64_decode($idd);
-            $data['id']=$idd;
+            $data['user_name'] = $this->load->get_var('user_name');
+            $id = base64_decode($idd);
+            $data['id'] = $idd;
             $this->db->select('*');
             $this->db->from('tbl_order2');
             $this->db->where('main_id', $id);
-            $data['order2_data']= $this->db->get();
+            $data['order2_data'] = $this->db->get();
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('id', $id);
-            $order1_data= $this->db->get()->row();
-            $data['status']= $order1_data->order_status;
+            $order1_data = $this->db->get()->row();
+            $data['status'] = $order1_data->order_status;
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/order/order_details');
             $this->load->view('admin/common/footer_view');
@@ -240,18 +240,18 @@ class Admin_orders extends CI_finecontrol
     public function view_bill($idd)
     {
         if (!empty($this->session->userdata('admin_data'))) {
-            $data['user_name']=$this->load->get_var('user_name');
-            $data['user_name']=$this->load->get_var('user_name');
-            $id=base64_decode($idd);
-            $data['id']=$idd;
+            $data['user_name'] = $this->load->get_var('user_name');
+            $data['user_name'] = $this->load->get_var('user_name');
+            $id = base64_decode($idd);
+            $data['id'] = $idd;
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('id', $id);
-            $data['order1_data']= $this->db->get()->row();
+            $data['order1_data'] = $this->db->get()->row();
             $this->db->select('*');
             $this->db->from('tbl_order2');
             $this->db->where('main_id', $id);
-            $data['order2_data']= $this->db->get();
+            $data['order2_data'] = $this->db->get();
             $this->load->view('admin/order/view_bill', $data);
         } else {
             redirect("login/admin_login", "refresh");
