@@ -481,10 +481,10 @@ class FarmerController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->order_by('id','desc')->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $orderData = $this->db->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $orderData = $this->db->order_by('id','desc')->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             $data = [];
             $total = 0;
             if (!empty($orderData)) {
@@ -564,10 +564,10 @@ class FarmerController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->order_by('id','desc')->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $RequestData = $this->db->get_where('tbl_expert_doctor_req', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $RequestData = $this->db->order_by('id','desc')->get_where('tbl_expert_doctor_req', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             $data = [];
             if (!empty($RequestData)) {
                 foreach ($RequestData as $request) {
