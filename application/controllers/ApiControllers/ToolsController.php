@@ -712,8 +712,6 @@ class ToolsController extends CI_Controller
                             'city' => $vendor->city,
                             'state' => $vendor->state,
                             'pincode' => $vendor->pincode,
-                            'phone' => $vendor->phone,
-                            'email' => $vendor->email,
                         );
                         // }
                     }
