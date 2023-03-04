@@ -17,7 +17,7 @@ class Products extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_products');
-            $this->db->where('ia_admin',1);
+            $this->db->where('is_admin',1);
             $data['products_data'] = $this->db->get();
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/products/View_products');
