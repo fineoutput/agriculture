@@ -238,7 +238,7 @@ class ToolsController extends CI_Controller
         }
     }
     //====================================================== AllProducts ================================================//
-    public function AllProducts($is_admin)
+    public function AllProducts($is_admin, $vendor_id = "")
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
@@ -247,7 +247,7 @@ class ToolsController extends CI_Controller
             if ($is_admin == 'admin') {
                 $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
             } else {
-                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0))->result();
+                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
             }
             $data = [];
             foreach ($ProData as $pro) {
@@ -698,22 +698,22 @@ class ToolsController extends CI_Controller
                 if (!empty($farmer_data)) {
                     $vendorData = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1))->result();
                     $data = [];
-                    foreach ($vendorData as $vender) {
-                        $km = $this->distance($latitude, $longitude, $vender->latitude, $vender->longitude);
+                    foreach ($vendorData as $vendor) {
+                        $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
                         // echo $km;
                         // echo "<br>";
                         // if ($km <= $radius) {
                         $data[] = array(
-                            'vender_id' => $vender->id,
-                            'name' => $vender->name,
-                            'shop_name' => $vender->shop_name,
-                            'address' => $vender->address,
-                            'district' => $vender->district,
-                            'city' => $vender->city,
-                            'state' => $vender->state,
-                            'pincode' => $vender->pincode,
-                            'phone' => $vender->phone,
-                            'email' => $vender->email,
+                            'vendor_id' => $vendor->id,
+                            'name' => $vendor->name,
+                            'shop_name' => $vendor->shop_name,
+                            'address' => $vendor->address,
+                            'district' => $vendor->district,
+                            'city' => $vendor->city,
+                            'state' => $vendor->state,
+                            'pincode' => $vendor->pincode,
+                            'phone' => $vendor->phone,
+                            'email' => $vendor->email,
                         );
                         // }
                     }
