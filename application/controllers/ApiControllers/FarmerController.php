@@ -291,6 +291,54 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================================= RemoveCart ============================================//
+    public function RemoveCart()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('product_id', 'product_id', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $product_id = $this->input->post('product_id');
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                //----- Verify Auth --------
+                if (!empty($farmer_data)) {
+                    $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
+                    $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $count,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //============================================= Checkout ============================================//
     public function Checkout()
     {
@@ -524,7 +572,7 @@ class FarmerController extends CI_Controller
             $data = [];
             if (!empty($RequestData)) {
                 foreach ($RequestData as $request) {
-                    $DocData = $this->db->get_where('tbl_doctor', array('id' => $request->doctor_id))->result(); 
+                    $DocData = $this->db->get_where('tbl_doctor', array('id' => $request->doctor_id))->result();
                     $newDate = new DateTime($request->date);
                     if ($request->status == 0) {
                         $status = 'Pending';
