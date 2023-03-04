@@ -244,7 +244,7 @@ class ToolsController extends CI_Controller
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-            if ($is_admin == 1) {
+            if ($is_admin == 'admin') {
                 $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
             } else {
                 $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0))->result();
@@ -274,7 +274,8 @@ class ToolsController extends CI_Controller
                     'selling_price' => $pro->selling_price,
                     'suffix' => $pro->suffix,
                     'stock' => $stock,
-                    'vendor_id' => $pro->added_by
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
                 );
             }
             $res = array(
