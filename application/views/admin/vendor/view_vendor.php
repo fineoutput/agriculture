@@ -114,17 +114,17 @@
                                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
                                   <ul class="dropdown-menu" role="menu">
                                     <? if ($data->is_approved == 0) { ?>
-                                      <li><a href="<?php echo base_url() ?>dcadmin/vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
-                                      <li><a href="<?php echo base_url() ?>dcadmin/vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
                                     <? } else if ($data->is_approved == 1) { ?>
                                       <?php if ($data->is_active == 1) { ?>
-                                        <li><a href="<?php echo base_url() ?>dcadmin/vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/inactive">Blocked</a></li>
+                                        <li><a href="<?php echo base_url() ?>dcadmin/Vendor/updateVendorStatus/<?php echo base64_encode($data->id) ?>/inactive">Blocked</a></li>
                                       <?php } else { ?>
-                                        <li><a href="<?php echo base_url() ?>dcadmin/vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
+                                        <li><a href="<?php echo base_url() ?>dcadmin/Vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
                                       <?php    }   ?>
-                                      <li><a href="<?php echo base_url() ?>dcadmin/vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
-                                      <!-- <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
-                                  <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li> -->
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
+                                      <!-- <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
+                                  <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
                                     <? } else {
                                       echo "NA";
                                     } ?>
@@ -136,7 +136,7 @@
                             } ?>
                             <div style="display:none" id="cnfbox<?php echo $i ?>">
                               <p> Are you sure delete this </p>
-                              <a href="<?php echo base_url() ?>dcadmin/vendor/delete_vendor/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
+                              <a href="<?php echo base_url() ?>dcadmin/Vendor/delete_vendor/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
                               <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>">No</a>
                             </div>
                           </td>

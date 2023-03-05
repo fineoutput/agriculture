@@ -242,28 +242,29 @@ class Vendor extends CI_finecontrol
     //     }
     // }
     //****************************Delete Vendor Function**************************************
-    // public function delete_vendor($idd)
-    // {
-    //     if (!empty($this->session->userdata('admin_data'))) {
-    //         $data['user_name'] = $this->load->get_var('user_name');
-    //         $id = base64_decode($idd);
-    //         if ($this->load->get_var('position') == "Super Admin") {
-    //             $zapak = $this->db->delete('tbl_vendor', array('id' => $id));
-    //             if ($zapak != 0) {
-    //                 redirect("dcadmin/vendor/view_vendor", "refresh");
-    //             } else {
-    //                 echo "Error";
-    //                 exit;
-    //             }
-    //         } else {
-    //             $data['e'] = "Sorry You Don't Have Permission To Delete Anything.";
-    //             // exit;
-    //             $this->load->view('errors/error500admin', $data);
-    //         }
-    //     } else {
-    //         $this->load->view('admin/login/index');
-    //     }
-    // }
+    public function delete_vendor($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $id = base64_decode($idd);
+            if ($this->load->get_var('position') == "Super Admin") {
+                $zapak = $this->db->delete('tbl_vendor', array('id' => $id));
+                if ($zapak != 0) {
+                    $this->session->set_flashdata('smessage', 'Data deleted successfully');
+                    redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    echo "Error";
+                    exit;
+                }
+            } else {
+                $data['e'] = "Sorry You Don't Have Permission To Delete Anything.";
+                // exit;
+                $this->load->view('errors/error500admin', $data);
+            }
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
     //****************************Update Vendor Status Function**************************************
     public function updateVendorStatus($idd, $t)
     {

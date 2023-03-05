@@ -105,26 +105,28 @@
                           <div class="btn-group" id="btns<?php echo $i ?>">
                             <div class="btn-group">
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
-                              <!-- <ul class="dropdown-menu" role="menu">
-                                <?php if ($data->is_active == 1) { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
-                                <?php } else { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/doctor/updatedoctorStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
-                                <?php    }   ?>
-                                <?php if ($data->is_expert == 1) { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/inactive">Convert into Normal Doctor</a></li>
-                                <?php } else { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus2/<?php echo base64_encode($data->id) ?>/active">Convert into Expert Doctor</a></li>
-                                <?php    }   ?>
-                                <li><a href="<?php echo base_url() ?>dcadmin/doctor/update_doctor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
-                                <li><a href="<?php echo base_url() ?>dcadmin/doctor/set_comission_doctor/<?php echo base64_encode($data->id) ?>">Set Comission percentage</a></li>
-                                <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
-                              </ul> -->
+                              <ul class="dropdown-menu" role="menu">
+                                <? if ($data->is_approved == 0) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
+                                <? } else if ($data->is_approved == 1) { ?>
+                                  <?php if ($data->is_active == 1) { ?>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Blocked</a></li>
+                                  <?php } else { ?>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
+                                  <?php    }   ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/set_commission_doctor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
+                                  <!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
+                                  <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                <? } else {
+                                  echo "NA";
+                                } ?>
+                              </ul>
                             </div>
                           </div>
                           <div style="display:none" id="cnfbox<?php echo $i ?>">
                             <p> Are you sure delete this </p>
-                            <a href="<?php echo base_url() ?>dcadmin/doctor/delete_doctor/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
+                            <a href="<?php echo base_url() ?>dcadmin/Doctor/delete_doctor/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
                             <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>">No</a>
                           </div>
                         </td>

@@ -68,7 +68,9 @@ class Slider extends CI_finecontrol
                 if (!$this->upload->do_upload($img1)) {
                     $upload_error = $this->upload->display_errors();
                     // echo json_encode($upload_error);
-                    echo $upload_error;
+                    // echo $upload_error;
+                    $this->session->set_flashdata('emessage', $upload_error);
+                    redirect($_SERVER['HTTP_REFERER']);
                 } else {
                     $file_info = $this->upload->data();
                     $image = "assets/uploads/slider/" . $new_file_name . $file_info['file_ext'];
@@ -102,12 +104,11 @@ class Slider extends CI_finecontrol
                 $this->session->set_flashdata('smessage', 'Data inserted successfully');
                 redirect("dcadmin/Slider/View_slider", "refresh");
             } else {
-                $this->session->set_flashdata('smessage', 'Sorry error occured');
+                $this->session->set_flashdata('emessage', 'Sorry error occured');
                 redirect($_SERVER['HTTP_REFERER']);
             }
         } else {
-            $this->session->set_flashdata('smessage', validation_errors());
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect("login/admin_login", "refresh");
         }
     }
     //****************************Update slider Function**************************************
