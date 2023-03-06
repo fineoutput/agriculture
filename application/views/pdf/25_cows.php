@@ -46,7 +46,7 @@
     <div class="container-fluid p-5  text-center">
         <h1>Dairy Muneem</h1>
         <p>TECHNO-ECONOMIC FEASIBILITY REPORT OF DAIRY FARMING UNIT </p>
-        <h4>Size of the Dairy Unit (Cows) : 50</h4>
+        <h4>Size of the Dairy Unit (Cows) : <?=$number_of_cows?></h4>
     </div>
     <div class="container">
         <div class="row">
