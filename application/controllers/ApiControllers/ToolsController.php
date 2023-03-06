@@ -76,7 +76,7 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== SILAGE MAKING================================================//
+    //====================================================== project_requirements ================================================//
     public function project_requirements()
     {
         $this->load->helper(array('form', 'url'));
@@ -91,14 +91,32 @@ class ToolsController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $data = [];
-                    $data['number_of_cows'] = 50;
+                    $data['number_of_cows'] = $number_of_cows;
+                    require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+                    $inputFileName = 'assets/excel/25_cows.xls';
+                    try {
+                        $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+                        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                        $objPHPExcel1 = $objReader->load($inputFileName);
+                    } catch (Exception $e) {
+                        die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+                    }
+                    //  Get worksheet dimensions
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('B9', $number_of_cows);
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
+                    $objWriter->setPreCalculateFormulas(true);
+                    $objWriter->save('assets/excel/25_cows.xls');
+                    // // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('B9')->getValue());
+                    // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C12')->getFormattedValue());
+                    try {
+                        $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+                        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                        $objPHPExcel = $objReader->load($inputFileName);
+                    } catch (Exception $e) {
+                        die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+                    }
+                    $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/25_cows', $data, true);
-                    // $data = array(
-                    //     'silage_qty_required' => $silage_qty_required,
-                    //     'pit_vol_required' => $pit_vol_required,
-                    //     'length' => $length,
-                    //     'fodder_required' => $fodder_required,
-                    // );
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -130,48 +148,92 @@ class ToolsController extends CI_Controller
     //====================================================== SILAGE MAKING================================================//
     public function project_test()
     {
-        $data['number_of_cows'] = 50;
+        $data['number_of_cows'] = 40;
         require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
         //-------- start excel read and insert into db
-        $inputFileName = 'assets/excel/25_cows.xlsx';
+        $inputFileName = 'assets/excel/25_cows.xls';
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objReader->load($inputFileName);
-            PHPExcel_Calculation::getInstance($objPHPExcel)->disableCalculationCache();
+            $objPHPExcel1 = $objReader->load($inputFileName);
         } catch (Exception $e) {
             die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
         }
         //  Get worksheet dimensions
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', '50');
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('B9', '50');
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
+        $objWriter->setPreCalculateFormulas(true);
+        $objWriter->save('assets/excel/25_cows.xls');
         // // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('B9')->getValue());
         // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C12')->getFormattedValue());
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
         $data['objPHPExcel'] = $objPHPExcel;
-        $data['C12'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C12')->getFormattedValue();
-        $data['C13'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C13')->getFormattedValue();
-        $data['C14'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C14')->getFormattedValue();
-        //----------//
-        $data['C15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C15')->getFormattedValue();
-        $data['D15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('D15')->getFormattedValue();
-        $data['E15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('E15')->getFormattedValue();
-        $data['F15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('F15')->getFormattedValue();
-        $data['G15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('G15')->getFormattedValue();
-        $data['H15'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('H15')->getFormattedValue();
-        //----------//
-        $data['C16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C16')->getFormattedValue();
-        $data['D16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('D16')->getFormattedValue();
-        $data['E16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('E16')->getFormattedValue();
-        $data['F16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('F16')->getFormattedValue();
-        $data['G16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('G16')->getFormattedValue();
-        $data['H16'] = $objPHPExcel->setActiveSheetIndex(0)->getCell('H16')->getFormattedValue();
-        // //  Loop through each row of the worksheet in turn
-        // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('B9')->getValue());
-        // echo "<br/>";
-        // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('C12')->getFormattedValue());
-        // echo "<br/>";
-        // $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B9', '49');
-        // print_r($dataset[] = $objPHPExcel->setActiveSheetIndex(0)->getCell('B9')->getValue());
-        // die();
+        // $data['C12'] = number_format($objPHPExcel->setActiveSheetIndex(0)->getCell('C12')->getOldCalculatedValue());
+        // $data['C13'] = number_format($objPHPExcel->setActiveSheetIndex(0)->getCell('C13')->getOldCalculatedValue());
+        // $data['C14'] = number_format($objPHPExcel->setActiveSheetIndex(0)->getCell('C14')->getOldCalculatedValue());
+        // //----------//
+        // $data['C15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C15')->getOldCalculatedValue(), 2);
+        // $data['D15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D15')->getOldCalculatedValue(), 2);
+        // $data['E15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E15')->getOldCalculatedValue(), 2);
+        // $data['F15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F15')->getFormattedValue(), 2);
+        // $data['G15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G15')->getFormattedValue(), 2);
+        // $data['H15'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H15')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C16')->getFormattedValue(), 2);
+        // $data['D16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D16')->getFormattedValue(), 2);
+        // $data['E16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E16')->getFormattedValue(), 2);
+        // $data['F16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F16')->getFormattedValue(), 2);
+        // $data['G16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G16')->getFormattedValue(), 2);
+        // $data['H16'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H16')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C17')->getFormattedValue(), 2);
+        // $data['D17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D17')->getFormattedValue(), 2);
+        // $data['E17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E17')->getFormattedValue(), 2);
+        // $data['F17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F17')->getFormattedValue(), 2);
+        // $data['G17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G17')->getFormattedValue(), 2);
+        // $data['H17'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H17')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C18')->getFormattedValue(), 2);
+        // $data['D18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D18')->getFormattedValue(), 2);
+        // $data['E18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E18')->getFormattedValue(), 2);
+        // $data['F18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F18')->getFormattedValue(), 2);
+        // $data['G18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G18')->getFormattedValue(), 2);
+        // $data['H18'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H18')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C19')->getFormattedValue(), 2);
+        // $data['D19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D19')->getFormattedValue(), 2);
+        // $data['E19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E19')->getFormattedValue(), 2);
+        // $data['F19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F19')->getFormattedValue(), 2);
+        // $data['G19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G19')->getFormattedValue(), 2);
+        // $data['H19'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H19')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C22'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C22')->getFormattedValue(), 2);
+        // //----------//
+        // $data['D23'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D23')->getFormattedValue(), 2);
+        // $data['E23'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E23')->getFormattedValue(), 2);
+        // $data['F23'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F23')->getFormattedValue(), 2);
+        // $data['G23'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G23')->getFormattedValue(), 2);
+        // $data['H23'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H23')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C24')->getFormattedValue(), 2);
+        // $data['D24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D24')->getFormattedValue(), 2);
+        // $data['E24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E24')->getFormattedValue(), 2);
+        // $data['F24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F24')->getFormattedValue(), 2);
+        // $data['G24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G24')->getFormattedValue(), 2);
+        // $data['H24'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H24')->getFormattedValue(), 2);
+        // //----------//
+        // $data['C25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('C25')->getFormattedValue(), 2);
+        // $data['D25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('D25')->getFormattedValue(), 2);
+        // $data['E25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('E25')->getFormattedValue(), 2);
+        // $data['F25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('F25')->getFormattedValue(), 2);
+        // $data['G25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('G25')->getFormattedValue(), 2);
+        // $data['H25'] = round($objPHPExcel->setActiveSheetIndex(0)->getCell('H25')->getFormattedValue(), 2);
         $message = $this->load->view('pdf/25_cows', $data, true);
         print_r($message);
         // $data = array(
