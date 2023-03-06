@@ -36,12 +36,12 @@
     }
     .custom_header {
       color: white;
-      background-color: black !important;
+      background-color: #008000 !important;
     }
     .custom_header>a:hover {
-      color: #fff;
-      background: hsl(353deg 91% 53%) !important;
-      border-left-color: hsl(353deg 91% 53%);
+      color: #008000;
+      background: #fff !important;
+      border-left-color: #fff;
     }
     .custom_header>li>a:hover {
       color: #fff;
@@ -49,9 +49,9 @@
       border-left-color: hsl(353deg 91% 53%);
     }
     .active>a {
-      color: #fff;
-      background: hsl(353deg 91% 53%) !important;
-      border-color: hsl(353deg 91% 53%) !important;
+      color: #008000;
+      background: #fff !important;
+      border-color: #fff !important;
     }
     /* ==========================================Theme end================================================ */
     label {
@@ -257,7 +257,7 @@
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu custom_header">
-          <li class="header custom_header">MAIN NAVIGATION</li>
+          <li class="header custom_header" style="color: #fff;">MAIN NAVIGATION</li>
           <?
           // print_r($sidebar);
           // exit;
@@ -275,7 +275,7 @@
                         if (empty($dawwa)) {
                           echo base_url() . ADMIN_URL . "/" . $sd['url'] . '">'; ?>
                                 <span style=" <?php if ($currentURL == $urls) {
-                                                echo "color:hsl(353deg 91% 53%);";
+                                                echo "color:#fff;";
                                               } ?>"><i class="fa fa-adjust" aria-hidden="true" style="width: 20px;"></i></span>
                 <span> <? echo $sd['name'] ?></span>
                 <span class="label label-primary pull-right"></span>
