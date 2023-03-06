@@ -1,4 +1,3 @@
-
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -12,42 +11,38 @@
             <li class="active">Dashboard</li>
           </ol>
         </section>
-
         <!-- Main content -->
         <section class="content">
           <!-- Info boxes -->
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-viacoin"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="	fa fa-user-md"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">TOTAL TEAM</span>
-                  <span class="info-box-number"><?=$team?></span>
+                  <span class="info-box-text">Normal Doctor</span>
+                  <span class="info-box-number"><?= $normal ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-venus-mars"></i></span>
+                <span class="info-box-icon bg-red"><i class="	fa fa-user-md"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Doctor</span>
-                  <span class="info-box-number"><?=$doctor;?></span>
+                  <span class="info-box-text">Expert Doctor</span>
+                  <span class="info-box-number"><?= $expert; ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
-
             <!-- fix for small devices only -->
             <div class="clearfix visible-sm-block"></div>
-
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-user-secret"></i></span>
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Farmer</span>
+                  <span class="info-box-text">Total Farmers</span>
                   <span class="info-box-number">
-
-                    <? echo $farmer;?>
-<!-- ************************************************** -->
+                    <? echo $farmer; ?>
+                    <!-- ************************************************** -->
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -55,38 +50,32 @@
               <div class="info-box">
                 <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Vendor</span>
-                  <span class="info-box-number"><?=$vendor;?></span>
+                  <span class="info-box-text">Total Vendor</span>
+                  <span class="info-box-number"><?= $vendor; ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
           </div><!-- /.row -->
-
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-black"><i class="fa fa-shirtsinbulk"></i></span>
+                <span class="info-box-icon bg-black"><i class="fa fa-box-open"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Product</span>
-                  <span class="info-box-number"><?=$product?></span>
+                  <span class="info-box-text">Admin Products</span>
+                  <span class="info-box-number"><?= $admin_product ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
-
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-blue"><i class="fa fa-simplybuilt"></i></span>
+                <span class="info-box-icon bg-blue"><i class="fa fa-box-open"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Payments</span>
-                  <span class="info-box-number"><?=$payments?></span>
+                  <span class="info-box-text">Vendor Products</span>
+                  <span class="info-box-number"><?= $vendor_product ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
-
           </div>
-
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-
-
-    </div><!-- ./wrapper -->
+      </div><!-- ./wrapper -->

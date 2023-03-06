@@ -10,8 +10,7 @@ class Doctor extends CI_finecontrol
         $this->load->library('user_agent');
     }
     //****************************view Doctor Function**************************************
-    //****************************View Vendor Function**************************************
-    public function new_vendors()
+    public function new_doctors()
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
@@ -27,8 +26,8 @@ class Doctor extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
-    //================================accepted_vendors=======================\\
-    public function accepted_vendors()
+    //================================accepted_doctors=======================\\
+    public function accepted_doctors()
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
@@ -44,7 +43,7 @@ class Doctor extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
-    public function rejected_vendors()
+    public function rejected_doctors()
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
@@ -60,7 +59,6 @@ class Doctor extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
-
     //****************************view Doctor Function**************************************
     public function doctor_request()
     {
@@ -77,7 +75,6 @@ class Doctor extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
-
     //****************************Delete Doctor Function**************************************
     public function delete_doctor($idd)
     {
@@ -167,6 +164,36 @@ class Doctor extends CI_finecontrol
                     $this->load->view('errors/error500admin', $data);
                 }
             }
+            if ($t == "normal") {
+                $data_update = array(
+                    'is_expert' => 0
+                );
+                $this->db->where('id', $id);
+                $zapak = $this->db->update('tbl_doctor', $data_update);
+                if ($zapak != 0) {
+                    $this->session->set_flashdata('smessage', 'Status updated successfully');
+                    redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    $data['e'] = "Error Occured";
+                    // exit;
+                    $this->load->view('errors/error500admin', $data);
+                }
+            }
+            if ($t == "expert") {
+                $data_update = array(
+                    'is_expert' => 1
+                );
+                $this->db->where('id', $id);
+                $zapak = $this->db->update('tbl_doctor', $data_update);
+                if ($zapak != 0) {
+                    $this->session->set_flashdata('smessage', 'Status updated successfully');
+                    redirect($_SERVER['HTTP_REFERER']);
+                } else {
+                    $data['e'] = "Error Occured";
+                    // exit;
+                    $this->load->view('errors/error500admin', $data);
+                }
+            }
         } else {
             $this->load->view('admin/login/index');
         }
@@ -223,9 +250,11 @@ class Doctor extends CI_finecontrol
             $this->load->library('form_validation');
             $this->load->helper('security');
             if ($this->input->post()) {
-                $this->form_validation->set_rules('set_comission', 'set_comission', 'xss_clean');
+                $this->form_validation->set_rules('set_commission', 'set_commission', 'required|xss_clean');
+                $this->form_validation->set_rules('fees', 'fees', 'required|xss_clean');
                 if ($this->form_validation->run() == TRUE) {
-                    $set_comission = $this->input->post('set_comission');
+                    $set_commission = $this->input->post('set_commission');
+                    $fees = $this->input->post('fees');
                     $id = base64_decode($idd);
                     $data['id'] = $idd;
                     $ip = $this->input->ip_address();
@@ -233,13 +262,14 @@ class Doctor extends CI_finecontrol
                     $cur_date = date("Y-m-d H:i:s");
                     $addedby = $this->session->userdata('admin_id');
                     $data_update = array(
-                        'comission' => $set_comission,
+                        'commission' => $set_commission,
+                        'fees' => $fees,
                     );
                     $this->db->where('id', $id);
                     $last_id = $this->db->update('tbl_doctor', $data_update);
                     if ($last_id != 0) {
                         $this->session->set_flashdata('smessage', 'Data updated successfully');
-                        redirect("dcadmin/doctor/view_doctor", "refresh");
+                        redirect("dcadmin/Doctor/accepted_doctors", "refresh");
                     } else {
                         $this->session->set_flashdata('emessage', 'Sorry error occured');
                         redirect($_SERVER['HTTP_REFERER']);

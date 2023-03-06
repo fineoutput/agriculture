@@ -15,7 +15,7 @@
           <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/vendor/add_vendor" role="button" style="margin-bottom:12px;"> Add Vendor</a> -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View <?= $heading ?> Vendor</h3>
+              <h3 class="panel-title"><i class="fa fa-users"></i> View <?= $heading ?> Vendor</h3>
             </div>
             <div class="panel panel-default">
               <? if (!empty($this->session->flashdata('smessage'))) { ?>

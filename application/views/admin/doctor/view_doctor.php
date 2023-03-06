@@ -1,12 +1,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Doctors
+      All <?= $heading ?> Doctors
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="<?php echo base_url() ?>dcadmin/Doctor/View_doctor"><i class="fa fa-dashboard"></i> All Doctors</a></li>
-      <li class="active">View Doctors</li>
+      <li class="active">View <?= $heading ?> Doctors</li>
     </ol>
   </section>
   <section class="content">
@@ -15,7 +14,7 @@
         <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/doctor/add_doctor" role="button" style="margin-bottom:12px;"> Add Doctor</a> -->
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Doctors</h3>
+            <h3 class="panel-title"><i class="fa fa-users"></i>View <?= $heading ?> Doctors</h3>
           </div>
           <div class="panel panel-default">
             <? if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -47,12 +46,13 @@
                       <th>Experience</th>
                       <th>Fees</th>
                       <th>Expertise</th>
-                      <th>Commission</th>
+                      <th>Commission(%)</th>
                       <th>Qualification</th>
                       <th>District</th>
                       <th>State</th>
                       <th>City</th>
                       <th>Phone</th>
+                      <th>Type</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -81,9 +81,13 @@
                         <td><?php echo $data->type ?></td>
                         <td><?php echo $data->degree ?></td>
                         <td><?php echo $data->experience ?></td>
-                        <td><?php echo $data->fees ?></td>
+                        <td><?php if ($data->fees) {
+                                echo "₹".$data->fees;
+                              } ?></td>
                         <td><?php echo $data->expertise ?></td>
-                        <td><?php echo $data->commission ?></td>
+                        <td><?php if ($data->commission) {
+                                echo $data->commission . "%";
+                              } ?></td>
                         <td><?php echo $data->qualification   ?></td>
                         <td><?php echo $data->district ?></td>
                         <td><?php echo $data->state ?></td>
@@ -92,37 +96,48 @@
                         <td><?php if ($data->is_expert == 1) { ?>
                             <p class="label bg-green">Expert</p>
                           <?php } else { ?>
-                            <p class="label bg-yellow">Normal</p>
+                            <p class="label bg-blue">Normal</p>
                           <?php    }   ?>
                         </td>
                         <td><?php if ($data->is_active == 1) { ?>
-                            <p class="label bg-yellow">Active</p>
+                            <p class="label bg-yellow">Unblocked</p>
                           <?php } else { ?>
-                            <p class="label bg-green">Inactive</p>
+                            <p class="label bg-red">Blocked</p>
                           <?php    }   ?>
                         </td>
                         <td>
                           <div class="btn-group" id="btns<?php echo $i ?>">
-                            <div class="btn-group">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
-                              <ul class="dropdown-menu" role="menu">
-                                <? if ($data->is_approved == 0) { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
-                                <? } else if ($data->is_approved == 1) { ?>
-                                  <?php if ($data->is_active == 1) { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Blocked</a></li>
-                                  <?php } else { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
-                                  <?php    }   ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Doctor/set_commission_doctor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
-                                  <!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
-                                  <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
-                                <? } else {
-                                  echo "NA";
-                                } ?>
-                              </ul>
-                            </div>
+                            <? if ($data->is_approved != 2) { ?>
+                              <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                  <? if ($data->is_approved == 0) { ?>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/approve">Approve</a></li>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
+                                  <? } else if ($data->is_approved == 1) { ?>
+                                    <?php if ($data->is_active == 1) { ?>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/inactive">Blocked</a></li>
+                                    <?php } else { ?>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
+                                    <?php    }   ?>
+                                    <?php if ($data->is_expert == 1) { ?>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/normal">Covert To Normal</a></li>
+                                    <?php } else { ?>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Doctor/updateDoctorStatus/<?php echo base64_encode($data->id) ?>/expert">Covert To Expert</a></li>
+                                    <?php    } 
+                                    if ($data->is_expert == 1) {  ?>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/set_commission_doctor/<?php echo base64_encode($data->id) ?>">Update Expert Doctor</a></li>
+                                    <?}?>
+                                    <!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
+                                    <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                  <? } else {
+                                    echo "NA";
+                                  } ?>
+                                </ul>
+                              </div>
+                            <? } else {
+                              echo "NA";
+                            } ?>
                           </div>
                           <div style="display:none" id="cnfbox<?php echo $i ?>">
                             <p> Are you sure delete this </p>

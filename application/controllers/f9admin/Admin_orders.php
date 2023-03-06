@@ -22,6 +22,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 1); //new orders
+            $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "New";
             $data['order_type'] = 1;
@@ -42,6 +43,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 2); //accepted orders
+            $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
@@ -61,6 +63,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
+            $this->db->where('is_admin', 1); //admin orders
             $this->db->where('order_status', 3); //dispatched_orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Dispatched";
@@ -82,6 +85,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 4); //delievered orders
+            $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Completed";
             $data['order_type'] = 1;
@@ -102,6 +106,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('payment_status', 1);
             $this->db->where('order_status > ', 4); //cancelled orders
+            $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Rejected/Cancelled";
             $data['order_type'] = 1;
@@ -121,6 +126,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 6); //rejected orders
+            $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Rejected";
             $data['order_type'] = 1;
@@ -141,6 +147,7 @@ class Admin_orders extends CI_finecontrol
                 $data_update = array(
                     'order_status' => 2
                 );
+                $this->db->where('is_admin', 1); //admin orders
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_order1', $data_update);
                 if ($zapak != 0) {
@@ -155,6 +162,7 @@ class Admin_orders extends CI_finecontrol
                 $data_update = array(
                     'order_status' => 3
                 );
+                $this->db->where('is_admin', 1); //admin orders
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_order1', $data_update);
                 if ($zapak != 0) {
@@ -169,6 +177,7 @@ class Admin_orders extends CI_finecontrol
                 $data_update = array(
                     'order_status' => 4
                 );
+                $this->db->where('is_admin', 1); //admin orders
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_order1', $data_update);
                 if ($zapak != 0) {
@@ -181,6 +190,7 @@ class Admin_orders extends CI_finecontrol
             }
             if ($t == "reject") {
                 $data_update = array('order_status' => 5);
+                $this->db->where('is_admin', 1); //admin orders
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_order1', $data_update);
                 //-------update inventory-------

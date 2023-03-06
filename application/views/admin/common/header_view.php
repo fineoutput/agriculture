@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <title><?php echo SITE_NAME ?> | Admin <?php if (isset($headerTitle)) {
@@ -21,6 +20,7 @@
   <!--start excel header cdn ------>
   <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
   </script>
   <!--end excel ------>
@@ -30,55 +30,45 @@
       color: white;
       background-color: hsl(353deg 91% 53%);
     }
-
     .custom_btn:hover {
       color: white;
       background-color: black;
     }
-
     .custom_header {
       color: white;
       background-color: black !important;
     }
-
     .custom_header>a:hover {
       color: #fff;
       background: hsl(353deg 91% 53%) !important;
       border-left-color: hsl(353deg 91% 53%);
     }
-
     .custom_header>li>a:hover {
       color: #fff;
       background: #262626;
       border-left-color: hsl(353deg 91% 53%);
     }
-
     .active>a {
       color: #fff;
       background: hsl(353deg 91% 53%) !important;
       border-color: hsl(353deg 91% 53%) !important;
     }
-
     /* ==========================================Theme end================================================ */
     label {
       margin: 5px;
     }
-
     b {
       font-weight: 700;
     }
-
     i,
     em {
       font-style: italic;
     }
-
     .clear {
       border: 0;
       clear: both;
       height: 0;
     }
-
     h1,
     h2,
     h3,
@@ -89,7 +79,6 @@
       font-weight: normal;
       margin: 0;
     }
-
     h1,
     h2,
     h3,
@@ -97,7 +86,6 @@
     .my-jumbotron.jumbotron h1 {
       font-family: 'Roboto Slab', serif;
     }
-
     .popup {
       width: 100%;
       height: 100%;
@@ -107,11 +95,9 @@
       left: 0px;
       background: rgba(0, 0, 0, 0.75);
     }
-
     .popup {
       text-align: center;
     }
-
     .popup:before {
       content: '';
       display: inline-block;
@@ -119,7 +105,6 @@
       margin-right: -4px;
       vertical-align: middle;
     }
-
     .popup-inner {
       display: inline-block;
       text-align: left;
@@ -133,17 +118,14 @@
       background: #fff;
       text-align: center;
     }
-
     .popup-inner h1 {
       font-family: 'Roboto Slab', serif;
       font-weight: 700;
     }
-
     .popup-inner p {
       font-size: 24px;
       font-weight: 400;
     }
-
     .popup-close {
       width: 34px;
       height: 34px;
@@ -158,7 +140,6 @@
       background: transparent;
       border: solid 4px #808080;
     }
-
     .popup-close:after,
     .popup-close:before {
       content: "";
@@ -172,12 +153,10 @@
       -webkit-transform: rotate(45deg);
       transform: rotate(45deg);
     }
-
     .popup-close:after {
       -webkit-transform: rotate(-45deg);
       transform: rotate(-45deg);
     }
-
     .popup-close:hover {
       -webkit-transform: translate(50%, -50%) rotate(180deg);
       transform: translate(50%, -50%) rotate(180deg);
@@ -185,14 +164,12 @@
       text-decoration: none;
       border-color: #f00;
     }
-
     .popup-close:hover:after,
     .popup-close:hover:before {
       background: #fff;
     }
   </style>
 </head>
-
 <body class="skin-blue">
   <div class="wrapper">
     <header class="main-header custom_header">

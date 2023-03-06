@@ -4,8 +4,8 @@
       Add New Slider
     </h1>
     <ol class="breadcrumb">
-      <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Slider </a></li>
+      <li><a href="<?php echo base_url() ?>dcadmin/"><i class="fa fa-dashboard"></i> Home</a></li>
+      <!-- <li><a href="<?php echo base_url() ?>admin/college"><i class="fa fa-dashboard"></i> All Slider </a></li> -->
     </ol>
   </section>
   <section class="content">
@@ -13,7 +13,7 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Add New Slider</h3>
+            <h3 class="panel-title"></i> Add New Slider</h3>
           </div>
           <? if (!empty($this->session->flashdata('smessage'))) { ?>
             <div class="alert alert-success alert-dismissible">

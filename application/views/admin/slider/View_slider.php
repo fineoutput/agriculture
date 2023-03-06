@@ -15,7 +15,7 @@
         <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/slider/add_slider" role="button" style="margin-bottom:12px;"> Add slider </a>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View slider</h3>
+            <h3 class="panel-title">View slider</h3>
           </div>
           <div class="panel panel-default">
             <? if (!empty($this->session->flashdata('smessage'))) { ?>

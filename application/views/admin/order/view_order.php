@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      <?= $heading ?> Order
+    All  <?= $heading ?> Orders
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -14,7 +14,7 @@
         <!-- <a class="btn custom_btn" href="<?php echo base_url() ?>dcadmin/order/Add_order" role="button" style="margin-bottom:12px;"></a> -->
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i><?= $heading ?> Orders</h3>
+            <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
           </div>
           <div class="panel panel-default">
             <?php if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -69,53 +69,56 @@
                           echo $newdate->format('F j, Y, g:i a');   #d-m-Y  // March 10, 2001, 5:16 pm
                           ?>
                         </td>
-                          <td><?php if ($data->order_status == 1) { ?>
-                              <p class="label bg-yellow">Pending</p>
-                            <? } elseif ($data->order_status == 2) { ?>
-                              <p class="label bg-green">Accepted</p>
-                            <? } elseif ($data->order_status == 3) { ?>
-                              <p class="label bg-orange">Dispatched</p>
-                            <? } elseif ($data->order_status == 4) { ?>
-                              <p class="label bg-purple">Completed</p>
-                            <? } elseif ($data->order_status == 5) { ?>
-                              <p class="label bg-red">Rejected</p>
-                            <? } elseif ($data->order_status == 6) { ?>
-                              <p class="label bg-red">Cancelled</p>
-                            <? } else {
-                                echo ("rejected");
-                              }
-                            ?>
-                          </td>
+                        <td><?php if ($data->order_status == 1) { ?>
+                            <p class="label bg-yellow">Pending</p>
+                          <? } elseif ($data->order_status == 2) { ?>
+                            <p class="label bg-green">Accepted</p>
+                          <? } elseif ($data->order_status == 3) { ?>
+                            <p class="label bg-orange">Dispatched</p>
+                          <? } elseif ($data->order_status == 4) { ?>
+                            <p class="label bg-purple">Completed</p>
+                          <? } elseif ($data->order_status == 5) { ?>
+                            <p class="label bg-red">Rejected</p>
+                          <? } elseif ($data->order_status == 6) { ?>
+                            <p class="label bg-red">Cancelled</p>
+                          <? } else {
+                              echo ("rejected");
+                            }
+                          ?>
+                        </td>
                         <td>
                           <div class="btn-group" id="btns<?php echo $i ?>">
                             <div class="btn-group">
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
                               <ul class="dropdown-menu" role="menu">
                                 <?php
-                                  if ($data->order_status == 1) { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/confirmed">Accept</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
-                                  <?php } elseif ($data->order_status == 2) { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/dispatched">Dispatch</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
-                                  <?php } elseif ($data->order_status == 3) { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/completed">Complete</a></li>
-                                    <!-- <li><a href="<?php echo base_url() ?>dcadmin/Order/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li> -->
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
-                                  <?php } elseif ($data->order_status == 4) { ?>
-                                    <!-- <li><a href="<?php echo base_url() ?>dcadmin/Order/updateorderStatus/<?php echo base64_encode($data->id) ?>/delievered">Accepted</a></li>
+                                if ($data->order_status == 1 && $data->is_admin == 1) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/confirmed">Accept</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <?php } elseif ($data->order_status == 2 && $data->is_admin == 1) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/dispatched">Dispatch</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <?php } elseif ($data->order_status == 3 && $data->is_admin == 1) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/updateorderStatus/<?php echo base64_encode($data->id) ?>/completed">Complete</a></li>
+                                  <!-- <li><a href="<?php echo base_url() ?>dcadmin/Order/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Reject</a></li> -->
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <?php } elseif ($data->order_status == 4 && $data->is_admin == 1) { ?>
+                                  <!-- <li><a href="<?php echo base_url() ?>dcadmin/Order/updateorderStatus/<?php echo base64_encode($data->id) ?>/delievered">Accepted</a></li>
 <li><a href="<?php echo base_url() ?>dcadmin/Order/updateorderStatus/<?php echo base64_encode($data->id) ?>/reject">Rejected</a></li> -->
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
-                                  <?php } elseif ($data->order_status == 5) { ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
-                                  <? }?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <?php } elseif ($data->order_status == 5 && $data->is_admin == 1) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <? } else { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/order_detail/<?php echo base64_encode($data->id) ?>">Order Detail</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Admin_orders/view_bill/<?php echo base64_encode($data->id) ?>">View Bill</a></li>
+                                <? } ?>
                               </ul>
                             </div>
                           </div>
