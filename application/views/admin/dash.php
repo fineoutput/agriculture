@@ -59,7 +59,7 @@
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-black"><i class="fa fa-box-open"></i></span>
+                <span class="info-box-icon bg-black"><i class="fas fa-box"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Admin Products</span>
                   <span class="info-box-number"><?= $admin_product ?></span>
@@ -68,7 +68,7 @@
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-blue"><i class="fa fa-box-open"></i></span>
+                <span class="info-box-icon bg-blue"><i class="fas fa-box"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Vendor Products</span>
                   <span class="info-box-number"><?= $vendor_product ?></span>
