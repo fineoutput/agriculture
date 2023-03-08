@@ -150,7 +150,6 @@ class CI_Login
                                 'experience' => $temp_data[0]->experience,
                                 'qualification' => $temp_data[0]->qualification,
                                 'aadhar_image' => $temp_data[0]->aadhar_image,
-                                'gst_no' => $temp_data[0]->gst,
                                 'auth' => $auth,
                                 'is_active' => 1,
                                 'is_approved' => 0,
