@@ -254,9 +254,9 @@ class CI_Login
         }
         if ($call_type != $type) {
             $respone['status'] = false;
-            if ($type == 'farmer') {
+            if ($call_type == 'farmer') {
                 $respone['message'] = 'This number is not registered as a farmer!';
-            } else if ($type == 'doctor') {
+            } else if ($call_type == 'doctor') {
                 $respone['message'] = 'This number is not registered as a doctor!';
             } else {
                 $respone['message'] = 'This number is not registered as a vendor!';
