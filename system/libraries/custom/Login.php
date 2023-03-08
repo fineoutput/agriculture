@@ -96,7 +96,7 @@ class CI_Login
         }
     }
     //=================================================== REGISTER OTP VERIFY ======================================
-    public function RegisterOtpVerify($phone, $input_otp, $type)
+    public function RegisterOtpVerify($phone, $input_otp)
     {
         $ip = $this->CI->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
@@ -111,7 +111,7 @@ class CI_Login
                     $last_id = $this->CI->db->update('tbl_otp', $data_insert);
                     if (!empty($last_id)) { // check status is updated or not
                         $temp_data = $this->CI->db->order_by('id', 'desc')->get_where('tbl_register_temp', array('phone' => $otpData[0]->phone))->result();
-                        if ($temp_data[0]->type == $type) {
+                        if ($temp_data[0]->type == 'farmer') {
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
                             $data_insert = array(
                                 'name' => $temp_data[0]->name,
@@ -135,7 +135,7 @@ class CI_Login
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
                             return json_encode($respone);
-                        } else if ($temp_data[0]->type == $type) {
+                        } else if ($temp_data[0]->type == 'doctor') {
                             //------ insert user data from temp to user table -----------
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
                             $data_insert = array(

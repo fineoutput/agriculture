@@ -130,11 +130,9 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('otp', 'otp', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $phone = $this->input->post('phone');
                 $otp = $this->input->post('otp');
-                $type = $this->input->post('type');
                 //-------------- register otp verify ------------
                 $RegisterVerify = $this->login->RegisterOtpVerify($phone, $otp);
                 // redirect($_SERVER['HTTP_REFERER']);
