@@ -449,17 +449,43 @@ class FeedController extends CI_Controller
                         'fat_4' => $fat_4,
                     );
                     $data['input'] = $input;
-                    $dmi_1 = round((0.4385 * $fat_4 + 0.07506 * pow($weight, 0.75)) * (1 - exp(-0.03202 * (24.9576 + $days_milk))) * ($group == "Bos taurus" ? 1 : 1), 1);
-                    $dmi_2 = round(($dmi_1 / $weight) * 100, 2);
-                    $dwi_1 = round(1.82 * $milk_production + 0.69 * $dmi_1 + 0.53 * $temp, 2);
-                    $dwi_2 = round($dwi_1 / $weight * 100, 2);
-                    $result = array(
-                        'dmi_1' => $dmi_1,
-                        'dmi_2' => $dmi_2,
-                        'dwi_1' => $dwi_1,
-                        'dwi_2' => $dwi_2,
-                    );
-                    $data['result'] = $result;
+                    require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+                    $inputFileName = 'assets/excel/animal_requirement.xlsx';
+                    $inputFileName2 = 'assets/excel/animal_requirement.xls';
+                    try {
+                        $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+                        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                        $objPHPExcel1 = $objReader->load($inputFileName);
+                    } catch (Exception $e) {
+                        die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+                    }
+                    //  Get worksheet dimensions
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F22', $feeding_system);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F23', $weight);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F24', $milk_production);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F25', $days_milk);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F26', $milk_fat);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F27', $milk_protein);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F28', $milk_lactose);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I21', $weight_variation);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I22', $bcs);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I23', $gestation_days);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I24', $temp);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I25', $humidity);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I26', $thi);
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I27', $fat_4);
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
+                    $objWriter->setPreCalculateFormulas(true);
+                    $objWriter->save('assets/excel/animal_requirement.xls');
+                    try {
+                        $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
+                        $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                        $objPHPExcel = $objReader->load($inputFileName2);
+                    } catch (Exception $e) {
+                        die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+                    }
+                    $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/animal_requirements', $data, TRUE);
                     $res = array(
                         'message' => "Success!",
@@ -495,7 +521,7 @@ class FeedController extends CI_Controller
         $input = array(
             'group' => 'Bos taurus',
             'feeding_system' => 'Pasture',
-            'weight' => 500,
+            'weight' => 1000,
             'milk_production' => 30,
             'days_milk' => 10,
             'milk_fat' => 3.8,
@@ -510,92 +536,144 @@ class FeedController extends CI_Controller
             'fat_4' => 29.1,
         );
         $data['input'] = $input;
-        $dmi_1 = round((0.4385 * $input['fat_4'] + 0.07506 * pow($input['weight'], 0.75)) * (1 - exp(-0.03202 * (24.9576 + $input['days_milk']))) * ($input['group'] == "Bos taurus" ? 1 : 1), 1);
-        $dmi_2 = round(($dmi_1 / $input['weight']) * 100, 2);
-        $dwi_1 = round(1.82 * $input['milk_production'] + 0.69 * $dmi_1 + 0.53 * $input['temp'], 2);
-        $dwi_2 = round($dwi_1 / $input['weight'] * 100, 2);
-        //-------------------//
-        $dld= 6.8;
-        $dmd= $dld/4.9;
-        //-------------------//
-        $ca_intake = round((1.83*$dmi_1+0.12*$dmi_1+1.17*$input['milk_production'])/0.74);
-        $ca_diet = round($ca_intake/$dmi_1*100/1000, 2);
-        $p_intake = round((0.93*$dmi_1+0.01*$dmi_1+$input['milk_production']*0.9)/0.74);
-        $p_diet = round($p_intake/$dmi_1*100/1000, 2);
-        $na_intake = round(((0.038 * $input['weight']) + ($input['weight_variation'] < 0 ? 0 : ($input['weight_variation'] * 1.4)) + ($input['gestation_days'] > 190 ? 1.39 : 0)) + 0.63 * $input['milk_production'] + 0.1 * $input['weight'] / 100 / 0.9);
-        $na_diet = round($na_intake/$dmi_1*100/1000, 2);
-        $k_intake = round((0.33 * pow($input['weight'], 0.75) + $input['milk_production'] * 1.6) / 0.67);
-        $k_diet = round(($k_intake / $dmi_1 * 100) / 1000 ,2);
-        $s_diet = 0.2;
-        $s_intake = round($s_diet * $dmi_1 * 1000 / 100);
-        $mg_diet = 0.35;
-        $mg_intake = round($mg_diet * $dmi_1 / 100 * 1000, 1);
-        //-------------------//
-        $zn_intake = round((1.18 * pow($input['weight'], 0.75) + 3.8 * $input['milk_production']) / 0.36);
-        $zn_diet = round($zn_intake / $dmi_1);
-        $cu_intake = round((1.25 * pow($input['weight'], 0.75) + $input['milk_production'] * 0.04) / 0.4);
-        $cu_diet = round($cu_intake / $dmi_1);
-        $fe_diet = 10;
-        $fe_intake = round($fe_diet * $dmi_1);
-        $mn_diet = 30;
-        $mn_intake = round($mn_diet * $dmi_1);
-        $co_diet = 1;
-        $co_intake = round($co_diet * $dmi_1, 1);
-        $i_intake = round((0.13 / 0.3 * $input['weight'] / 100) * 0.85 + 0.3 * $input['milk_production'], 1);
-        $i_diet = round($i_intake / $dmi_1, 2);
-        $se_diet = 0.30;
-        $se_intake = round($se_diet * $dmi_1, 1);
-        $cr_diet = round($input['days_milk'] < 100 ? 0.5 : 0, 2);
-        $cr_intake = round($cr_diet * $dmi_1, 2);
-        //-------------------//
-        $vAd = round((30000 + 1000 * $input['milk_production']) * ($input['feeding_system'] == "Confinement" ? 1 : 0.3) / $dmi_1);
-        $vDd = round($input['feeding_system'] == "Confinement" ? 45 * $input['weight'] / $dmi_1 : 9 * $input['weight'] / $dmi_1);
-        $vEd = round(($input['thi'] > 75 ? 2000 / $dmi_1 : 1000) / $dmi_1 * ($input['feeding_system'] == "Pasture" ? 0.3 : 1));
-        //-------------------//
-        $methane = round(87.68 + 2.52 * $input['milk_production'] + 0.58 * pow($input['weight'], 0.75) + 8.25 * $dmi_1);
-        $result = array(
-            'dmi_1' => $dmi_1,
-            'dmi_2' => $dmi_2,
-            'dwi_1' => $dwi_1,
-            'dwi_2' => $dwi_2,
-            //-------------------//
-            'ca_intake' => $ca_intake,
-            'ca_diet' => $ca_diet,
-            'p_intake' => $p_intake,
-            'p_diet' => $p_diet,
-            'na_intake' => $na_intake,
-            'na_diet' => $na_diet,
-            'k_intake' => $k_intake,
-            'k_diet' => $k_diet,
-            's_diet' => $s_diet,
-            's_intake' => $s_intake,
-            'mg_diet' => $mg_diet,
-            'mg_intake' => $mg_intake,
-            //-------------------//
-            'zn_intake' => $zn_intake,
-            'zn_diet' => $zn_diet,
-            'cu_intake' => $cu_intake,
-            'cu_diet' => $cu_diet,
-            'fe_diet' => $fe_diet,
-            'fe_intake' => $fe_intake,
-            'mn_diet' => $mn_diet,
-            'mn_intake' => $mn_intake,
-            'co_diet' => $co_diet,
-            'co_intake' => $co_intake,
-            'i_intake' => $i_intake,
-            'i_diet' => $i_diet,
-            'se_diet' => $se_diet,
-            'se_intake' => $se_intake,
-            'cr_diet' => $cr_diet,
-            'cr_intake' => $cr_intake,
-            //-------------------//
-            'vAd' => $vAd,
-            'vDd' => $vDd,
-            'vEd' => $vEd,
-            //-------------------//
-            'methane' => $methane,
-        );
-        $data['result'] = $result;
+        $group = 'Bos taurus';
+        $feeding_system = 'Pasture';
+        $weight = 1000;
+        $milk_production = 30;
+        $days_milk = 10;
+        $milk_fat = 3.8;
+        $milk_protein = 3;
+        $milk_lactose = 4.6;
+        $weight_variation = 0;
+        $bcs = 2.5;
+        $gestation_days = 5;
+        $temp = 22;
+        $humidity = 65;
+        $thi = 69.1;
+        $fat_4 = 29.1;
+        require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+        $inputFileName = 'assets/excel/animal_requirement.xlsx';
+        $inputFileName2 = 'assets/excel/animal_requirement.xls';
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel1 = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
+        //  Get worksheet dimensions
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F22', $feeding_system);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F23', $weight);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F24', $milk_production);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F25', $days_milk);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F26', $milk_fat);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F27', $milk_protein);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F28', $milk_lactose);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I21', $weight_variation);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I22', $bcs);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I23', $gestation_days);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I24', $temp);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I25', $humidity);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I26', $thi);
+        $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('I27', $fat_4);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
+        $objWriter->setPreCalculateFormulas(true);
+        $objWriter->save('assets/excel/animal_requirement.xls');
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName2);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
+        $data['objPHPExcel'] = $objPHPExcel;
+        // $dmi_1 = round((0.4385 * $input['fat_4'] + 0.07506 * pow($input['weight'], 0.75)) * (1 - exp(-0.03202 * (24.9576 + $input['days_milk']))) * ($input['group'] == "Bos taurus" ? 1 : 1), 1);
+        // $dmi_2 = round(($dmi_1 / $input['weight']) * 100, 2);
+        // $dwi_1 = round(1.82 * $input['milk_production'] + 0.69 * $dmi_1 + 0.53 * $input['temp'], 2);
+        // $dwi_2 = round($dwi_1 / $input['weight'] * 100, 2);
+        // //-------------------//
+        // $dld= 6.8;
+        // $dmd= $dld/4.9;
+        // //-------------------//
+        // $ca_intake = round((1.83*$dmi_1+0.12*$dmi_1+1.17*$input['milk_production'])/0.74);
+        // $ca_diet = round($ca_intake/$dmi_1*100/1000, 2);
+        // $p_intake = round((0.93*$dmi_1+0.01*$dmi_1+$input['milk_production']*0.9)/0.74);
+        // $p_diet = round($p_intake/$dmi_1*100/1000, 2);
+        // $na_intake = round(((0.038 * $input['weight']) + ($input['weight_variation'] < 0 ? 0 : ($input['weight_variation'] * 1.4)) + ($input['gestation_days'] > 190 ? 1.39 : 0)) + 0.63 * $input['milk_production'] + 0.1 * $input['weight'] / 100 / 0.9);
+        // $na_diet = round($na_intake/$dmi_1*100/1000, 2);
+        // $k_intake = round((0.33 * pow($input['weight'], 0.75) + $input['milk_production'] * 1.6) / 0.67);
+        // $k_diet = round(($k_intake / $dmi_1 * 100) / 1000 ,2);
+        // $s_diet = 0.2;
+        // $s_intake = round($s_diet * $dmi_1 * 1000 / 100);
+        // $mg_diet = 0.35;
+        // $mg_intake = round($mg_diet * $dmi_1 / 100 * 1000, 1);
+        // //-------------------//
+        // $zn_intake = round((1.18 * pow($input['weight'], 0.75) + 3.8 * $input['milk_production']) / 0.36);
+        // $zn_diet = round($zn_intake / $dmi_1);
+        // $cu_intake = round((1.25 * pow($input['weight'], 0.75) + $input['milk_production'] * 0.04) / 0.4);
+        // $cu_diet = round($cu_intake / $dmi_1);
+        // $fe_diet = 10;
+        // $fe_intake = round($fe_diet * $dmi_1);
+        // $mn_diet = 30;
+        // $mn_intake = round($mn_diet * $dmi_1);
+        // $co_diet = 1;
+        // $co_intake = round($co_diet * $dmi_1, 1);
+        // $i_intake = round((0.13 / 0.3 * $input['weight'] / 100) * 0.85 + 0.3 * $input['milk_production'], 1);
+        // $i_diet = round($i_intake / $dmi_1, 2);
+        // $se_diet = 0.30;
+        // $se_intake = round($se_diet * $dmi_1, 1);
+        // $cr_diet = round($input['days_milk'] < 100 ? 0.5 : 0, 2);
+        // $cr_intake = round($cr_diet * $dmi_1, 2);
+        // //-------------------//
+        // $vAd = round((30000 + 1000 * $input['milk_production']) * ($input['feeding_system'] == "Confinement" ? 1 : 0.3) / $dmi_1);
+        // $vDd = round($input['feeding_system'] == "Confinement" ? 45 * $input['weight'] / $dmi_1 : 9 * $input['weight'] / $dmi_1);
+        // $vEd = round(($input['thi'] > 75 ? 2000 / $dmi_1 : 1000) / $dmi_1 * ($input['feeding_system'] == "Pasture" ? 0.3 : 1));
+        // //-------------------//
+        // $methane = round(87.68 + 2.52 * $input['milk_production'] + 0.58 * pow($input['weight'], 0.75) + 8.25 * $dmi_1);
+        // $result = array(
+        //     'dmi_1' => $dmi_1,
+        //     'dmi_2' => $dmi_2,
+        //     'dwi_1' => $dwi_1,
+        //     'dwi_2' => $dwi_2,
+        //     //-------------------//
+        //     'ca_intake' => $ca_intake,
+        //     'ca_diet' => $ca_diet,
+        //     'p_intake' => $p_intake,
+        //     'p_diet' => $p_diet,
+        //     'na_intake' => $na_intake,
+        //     'na_diet' => $na_diet,
+        //     'k_intake' => $k_intake,
+        //     'k_diet' => $k_diet,
+        //     's_diet' => $s_diet,
+        //     's_intake' => $s_intake,
+        //     'mg_diet' => $mg_diet,
+        //     'mg_intake' => $mg_intake,
+        //     //-------------------//
+        //     'zn_intake' => $zn_intake,
+        //     'zn_diet' => $zn_diet,
+        //     'cu_intake' => $cu_intake,
+        //     'cu_diet' => $cu_diet,
+        //     'fe_diet' => $fe_diet,
+        //     'fe_intake' => $fe_intake,
+        //     'mn_diet' => $mn_diet,
+        //     'mn_intake' => $mn_intake,
+        //     'co_diet' => $co_diet,
+        //     'co_intake' => $co_intake,
+        //     'i_intake' => $i_intake,
+        //     'i_diet' => $i_diet,
+        //     'se_diet' => $se_diet,
+        //     'se_intake' => $se_intake,
+        //     'cr_diet' => $cr_diet,
+        //     'cr_intake' => $cr_intake,
+        //     //-------------------//
+        //     'vAd' => $vAd,
+        //     'vDd' => $vDd,
+        //     'vEd' => $vEd,
+        //     //-------------------//
+        //     'methane' => $methane,
+        // );
+        // $data['result'] = $result;
         //  echo $result;die();
         // $data = array(
         //     'dry_matter_intake' => round($dry_matter_intake, 2),
