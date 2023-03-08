@@ -29,6 +29,15 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('email', 'email', 'xss_clean|trim');
+            $this->form_validation->set_rules('doc_type', 'doc_type', 'xss_clean|trim');
+            $this->form_validation->set_rules('degree', 'degree', 'xss_clean|trim');
+            $this->form_validation->set_rules('experience', 'experience', 'xss_clean|trim');
+            $this->form_validation->set_rules('qualification', 'qualification', 'xss_clean|trim');
+            $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
+            $this->form_validation->set_rules('address', 'address', 'xss_clean|trim');
+            $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $village = $this->input->post('village');
@@ -37,6 +46,46 @@ class UserloginController extends CI_Controller
                 $state = $this->input->post('state');
                 $pincode = $this->input->post('pincode');
                 $phone = $this->input->post('phone');
+                $email = $this->input->post('email');
+                $doc_type = $this->input->post('doc_type');
+                $degree = $this->input->post('degree');
+                $experience = $this->input->post('experience');
+                $qualification = $this->input->post('qualification');
+                $shop_name = $this->input->post('shop_name');
+                $address = $this->input->post('address');
+                $gst_no = $this->input->post('gst_no');
+                $pan_no = $this->input->post('pan_no');
+                $type = $this->input->post('type');
+                $this->load->library('upload');
+                $image = '';
+                $img1 = 'aadhar_image';
+                if (!empty($_FILES['aadhar_image'])) {
+                    $file_check = ($_FILES['aadhar_image']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/aadhar/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "aadhar" . date("Ymdhms");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1)) {
+                            $upload_error = $this->upload->display_errors();
+                            $respone['status'] = false;
+                            $respone['message'] = $upload_error;
+                            echo json_encode($respone);
+                            die();
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image = "assets/uploads/aadhar/" . $new_file_name . $file_info['file_ext'];
+                        }
+                    }
+                }
                 $send = array(
                     'name' => $name,
                     'village' => $village,
@@ -45,8 +94,19 @@ class UserloginController extends CI_Controller
                     'state' => $state,
                     'pincode' => $pincode,
                     'phone' => $phone,
+                    'email' => $email,
+                    'aadhar_image' => $image,
+                    'doc_type' => $doc_type,
+                    'degree' => $degree,
+                    'experience' => $experience,
+                    'qualification' => $qualification,
+                    'shop_name' => $shop_name,
+                    'address' => $address,
+                    'gst_no' => $gst_no,
+                    'pan_no' => $pan_no,
                     'type' => $type,
                 );
+                
                 //-------------- register user  with otp ------------
                 $Register = $this->login->RegisterWithOtp($send);
                 echo $Register;
@@ -96,12 +156,10 @@ class UserloginController extends CI_Controller
         $this->load->helper('security');
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $phone = $this->input->post('phone');
-                $type = $this->input->post('type');
                 //------ user login send otp ----------
-                $Login = $this->login->LoginWithOtp($phone,$type);
+                $Login = $this->login->LoginWithOtp($phone);
                 echo $Login;
             } else {
                 $respone['status'] = false;
@@ -123,13 +181,11 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('otp', 'otp', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $phone = $this->input->post('phone');
                 $otp = $this->input->post('otp');
-                $type = $this->input->post('type');
                 //-------------- register otp verify ------------
-                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp,$type);
+                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp);
                 echo $LoginVerify;
             } else {
                 $respone['status'] = false;

@@ -20,57 +20,79 @@ class CI_Login
         $ip = $this->CI->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
-        if ($receive['type'] == 'farmer') {
-            $userCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $phone))->result();
-            if (empty($userCheck)) { //---- check user is exist or not ---------
-                //------- insert into temp table ------------
-                $data_insert = array(
-                    'name' => $receive['name'],
-                    'village' => $receive['village'],
-                    'district' => $receive['district'],
-                    'city' => $receive['city'],
-                    'state' => $receive['state'],
-                    'pincode' => $receive['pincode'],
-                    'phone' => $receive['phone'],
-                    'type' => $receive['type'],
-                    'ip' => $ip,
-                    'date' => $cur_date
-                );
-                $last_id = $this->CI->base_model->insert_table("tbl_register_temp", $data_insert, 1);
-                // $OTP = random_int(100000, 999999);
-                $OTP = 123456;
-                //--------------- Insert data into OTP table -----
-                $data_insert2 = array(
-                    'phone' => $phone,
-                    'otp' => $OTP,
-                    'status' => 0,
-                    'temp_id' => $last_id,
-                    'ip' => $ip,
-                    'date' => $cur_date
-                );
-                $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
-                if (!empty($last_id2)) {
-                    //--------------- Send Register OTP -----------
-                    $msg = 'Dear User, Your OTP for signup to CABME is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Regards, CABME INDIA';
-                    $temp_id = 1707166480333123421;
-                    // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
-                    $respone['status'] = 200;
-                    $respone['message'] = 'Please enter otp sent to your register mobile number';
-                    // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
-                    return json_encode($respone);
-                    log_message('error', json_encode($respone));
-                } else {
-                    $respone['status'] = 201;
-                    $respone['message'] = 'Some error occurred!';
-                    // $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
-                    return json_encode($respone);
+        $type = '';
+        $farmerCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $receive['phone']))->result();
+        if (!empty($farmerCheck)) {
+            $type = "farmer";
+        } else {
+            $doctorCheck = $this->CI->db->get_where('tbl_doctor', array('phone' => $receive['phone']))->result();
+            if (!empty($doctorCheck)) {
+                $type = "doctor";
+            } else {
+                $vendorCheck = $this->CI->db->get_where('tbl_vendor', array('phone' => $receive['phone']))->result();
+                if (!empty($vendorCheck)) {
+                    $type = "vendor";
                 }
+            }
+        }
+        if (empty($type)) { //---- check user is exist or not ---------
+            //------- insert into temp table ------------
+            $data_insert = array(
+                'name' => $receive['name'],
+                'village' => $receive['village'],
+                'district' => $receive['district'],
+                'city' => $receive['city'],
+                'state' => $receive['state'],
+                'pincode' => $receive['pincode'],
+                'phone' => $receive['phone'],
+                'type' => $receive['type'],
+                'email' => $receive['email'],
+                'aadhar_image' => $receive['aadhar_image'],
+                'doc_type' => $receive['doc_type'],
+                'degree' => $receive['degree'],
+                'experience' => $receive['experience'],
+                'qualification' => $receive['qualification'],
+                'shop_name' => $receive['shop_name'],
+                'address' => $receive['address'],
+                'gst' => $receive['gst_no'],
+                'pan_no' => $receive['pan_no'],
+                'ip' => $ip,
+                'date' => $cur_date
+            );
+            $last_id = $this->CI->base_model->insert_table("tbl_register_temp", $data_insert, 1);
+            // $OTP = random_int(100000, 999999);
+            $OTP = 123456;
+            //--------------- Insert data into OTP table -----
+            $data_insert2 = array(
+                'phone' => $receive['phone'],
+                'otp' => $OTP,
+                'status' => 0,
+                'temp_id' => $last_id,
+                'ip' => $ip,
+                'date' => $cur_date
+            );
+            $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
+            if (!empty($last_id2)) {
+                //--------------- Send Register OTP -----------
+                $msg = 'Dear User, Your OTP for signup to CABME is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Regards, CABME INDIA';
+                $temp_id = 1707166480333123421;
+                // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
+                $respone['status'] = 200;
+                $respone['message'] = 'Please enter otp sent to your register mobile number';
+                // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
+                return json_encode($respone);
+                log_message('error', json_encode($respone));
             } else {
                 $respone['status'] = 201;
-                $respone['message'] = 'User Already Exist!';
-                // $this->CI->session->set_flashdata('emessage', 'User Already Exist!');
+                $respone['message'] = 'Some error occurred!';
+                // $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
                 return json_encode($respone);
             }
+        } else {
+            $respone['status'] = 201;
+            $respone['message'] = 'User Already Exist!';
+            // $this->CI->session->set_flashdata('emessage', 'User Already Exist!');
+            return json_encode($respone);
         }
     }
     //=================================================== REGISTER OTP VERIFY ======================================
@@ -89,8 +111,7 @@ class CI_Login
                     $last_id = $this->CI->db->update('tbl_otp', $data_insert);
                     if (!empty($last_id)) { // check status is updated or not
                         $temp_data = $this->CI->db->order_by('id', 'desc')->get_where('tbl_register_temp', array('phone' => $otpData[0]->phone))->result();
-                        if ($temp_data->type == 'farmer') {
-                            //------ insert user data from temp to user table -----------
+                        if ($temp_data[0]->type == 'farmer') {
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
                             $data_insert = array(
                                 'name' => $temp_data[0]->name,
@@ -113,7 +134,65 @@ class CI_Login
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
-                            // $this->CI->session->set_flashdata('smessage', 'Successfully Registered!');
+                            return json_encode($respone);
+                        } else if ($temp_data[0]->type == 'doctor') {
+                            //------ insert user data from temp to user table -----------
+                            $auth = bin2hex(random_bytes(18)); //--- generate auth ---
+                            $data_insert = array(
+                                'name' => $temp_data[0]->name,
+                                'district' => $temp_data[0]->district,
+                                'city' => $temp_data[0]->city,
+                                'state' => $temp_data[0]->state,
+                                'phone' => $temp_data[0]->phone,
+                                'email' => $temp_data[0]->email,
+                                'type' => $temp_data[0]->doc_type,
+                                'degree' => $temp_data[0]->degree,
+                                'experience' => $temp_data[0]->experience,
+                                'qualification' => $temp_data[0]->qualification,
+                                'aadhar_image' => $temp_data[0]->aadhar_image,
+                                'gst_no' => $temp_data[0]->gst,
+                                'auth' => $auth,
+                                'is_active' => 1,
+                                'is_approved' => 0,
+                                'date' => $cur_date
+                            );
+                            $last_id2 = $this->CI->base_model->insert_table("tbl_doctor", $data_insert, 1);
+                            $data = array(
+                                'name' => $temp_data[0]->name,
+                                'auth' => $auth,
+                            );
+                            $respone['status'] = 200;
+                            $respone['message'] = 'Successfully Registered!';
+                            $respone['data'] = $data;
+                            return json_encode($respone);
+                        } else {
+                            //------ insert user data from temp to user table -----------
+                            $auth = bin2hex(random_bytes(18)); //--- generate auth ---
+                            $data_insert = array(
+                                'name' => $temp_data[0]->name,
+                                'district' => $temp_data[0]->district,
+                                'city' => $temp_data[0]->city,
+                                'state' => $temp_data[0]->state,
+                                'pincode' => $temp_data[0]->pincode,
+                                'phone' => $temp_data[0]->phone,
+                                'shop_name' => $temp_data[0]->shop_name,
+                                'address' => $temp_data[0]->address,
+                                'aadhar_image' => $temp_data[0]->aadhar_image,
+                                'pan_number' => $temp_data[0]->pan_no,
+                                'gst_no' => $temp_data[0]->gst,
+                                'auth' => $auth,
+                                'is_approved' => 0,
+                                'is_active' => 1,
+                                'date' => $cur_date
+                            );
+                            $last_id2 = $this->CI->base_model->insert_table("tbl_vendor", $data_insert, 1);
+                            $data = array(
+                                'name' => $temp_data[0]->name,
+                                'auth' => $auth,
+                            );
+                            $respone['status'] = 200;
+                            $respone['message'] = 'Successfully Registered!';
+                            $respone['data'] = $data;
                             return json_encode($respone);
                         }
                     } else {
@@ -142,17 +221,32 @@ class CI_Login
         }
     }
     //============================================= LOGIN WITH OTP ==============================================
-    public function LoginWithOtp($phone, $type)
+    public function LoginWithOtp($phone)
     {
         // if (empty($this->CI->session->userdata('user_data'))) {
         $ip = $this->CI->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         //------ Check for user  exist or not ----------
-        if ($type == 'farmer') {
-            $userCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $phone))->result();
+        $type = '';
+        $farmerCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $phone))->result();
+        if (!empty($farmerCheck)) {
+            $type = "farmer";
+            $userCheck = $farmerCheck;
+        } else {
+            $doctorCheck = $this->CI->db->get_where('tbl_doctor', array('phone' => $phone))->result();
+            if (!empty($doctorCheck)) {
+                $type = "doctor";
+                $userCheck = $doctorCheck;
+            } else {
+                $vendorCheck = $this->CI->db->get_where('tbl_vendor', array('phone' => $phone))->result();
+                if (!empty($vendorCheck)) {
+                    $type = "vendor";
+                    $userCheck = $vendorCheck;
+                }
+            }
         }
-        if (empty($userCheck)) { //--------------- user not found -----------------
+        if (empty($type)) { //--------------- user not found -----------------
             $respone['status'] = false;
             $respone['message'] = 'User Not Found! Please Register First';
             $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
@@ -160,6 +254,21 @@ class CI_Login
         }
         //----------------------- user login handle --------------------------------
         if ($userCheck[0]->is_active == 1) {
+            if ($type == 'vendor' || $type == 'doctor') {
+                if ($userCheck[0]->is_approved == 0) {
+                    $respone['status'] = 201;
+                    $respone['message'] = 'Your account request is pending! Please contact to admin';
+                    // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
+                    return json_encode($respone);
+                    die();
+                } else if ($userCheck[0]->is_approved == 2) {
+                    $respone['status'] = 201;
+                    $respone['message'] = 'Your account  request is rejected! Please contact to admin';
+                    // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
+                    return json_encode($respone);
+                    die();
+                }
+            }
             //--------------- Insert data into otp table -----
             // $OTP = random_int(100000, 999999);
             $OTP = 123456;
@@ -200,7 +309,7 @@ class CI_Login
         // }
     }
     //============================================== LOGIN OTP VERIFY =============================================
-    public function LoginOtpVerify($phone, $input_otp, $type)
+    public function LoginOtpVerify($phone, $input_otp)
     {
         $otpData = $this->CI->db->order_by('id', 'desc')->get_where('tbl_otp', array('phone' => $phone))->result();
         $ip = $this->CI->input->ip_address();
@@ -214,22 +323,49 @@ class CI_Login
                     $this->CI->db->where('id', $otpData[0]->id);
                     $last_id = $this->CI->db->update('tbl_otp', $data_insert);
                     if (!empty($last_id)) { // check status is updated or not
-                        if ($type == 'farmer') {
-                            $user_data = $this->CI->db->get_where('tbl_farmers', array('phone' => $phone))->result();
-                            if ($user_data[0]->is_active == 1) {
-                                $data = array(
-                                    'name' => $user_data[0]->name,
-                                    'auth' => $user_data[0]->auth,
-                                );
-                                $respone['status'] = 200;
-                                $respone['message'] = 'Login Successfully';
-                                $respone['data'] = $data;
-                                return json_encode($respone);
+                        $farmerCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $phone))->result();
+                        if (!empty($farmerCheck)) {
+                            $type = "farmer";
+                            $user_data = $farmerCheck;
+                        } else {
+                            $doctorCheck = $this->CI->db->get_where('tbl_doctor', array('phone' => $phone))->result();
+                            if (!empty($doctorCheck)) {
+                                $type = "doctor";
+                                $user_data = $doctorCheck;
                             } else {
-                                $respone['status'] = 200;
-                                $respone['message'] = 'Your account is inactive!';
-                                return json_encode($respone);
+                                $vendorCheck = $this->CI->db->get_where('tbl_vendor', array('phone' => $phone))->result();
+                                if (!empty($vendorCheck)) {
+                                    $type = "vendor";
+                                    $user_data = $vendorCheck;
+                                }
                             }
+                        }
+                        if ($user_data[0]->is_active == 1) {
+                            if ($type == 'vendor' || $type == 'doctor') {
+                                if ($user_data[0]->is_approved == 0) {
+                                    $respone['status'] = 201;
+                                    $respone['message'] = 'Your account request is pending! Please contact to admin';
+                                    return json_encode($respone);
+                                    die();
+                                } else if ($user_data[0]->is_approved == 2) {
+                                    $respone['status'] = 201;
+                                    $respone['message'] = 'Your account  request is rejected! Please contact to admin';
+                                    return json_encode($respone);
+                                    die();
+                                }
+                            }
+                            $data = array(
+                                'name' => $user_data[0]->name,
+                                'auth' => $user_data[0]->auth,
+                            );
+                            $respone['status'] = 200;
+                            $respone['message'] = 'Login Successfully';
+                            $respone['data'] = $data;
+                            return json_encode($respone);
+                        } else {
+                            $respone['status'] = 200;
+                            $respone['message'] = 'Your account is inactive!';
+                            return json_encode($respone);
                         }
                     } else {
                         $respone['status'] = 201;
