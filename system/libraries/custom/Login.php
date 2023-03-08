@@ -96,7 +96,7 @@ class CI_Login
         }
     }
     //=================================================== REGISTER OTP VERIFY ======================================
-    public function RegisterOtpVerify($phone, $input_otp)
+    public function RegisterOtpVerify($phone, $input_otp, $type)
     {
         $ip = $this->CI->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
@@ -111,7 +111,7 @@ class CI_Login
                     $last_id = $this->CI->db->update('tbl_otp', $data_insert);
                     if (!empty($last_id)) { // check status is updated or not
                         $temp_data = $this->CI->db->order_by('id', 'desc')->get_where('tbl_register_temp', array('phone' => $otpData[0]->phone))->result();
-                        if ($temp_data[0]->type == 'farmer') {
+                        if ($temp_data[0]->type == $type) {
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
                             $data_insert = array(
                                 'name' => $temp_data[0]->name,
@@ -135,7 +135,7 @@ class CI_Login
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
                             return json_encode($respone);
-                        } else if ($temp_data[0]->type == 'doctor') {
+                        } else if ($temp_data[0]->type == $type) {
                             //------ insert user data from temp to user table -----------
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
                             $data_insert = array(
@@ -220,7 +220,7 @@ class CI_Login
         }
     }
     //============================================= LOGIN WITH OTP ==============================================
-    public function LoginWithOtp($phone)
+    public function LoginWithOtp($phone, $call_type)
     {
         // if (empty($this->CI->session->userdata('user_data'))) {
         $ip = $this->CI->input->ip_address();
@@ -250,6 +250,20 @@ class CI_Login
             $respone['message'] = 'User Not Found! Please Register First';
             $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
             return json_encode($respone);
+            die();
+        }
+        if ($call_type != $type) {
+            $respone['status'] = false;
+            if ($type == 'farmer') {
+                $respone['message'] = 'This number is not registered as a farmer!';
+            } else if ($type == 'doctor') {
+                $respone['message'] = 'This number is not registered as a doctor!';
+            } else {
+                $respone['message'] = 'This number is not registered as a vendor!';
+            }
+            $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
+            return json_encode($respone);
+            die();
         }
         //----------------------- user login handle --------------------------------
         if ($userCheck[0]->is_active == 1) {
