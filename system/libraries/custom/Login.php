@@ -138,6 +138,13 @@ class CI_Login
                         } else if ($temp_data[0]->type == 'doctor') {
                             //------ insert user data from temp to user table -----------
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
+                            if ($temp_data[0]->doc_type == 1) {
+                                $dt = "Vet";
+                            } else if ($temp_data[0]->doc_type == 2) {
+                                $dt = "Assistant";
+                            } else {
+                                $dt = "Private Practitioner";
+                            }
                             $data_insert = array(
                                 'name' => $temp_data[0]->name,
                                 'district' => $temp_data[0]->district,
@@ -145,7 +152,7 @@ class CI_Login
                                 'state' => $temp_data[0]->state,
                                 'phone' => $temp_data[0]->phone,
                                 'email' => $temp_data[0]->email,
-                                'type' => $temp_data[0]->doc_type,
+                                'type' => $dt,
                                 'degree' => $temp_data[0]->degree,
                                 'experience' => $temp_data[0]->experience,
                                 'qualification' => $temp_data[0]->qualification,
