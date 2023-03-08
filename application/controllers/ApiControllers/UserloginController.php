@@ -26,7 +26,7 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('pincode', 'pincode', 'xss_clean|trim');
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             $this->form_validation->set_rules('email', 'email', 'xss_clean|trim');
