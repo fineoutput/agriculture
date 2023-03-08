@@ -1,6 +1,5 @@
 <?php
-
-if (! defined('BASEPATH')) {
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 class UserloginController extends CI_Controller
@@ -15,7 +14,6 @@ class UserloginController extends CI_Controller
         // $this->load->library('custom/Forms');
     }
     //======================================USER LOGIN API CONTROLLER START========================//
-
     //======================================= USER REGISTER PROCESS===================================//
     public function register_process()
     {
@@ -30,17 +28,27 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
             $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $name=$this->input->post('name');
-                $village=$this->input->post('village');
-                $district=$this->input->post('district');
-                $city=$this->input->post('city');
-                $state=$this->input->post('state');
-                $pincode=$this->input->post('pincode');
-               
-                $phone=$this->input->post('phone');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $village = $this->input->post('village');
+                $district = $this->input->post('district');
+                $city = $this->input->post('city');
+                $state = $this->input->post('state');
+                $pincode = $this->input->post('pincode');
+                $phone = $this->input->post('phone');
+                $send = array(
+                    'name' => $name,
+                    'village' => $village,
+                    'district' => $district,
+                    'city' => $city,
+                    'state' => $state,
+                    'pincode' => $pincode,
+                    'phone' => $phone,
+                    'type' => $type,
+                );
                 //-------------- register user  with otp ------------
-                $Register = $this->login->RegisterWithOtp($name, $village, $district, $city, $state, $pincode, $phone);
+                $Register = $this->login->RegisterWithOtp($send);
                 echo $Register;
             } else {
                 $respone['status'] = false;
@@ -62,9 +70,9 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('otp', 'otp', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $phone=$this->input->post('phone');
-                $otp=$this->input->post('otp');
+            if ($this->form_validation->run() == true) {
+                $phone = $this->input->post('phone');
+                $otp = $this->input->post('otp');
                 //-------------- register otp verify ------------
                 $RegisterVerify = $this->login->RegisterOtpVerify($phone, $otp);
                 // redirect($_SERVER['HTTP_REFERER']);
@@ -88,12 +96,14 @@ class UserloginController extends CI_Controller
         $this->load->helper('security');
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $phone=$this->input->post('phone');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $phone = $this->input->post('phone');
+                $type = $this->input->post('type');
                 //------ user login send otp ----------
-                $Login = $this->login->LoginWithOtp($phone);
+                $Login = $this->login->LoginWithOtp($phone,$type);
                 echo $Login;
-      } else {
+            } else {
                 $respone['status'] = false;
                 $respone['message'] = validation_errors();
                 echo json_encode($respone);
@@ -113,11 +123,13 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('otp', 'otp', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $phone=$this->input->post('phone');
-                $otp=$this->input->post('otp');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $phone = $this->input->post('phone');
+                $otp = $this->input->post('otp');
+                $type = $this->input->post('type');
                 //-------------- register otp verify ------------
-                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp);
+                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp,$type);
                 echo $LoginVerify;
             } else {
                 $respone['status'] = false;
@@ -139,13 +151,13 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('fname', 'fname', 'required|xss_clean|trim');
             $this->form_validation->set_rules('lname', 'lname', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $fname=$this->input->post('fname');
-                $lname=$this->input->post('lname');
-                $update = array('f_name'=>$fname, 'l_name'=>$lname);
+            if ($this->form_validation->run() == true) {
+                $fname = $this->input->post('fname');
+                $lname = $this->input->post('lname');
+                $update = array('f_name' => $fname, 'l_name' => $lname);
                 $this->db->where('id', $this->session->userdata('user_id'));
                 $zapak2 = $this->db->update('tbl_users', $update);
-                if ($zapak2==1) {
+                if ($zapak2 == 1) {
                     $this->session->set_flashdata('smessage', 'Profile Updated Successfully!');
                     redirect('Home/my_profile/account', 'refresh');
                 } else {
@@ -174,17 +186,17 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('gstin', 'gstin', 'xss_clean|trim');
             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
             $this->form_validation->set_rules('address', 'address', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $name=$this->input->post('name');
-                $email=$this->input->post('email');
-                $shop=$this->input->post('shop');
-                $gstin=$this->input->post('gstin');
-                $city=$this->input->post('city');
-                $address=$this->input->post('address');
-                $update = array('name'=>$name, 'email'=>$email, 'shop'=>$shop, 'gst_number'=>$gstin, 'city'=>$city, 'address'=>$address);
+            if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $email = $this->input->post('email');
+                $shop = $this->input->post('shop');
+                $gstin = $this->input->post('gstin');
+                $city = $this->input->post('city');
+                $address = $this->input->post('address');
+                $update = array('name' => $name, 'email' => $email, 'shop' => $shop, 'gst_number' => $gstin, 'city' => $city, 'address' => $address);
                 $this->db->where('id', $this->session->userdata('user_id'));
                 $zapak2 = $this->db->update('tbl_reseller', $update);
-                if ($zapak2==1) {
+                if ($zapak2 == 1) {
                     $this->session->set_flashdata('smessage', 'Profile Updated Successfully!');
                     redirect('Home/my_profile', 'refresh');
                 } else {
@@ -211,11 +223,11 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('accountnumber', 'accountnumber', 'required|xss_clean|trim');
             $this->form_validation->set_rules('ifsccode', 'ifsccode', 'required|xss_clean|trim');
             $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-            if ($this->form_validation->run()== true) {
-                $points=$this->input->post('points');
-                $accountnumber=$this->input->post('accountnumber');
-                $ifsccode=$this->input->post('ifsccode');
-                $name=$this->input->post('name');
+            if ($this->form_validation->run() == true) {
+                $points = $this->input->post('points');
+                $accountnumber = $this->input->post('accountnumber');
+                $ifsccode = $this->input->post('ifsccode');
+                $name = $this->input->post('name');
                 $submit_request = $this->forms->redeemModelPoints($points, $accountnumber, $ifsccode, $points);
                 redirect('Home/my_profile', 'refresh');
             } else {
