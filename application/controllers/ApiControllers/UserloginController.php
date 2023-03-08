@@ -22,7 +22,7 @@ class UserloginController extends CI_Controller
         $this->load->helper('security');
         if ($this->input->post()) {
             $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('village', 'village', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('village', 'village', 'xss_clean|trim');
             $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
