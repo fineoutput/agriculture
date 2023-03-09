@@ -23,7 +23,7 @@ class DoctorController extends CI_Controller
             $data = [];
             if (!empty($RequestData)) {
                 foreach ($RequestData as $request) {
-                    $DocData = $this->db->get_where('tbl_doctor', array('id' => $request->doctor_id))->result();
+                    $farData = $this->db->get_where('tbl_farmers', array('id' => $request->farmer_id))->result();
                     $newDate = new DateTime($request->date);
                     if ($request->status == 0) {
                         $status = 'Pending';
@@ -57,15 +57,11 @@ class DoctorController extends CI_Controller
                     } else {
                         $image5 = '';
                     }
-                    if (!empty($DocData[0]->image)) {
-                        $doctor_image = base_url() . $DocData[0]->image;
-                    } else {
-                        $doctor_image = '';
-                    }
                     $data[] = array(
                         'id' => $request->id,
-                        'doctor_name' => $DocData[0]->name,
-                        'doctor_image' => $doctor_image,
+                        'farmer_name' => $farData[0]->name,
+                        'farmer_phone' => $farData[0]->phone,
+                        'farmer_village' => $farData[0]->village,
                         'reason' => $request->reason,
                         'description' => $request->description,
                         'fees' => $request->fees,
