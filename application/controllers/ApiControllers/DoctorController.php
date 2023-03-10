@@ -411,7 +411,7 @@ class DoctorController extends CI_Controller
                 'total_req' => $total_req,
                 'today_income' => $query->row()->cr,
                 'total_income' => $query2->row()->cr,
-                'is_expert' =>$doctor_data[0]->is_expert
+                'is_expert' => $doctor_data[0]->is_expert
             );
             $res = array(
                 'message' => "Success!",
@@ -430,35 +430,164 @@ class DoctorController extends CI_Controller
     //------------------------------Semen Management ---------------
     public function doc_semen_tank()
     {
-      $headers = apache_request_headers();
-      $authentication = $headers['Authentication'];
-      $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-      if (!empty($doctor_data)) {
-        $tank_data = $this->db->get_where('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id))->result();
-        $data = [];
-        $i = 1;
-        foreach ($tank_data as $tank) {
-          $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $fardoctor_datamer_data[0]->id, 'tank_id' => $tank->id))->result();
-          $data[] = array(
-            's_no' => $i,
-            'name' => $tank->name,
-            'canister' => $canister_data,
-          );
-          $i++;
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        if (!empty($doctor_data)) {
+            $tank_data = $this->db->get_where('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id))->result();
+            $data = [];
+            $i = 1;
+            foreach ($tank_data as $tank) {
+                $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $fardoctor_datamer_data[0]->id, 'tank_id' => $tank->id))->result();
+                $data[] = array(
+                    's_no' => $i,
+                    'name' => $tank->name,
+                    'canister' => $canister_data,
+                );
+                $i++;
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
-        $res = array(
-          'message' => "Success!",
-          'status' => 200,
-          'data' => $data
-        );
-        echo json_encode($res);
-      } else {
-        $res = array(
-          'message' => 'Permission Denied!',
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
+    }
+    public function add_doc_semen_tank()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $ip = $this->input->ip_address();
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $check = $this->db->get_where('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id, 'name' => $name))->result();
+                    if (empty($check)) {
+                        $data = array(
+                            'doctor_id' => $doctor_data[0]->id,
+                            'name' => $name,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_doctor_tank", $data, 1);
+                        //---- create 6 canister ----
+                        for ($i = 0; $i < 6; $i++) {
+                            $data = array(
+                                'doctor_id' => $farmer_data[0]->id,
+                                'tank_id' => $last_id,
+                                'date' => $cur_date
+                            );
+                            $last_id2 = $this->base_model->insert_table("tbl_doctor_canister", $data, 1);
+                        }
+                        $res = array(
+                            'message' => "Record Successfully Inserted!",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => "Tank name already exist!",
+                            'status' => 201,
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //==============================================================CANISTER==============================================//
+    public function update_doc_canister()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
+            $this->form_validation->set_rules('company_name', 'company_name', 'xss_clean|trim');
+            $this->form_validation->set_rules('no_of_units', 'no_of_units', 'xss_clean|trim');
+            $this->form_validation->set_rules('milk_production_of_mother', 'milk_production_of_mother', 'xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $canister_id = $this->input->post('canister_id');
+                $bull_name = $this->input->post('bull_name');
+                $company_name = $this->input->post('company_name');
+                $no_of_units = $this->input->post('no_of_units');
+                $milk_production_of_mother = $this->input->post('milk_production_of_mother');;
+                $ip = $this->input->ip_address();
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $data = [];
+                    $data_update = array(
+                        'bull_name' => $bull_name,
+                        'company_name' => $company_name,
+                        'no_of_units' => $no_of_units,
+                        'milk_production_of_mother' => $milk_production_of_mother,
+                        'date' => $cur_date
+                    );
+                    $this->db->where('id', $canister_id);
+                    $zapak = $this->db->update('tbl_doctor_canister', $data_update);
+                    $res = array(
+                        'message' => "Record Successfully Updated!",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
     }
 }
   //=========================================END DoctorController======================================//
