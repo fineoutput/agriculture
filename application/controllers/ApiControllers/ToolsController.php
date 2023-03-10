@@ -523,7 +523,7 @@ class ToolsController extends CI_Controller
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('doctor_id', 'doctor_id', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('is_expert', 'is_expert', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('is_expert', 'is_expert', 'xss_clean|trim');
             $this->form_validation->set_rules('reason', 'reason', 'xss_clean|trim');
             $this->form_validation->set_rules('description', 'description', 'xss_clean|trim');
             $this->form_validation->set_rules('fees', 'fees', 'xss_clean|trim');
