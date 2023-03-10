@@ -161,6 +161,7 @@ class CI_Login
                                 'is_active' => 1,
                                 'is_approved' => 0,
                                 'is_expert' => 0,
+                                'account' => 0,
                                 'latitude' => 26.9029328,
                                 'longitude' => 75.7380032,
                                 'date' => $cur_date
