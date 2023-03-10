@@ -236,7 +236,7 @@ class DoctorController extends CI_Controller
             $data = [];
             foreach ($txn_data->result() as $txn) {
                 $newDate = new DateTime($txn->date);
-                $data = array(
+                $data[] = array(
                     'req_id' => $txn->req_id,
                     'cr' => $txn->cr,
                     'date' => $newDate->format('d/m/Y'),
