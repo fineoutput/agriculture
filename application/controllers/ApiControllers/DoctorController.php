@@ -383,11 +383,12 @@ class DoctorController extends CI_Controller
         $authentication = $headers['Authentication'];
         $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
+        $cur_date = date("Y-m-d");
         if (!empty($doctor_data)) {
             $this->db->select('*');
             $this->db->from('tbl_doctor_req');
             $this->db->where('doctor_id', $doctor_data[0]->id);
-            $this->db->where("(date >= " . now() . ")");
+            $this->db->where("(date >= " .$cur_date . ")");
             $today_req = $this->db->count_all_result();
             $data = [];
             $data = array(
