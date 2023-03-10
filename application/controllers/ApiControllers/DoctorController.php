@@ -16,7 +16,7 @@ class DoctorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
             $RequestData = $this->db->order_by('id', 'desc')->get_where('tbl_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'is_expert' => $doctor_data[0]->is_expert, 'payment_status' => 1))->result();
@@ -103,7 +103,7 @@ class DoctorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
             $data_update = array(
@@ -139,7 +139,7 @@ class DoctorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
             if (!empty($doctor_data[0]->aadhar_image)) {
@@ -188,7 +188,7 @@ class DoctorController extends CI_Controller
             $this->form_validation->set_rules('expertise', 'expertise', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $expertise = $this->input->post('expertise');
-                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
                     $data_update = array('expertise' => $expertise,);
                     $this->db->where('id', $doctor_data[0]->id);
@@ -215,6 +215,42 @@ class DoctorController extends CI_Controller
         } else {
             $res = array(
                 'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //============================================= PaymentInfo ============================================//
+    public function PaymentInfo()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($doctor_data)) {
+            $this->db->select('*');
+            $this->db->from('tbl_payment_txn');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->where('req_id is NOT NULL', NULL, FALSE);
+            $txn_data = $this->db->get();
+            $data=[];
+            foreach ($txn_data->result() as $txn) {
+                $newDate = new DateTime($txn->date);
+                $data = array(
+                    'req_id' => $txn->req_id,
+                    'cr' => $txn->cr,
+                    'date' => $newDate->format('d/m/Y'),
+                );
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
                 'status' => 201
             );
             echo json_encode($res);
