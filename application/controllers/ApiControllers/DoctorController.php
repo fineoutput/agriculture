@@ -233,7 +233,7 @@ class DoctorController extends CI_Controller
             $this->db->where('doctor_id', $doctor_data[0]->id);
             $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $txn_data = $this->db->get();
-            $data=[];
+            $data = [];
             foreach ($txn_data->result() as $txn) {
                 $newDate = new DateTime($txn->date);
                 $data = array(
@@ -246,6 +246,7 @@ class DoctorController extends CI_Controller
                 'message' => "Success!",
                 'status' => 200,
                 'data' => $data,
+                'account' => $doctor_data[0]->account,
             );
             echo json_encode($res);
         } else {
