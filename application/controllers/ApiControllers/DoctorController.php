@@ -146,7 +146,7 @@ class DoctorController extends CI_Controller
             } else {
                 $image = '';
             }
-            $data= array(
+            $data = array(
                 'name' => $doctor_data[0]->name,
                 'district' => $doctor_data[0]->district,
                 'city' => $doctor_data[0]->city,
@@ -170,6 +170,50 @@ class DoctorController extends CI_Controller
         } else {
             $res = array(
                 'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //====================================================== UpdateProfile ================================================//
+    public function UpdateProfile()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('expertise', 'expertise', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $expertise = $this->input->post('expertise');
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $data_update = array('expertise' => $expertise,);
+                    $this->db->where('id', $doctor_data[0]->id);
+                    $zapak = $this->db->update('tbl_doctor', $data_update);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
