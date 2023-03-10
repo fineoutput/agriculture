@@ -46,6 +46,7 @@
                                             <th>Description</th>
                                             <th>Fees</th>
                                             <th>Images</th>
+                                            <th>Type</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -86,6 +87,12 @@
                                                     <?php if ($data->image5 != "") {  ?>
                                                         <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=50 width=80 src="<?php echo base_url() . $data->image5 ?>"></a>
                                                     <?php }  ?>
+                                                </td>
+                                                <td><?php if ($data->is_expert == 0) { ?>
+                                                        <p class="label bg-yellow">No</p>
+                                                    <?php } else { ?>
+                                                        <p class="label bg-green">Yes</p>
+                                                    <?php    }   ?>
                                                 </td>
                                                 <td><?php if ($data->status == 0) { ?>
                                                         <p class="label bg-yellow">Pending</p>

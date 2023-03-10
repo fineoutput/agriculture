@@ -65,7 +65,7 @@ class Doctor extends CI_finecontrol
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
-            $this->db->from('tbl_expert_doctor_req');
+            $this->db->from('tbl_doctor_req');
             $this->db->where('payment_status', 1);
             $data['request_data'] = $this->db->get();
             $this->load->view('admin/common/header_view', $data);
