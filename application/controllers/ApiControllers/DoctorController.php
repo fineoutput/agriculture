@@ -411,6 +411,7 @@ class DoctorController extends CI_Controller
                 'total_req' => $total_req,
                 'today_income' => $query->row()->cr,
                 'total_income' => $query2->row()->cr,
+                'is_expert' =>$doctor_data[0]->is_expert
             );
             $res = array(
                 'message' => "Success!",
