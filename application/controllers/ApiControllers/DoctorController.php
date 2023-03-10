@@ -330,21 +330,30 @@ class DoctorController extends CI_Controller
                         echo json_encode($res);
                         die();
                     }
-                    date_default_timezone_set("Asia/Calcutta");
-                    $cur_date = date("Y-m-d H:i:s");
-                    $data_insert = array(
-                        'doctor_id' => $doctor_data[0]->id,
-                        'available' => $doctor_data[0]->account,
-                        'amount' => $amount,
-                        'status' => 0,
-                        'date' => $cur_date
-                    );
-                    $last_id = $this->base_model->insert_table("tbl_payments_req", $data_insert, 1);
-                    $res = array(
-                        'message' => "Success",
-                        'status' => 200,
-                    );
-                    echo json_encode($res);
+                    $reqData = $this->db->get_where('tbl_payments_req', array('status' => 0, 'doctor_id' => $doctor_data[0]->id,))->result();
+                    if (empty($reqData)) {
+                        date_default_timezone_set("Asia/Calcutta");
+                        $cur_date = date("Y-m-d H:i:s");
+                        $data_insert = array(
+                            'doctor_id' => $doctor_data[0]->id,
+                            'available' => $doctor_data[0]->account,
+                            'amount' => $amount,
+                            'status' => 0,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_payments_req", $data_insert, 1);
+                        $res = array(
+                            'message' => "Success",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => "Can not submit more them one request!",
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                    }
                 } else {
                     $res = array(
                         'message' => 'Permission Denied!',
