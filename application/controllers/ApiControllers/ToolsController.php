@@ -402,7 +402,6 @@ class ToolsController extends CI_Controller
                                 'degree' => $doctor->degree,
                                 'phone' => $doctor->phone,
                                 'type' => $doctor->type,
-                                'is_expert' => $doctor->is_expert,
                                 'image' => $image
                             );
                             // }
@@ -481,7 +480,6 @@ class ToolsController extends CI_Controller
                                 'district' => $doctor->district,
                                 'city' => $doctor->city,
                                 'state' => $doctor->state,
-                                'is_expert' => $doctor->is_expert,
                                 'image' => $image
                             );
                             // }
@@ -696,9 +694,14 @@ class ToolsController extends CI_Controller
                     $data = [];
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
+                    if ($is_expert == "Yes") {
+                        $type = 1;
+                    } else {
+                        $type = 0;
+                    }
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
-                        'is_expert' => $is_expert,
+                        'is_expert' => $type,
                         'doctor_id' => $doctor_id,
                         'reason' => $reason,
                         'description' => $description,
