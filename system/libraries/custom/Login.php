@@ -168,6 +168,7 @@ class CI_Login
                             $last_id2 = $this->CI->base_model->insert_table("tbl_doctor", $data_insert, 1);
                             $data = array(
                                 'name' => $temp_data[0]->name,
+                                'is_expert' => 0,
                                 'auth' => $auth,
                             );
                             $respone['status'] = 200;
@@ -382,6 +383,7 @@ class CI_Login
                             $data = array(
                                 'name' => $user_data[0]->name,
                                 'auth' => $user_data[0]->auth,
+                                'is_expert' => $user_data[0]->is_expert,
                             );
                             $respone['status'] = 200;
                             $respone['message'] = 'Login Successfully';
