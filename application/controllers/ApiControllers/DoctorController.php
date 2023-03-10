@@ -232,6 +232,8 @@ class DoctorController extends CI_Controller
             $this->db->from('tbl_payment_txn');
             $this->db->where('doctor_id', $doctor_data[0]->id);
             $this->db->where('req_id is NOT NULL', NULL, FALSE);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit(20);
             $txn_data = $this->db->get();
             $data = [];
             foreach ($txn_data->result() as $txn) {
@@ -247,6 +249,55 @@ class DoctorController extends CI_Controller
                 'status' => 200,
                 'data' => $data,
                 'account' => $doctor_data[0]->account,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //============================= AdminPaymentInfo =====================================//
+    public function AdminPaymentInfo()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($doctor_data)) {
+            $this->db->select('*');
+            $this->db->from('tbl_payments_req');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit(20);
+            $txn_data = $this->db->get();
+            $data = [];
+            foreach ($txn_data->result() as $txn) {
+                $newDate = new DateTime($txn->date);
+                if ($txn->status == 0) {
+                    $status = 'Pending';
+                    $bg_color = '#65bcd7';
+                } elseif ($order->status == 1) {
+                    $status = 'Completed';
+                    $bg_color = '#139c49';
+                } elseif ($order->status == 2) {
+                    $status = 'Rejected';
+                    $bg_color = '#dc4c64';
+                }
+                $data[] = array(
+                    'req_id' => $txn->id,
+                    'amount' => $txn->amount,
+                    'status' => $status,
+                    'bg_color' => $bg_color,
+                    'date' => $newDate->format('d/m/Y'),
+                );
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
             );
             echo json_encode($res);
         } else {
