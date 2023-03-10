@@ -427,5 +427,38 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //------------------------------Semen Management ---------------
+    public function doc_semen_tank()
+    {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+      if (!empty($doctor_data)) {
+        $tank_data = $this->db->get_where('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id))->result();
+        $data = [];
+        $i = 1;
+        foreach ($tank_data as $tank) {
+          $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $fardoctor_datamer_data[0]->id, 'tank_id' => $tank->id))->result();
+          $data[] = array(
+            's_no' => $i,
+            'name' => $tank->name,
+            'canister' => $canister_data,
+          );
+          $i++;
+        }
+        $res = array(
+          'message' => "Success!",
+          'status' => 200,
+          'data' => $data
+        );
+        echo json_encode($res);
+      } else {
+        $res = array(
+          'message' => 'Permission Denied!',
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    }
 }
   //=========================================END DoctorController======================================//
