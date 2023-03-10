@@ -376,5 +376,36 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================= HomeData =====================================//
+    public function HomeData()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($doctor_data)) {
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->where("(date >= " . now() . ")");
+            $today_req = $this->db->count_all_result();
+            $data = [];
+            $data = array(
+                'today_req' => $today_req,
+            );
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //=========================================END DoctorController======================================//
