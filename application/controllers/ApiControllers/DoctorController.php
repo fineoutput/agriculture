@@ -19,7 +19,7 @@ class DoctorController extends CI_Controller
         $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
-            $RequestData = $this->db->order_by('id', 'desc')->get_where('tbl_expert_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'payment_status' => 1))->result();
+            $RequestData = $this->db->order_by('id', 'desc')->get_where('tbl_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'is_expert' => $doctor_data[0]->is_expert, 'payment_status' => 1))->result();
             $data = [];
             if (!empty($RequestData)) {
                 foreach ($RequestData as $request) {
