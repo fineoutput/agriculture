@@ -133,5 +133,47 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================================= GetProfile ============================================//
+    public function GetProfile()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($doctor_data)) {
+            if (!empty($doctor_data[0]->aadhar_image)) {
+                $image = base_url() . $doctor_data[0]->aadhar_image;
+            } else {
+                $image = '';
+            }
+            $data= array(
+                'name' => $doctor_data[0]->name,
+                'district' => $doctor_data[0]->district,
+                'city' => $doctor_data[0]->city,
+                'state' => $doctor_data[0]->state,
+                'phone' => $doctor_data[0]->phone,
+                'email' => $doctor_data[0]->email,
+                'type' => $doctor_data[0]->type,
+                'degree' => $doctor_data[0]->degree,
+                'experience' => $doctor_data[0]->experience,
+                'qualification' => $doctor_data[0]->qualification,
+                'aadhar_image' => $image,
+                'is_expert' => $doctor_data[0]->is_expert,
+                'expertise' => $doctor_data[0]->expertise,
+            );
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //=========================================END DoctorController======================================//
