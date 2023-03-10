@@ -711,6 +711,24 @@ class ToolsController extends CI_Controller
                         'date' => $cur_date
                     );
                     $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
+                    $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
+                    //------ create amount txn in the table -------------
+                    if (!empty($docData[0]->commission)) {
+                        $amt = $fees * $docData[0]->commission / 100;
+                        $data2 = array(
+                            'main' => $last_id,
+                            'doctor_id' => $doctor_id,
+                            'cr' => $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update doctor account ------
+                        $data_update = array(
+                            'account' => $docData[0]->account + $amt,
+                        );
+                        $this->db->where('id', $doctor_id);
+                        $zapak = $this->db->update('tbl_doctor', $data_update);
+                    }
                     $send = array(
                         'order_id' => $last_id,
                         'amount' => $fees,
