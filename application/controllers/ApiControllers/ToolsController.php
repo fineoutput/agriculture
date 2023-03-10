@@ -704,7 +704,7 @@ class ToolsController extends CI_Controller
                         'is_expert' => $type,
                         'doctor_id' => $doctor_id,
                         'reason' => $reason,
-                        'description' => $description,
+                        'description' => $is_expert,
                         'fees' => $fees,
                         'payment_status' => 1,
                         'status' => 0,
