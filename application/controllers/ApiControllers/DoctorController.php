@@ -64,6 +64,7 @@ class DoctorController extends CI_Controller
                         'farmer_village' => $farData[0]->village,
                         'reason' => $request->reason,
                         'description' => $request->description,
+                        'is_expert' => $request->is_expert,
                         'fees' => $request->fees,
                         'image1' => $image1,
                         'image2' => $image2,
