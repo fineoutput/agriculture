@@ -514,7 +514,7 @@ class ToolsController extends CI_Controller
         }
     }
     //====================================================== EXPERT ADVICE ================================================//
-    public function request_expert_doctor()
+    public function request_doctor()
     {
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
@@ -523,11 +523,13 @@ class ToolsController extends CI_Controller
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('doctor_id', 'doctor_id', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('reason', 'reason', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('fees', 'fees', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('is_expert', 'is_expert', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('reason', 'reason', 'xss_clean|trim');
+            $this->form_validation->set_rules('description', 'description', 'xss_clean|trim');
+            $this->form_validation->set_rules('fees', 'fees', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $doctor_id = $this->input->post('doctor_id');
+                $is_expert = $this->input->post('is_expert');
                 $reason = $this->input->post('reason');
                 $description = $this->input->post('description');
                 $fees = $this->input->post('fees');
@@ -694,6 +696,7 @@ class ToolsController extends CI_Controller
                     $cur_date = date("Y-m-d H:i:s");
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
+                        'is_expert' => $is_expert,
                         'doctor_id' => $doctor_id,
                         'reason' => $reason,
                         'description' => $description,
@@ -707,7 +710,7 @@ class ToolsController extends CI_Controller
                         'image5' => $nnnn5,
                         'date' => $cur_date
                     );
-                    $last_id = $this->base_model->insert_table("tbl_expert_doctor_req", $data, 1);
+                    $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
                     $send = array(
                         'order_id' => $last_id,
                         'amount' => $fees,
