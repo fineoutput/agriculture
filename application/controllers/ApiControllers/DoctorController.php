@@ -308,5 +308,64 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================= DocReqPayment =====================================//
+    public function DocReqPayment()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('amount', 'amount', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $amount = $this->input->post('amount');
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    if ($amount > $doctor_data[0]->account) {
+                        $res = array(
+                            'message' => 'Amount should be less than to your wallet amount!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                        die();
+                    }
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $data_insert = array(
+                        'doctor_id' => $doctor_data[0]->id,
+                        'available' => $doctor_data[0]->account,
+                        'amount' => $amount,
+                        'status' => 0,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_payments_req", $data_insert, 1);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //=========================================END DoctorController======================================//
