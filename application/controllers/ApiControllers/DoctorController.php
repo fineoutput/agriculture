@@ -438,7 +438,7 @@ class DoctorController extends CI_Controller
             $data = [];
             $i = 1;
             foreach ($tank_data as $tank) {
-                $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $fardoctor_datamer_data[0]->id, 'tank_id' => $tank->id))->result();
+                $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id' => $tank->id))->result();
                 $data[] = array(
                     's_no' => $i,
                     'name' => $tank->name,
