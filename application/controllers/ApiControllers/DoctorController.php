@@ -390,9 +390,27 @@ class DoctorController extends CI_Controller
             $this->db->where('doctor_id', $doctor_data[0]->id);
             $this->db->like("date", $cur_date);
             $today_req = $this->db->count_all_results();
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $total_req = $this->db->count_all_results();
+            $this->db->select_sum('cr');
+            $this->db->from('tbl_payment_txn');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->where('req_id is NOT NULL', NULL, FALSE);
+            $this->db->like("date", $cur_date);
+            $query = $this->db->get();
+            $this->db->select_sum('cr');
+            $this->db->from('tbl_payment_txn');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->like("date", $cur_date);
+            $query2 = $this->db->get();
             $data = [];
             $data = array(
                 'today_req' => $today_req,
+                'total_req' => $total_req,
+                'today_income' => $query->row()->cr,
+                'total_income' => $query2->row()->cr,
             );
             $res = array(
                 'message' => "Success!",
