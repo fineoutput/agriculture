@@ -109,7 +109,7 @@ class DoctorController extends CI_Controller
                 'status' => 1,
             );
             $this->db->where('doctor_id', $doctor_data[0]->id);
-            $this->db->where('is_export', $doctor_data[0]->is_export);
+            $this->db->where('is_expert', $doctor_data[0]->is_expert);
             $this->db->where('id', $id);
             $zapak = $this->db->update('tbl_doctor_req', $data_update);
             if (!empty($zapak)) {
