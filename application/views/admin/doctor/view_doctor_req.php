@@ -42,11 +42,11 @@
                                             <th>Farmer Number</th>
                                             <th>Doctor Name</th>
                                             <th>Doctor Number</th>
+                                            <th>Type</th>
                                             <th>Reason</th>
                                             <th>Description</th>
                                             <th>Fees</th>
                                             <th>Images</th>
-                                            <th>Type</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -68,6 +68,12 @@
                                                 <td><?php echo $farmer_data->phone ?></td>
                                                 <td><?php echo $doctor_data->name ?></td>
                                                 <td><?php echo $doctor_data->phone ?></td>
+                                                <td><?php if ($data->is_expert == 0) { ?>
+                                                        <p class="label bg-yellow">No</p>
+                                                    <?php } else { ?>
+                                                        <p class="label bg-green">Yes</p>
+                                                    <?php    }   ?>
+                                                </td>
                                                 <td><?php echo $data->reason ?></td>
                                                 <td><?php echo $data->description ?></td>
                                                 <td><?php echo $data->fees ?></td>
@@ -79,21 +85,16 @@
                                                         <a href="<?php echo base_url() . $data->image2 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image2" height=50 width=80 src="<?php echo base_url() . $data->image2 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image3 != "") {  ?>
-                                                       <a href="<?php echo base_url() . $data->image3 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=50 width=80 src="<?php echo base_url() . $data->image3 ?>"></a>
+                                                        <a href="<?php echo base_url() . $data->image3 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=50 width=80 src="<?php echo base_url() . $data->image3 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image4 != "") {  ?>
-                                                       <a href="<?php echo base_url() . $data->image4 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=50 width=80 src="<?php echo base_url() . $data->image4 ?>"></a>
+                                                        <a href="<?php echo base_url() . $data->image4 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=50 width=80 src="<?php echo base_url() . $data->image4 ?>"></a>
                                                     <?php }  ?>
                                                     <?php if ($data->image5 != "") {  ?>
                                                         <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=50 width=80 src="<?php echo base_url() . $data->image5 ?>"></a>
                                                     <?php }  ?>
                                                 </td>
-                                                <td><?php if ($data->is_expert == 0) { ?>
-                                                        <p class="label bg-yellow">No</p>
-                                                    <?php } else { ?>
-                                                        <p class="label bg-green">Yes</p>
-                                                    <?php    }   ?>
-                                                </td>
+
                                                 <td><?php if ($data->status == 0) { ?>
                                                         <p class="label bg-yellow">Pending</p>
                                                     <?php } else { ?>
