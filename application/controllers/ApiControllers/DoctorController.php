@@ -388,7 +388,7 @@ class DoctorController extends CI_Controller
             $this->db->select('*');
             $this->db->from('tbl_doctor_req');
             $this->db->where('doctor_id', $doctor_data[0]->id);
-            $this->db->where("(date >= " .$cur_date . ")");
+            $this->db->like("date", $cur_date);
             $today_req = $this->db->count_all_results();
             $data = [];
             $data = array(
