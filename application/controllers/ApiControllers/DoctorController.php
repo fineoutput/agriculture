@@ -487,7 +487,7 @@ class DoctorController extends CI_Controller
                         //---- create 6 canister ----
                         for ($i = 0; $i < 6; $i++) {
                             $data = array(
-                                'doctor_id' => $farmer_data[0]->id,
+                                'doctor_id' => $doctor_data[0]->id,
                                 'tank_id' => $last_id,
                                 'date' => $cur_date
                             );
