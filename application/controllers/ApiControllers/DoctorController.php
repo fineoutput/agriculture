@@ -349,7 +349,7 @@ class DoctorController extends CI_Controller
                         echo json_encode($res);
                     } else {
                         $res = array(
-                            'message' => "Can not submit more them one request!",
+                            'message' => "Can not submit more than one request!",
                             'status' => 201
                         );
                         echo json_encode($res);
