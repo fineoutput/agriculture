@@ -694,17 +694,12 @@ class ToolsController extends CI_Controller
                     $data = [];
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
-                    if ($is_expert == "Yes") {
-                        $type = 1;
-                    } else {
-                        $type = 0;
-                    }
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
                         'is_expert' => $type,
                         'doctor_id' => $doctor_id,
                         'reason' => $reason,
-                        'description' => $is_expert,
+                        'description' => $description,
                         'fees' => $fees,
                         'payment_status' => 1,
                         'status' => 0,
