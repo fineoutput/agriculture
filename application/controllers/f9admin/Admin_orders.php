@@ -189,7 +189,7 @@ class Admin_orders extends CI_finecontrol
                 }
             }
             if ($t == "reject") {
-                $data_update = array('order_status' => 5);
+                $data_update = array('order_status' => 6);
                 $this->db->where('is_admin', 1); //admin orders
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_order1', $data_update);
