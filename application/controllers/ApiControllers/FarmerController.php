@@ -450,7 +450,7 @@ class FarmerController extends CI_Controller
 
                     //------ create amount txn in the table -------------
                     if (!empty($vendor_data[0]->commission)) {
-                        $amt = $fees * $vendor_data[0]->commission / 100;
+                        $amt = $total * $vendor_data[0]->commission / 100;
                         $data2 = array(
                             'main_id' => $order1_id,
                             'vendor_id' => $vendor_id,
