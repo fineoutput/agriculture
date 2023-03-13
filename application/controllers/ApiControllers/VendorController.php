@@ -495,7 +495,7 @@ class VendorController extends CI_Controller
                         $this->db->where('id', $id);
                         $zapak = $this->db->update('tbl_order1', $data_update);
                     }
-                    if ($t == "reject") {
+                    if ($status == "reject") {
                         $data_update = array('order_status' => 5);
                         $this->db->where('vendor_id', $vendor_data[0]->id); //vendor orders
                         $this->db->where('is_admin', 0); //vendor orders
