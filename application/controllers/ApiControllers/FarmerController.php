@@ -445,6 +445,25 @@ class FarmerController extends CI_Controller
                 }
                 //--- Delete Cart -----------
                 $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
+                $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $vendor_id))->result();
+
+                //------ create amount txn in the table -------------
+                if (!empty($vendor_data[0]->commission)) {
+                    $amt = $fees * $vendor_data[0]->commission / 100;
+                    $data2 = array(
+                        'main_id' => $order1_id,
+                        'vendor_id' => $vendor_id,
+                        'cr' => $amt,
+                        'date' => $cur_date
+                    );
+                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                    //------ update vendor account ------
+                    $data_update = array(
+                        'account' => $vendor_data[0]->account + $amt,
+                    );
+                    $this->db->where('id', $vendor_id);
+                    $zapak = $this->db->update('tbl_vendor', $data_update);
+                }
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
                 $send = array(
                     'count' => $count,
@@ -484,7 +503,7 @@ class FarmerController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $orderData = $this->db->order_by('id','desc')->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $orderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             $data = [];
             $total = 0;
             if (!empty($orderData)) {
@@ -567,7 +586,7 @@ class FarmerController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $RequestData = $this->db->order_by('id','desc')->get_where('tbl_doctor_req', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $RequestData = $this->db->order_by('id', 'desc')->get_where('tbl_doctor_req', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             $data = [];
             if (!empty($RequestData)) {
                 foreach ($RequestData as $request) {
