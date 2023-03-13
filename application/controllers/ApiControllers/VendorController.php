@@ -510,7 +510,7 @@ class VendorController extends CI_Controller
                             $this->db->where('id', $data->product_id);
                             $pro_data = $this->db->get()->row();
                             if (!empty($pro_data)) {
-                                $update_inv = $pro_data->inventory + $data->quantity;
+                                $update_inv = $pro_data->inventory + $data->qty;
                                 $data_update = array('inventory' => $update_inv);
                                 $this->db->where('id', $pro_data->id);
                                 $this->db->where('added_by', $vendor_data[0]->id); //vendor orders

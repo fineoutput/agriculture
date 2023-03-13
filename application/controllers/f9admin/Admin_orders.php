@@ -204,7 +204,7 @@ class Admin_orders extends CI_finecontrol
                     $this->db->where('id', $data->product_id);
                     $pro_data = $this->db->get()->row();
                     if (!empty($pro_data)) {
-                        $update_inv = $pro_data->inventory + $data->quantity;
+                        $update_inv = $pro_data->inventory + $data->qty;
                         $data_update = array('inventory' => $update_inv);
                         $this->db->where('id', $pro_data->id);
                         $zapak2 = $this->db->update('tbl_products', $data_update);
