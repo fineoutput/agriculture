@@ -26,6 +26,42 @@ class VendorController extends CI_Controller
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                        $bg_color = '#65bcd7';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                        $bg_color = '#3b71ca';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                        $bg_color = '#139c49';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                        $bg_color = '#dc4c64';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                        $bg_color = '#dc4c64';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order2->product_name,
+                            'image' => $image,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
+                        );
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'farmer_name' => $farData[0]->name,
@@ -35,6 +71,9 @@ class VendorController extends CI_Controller
                         'final_amount' => $order->final_amount,
                         'pro_count' => $pro_count,
                         'date' => $newDate->format('d/m/Y'),
+                        'status' => $status,
+                        'bg_color' => $bg_color,
+                        'details' => $details
                     );
                 }
                 $res = array(
@@ -74,6 +113,42 @@ class VendorController extends CI_Controller
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                        $bg_color = '#65bcd7';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                        $bg_color = '#3b71ca';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                        $bg_color = '#139c49';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                        $bg_color = '#dc4c64';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                        $bg_color = '#dc4c64';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order2->product_name,
+                            'image' => $image,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
+                        );
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'farmer_name' => $farData[0]->name,
@@ -83,6 +158,9 @@ class VendorController extends CI_Controller
                         'final_amount' => $order->final_amount,
                         'pro_count' => $pro_count,
                         'date' => $newDate->format('d/m/Y'),
+                        'status' => $status,
+                        'bg_color' => $bg_color,
+                        'details' => $details
                     );
                 }
                 $res = array(
@@ -122,6 +200,43 @@ class VendorController extends CI_Controller
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                        $bg_color = '#65bcd7';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                        $bg_color = '#3b71ca';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                        $bg_color = '#139c49';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                        $bg_color = '#dc4c64';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                        $bg_color = '#dc4c64';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order2->product_name,
+                            'image' => $image,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
+
+                        );
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'farmer_name' => $farData[0]->name,
@@ -131,6 +246,9 @@ class VendorController extends CI_Controller
                         'final_amount' => $order->final_amount,
                         'pro_count' => $pro_count,
                         'date' => $newDate->format('d/m/Y'),
+                        'status' => $status,
+                        'bg_color' => $bg_color,
+                        'details' => $details
                     );
                 }
                 $res = array(
@@ -170,6 +288,42 @@ class VendorController extends CI_Controller
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                        $bg_color = '#65bcd7';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                        $bg_color = '#3b71ca';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                        $bg_color = '#139c49';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                        $bg_color = '#dc4c64';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                        $bg_color = '#dc4c64';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order2->product_name,
+                            'image' => $image,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
+                        );
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'farmer_name' => $farData[0]->name,
@@ -179,6 +333,9 @@ class VendorController extends CI_Controller
                         'final_amount' => $order->final_amount,
                         'pro_count' => $pro_count,
                         'date' => $newDate->format('d/m/Y'),
+                        'status' => $status,
+                        'bg_color' => $bg_color,
+                        'details' => $details
                     );
                 }
                 $res = array(
@@ -218,6 +375,42 @@ class VendorController extends CI_Controller
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
+                    if ($order->order_status == 1) {
+                        $status = 'Pending';
+                        $bg_color = '#65bcd7';
+                    } elseif ($order->order_status == 2) {
+                        $status = 'Accepted';
+                        $bg_color = '#3b71ca';
+                    } elseif ($order->order_status == 3) {
+                        $status = 'Dispatched';
+                        $bg_color = '#e4a11b';
+                    } elseif ($order->order_status == 4) {
+                        $status = 'Completed';
+                        $bg_color = '#139c49';
+                    } elseif ($order->order_status == 5) {
+                        $status = 'Rejected';
+                        $bg_color = '#dc4c64';
+                    } elseif ($order->order_status == 6) {
+                        $status = 'Cancelled';
+                        $bg_color = '#dc4c64';
+                    }
+                    $details = [];
+                    $orderDetails = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->result();
+                    foreach ($orderDetails as $order2) {
+                        if (!empty($order2->image)) {
+                            $image = base_url() . $order2->image;
+                        } else {
+                            $image = '';
+                        }
+                        $details[] = array(
+                            'id' => $order2->id,
+                            'product_name' => $order2->product_name,
+                            'image' => $image,
+                            'qty' => $order2->qty,
+                            'selling_price' => $order2->selling_price,
+                            'total_amount' => $order2->total_amount,
+                        );
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'farmer_name' => $farData[0]->name,
@@ -227,6 +420,9 @@ class VendorController extends CI_Controller
                         'pro_count' => $pro_count,
                         'final_amount' => $order->final_amount,
                         'date' => $newDate->format('d/m/Y'),
+                        'status' => $status,
+                        'bg_color' => $bg_color,
+                        'details' => $details
                     );
                 }
                 $res = array(
@@ -251,54 +447,7 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //============================== OrderDetails ===============================//
-    public function OrderDetails($id)
-    {
-        $headers = apache_request_headers();
-        $authentication = $headers['Authentication'];
-        $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-        //----- Verify Auth --------
-        if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'id' => $id))->result();
-            $data = [];
-            if (!empty($OrderData)) {
-                $Order2Data = $this->db->get_where('tbl_order2', array('main_id' => $id))->result();
-                foreach ($Order2Data as $order) {
-                    if (!empty($order->image)) {
-                        $image = base_url() . $order->image;
-                    } else {
-                        $image = '';
-                    }
-                    $data[] = array(
-                        'pro_name' => $order->id,
-                        'pro_image' => $image,
-                        'qty' => $order->qty,
-                        'selling_price' => $order->selling_price,
-                        'total_amount' => $order->total_amount,
-                    );
-                }
-                $res = array(
-                    'message' => "Success!",
-                    'status' => 200,
-                    'data' => $data,
-                );
-                echo json_encode($res);
-            } else {
-                $res = array(
-                    'message' => "No Orders Found!",
-                    'status' => 201,
-                    'data' => [],
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Permission Denied!',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
-    }
+
     //========================== Update Order Status ===============================//
     public function UpdateOrderStatus()
     {
