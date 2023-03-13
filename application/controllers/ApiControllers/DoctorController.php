@@ -400,17 +400,27 @@ class DoctorController extends CI_Controller
             $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $this->db->like("date", $cur_date);
             $query = $this->db->get();
+            if (!empty($query->row()->cr)) {
+                $today_income = $query->row()->cr;
+            } else {
+                $today_income=0;
+            }
             $this->db->select_sum('cr');
             $this->db->from('tbl_payment_txn');
             $this->db->where('doctor_id', $doctor_data[0]->id);
             $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $query2 = $this->db->get();
+            if (!empty($query2->row()->cr)) {
+                $total_income = $query2->row()->cr;
+            } else {
+                $total_income=0;
+            }
             $data = [];
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
-                'today_income' => $query->row()->cr,
-                'total_income' => $query2->row()->cr,
+                'today_income' => $today_income,
+                'total_income' => $total_income,
                 'is_expert' => $doctor_data[0]->is_expert
             );
             $res = array(
