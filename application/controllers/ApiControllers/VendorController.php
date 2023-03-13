@@ -923,6 +923,7 @@ class VendorController extends CI_Controller
             $this->db->select_sum('cr');
             $this->db->from('tbl_payment_txn');
             $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $query2 = $this->db->get();
             $data = [];
             $data = array(
