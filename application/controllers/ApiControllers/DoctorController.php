@@ -403,7 +403,7 @@ class DoctorController extends CI_Controller
             $this->db->select_sum('cr');
             $this->db->from('tbl_payment_txn');
             $this->db->where('doctor_id', $doctor_data[0]->id);
-            $this->db->like("date", $cur_date);
+            $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $query2 = $this->db->get();
             $data = [];
             $data = array(
