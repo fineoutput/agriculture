@@ -582,7 +582,7 @@ class VendorController extends CI_Controller
                  'message' => "Success!",
                  'status' => 200,
                  'data' => $data,
-                 'account' => $doctor_data[0]->account,
+                 'account' => $vendor_data[0]->account,
              );
              echo json_encode($res);
          } else {
