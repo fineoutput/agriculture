@@ -462,8 +462,6 @@ class VendorController extends CI_Controller
             if ($this->form_validation->run() == true) {
                 $id = $this->input->post('id');
                 $status = $this->input->post('status');
-                date_default_timezone_set("Asia/Calcutta");
-                $cur_date = date("Y-m-d H:i:s");
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 //----- Verify Auth --------
                 if (!empty($vendor_data)) {
@@ -556,4 +554,160 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
+     //============================================= PaymentInfo ============================================//
+     public function PaymentInfo()
+     {
+         $headers = apache_request_headers();
+         $authentication = $headers['Authentication'];
+         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+         //----- Verify Auth --------
+         if (!empty($vendor_data)) {
+             $this->db->select('*');
+             $this->db->from('tbl_payment_txn');
+             $this->db->where('vendor_id', $vendor_data[0]->id);
+             $this->db->where('req_id is NOT NULL', NULL, FALSE);
+             $this->db->order_by('id', 'desc');
+             $this->db->limit(20);
+             $txn_data = $this->db->get();
+             $data = [];
+             foreach ($txn_data->result() as $txn) {
+                 $newDate = new DateTime($txn->date);
+                 $data[] = array(
+                     'req_id' => $txn->req_id,
+                     'cr' => $txn->cr,
+                     'date' => $newDate->format('d/m/Y'),
+                 );
+             }
+             $res = array(
+                 'message' => "Success!",
+                 'status' => 200,
+                 'data' => $data,
+                 'account' => $doctor_data[0]->account,
+             );
+             echo json_encode($res);
+         } else {
+             $res = array(
+                 'message' => 'Permission Denied!',
+                 'status' => 201
+             );
+             echo json_encode($res);
+         }
+     }
+     //============================= AdminPaymentInfo =====================================//
+     public function AdminPaymentInfo()
+     {
+         $headers = apache_request_headers();
+         $authentication = $headers['Authentication'];
+         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+         //----- Verify Auth --------
+         if (!empty($vendor_data)) {
+             $this->db->select('*');
+             $this->db->from('tbl_payments_req');
+             $this->db->where('vendor_id', $vendor_data[0]->id);
+             $this->db->order_by('id', 'desc');
+             $this->db->limit(20);
+             $txn_data = $this->db->get();
+             $data = [];
+             foreach ($txn_data->result() as $txn) {
+                 $newDate = new DateTime($txn->date);
+                 if ($txn->status == 0) {
+                     $status = 'Pending';
+                     $bg_color = '#65bcd7';
+                 } elseif ($order->status == 1) {
+                     $status = 'Completed';
+                     $bg_color = '#139c49';
+                 } elseif ($order->status == 2) {
+                     $status = 'Rejected';
+                     $bg_color = '#dc4c64';
+                 }
+                 $data[] = array(
+                     'req_id' => $txn->id,
+                     'amount' => $txn->amount,
+                     'status' => $status,
+                     'bg_color' => $bg_color,
+                     'date' => $newDate->format('d/m/Y'),
+                 );
+             }
+             $res = array(
+                 'message' => "Success!",
+                 'status' => 200,
+                 'data' => $data,
+             );
+             echo json_encode($res);
+         } else {
+             $res = array(
+                 'message' => 'Permission Denied!',
+                 'status' => 201
+             );
+             echo json_encode($res);
+         }
+     }
+     //============================= DocReqPayment =====================================//
+     public function VenReqPayment()
+     {
+         $this->load->helper(array('form', 'url'));
+         $this->load->library('form_validation');
+         $this->load->helper('security');
+         if ($this->input->post()) {
+             $headers = apache_request_headers();
+             $authentication = $headers['Authentication'];
+             $this->form_validation->set_rules('amount', 'amount', 'required|xss_clean|trim');
+             if ($this->form_validation->run() == true) {
+                 $amount = $this->input->post('amount');
+                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                 if (!empty($vendor_data)) {
+                     if ($amount > $vendor_data[0]->account) {
+                         $res = array(
+                             'message' => 'Amount should be less than to your wallet amount!',
+                             'status' => 201
+                         );
+                         echo json_encode($res);
+                         die();
+                     }
+                     $reqData = $this->db->get_where('tbl_payments_req', array('status' => 0, 'vendor_id' => $vendor_data[0]->id,))->result();
+                     if (empty($reqData)) {
+                         date_default_timezone_set("Asia/Calcutta");
+                         $cur_date = date("Y-m-d H:i:s");
+                         $data_insert = array(
+                             'vendor_id' => $vendor_data[0]->id,
+                             'available' => $vendor_data[0]->account,
+                             'amount' => $amount,
+                             'status' => 0,
+                             'date' => $cur_date
+                         );
+                         $last_id = $this->base_model->insert_table("tbl_payments_req", $data_insert, 1);
+                         $res = array(
+                             'message' => "Success",
+                             'status' => 200,
+                         );
+                         echo json_encode($res);
+                     } else {
+                         $res = array(
+                             'message' => "Can not submit more than one request!",
+                             'status' => 201
+                         );
+                         echo json_encode($res);
+                     }
+                 } else {
+                     $res = array(
+                         'message' => 'Permission Denied!',
+                         'status' => 201
+                     );
+                     echo json_encode($res);
+                 }
+             } else {
+                 $res = array(
+                     'message' => validation_errors(),
+                     'status' => 201
+                 );
+                 echo json_encode($res);
+             }
+         } else {
+             $res = array(
+                 'message' => 'Please Insert Data',
+                 'status' => 201
+             );
+             echo json_encode($res);
+         }
+     }
 }
