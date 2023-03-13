@@ -447,12 +447,11 @@ class FarmerController extends CI_Controller
                 $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
                 if ($is_admin == 0) {
                     $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $vendor_id))->result();
-
                     //------ create amount txn in the table -------------
                     if (!empty($vendor_data[0]->comission)) {
                         $amt = $total * $vendor_data[0]->comission / 100;
                         $data2 = array(
-                            'main_id' => $order1_id,
+                            'req_id' => $order1_id,
                             'vendor_id' => $vendor_id,
                             'cr' => $amt,
                             'date' => $cur_date

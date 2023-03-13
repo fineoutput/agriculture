@@ -716,7 +716,7 @@ class ToolsController extends CI_Controller
                     if (!empty($docData[0]->commission)) {
                         $amt = $fees * $docData[0]->commission / 100;
                         $data2 = array(
-                            'main_id' => $last_id,
+                            'req_id' => $last_id,
                             'doctor_id' => $doctor_id,
                             'cr' => $amt,
                             'date' => $cur_date
