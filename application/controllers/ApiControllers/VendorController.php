@@ -930,7 +930,6 @@ class VendorController extends CI_Controller
             $this->db->where('vendor_id', $vendor_data[0]->id);
             $this->db->where('req_id is NOT NULL', NULL, FALSE);
             $query2 = $this->db->get();
-            $query2 = $this->db->get();
             if (!empty($query2->row()->cr)) {
                 $total_income = $query2->row()->cr;
             } else {
@@ -976,17 +975,18 @@ class VendorController extends CI_Controller
             }
             $data = array(
                 'name' => $vendor_data[0]->name,
+                'shop_name' => $vendor_data[0]->shop_name,
+                'address' => $vendor_data[0]->address,
                 'district' => $vendor_data[0]->district,
                 'city' => $vendor_data[0]->city,
                 'state' => $vendor_data[0]->state,
+                'pincode' => $vendor_data[0]->pincode,
+                'commission' => $vendor_data[0]->comission,
+                'gst_no' => $vendor_data[0]->gst_no,
+                'aadhar_image' => $image,
+                'pan_number' => $vendor_data[0]->pan_number,
                 'phone' => $vendor_data[0]->phone,
                 'email' => $vendor_data[0]->email,
-                'pan_number' => $vendor_data[0]->pan_number,
-                'pincode' => $vendor_data[0]->pincode,
-                'address' => $vendor_data[0]->address,
-                'gst_no' => $vendor_data[0]->gst_no,
-                'commission' => $vendor_data[0]->comission,
-                'aadhar_image' => $image,
             );
             $res = array(
                 'message' => "Success!",
