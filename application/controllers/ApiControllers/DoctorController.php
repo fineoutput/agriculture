@@ -158,7 +158,7 @@ class DoctorController extends CI_Controller
                 'degree' => $doctor_data[0]->degree,
                 'experience' => $doctor_data[0]->experience,
                 'qualification' => $doctor_data[0]->qualification,
-                'commission' => $vendor_data[0]->commission,
+                'commission' => $doctor_data[0]->commission,
                 'aadhar_image' => $image,
                 'is_expert' => $doctor_data[0]->is_expert,
                 'expertise' => $doctor_data[0]->expertise,
