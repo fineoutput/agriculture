@@ -856,4 +856,98 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================= HomeData =====================================//
+    public function HomeData()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        $cur_date = date("Y-m-d");
+        if (!empty($vendor_data)) {
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('is_admin', 0);
+            $this->db->like("date", $cur_date);
+            $today_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 1);
+            $this->db->where('is_admin', 0);
+            $new_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 2);
+            $this->db->where('is_admin', 0);
+            $accepted_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 3);
+            $this->db->where('is_admin', 0);
+            $dispatched_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 4);
+            $this->db->where('is_admin', 0);
+            $completed_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 6);
+            $this->db->where('is_admin', 0);
+            $rejected_orders = $this->db->count_all_results();
+            //-------------
+            $this->db->select_sum('cr');
+            $this->db->from('tbl_payment_txn');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('req_id is NOT NULL', NULL, FALSE);
+            $this->db->like("date", $cur_date);
+            $query = $this->db->get();
+            //-------------
+            $this->db->select_sum('cr');
+            $this->db->from('tbl_payment_txn');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->like("date", $cur_date);
+            $query2 = $this->db->get();
+            $data = [];
+            $data = array(
+                'today_orders' => $today_orders,
+                'new_orders' => $new_orders,
+                'accepted_orders' => $accepted_orders,
+                'dispatched_orders' => $dispatched_orders,
+                'completed_orders' => $completed_orders,
+                'rejected_orders' => $rejected_orders,
+                'today_income' => $query->row()->cr,
+                'total_income' => $query2->row()->cr,
+            );
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
