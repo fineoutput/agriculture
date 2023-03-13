@@ -449,8 +449,8 @@ class FarmerController extends CI_Controller
                     $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $vendor_id))->result();
 
                     //------ create amount txn in the table -------------
-                    if (!empty($vendor_data[0]->commission)) {
-                        $amt = $total * $vendor_data[0]->commission / 100;
+                    if (!empty($vendor_data[0]->comission)) {
+                        $amt = $total * $vendor_data[0]->comission / 100;
                         $data2 = array(
                             'main_id' => $order1_id,
                             'vendor_id' => $vendor_id,
