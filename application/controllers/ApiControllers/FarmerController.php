@@ -445,24 +445,26 @@ class FarmerController extends CI_Controller
                 }
                 //--- Delete Cart -----------
                 $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
-                $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $vendor_id))->result();
+                if ($is_admin == 0) {
+                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $vendor_id))->result();
 
-                //------ create amount txn in the table -------------
-                if (!empty($vendor_data[0]->commission)) {
-                    $amt = $fees * $vendor_data[0]->commission / 100;
-                    $data2 = array(
-                        'main_id' => $order1_id,
-                        'vendor_id' => $vendor_id,
-                        'cr' => $amt,
-                        'date' => $cur_date
-                    );
-                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
-                    //------ update vendor account ------
-                    $data_update = array(
-                        'account' => $vendor_data[0]->account + $amt,
-                    );
-                    $this->db->where('id', $vendor_id);
-                    $zapak = $this->db->update('tbl_vendor', $data_update);
+                    //------ create amount txn in the table -------------
+                    if (!empty($vendor_data[0]->commission)) {
+                        $amt = $fees * $vendor_data[0]->commission / 100;
+                        $data2 = array(
+                            'main_id' => $order1_id,
+                            'vendor_id' => $vendor_id,
+                            'cr' => $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update vendor account ------
+                        $data_update = array(
+                            'account' => $vendor_data[0]->account + $amt,
+                        );
+                        $this->db->where('id', $vendor_id);
+                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                    }
                 }
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
                 $send = array(
