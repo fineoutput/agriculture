@@ -17,6 +17,7 @@ class Doctor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_doctor');
             $this->db->where('is_approved', 0);
+            $this->db->order_by('id', 'desc');
             $data['doctor_data'] = $this->db->get();
             $data['heading'] = "New";
             $this->load->view('admin/common/header_view', $data);
@@ -34,6 +35,7 @@ class Doctor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_doctor');
             $this->db->where('is_approved', 1);
+            $this->db->order_by('id', 'desc');
             $data['doctor_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $this->load->view('admin/common/header_view', $data);
@@ -50,6 +52,7 @@ class Doctor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_doctor');
             $this->db->where('is_approved', 2);
+            $this->db->order_by('id', 'desc');
             $data['doctor_data'] = $this->db->get();
             $data['heading'] = "Rejected";
             $this->load->view('admin/common/header_view', $data);
@@ -67,6 +70,7 @@ class Doctor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_doctor_req');
             $this->db->where('payment_status', 1);
+            $this->db->order_by('id', 'desc');
             $data['request_data'] = $this->db->get();
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/doctor/view_doctor_req');

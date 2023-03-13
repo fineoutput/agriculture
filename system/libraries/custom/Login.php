@@ -191,6 +191,7 @@ class CI_Login
                                 'aadhar_image' => $temp_data[0]->aadhar_image,
                                 'pan_number' => $temp_data[0]->pan_no,
                                 'gst_no' => $temp_data[0]->gst,
+                                'email' => $temp_data[0]->email,
                                 'auth' => $auth,
                                 'is_approved' => 0,
                                 'is_active' => 1,
@@ -381,11 +382,18 @@ class CI_Login
                                     die();
                                 }
                             }
-                            $data = array(
-                                'name' => $user_data[0]->name,
-                                'auth' => $user_data[0]->auth,
-                                'is_expert' => $user_data[0]->is_expert,
-                            );
+                            if ($type == 'doctor') {
+                                $data = array(
+                                    'name' => $user_data[0]->name,
+                                    'auth' => $user_data[0]->auth,
+                                    'is_expert' => $user_data[0]->is_expert,
+                                );
+                            } else {
+                                $data = array(
+                                    'name' => $user_data[0]->name,
+                                    'auth' => $user_data[0]->auth,
+                                );
+                            }
                             $respone['status'] = 200;
                             $respone['message'] = 'Login Successfully';
                             $respone['data'] = $data;

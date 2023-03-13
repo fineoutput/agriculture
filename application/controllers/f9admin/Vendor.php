@@ -17,6 +17,7 @@ class Vendor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_vendor');
             $this->db->where('is_approved', 0);
+            $this->db->order_by('id', 'desc');
             $data['vendor_data'] = $this->db->get();
             $data['heading'] = "New";
             $this->load->view('admin/common/header_view', $data);
@@ -34,6 +35,7 @@ class Vendor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_vendor');
             $this->db->where('is_approved', 1);
+            $this->db->order_by('id', 'desc');
             $data['vendor_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $this->load->view('admin/common/header_view', $data);
@@ -50,6 +52,7 @@ class Vendor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_vendor');
             $this->db->where('is_approved',2);
+            $this->db->order_by('id', 'desc');
             $data['vendor_data'] = $this->db->get();
             $data['heading'] = "Rejected";
             $this->load->view('admin/common/header_view', $data);
