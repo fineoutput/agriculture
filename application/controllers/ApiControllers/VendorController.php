@@ -961,4 +961,45 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //============================================= GetProfile ============================================//
+    public function GetProfile()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($vendor_data)) {
+            if (!empty($vendor_data[0]->aadhar_image)) {
+                $image = base_url() . $vendor_data[0]->aadhar_image;
+            } else {
+                $image = '';
+            }
+            $data = array(
+                'name' => $vendor_data[0]->name,
+                'district' => $vendor_data[0]->district,
+                'city' => $vendor_data[0]->city,
+                'state' => $vendor_data[0]->state,
+                'phone' => $vendor_data[0]->phone,
+                'email' => $vendor_data[0]->email,
+                'pan_number' => $vendor_data[0]->pan_number,
+                'pincode' => $vendor_data[0]->pincode,
+                'address' => $vendor_data[0]->address,
+                'gst_no' => $vendor_data[0]->gst_no,
+                'commission' => $vendor_data[0]->comission,
+                'aadhar_image' => $image,
+            );
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
