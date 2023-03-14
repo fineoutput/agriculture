@@ -11,7 +11,7 @@ class VendorController extends CI_Controller
         $this->load->model("admin/base_model");
     }
     //================================ Orders ==========================================
-    public function CreatePagination($page_index,$pages)
+    public function CreatePagination($page_index, $pages)
     {
         $pagination = [];
         $i = $page_index - 2;
@@ -48,7 +48,6 @@ class VendorController extends CI_Controller
             } else {
                 $start = 0;
             }
-            $pagination = [];
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('vendor_id', $vendor_data[0]->id);
@@ -59,9 +58,9 @@ class VendorController extends CI_Controller
             $this->db->limit($limit, $start);
             $OrderData = $this->db->get();
             $pages = round($count / $limit);
-           $pagination= $this->CreatePagination($page_index,$pages);
-        //     print_r($pagination);
-        //     die();
+            $pagination = $this->CreatePagination($page_index, $pages);
+            //     print_r($pagination);
+            //     die();
             // echo $pages;die(); 
             // if(!empty($para['search'])){
             // $this->db->like(20, $start);
@@ -152,10 +151,28 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 2))->result();
+            $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
+            $limit = 20;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 2);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $OrderData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
                 foreach ($OrderData as $order) {
@@ -216,6 +233,8 @@ class VendorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
+                    'last' => $pages,
                 );
                 echo json_encode($res);
             } else {
@@ -239,10 +258,28 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 3))->result();
+            $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
+            $limit = 20;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 3);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $OrderData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
                 foreach ($OrderData as $order) {
@@ -303,6 +340,8 @@ class VendorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
+                    'last' => $pages,
                 );
                 echo json_encode($res);
             } else {
@@ -326,10 +365,28 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 4))->result();
+            $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
+            $limit = 20;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 4);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $OrderData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
                 foreach ($OrderData as $order) {
@@ -390,6 +447,8 @@ class VendorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
+                    'last' => $pages,
                 );
                 echo json_encode($res);
             } else {
@@ -413,10 +472,28 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->result();
+            $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
+            $limit = 20;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 6);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $OrderData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
                 foreach ($OrderData as $order) {
@@ -477,6 +554,8 @@ class VendorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
+                    'last' => $pages,
                 );
                 echo json_encode($res);
             } else {
