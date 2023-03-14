@@ -50,7 +50,7 @@
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;
-                                        foreach ($Payments_data->result() as $data) {
+                                        foreach ($txn_data->result() as $data) {
                                             if ($title == 'Vendor') {
                                                 $UData = $this->db->get_where('tbl_vendor', array('id' => $data->vendor_id))->result();
                                             } else {
