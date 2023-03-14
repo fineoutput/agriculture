@@ -42,7 +42,7 @@ class DoctorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
             $count = $this->db->get_where('tbl_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'is_expert' => $doctor_data[0]->is_expert, 'payment_status' => 1))->num_rows();
-            $limit = 1;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {

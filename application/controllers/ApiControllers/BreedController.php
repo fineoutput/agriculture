@@ -137,7 +137,7 @@ class BreedController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_health_info', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
@@ -296,7 +296,7 @@ class BreedController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_breeding_record', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {

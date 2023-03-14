@@ -107,7 +107,7 @@ class ManagementController extends CI_Controller
       $this->db->where('farmer_id', $farmer_data[0]->id);
       $query = $this->db->get('tbl_daily_records');
       $count =  $query->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
@@ -242,7 +242,7 @@ class ManagementController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_milk_records', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
@@ -504,7 +504,7 @@ class ManagementController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
@@ -662,7 +662,7 @@ class ManagementController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_medical_expenses', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
@@ -924,7 +924,7 @@ class ManagementController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-      $limit = 1;
+      $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
       } else {
