@@ -846,9 +846,24 @@ class VendorController extends CI_Controller
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $ProData = $this->db->order_by('id', 'desc')->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->result();
+            $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
+            $limit = 20;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_products');
+            $this->db->where('added_by', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $ProData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
-            foreach ($ProData as $pro) {
+            foreach ($ProData->result() as $pro) {
                 if (!empty($pro->image)) {
                     $image = base_url() . $pro->image;
                 } else {
@@ -880,6 +895,8 @@ class VendorController extends CI_Controller
                 'message' => "Success!",
                 'status' => 200,
                 'data' => $data,
+                'pagination' => $pagination,
+                'last' => $pages,
             );
             echo json_encode($res);
         } else {
