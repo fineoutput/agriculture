@@ -9,9 +9,29 @@ class VendorController extends CI_Controller
         parent::__construct();
         $this->load->model("admin/login_model");
         $this->load->model("admin/base_model");
-        $this->load->library('pagination');
     }
     //================================ Orders ==========================================
+    public function CreatePagination($page_index,$pages)
+    {
+        $pagination = [];
+        $i = $page_index - 2;
+        if ($i <= 0) {
+            $i = 1;
+        }
+        $s = 1;
+        for ($i; $i <= $pages; $i++) {
+            if ($s == 6) {
+                break;
+            }
+            if ($i == $page_index) {
+                $pagination[] = array('index' => $i, 'status' => 'active');
+            } else {
+                $pagination[] = array('index' => $i, 'status' => 'inactive');
+            }
+            $s++;
+        }
+        return $pagination;
+    }
     //====================================== NewOrders =================================//
     public function NewOrders()
     {
@@ -39,19 +59,9 @@ class VendorController extends CI_Controller
             $this->db->limit($limit, $start);
             $OrderData = $this->db->get();
             $pages = round($count / $limit);
-            $i = $page_index - 2;
-            if ($i <= 0) {
-                $i = 1;
-            }
-            for ($i; $i <= $pages; $i++) {
-                if ($i == $page_index) {
-                    $pagination[] = array('index' => $i, 'status' => 'active');
-                } else {
-                    $pagination[] = array('index' => $i, 'status' => 'inactive');
-                }
-            }
-            // print_r($pagination);
-            // die();
+           $pagination= $this->CreatePagination($page_index,$pages);
+        //     print_r($pagination);
+        //     die();
             // echo $pages;die(); 
             // if(!empty($para['search'])){
             // $this->db->like(20, $start);
