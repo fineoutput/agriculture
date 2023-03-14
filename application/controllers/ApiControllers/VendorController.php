@@ -847,7 +847,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
-            $limit = 20;
+            $limit = 1;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
