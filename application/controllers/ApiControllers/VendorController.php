@@ -16,9 +16,8 @@ class VendorController extends CI_Controller
     public function NewOrders()
     {
         $headers = apache_request_headers();
-        echo json_encode($headers);die();
         $authentication = $headers['Authentication'];
-        $page_index = $headers['page_index'];
+        $page_index = $headers['Index'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
