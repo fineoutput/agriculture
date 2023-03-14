@@ -11,18 +11,56 @@ class DoctorController extends CI_Controller
         $this->load->model("admin/base_model");
         $this->load->library('pagination');
     }
+    public function CreatePagination($page_index, $pages)
+    {
+        $pagination = [];
+        $i = $page_index - 2;
+        if ($i <= 0) {
+            $i = 1;
+        }
+        $s = 1;
+        for ($i; $i <= $pages; $i++) {
+            if ($s == 6) {
+                break;
+            }
+            if ($i == $page_index) {
+                $pagination[] = array('index' => $i, 'status' => 'active');
+            } else {
+                $pagination[] = array('index' => $i, 'status' => 'inactive');
+            }
+            $s++;
+        }
+        return $pagination;
+    }
     //============================================= GetRequests ============================================//
     public function GetRequests()
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
-            $RequestData = $this->db->order_by('id', 'desc')->get_where('tbl_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'is_expert' => $doctor_data[0]->is_expert, 'payment_status' => 1))->result();
+            $count = $this->db->get_where('tbl_doctor_req', array('doctor_id' => $doctor_data[0]->id, 'is_expert' => $doctor_data[0]->is_expert, 'payment_status' => 1))->num_rows();
+            $limit = 1;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $this->db->where('is_expert', $doctor_data[0]->is_expert);
+            $this->db->where('payment_status', 1);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $RequestData = $this->db->get();
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($RequestData)) {
-                foreach ($RequestData as $request) {
+                foreach ($RequestData->result() as $request) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $request->farmer_id))->result();
                     $newDate = new DateTime($request->date);
                     if ($request->status == 0) {
@@ -80,6 +118,8 @@ class DoctorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
+                    'last' => $pages,
                 );
                 echo json_encode($res);
             } else {
@@ -404,7 +444,7 @@ class DoctorController extends CI_Controller
             if (!empty($query->row()->cr)) {
                 $today_income = $query->row()->cr;
             } else {
-                $today_income=0;
+                $today_income = 0;
             }
             $this->db->select_sum('cr');
             $this->db->from('tbl_payment_txn');
@@ -414,14 +454,14 @@ class DoctorController extends CI_Controller
             if (!empty($query2->row()->cr)) {
                 $total_income = $query2->row()->cr;
             } else {
-                $total_income=0;
+                $total_income = 0;
             }
             $data = [];
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
-                'today_income' =>  round($today_income,2),
-                'total_income' => round($total_income,2),
+                'today_income' =>  round($today_income, 2),
+                'total_income' => round($total_income, 2),
                 'is_expert' => $doctor_data[0]->is_expert
             );
             $res = array(

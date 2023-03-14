@@ -10,7 +10,6 @@ class VendorController extends CI_Controller
         $this->load->model("admin/login_model");
         $this->load->model("admin/base_model");
     }
-    //================================ Orders ==========================================
     public function CreatePagination($page_index, $pages)
     {
         $pagination = [];
@@ -32,6 +31,7 @@ class VendorController extends CI_Controller
         }
         return $pagination;
     }
+    //================================ Orders ==========================================
     //====================================== NewOrders =================================//
     public function NewOrders()
     {
