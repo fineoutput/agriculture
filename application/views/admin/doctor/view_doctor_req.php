@@ -68,15 +68,15 @@
                                                 <td><?php echo $farmer_data->phone ?></td>
                                                 <td><?php echo $doctor_data->name ?></td>
                                                 <td><?php echo $doctor_data->phone ?></td>
-                                                <td><?php if ($data->is_expert == 0) { ?>
-                                                        <p class="label bg-yellow">No</p>
+                                                <td><?php if ($data->is_expert == 1) { ?>
+                                                        <p class="label bg-green">Expert</p>
                                                     <?php } else { ?>
-                                                        <p class="label bg-green">Yes</p>
+                                                        <p class="label bg-blue">Normal</p>
                                                     <?php    }   ?>
                                                 </td>
                                                 <td><?php echo $data->reason ?></td>
                                                 <td><?php echo $data->description ?></td>
-                                                <td><?php echo $data->fees ?></td>
+                                                <td>₹<?php echo $data->fees ?></td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
                                                         <a href="<?php echo base_url() . $data->image1 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>"></a>

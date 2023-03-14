@@ -51,6 +51,7 @@
                         <th>PAN Number</th>
                         <th>Phone</th>
                         <th>Email</th>
+                        <th>Account</th>
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
@@ -101,6 +102,7 @@
                           <td><?php echo $data->pan_number ?></td>
                           <td><?php echo $data->phone ?></td>
                           <td><?php echo $data->email ?></td>
+                        <td>₹<?php echo $data->account ?></td>
                           <td><?php if ($data->is_active == 1) { ?>
                               <p class="label bg-green">Unblocked</p>
                             <?php } else { ?>
@@ -123,6 +125,7 @@
                                         <li><a href="<?php echo base_url() ?>dcadmin/Vendor/updatevendorStatus/<?php echo base64_encode($data->id) ?>/active">Unblocked</a></li>
                                       <?php    }   ?>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Payments/vendor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
                                       <!-- <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
                                   <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
                                     <? } else {

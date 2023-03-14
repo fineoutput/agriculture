@@ -613,10 +613,10 @@ class VendorController extends CI_Controller
                 if ($txn->status == 0) {
                     $status = 'Pending';
                     $bg_color = '#65bcd7';
-                } elseif ($order->status == 1) {
+                } elseif ($txn->status == 1) {
                     $status = 'Completed';
                     $bg_color = '#139c49';
-                } elseif ($order->status == 2) {
+                } elseif ($txn->status == 2) {
                     $status = 'Rejected';
                     $bg_color = '#dc4c64';
                 }
@@ -943,8 +943,8 @@ class VendorController extends CI_Controller
                 'dispatched_orders' => $dispatched_orders,
                 'completed_orders' => $completed_orders,
                 'rejected_orders' => $rejected_orders,
-                'today_income' => $today_income,
-                'total_income' => $total_income,
+                'today_income' =>  round($today_income,2),
+                'total_income' => round($total_income,2),
             );
             $res = array(
                 'message' => "Success!",

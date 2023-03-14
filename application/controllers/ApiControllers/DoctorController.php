@@ -280,10 +280,10 @@ class DoctorController extends CI_Controller
                 if ($txn->status == 0) {
                     $status = 'Pending';
                     $bg_color = '#65bcd7';
-                } elseif ($order->status == 1) {
+                } elseif ($txn->status == 1) {
                     $status = 'Completed';
                     $bg_color = '#139c49';
-                } elseif ($order->status == 2) {
+                } elseif ($txn->status == 2) {
                     $status = 'Rejected';
                     $bg_color = '#dc4c64';
                 }
@@ -420,8 +420,8 @@ class DoctorController extends CI_Controller
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
-                'today_income' => $today_income,
-                'total_income' => $total_income,
+                'today_income' =>  round($today_income,2),
+                'total_income' => round($total_income,2),
                 'is_expert' => $doctor_data[0]->is_expert
             );
             $res = array(

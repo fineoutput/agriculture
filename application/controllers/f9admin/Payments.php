@@ -124,6 +124,40 @@ class Payments extends CI_finecontrol
 			redirect("login/admin_login", "refresh");
 		}
 	}
+	//****************************doctor_txn**************************************
+	public function doctor_txn()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payment_txn');
+			$this->db->where('doctor_id is NOT NULL', NULL, FALSE);
+			$data['txn_data'] = $this->db->get();
+			$data['title'] = 'Doctor';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/view_payment_txn');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************vendor_txn**************************************
+	public function vendor_txn()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payment_txn');
+			$this->db->where('vendor_id is NOT NULL', NULL, FALSE);
+			$data['txn_data'] = $this->db->get();
+			$data['title'] = 'Doctor';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/view_payment_txn');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
 	//****************************Update Payments Status Function**************************************
 	public function updatePaymentsStatus($idd, $t)
 	{
@@ -137,6 +171,7 @@ class Payments extends CI_finecontrol
 				$this->db->where('id', $id);
 				$zapak = $this->db->update('tbl_payments_req', $data_update);
 				$req_data = $this->db->get_where('tbl_payments_req', array('id' => $id))->result();
+				//---- create transaction entry ----
 				//---update account amount --------
 				if (!empty($req_data[0]->vendor_id)) {
 					$data_update = array('account' => $req_data[0]->available - $req_data[0]->amount,);
