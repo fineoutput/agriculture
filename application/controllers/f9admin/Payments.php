@@ -125,15 +125,18 @@ class Payments extends CI_finecontrol
 		}
 	}
 	//****************************doctor_txn**************************************
-	public function doctor_txn()
+	public function doctor_txn($idd)
 	{
 		if (!empty($this->session->userdata('admin_data'))) {
 			$data['user_name'] = $this->load->get_var('user_name');
+			$id = base64_decode($idd);
+			$data['id'] = $idd;
 			$this->db->select('*');
 			$this->db->from('tbl_payment_txn');
-			$this->db->where('doctor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('doctor_id', $id);
 			$data['txn_data'] = $this->db->get();
-			$data['title'] = 'Doctor';
+			$UData = $this->db->get_where('tbl_doctor', array('id' => $id))->result();
+			$data['title'] = $UData[0]->name;
 			$this->load->view('admin/common/header_view', $data);
 			$this->load->view('admin/payments/view_payment_txn');
 			$this->load->view('admin/common/footer_view');
@@ -142,15 +145,18 @@ class Payments extends CI_finecontrol
 		}
 	}
 	//****************************vendor_txn**************************************
-	public function vendor_txn()
+	public function vendor_txn($idd)
 	{
 		if (!empty($this->session->userdata('admin_data'))) {
 			$data['user_name'] = $this->load->get_var('user_name');
+			$id = base64_decode($idd);
+			$data['id'] = $idd;
 			$this->db->select('*');
 			$this->db->from('tbl_payment_txn');
-			$this->db->where('vendor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('vendor_id', $id);
 			$data['txn_data'] = $this->db->get();
-			$data['title'] = 'Doctor';
+			$UData = $this->db->get_where('tbl_vendor', array('id' => $id))->result();
+			$data['title'] = $UData[0]->name;
 			$this->load->view('admin/common/header_view', $data);
 			$this->load->view('admin/payments/view_payment_txn');
 			$this->load->view('admin/common/footer_view');

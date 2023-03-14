@@ -1,11 +1,11 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            <?= $title ?> Payments Requests
+            <?= $title ?> Payments Transitions
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url() ?>dcadmin"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active"><?= $title ?> Payments Requests</li>
+            <li class="active"><?= $title ?> Payments Transitions</li>
         </ol>
     </section>
     <section class="content">
@@ -14,7 +14,7 @@
                 <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/payments/add_payments" role="button" style="margin-bottom:12px;"> Add Payments</a> -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><?= $title ?> Payments Requests</h3>
+                        <h3 class="panel-title"><?= $title ?> Payments Transitions</h3>
                     </div>
                     <div class="panel panel-default">
                         <? if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -37,13 +37,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <? if ($title == 'Vendor') { ?>
-                                                <th>Vendor Name</th>
-                                                <th>Vendor Number</th>
-                                            <? } else { ?>
-                                                <th>Doctor Name</th>
-                                                <th>Doctor Number</th>
-                                            <? } ?>
+                                            <th>Request ID</th>
                                             <th>Amount</th>
                                             <th>Date</th>
                                         </tr>
@@ -51,16 +45,10 @@
                                     <tbody>
                                         <?php $i = 1;
                                         foreach ($txn_data->result() as $data) {
-                                            if ($title == 'Vendor') {
-                                                $UData = $this->db->get_where('tbl_vendor', array('id' => $data->vendor_id))->result();
-                                            } else {
-                                                $UData = $this->db->get_where('tbl_doctor', array('id' => $data->doctor_id))->result();
-                                            }
                                         ?>
                                             <tr>
                                                 <td><?php echo $i ?> </td>
-                                                <td><?php echo $UData[0]->name ?> </td>
-                                                <td><?php echo $UData[0]->phone ?> </td>
+                                                <td>#<?php echo $data->req_id ?></td>
                                                 <td>₹<?php echo $data->cr ?></td>
                                                 <td><?php echo $data->date ?></td>
                                             </tr>
