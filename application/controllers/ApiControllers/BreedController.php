@@ -148,12 +148,12 @@ class BreedController extends CI_Controller
       $this->db->where('farmer_id', $farmer_data[0]->id);
       $this->db->order_by('id', 'desc');
       $this->db->limit($limit, $start);
-      $RequestData = $this->db->get();
+      $health_data = $this->db->get();
       $pages = round($count / $limit);
       $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
-      foreach ($health_data as $heath) {
+      foreach ($health_data->result() as $heath) {
         if (!empty($heath->group_id)) {
           $group_data = $this->db->get_where('tbl_group', array('id' => $heath->group_id))->result();
           $group = $group_data[0]->name;
