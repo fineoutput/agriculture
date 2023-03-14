@@ -94,13 +94,13 @@
                         <td><?php echo $data->state ?></td>
                         <td><?php echo $data->city ?></td>
                         <td><?php echo $data->phone ?></td>
-                        <td>₹<?php echo $data->account ?></td>
                         <td><?php if ($data->is_expert == 1) { ?>
                             <p class="label bg-green">Expert</p>
                           <?php } else { ?>
                             <p class="label bg-blue">Normal</p>
                           <?php    }   ?>
                         </td>
+                        <td>₹<?php echo $data->account ?></td>
                         <td><?php if ($data->is_active == 1) { ?>
                             <p class="label bg-yellow">Unblocked</p>
                           <?php } else { ?>
@@ -129,8 +129,8 @@
                                     <?php    }
                                     if ($data->is_expert == 1) {  ?>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Doctor/set_commission_doctor/<?php echo base64_encode($data->id) ?>">Update Expert Doctor</a></li>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/Payments/doctor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
                                     <? } ?>
-                                    <li><a href="<?php echo base_url() ?>dcadmin/Payments/doctor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
                                     <!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
                                     <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
                                   <? } else {
