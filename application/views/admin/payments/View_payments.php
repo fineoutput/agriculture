@@ -5,13 +5,13 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url() ?>dcadmin"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">View <?= $title ?> <?= $type ?> Payments Requests</li>
+            <li class="active"><?= $title ?> <?= $type ?> Payments Requests</li>
         </ol>
     </section>
     <section class="content">
         <div class="row">
             <div class="col-lg-12">
-                <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/payments/add_payments" role="button" style="margin-bottom:12px;"> Add Payments</a>
+                <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/payments/add_payments" role="button" style="margin-bottom:12px;"> Add Payments</a> -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title"><?= $title ?> <?= $type ?> Payments Requests</h3>
@@ -47,7 +47,6 @@
                                             <th>Available</th>
                                             <th>Amount</th>
                                             <th>Date</th>
-                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
