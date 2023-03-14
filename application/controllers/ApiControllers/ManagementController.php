@@ -238,12 +238,27 @@ class ManagementController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $milk_data = $this->db->order_by('id', 'desc')->get_where('tbl_milk_records', array('farmer_id' => $farmer_data[0]->id))->result();
+      $count = $this->db->get_where('tbl_milk_records', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_milk_records');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $milk_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
-      foreach ($milk_data as $milk) {
+      foreach ($milk_data->result() as $milk) {
         if (!empty($milk->group_id)) {
           $group_data = $this->db->get_where('tbl_group', array('id' => $milk->group_id))->result();
           $group = $group_data[0]->name;
@@ -269,7 +284,9 @@ class ManagementController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $data
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
