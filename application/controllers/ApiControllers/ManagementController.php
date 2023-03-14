@@ -11,6 +11,27 @@ class ManagementController extends CI_Controller
     $this->load->model("admin/base_model");
     $this->load->library('pagination');
   }
+  public function CreatePagination($page_index, $pages)
+  {
+    $pagination = [];
+    $i = $page_index - 2;
+    if ($i <= 0) {
+      $i = 1;
+    }
+    $s = 1;
+    for ($i; $i <= $pages; $i++) {
+      if ($s == 6) {
+        break;
+      }
+      if ($i == $page_index) {
+        $pagination[] = array('index' => $i, 'status' => 'active');
+      } else {
+        $pagination[] = array('index' => $i, 'status' => 'inactive');
+      }
+      $s++;
+    }
+    return $pagination;
+  }
   //================================================ DAILY RECORDS==============================================//
   public function daily_records()
   {
@@ -78,13 +99,30 @@ class ManagementController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $this->db->select('entry_id');
       $this->db->distinct();
       $this->db->where('farmer_id', $farmer_data[0]->id);
       $query = $this->db->get('tbl_daily_records');
-      $query->num_rows();
+      $count =  $query->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->distinct();
+      $this->db->select('entry_id');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $query = $this->db->get('tbl_daily_records');
+      // $count2 =  $query->num_rows();
+      // echo $count2;die();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $big = [];
       $i = 1;
@@ -107,7 +145,9 @@ class ManagementController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $big
+        'data' => $big,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
@@ -1045,7 +1085,7 @@ class ManagementController extends CI_Controller
     $authentication = $headers['Authentication'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $open_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'delivered_date is NOT NULL'=> NULL, FALSE))->num_rows();
+      $open_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'delivered_date is NOT NULL' => NULL, FALSE))->num_rows();
       $inseminate_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_inseminated' => 'Yes'))->num_rows();
       $pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'Yes'))->num_rows();
       $not_pregnant_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'is_pregnant' => 'No'))->num_rows();
@@ -1054,7 +1094,7 @@ class ManagementController extends CI_Controller
       $heifer_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Heifer'))->num_rows();
       $milking_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Milking'))->num_rows();
       $calf_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'animal_type' => 'Calf'))->num_rows();
-      $dry_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'dry_date is NOT NULL'=> NULL, FALSE))->num_rows();
+      $dry_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'dry_date is NOT NULL' => NULL, FALSE))->num_rows();
       // $dry_count = 0;
       // date_default_timezone_set("Asia/Calcutta");
       // $cur_date = date("Y-m-d");
@@ -1123,7 +1163,7 @@ class ManagementController extends CI_Controller
           if (!empty($other)) {
             if ($other == "inseminate") {
               $this->db->where('is_inseminated', 'Yes');
-            } else if ($other == "pregnant" ) {
+            } else if ($other == "pregnant") {
               $this->db->where('is_pregnant', 'Yes');
             } else if ($other == "not_pregnant") {
               $this->db->where('is_pregnant', 'No');
@@ -1131,7 +1171,7 @@ class ManagementController extends CI_Controller
               $this->db->where('delivered_date is NOT NULL', NULL, FALSE);
             } else if ($other == "Dry") {
               $this->db->where('dry_date is NOT NULL', NULL, FALSE);
-            }else if($other == "repeater"){
+            } else if ($other == "repeater") {
               $this->db->where('id', 0);
             }
           }
