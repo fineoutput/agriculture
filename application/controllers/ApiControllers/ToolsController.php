@@ -11,6 +11,27 @@ class ToolsController extends CI_Controller
         $this->load->model("admin/base_model");
         $this->load->library('pagination');
     }
+    public function CreatePagination($page_index, $pages)
+    {
+        $pagination = [];
+        $i = $page_index - 2;
+        if ($i <= 0) {
+            $i = 1;
+        }
+        $s = 1;
+        for ($i; $i <= $pages; $i++) {
+            if ($s == 6) {
+                break;
+            }
+            if ($i == $page_index) {
+                $pagination[] = array('index' => $i, 'status' => 'active');
+            } else {
+                $pagination[] = array('index' => $i, 'status' => 'inactive');
+            }
+            $s++;
+        }
+        return $pagination;
+    }
     //====================================================== SILAGE MAKING================================================//
     public function Silage_making()
     {
@@ -304,13 +325,24 @@ class ToolsController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $page_index = $headers['Index'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-            if ($is_admin == 'admin') {
-                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+            $limit = 1;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
             } else {
-                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                $start = 0;
             }
+            if ($is_admin == 'admin') {
+                $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
+                $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+            } else {
+                $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+            }
+            $pages = round($count / $limit);
+            $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             foreach ($ProData as $pro) {
                 if (!empty($pro->image)) {
@@ -343,7 +375,9 @@ class ToolsController extends CI_Controller
             $res = array(
                 'message' => "Success!",
                 'status' => 200,
-                'data' => $data
+                'data' => $data,
+                'pagination' => $pagination,
+                'last' => $pages,
             );
             echo json_encode($res);
         } else {
