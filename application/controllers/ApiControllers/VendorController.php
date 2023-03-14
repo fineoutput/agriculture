@@ -18,12 +18,49 @@ class VendorController extends CI_Controller
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        $page_index = $headers['page_index'];
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 1))->result();
+            $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 1))->num_rows();
+            $limit = 2;
+            if (!empty($page_index)) {
+                $start = ($page_index - 1) * $limit;
+            } else {
+                $start = 0;
+            }
+            $pagination = [];
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('vendor_id', $vendor_data[0]->id);
+            $this->db->where('is_admin', 0);
+            $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 1);
+            $this->db->order_by('id', 'desc');
+            $this->db->limit($limit, $start);
+            $OrderData = $this->db->get();
+
+            $pages = round($count / $limit);
+            $i = $page_index - 2;
+            if ($i <= 0) {
+                $i = 1;
+            }
+            for ($i; $i <= $pages; $i++) {
+                if ($i == $page_index) {
+                    $pagination[] = array('index' => $i, 'status' => 'active');
+                } else {
+                    $pagination[] = array('index' => $i, 'status' => 'inactive');
+                }
+            }
+            // print_r($pagination);
+            // die();
+            // echo $pages;die(); 
+            // if(!empty($para['search'])){
+            // $this->db->like(20, $start);
+            // }
+            // $OrderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 1))->result();
             $data = [];
             if (!empty($OrderData)) {
-                foreach ($OrderData as $order) {
+                foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
@@ -81,6 +118,7 @@ class VendorController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'pagination' => $pagination,
                 );
                 echo json_encode($res);
             } else {
@@ -922,7 +960,7 @@ class VendorController extends CI_Controller
             if (!empty($query->row()->cr)) {
                 $today_income = $query->row()->cr;
             } else {
-                $today_income=0;
+                $today_income = 0;
             }
             //-------------
             $this->db->select_sum('cr');
@@ -933,7 +971,7 @@ class VendorController extends CI_Controller
             if (!empty($query2->row()->cr)) {
                 $total_income = $query2->row()->cr;
             } else {
-                $total_income=0;
+                $total_income = 0;
             }
             $data = [];
             $data = array(
@@ -943,8 +981,8 @@ class VendorController extends CI_Controller
                 'dispatched_orders' => $dispatched_orders,
                 'completed_orders' => $completed_orders,
                 'rejected_orders' => $rejected_orders,
-                'today_income' =>  round($today_income,2),
-                'total_income' => round($total_income,2),
+                'today_income' =>  round($today_income, 2),
+                'total_income' => round($total_income, 2),
             );
             $res = array(
                 'message' => "Success!",
