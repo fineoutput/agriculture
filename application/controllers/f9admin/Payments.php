@@ -1,251 +1,166 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 require_once(APPPATH . 'core/CI_finecontrol.php');
-class Payments extends CI_finecontrol{
-function __construct()
+class Payments extends CI_finecontrol
 {
-parent::__construct();
-$this->load->model("login_model");
-$this->load->model("admin/base_model");
-$this->load->library('user_agent');
-$this->load->library('upload');
-}
-//****************************view Payments Function**************************************
-
-public function View_payments(){
-if(!empty($this->session->userdata('admin_data'))){
-
-$data['user_name']=$this->load->get_var('user_name');
-$this->db->select('*');
-$this->db->from('tbl_payments');
-//$this->db->where('id',$usr);
-$data['Payments_data']= $this->db->get();
-
-$this->db->select('*');
-$this->db->from('tbl_doctor');
-//$this->db->where('id',$usr);
-$data['doctor_data']= $this->db->get();
-
-$this->load->view('admin/common/header_view',$data);
-$this->load->view('admin/payments/View_payments');
-$this->load->view('admin/common/footer_view');
-
-}
-else{
-
-redirect("login/admin_login","refresh");
-}
-
-}
-//****************************Add Payments Function**************************************
-
-public function add_payments(){
-
-if(!empty($this->session->userdata('admin_data'))){
-
-
-$data['user_name']=$this->load->get_var('user_name');
-
-$this->db->select('*');
-$this->db->from('tbl_doctor');
-//$this->db->where('id',$usr);
-$data['doctor_data']= $this->db->get();
-$this->load->view('admin/common/header_view',$data);
-$this->load->view('admin/payments/add_payments');
-$this->load->view('admin/common/footer_view');
-
-}
-else{
-
-redirect("login/admin_login","refresh");
-}
-
-}
-//****************************Insert Payments Function**************************************
-public function add_payments_data()
-
-{
-
-if(!empty($this->session->userdata('admin_data'))){
-
-
-$this->load->helper(array('form', 'url'));
-$this->load->library('form_validation');
-$this->load->helper('security');
-if($this->input->post())
-{
-
-$this->form_validation->set_rules('vendor_doctor_name', 'name', 'xss_clean');
-$this->form_validation->set_rules('type_colume', 'type', 'xss_clean');
-$this->form_validation->set_rules('amount_colume', 'Amount', 'xss_clean');
-
-if($this->form_validation->run()== TRUE)
-{
-$vendor_doctor=$this->input->post('vendor_doctor_name');
-$type_colume=$this->input->post('type_colume');
-$amount_colume=$this->input->post('amount_colume');
-
-$ip = $this->input->ip_address();
-date_default_timezone_set("Asia/Calcutta");
-$cur_date=date("Y-m-d H:i:s");
-
-$addedby=$this->session->userdata('admin_id');
-
-
-$data_insert = array(
-'vendor_doctor_name'=>$vendor_doctor,
-'type'=>$type_colume,
-'amount'=>$amount_colume,
-'ip' =>$ip,
-'added_by' =>$addedby,
-'is_active' =>1,
-'date'=>$cur_date
-
-);
-$last_id=$this->base_model->insert_table("tbl_payments",$data_insert,1) ;
-
-
-if($last_id!=0){
-
-$this->session->set_flashdata('smessage','Data inserted successfully');
-
-redirect("dcadmin/payments/view_payments","refresh");
-
-}
-
-else
-
-{
-
-$this->session->set_flashdata('emessage','Sorry error occured');
-redirect($_SERVER['HTTP_REFERER']);
-
-
-}
-
-
-}
-else{
-
-$this->session->set_flashdata('emessage',validation_errors());
-redirect($_SERVER['HTTP_REFERER']);
-
-}
-
-}
-else{
-
-$this->session->set_flashdata('emessage','Please insert some data, No data available');
-redirect($_SERVER['HTTP_REFERER']);
-
-}
-}
-else{
-
-redirect("login/admin_login","refresh");
-
-
-}
-
-}
-//****************************Delete Payments Function**************************************
-
-public function delete_payments($idd){
-
-if(!empty($this->session->userdata('admin_data'))){
-
-
-$data['user_name']=$this->load->get_var('user_name');
-
-
-$id=base64_decode($idd);
-
-if($this->load->get_var('position')=="Super Admin"){
-
-	 $zapak=$this->db->delete('tbl_payments', array('id' => $id));
-	 if($zapak!=0){
- 	redirect("dcadmin/payments/view_payments","refresh");
- 					}
- 					else
- 					{
- 						echo "Error";
- 						exit;
- 					}
-}
-else{
-$data['e']="Sorry You Don't Have Permission To Delete Anything.";
-// exit;
-$this->load->view('errors/error500admin',$data);
-}
-
-
-}
-else{
-
-$this->load->view('admin/login/index');
-}
-
-}
-//****************************Update Payments Status Function**************************************
-
-public function updatepaymentsStatus($idd,$t){
-
-if(!empty($this->session->userdata('admin_data'))){
-
-
-$data['user_name']=$this->load->get_var('user_name');
-
-$id=base64_decode($idd);
-
-if($t=="active"){
-
-$data_update = array(
-'is_active'=>1
-
-);
-
-$this->db->where('id', $id);
-$zapak=$this->db->update('tbl_payments', $data_update);
-
-if($zapak!=0){
-redirect("dcadmin/payments/view_payments","refresh");
-}
-else
-{
-echo "Error";
-exit;
-}
-}
-if($t=="inactive"){
-$data_update = array(
-'is_active'=>0
-
-);
-
-$this->db->where('id', $id);
-$zapak=$this->db->update('tbl_payments', $data_update);
-
-if($zapak!=0){
-redirect("dcadmin/payments/view_payments","refresh");
-}
-else
-{
-
-$data['e']="Error Occured";
-// exit;
-$this->load->view('errors/error500admin',$data);
-}
-}
-
-
-
-}
-else{
-
-$this->load->view('admin/login/index');
-}
-
-}
-
-
-
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model("login_model");
+		$this->load->model("admin/base_model");
+		$this->load->library('user_agent');
+		$this->load->library('upload');
+	}
+	//****************************view Payments Function**************************************
+	public function vendor_pending_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('vendor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 0);
+			$data['Payments_data'] = $this->db->get();
+			$data['title'] = 'Vendor';
+			$data['type'] = 'Pending';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************view Payments Function**************************************
+	public function vendor_accepted_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('vendor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 1);
+			$data['Payments_data'] = $this->db->get();
+			$data['title'] = 'Vendor';
+			$data['type'] = 'Accepted';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************view Payments Function**************************************
+	public function vendor_rejected_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('vendor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 2);
+			$data['Payments_data'] = $this->db->get();
+			$data['title'] = 'Vendor';
+			$data['type'] = 'Rejected';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************view Payments Function**************************************
+	public function doctor_pending_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('doctor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 0);
+			$data['Payments_data'] = $this->db->get();
+			$data['type'] = 'Pending';
+			$data['title'] = 'Doctor';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************view Payments Function**************************************
+	public function doctor_accepted_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('doctor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 1);
+			$data['Payments_data'] = $this->db->get();
+			$data['type'] = 'Accepted';
+			$data['title'] = 'Doctor';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************view Payments Function**************************************
+	public function doctor_rejected_payments()
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$this->db->select('*');
+			$this->db->from('tbl_payments_req');
+			$this->db->where('doctor_id is NOT NULL', NULL, FALSE);
+			$this->db->where('status', 2);
+			$data['Payments_data'] = $this->db->get();
+			$data['type'] = 'Rejected';
+			$data['title'] = 'Doctor';
+			$this->load->view('admin/common/header_view', $data);
+			$this->load->view('admin/payments/View_payments');
+			$this->load->view('admin/common/footer_view');
+		} else {
+			redirect("login/admin_login", "refresh");
+		}
+	}
+	//****************************Update Payments Status Function**************************************
+	public function updatePaymentsStatus($idd, $t)
+	{
+		if (!empty($this->session->userdata('admin_data'))) {
+			$data['user_name'] = $this->load->get_var('user_name');
+			$id = base64_decode($idd);
+			if ($t == "accept") {
+				$data_update = array(
+					'status' => 1
+				);
+				$this->db->where('id', $id);
+				$zapak = $this->db->update('tbl_payments_req', $data_update);
+				$req_data = $this->db->get_where('tbl_payments_req', array('id' => $id))->result();
+				//---update account amount --------
+				if (!empty($req_data[0]->vendor_id)) {
+					$data_update = array('account' => $req_data[0]->available - $req_data[0]->amount,);
+					$this->db->where('id', $req_data[0]->vendor_id);
+					$zapak2 = $this->db->update('tbl_vendor', $data_update);
+				} else {
+					$data_update = array('account' => $req_data[0]->available - $req_data[0]->amount,);
+					$this->db->where('id', $req_data[0]->doctor_id);
+					$zapak2 = $this->db->update('tbl_doctor', $data_update);
+				}
+				$this->session->set_flashdata('smessage', 'Request accepted successfully!');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+			if ($t == "reject") {
+				$data_update = array(
+					'status' => 2
+				);
+				$this->db->where('id', $id);
+				$zapak = $this->db->update('tbl_payments_req', $data_update);
+				$this->session->set_flashdata('smessage', 'Request rejected successfully!');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+		} else {
+			$this->load->view('admin/login/index');
+		}
+	}
 }
