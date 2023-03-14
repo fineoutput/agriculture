@@ -175,7 +175,7 @@ class VendorController extends CI_Controller
             $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
-                foreach ($OrderData as $order) {
+                foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
@@ -282,7 +282,7 @@ class VendorController extends CI_Controller
             $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
-                foreach ($OrderData as $order) {
+                foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
@@ -389,7 +389,7 @@ class VendorController extends CI_Controller
             $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
-                foreach ($OrderData as $order) {
+                foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
@@ -496,7 +496,7 @@ class VendorController extends CI_Controller
             $pagination = $this->CreatePagination($page_index, $pages);
             $data = [];
             if (!empty($OrderData)) {
-                foreach ($OrderData as $order) {
+                foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
                     $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
