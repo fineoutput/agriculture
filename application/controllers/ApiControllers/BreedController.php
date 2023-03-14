@@ -11,6 +11,27 @@ class BreedController extends CI_Controller
     $this->load->model("admin/base_model");
     $this->load->library('pagination');
   }
+  public function CreatePagination($page_index, $pages)
+    {
+        $pagination = [];
+        $i = $page_index - 2;
+        if ($i <= 0) {
+            $i = 1;
+        }
+        $s = 1;
+        for ($i; $i <= $pages; $i++) {
+            if ($s == 6) {
+                break;
+            }
+            if ($i == $page_index) {
+                $pagination[] = array('index' => $i, 'status' => 'active');
+            } else {
+                $pagination[] = array('index' => $i, 'status' => 'inactive');
+            }
+            $s++;
+        }
+        return $pagination;
+    }
   //====================================================== HEALTH INFO================================================//
   public function Health_info()
   {
@@ -112,9 +133,24 @@ class BreedController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $health_data = $this->db->order_by('id', 'desc')->get_where('tbl_health_info', array('farmer_id' => $farmer_data[0]->id))->result();
+      $count = $this->db->get_where('tbl_health_info', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_health_info');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $RequestData = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
       foreach ($health_data as $heath) {
@@ -150,7 +186,9 @@ class BreedController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $data
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
