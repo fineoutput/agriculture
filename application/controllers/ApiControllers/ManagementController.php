@@ -500,12 +500,27 @@ class ManagementController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $exp_data = $this->db->order_by('id', 'desc')->get_where('tbl_sale_purchase', array('farmer_id' => $farmer_data[0]->id))->result();
+      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_sale_purchase');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $exp_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
-      foreach ($exp_data as $exp) {
+      foreach ($exp_data->result() as $exp) {
         $newdate = new DateTime($exp->date);
         if (!empty($exp->image1)) {
           $image1 = base_url() . $exp->image1;
@@ -547,7 +562,9 @@ class ManagementController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $data
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
@@ -641,12 +658,27 @@ class ManagementController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $exp_data = $this->db->order_by('id', 'desc')->get_where('tbl_medical_expenses', array('farmer_id' => $farmer_data[0]->id))->result();
+      $count = $this->db->get_where('tbl_medical_expenses', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_medical_expenses');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $exp_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
-      foreach ($exp_data as $exp) {
+      foreach ($exp_data->result() as $exp) {
         $newdate = new DateTime($exp->date);
         $data[] = array(
           's_no' => $i,
@@ -667,7 +699,9 @@ class ManagementController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $data
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
@@ -886,12 +920,27 @@ class ManagementController extends CI_Controller
   {
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $stock_data = $this->db->order_by('id', 'desc')->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->result();
+      $count = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $limit = 1;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_stock_handling');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $stock_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
       $data = [];
       $i = 1;
-      foreach ($stock_data as $stock) {
+      foreach ($stock_data->result() as $stock) {
         $newdate = new DateTime($stock->date);
         $data[] = array(
           'stock_date' => $stock->stock_date,
@@ -916,7 +965,9 @@ class ManagementController extends CI_Controller
       $res = array(
         'message' => "Success!",
         'status' => 200,
-        'data' => $data
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
       );
       echo json_encode($res);
     } else {
