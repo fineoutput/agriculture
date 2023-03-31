@@ -66,7 +66,6 @@ class HomeController extends CI_Controller
         }
     }
     //========================================= get_group ===================================//
-
     public function get_group()
     {
         $headers = apache_request_headers();
@@ -99,7 +98,6 @@ class HomeController extends CI_Controller
         }
     }
     //========================================= get_cattle ===================================//
-
     public function get_cattle()
     {
         $headers = apache_request_headers();
@@ -161,7 +159,6 @@ class HomeController extends CI_Controller
         }
     }
     //========================================= get_tag_no ===================================//
-
     public function get_tag_no()
     {
         $headers = apache_request_headers();
@@ -216,7 +213,6 @@ class HomeController extends CI_Controller
         }
     }
     //========================================= get_bull_tag_no ===================================//
-
     public function get_bull_tag_no()
     {
         $headers = apache_request_headers();
@@ -248,7 +244,6 @@ class HomeController extends CI_Controller
         }
     }
     //========================================= get_animal_data ===================================//
-
     public function get_animal_data()
     {
         $headers = apache_request_headers();
@@ -387,6 +382,23 @@ class HomeController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    public function get_state()
+    {
+        $state_data = $this->db->get_where('all_states')->result();
+        $data = [];
+        foreach ($state_data as $state) {
+            $data[] = array(
+                'value' => $state->id,
+                'label' => $state->state_name,
+            );
+        }
+        $res = array(
+            'message' => "Success!",
+            'status' => 200,
+            'data' => $data
+        );
+        echo json_encode($res);
     }
 }
   //======================================================END HOMECONTROLLER================================================//
