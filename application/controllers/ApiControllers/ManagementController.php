@@ -280,6 +280,7 @@ class ManagementController extends CI_Controller
           'price_milk' => $milk->price_milk,
           'fat' => $milk->fat,
           'snf' => $milk->snf,
+          'total_price' => $milk->total_price,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
@@ -698,6 +699,7 @@ class ManagementController extends CI_Controller
           'other3' => $exp->other3,
           'other4' => $exp->other4,
           'other5' => $exp->other5,
+          'total_price' => $exp->total_price,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
