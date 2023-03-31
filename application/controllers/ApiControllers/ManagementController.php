@@ -176,6 +176,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('price_milk', 'price_milk', 'required|xss_clean|trim');
       $this->form_validation->set_rules('fat', 'fat', 'required|xss_clean|trim');
       $this->form_validation->set_rules('snf', 'snf', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('total_price', 'total_price', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $information_type = $this->input->post('information_type');
         $group_id = $this->input->post('group_id');
@@ -186,6 +187,7 @@ class ManagementController extends CI_Controller
         $price_milk = $this->input->post('price_milk');
         $fat = $this->input->post('fat');
         $snf = $this->input->post('snf');
+        $total_price = $this->input->post('total_price');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -202,6 +204,7 @@ class ManagementController extends CI_Controller
             'price_milk' => $price_milk,
             'fat' => $fat,
             'snf' => $snf,
+            'total_price' => $total_price,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_milk_records", $data, 1);
@@ -594,6 +597,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('other3', 'other3', 'xss_clean|trim');
       $this->form_validation->set_rules('other4', 'other4', 'xss_clean|trim');
       $this->form_validation->set_rules('other5', 'other5', 'xss_clean|trim');
+      $this->form_validation->set_rules('total_price', 'total_price', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $expense_date = $this->input->post('expense_date');
         $doctor_visit_fees = $this->input->post('doctor_visit_fees');
@@ -605,6 +609,7 @@ class ManagementController extends CI_Controller
         $other3 = $this->input->post('other3');
         $other4 = $this->input->post('other4');
         $other5 = $this->input->post('other5');
+        $total_price = $this->input->post('total_price');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -622,6 +627,7 @@ class ManagementController extends CI_Controller
             'other3' => $other3,
             'other4' => $other4,
             'other5' => $other5,
+            'total_price' => $total_price,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_medical_expenses", $data, 1);
