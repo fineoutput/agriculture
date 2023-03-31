@@ -182,8 +182,8 @@ class DoctorController extends CI_Controller
         $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($doctor_data)) {
-            if (!empty($doctor_data[0]->aadhar_image)) {
-                $image = base_url() . $doctor_data[0]->aadhar_image;
+            if (!empty($doctor_data[0]->image)) {
+                $image = base_url() . $doctor_data[0]->image;
             } else {
                 $image = '';
             }
@@ -199,7 +199,8 @@ class DoctorController extends CI_Controller
                 'experience' => $doctor_data[0]->experience,
                 'qualification' => $doctor_data[0]->qualification,
                 'commission' => $doctor_data[0]->commission,
-                'aadhar_image' => $image,
+                'aadhar_no' => $doctor_data[0]->aadhar_no,
+                'image' => $image,
                 'is_expert' => $doctor_data[0]->is_expert,
                 'expertise' => $doctor_data[0]->expertise,
             );

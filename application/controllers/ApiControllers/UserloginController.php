@@ -37,6 +37,7 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
             $this->form_validation->set_rules('address', 'address', 'xss_clean|trim');
             $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
             $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
@@ -54,19 +55,20 @@ class UserloginController extends CI_Controller
                 $shop_name = $this->input->post('shop_name');
                 $address = $this->input->post('address');
                 $gst_no = $this->input->post('gst_no');
+                $aadhar_no = $this->input->post('aadhar_no');
                 $pan_no = $this->input->post('pan_no');
                 $type = $this->input->post('type');
                 $this->load->library('upload');
                 $image = '';
-                $img1 = 'aadhar_image';
-                if (!empty($_FILES['aadhar_image'])) {
-                    $file_check = ($_FILES['aadhar_image']['error']);
+                $img1 = 'image';
+                if (!empty($_FILES['image'])) {
+                    $file_check = ($_FILES['image']['error']);
                     if ($file_check != 4) {
                         $image_upload_folder = FCPATH . "assets/uploads/aadhar/";
                         if (!file_exists($image_upload_folder)) {
                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                         }
-                        $new_file_name = "aadhar" . date("Ymdhms");
+                        $new_file_name = "image" . date("Ymdhms");
                         $this->upload_config = array(
                             'upload_path'   => $image_upload_folder,
                             'file_name' => $new_file_name,
@@ -95,7 +97,7 @@ class UserloginController extends CI_Controller
                     'pincode' => $pincode,
                     'phone' => $phone,
                     'email' => $email,
-                    'aadhar_image' => $image,
+                    'image' => $image,
                     'doc_type' => $doc_type,
                     'degree' => $degree,
                     'experience' => $experience,
@@ -103,10 +105,10 @@ class UserloginController extends CI_Controller
                     'shop_name' => $shop_name,
                     'address' => $address,
                     'gst_no' => $gst_no,
+                    'aadhar_no' => $aadhar_no,
                     'pan_no' => $pan_no,
                     'type' => $type,
                 );
-                
                 //-------------- register user  with otp ------------
                 $Register = $this->login->RegisterWithOtp($send);
                 echo $Register;

@@ -40,8 +40,8 @@
                       <th>Name </th>
                       <th>Village </th>
                       <th>District </th>
-                      <th>City</th>
                       <th>State</th>
+                      <th>City</th>
                       <th>Pincode</th>
                       <th>Phone</th>
                       <th>Status</th>
@@ -57,15 +57,15 @@
                         <td><?php echo $data->village ?></td>
                         <td><?php echo $data->district ?></td>
                         <td><?php $st = $data->state;
-                            // $this->db->select('*');
-                            // $this->db->from('all_states');
-                            // $this->db->where('id', $ct);
-                            // $dsa = $this->db->get();
-                            // $da = $dsa->row();
-                            // if (!empty($da)) {
-                            //   echo $da->state_name;
-                            // }
-                            echo $st;
+                            $this->db->select('*');
+                            $this->db->from('all_states');
+                            $this->db->where('id', $st);
+                            $dsa = $this->db->get();
+                            $da = $dsa->row();
+                            if (!empty($da)) {
+                              echo $da->state_name;
+                            }
+                            // echo $st;
                             ?></td>
                         <td><?php $ct = $data->city;
                             // $this->db->select('*');

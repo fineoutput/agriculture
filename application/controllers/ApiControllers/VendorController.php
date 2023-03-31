@@ -1113,8 +1113,8 @@ class VendorController extends CI_Controller
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            if (!empty($vendor_data[0]->aadhar_image)) {
-                $image = base_url() . $vendor_data[0]->aadhar_image;
+            if (!empty($vendor_data[0]->image)) {
+                $image = base_url() . $vendor_data[0]->image;
             } else {
                 $image = '';
             }
@@ -1128,7 +1128,8 @@ class VendorController extends CI_Controller
                 'pincode' => $vendor_data[0]->pincode,
                 'commission' => $vendor_data[0]->comission,
                 'gst_no' => $vendor_data[0]->gst_no,
-                'aadhar_image' => $image,
+                'aadhar_no' => $vendor_data[0]->aadhar_no,
+                'image' => $image,
                 'pan_number' => $vendor_data[0]->pan_number,
                 'phone' => $vendor_data[0]->phone,
                 'email' => $vendor_data[0]->email,
