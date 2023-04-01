@@ -219,7 +219,7 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
       $this->form_validation->set_rules('expenses', 'expenses', 'required|xss_clean|trim');
       $this->form_validation->set_rules('vet_name', 'vet_name', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('update_semen', 'update_semen', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('update_bull_semen', 'update_bull_semen', 'required|xss_clean|trim');
       $this->form_validation->set_rules('is_pregnant', 'is_pregnant', 'xss_clean|trim');
       $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'xss_clean|trim');
       $this->form_validation->set_rules('semen_bull_id', 'semen_bull_id', 'xss_clean|trim');
@@ -237,7 +237,7 @@ class BreedController extends CI_Controller
         $vet_name = $this->input->post('vet_name');
         $is_pregnant = $this->input->post('is_pregnant');
         $pregnancy_test_date = $this->input->post('pregnancy_test_date');
-        $update_semen = $this->input->post('update_semen');
+        $update_bull_semen = $this->input->post('update_bull_semen');
         $semen_bull_id = $this->input->post('semen_bull_id');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
@@ -258,7 +258,7 @@ class BreedController extends CI_Controller
             'bull_name' => $bull_name,
             'expenses' => $expenses,
             'vet_name' => $vet_name,
-            'update_semen' => $update_semen,
+            'update_bull_semen' => $update_bull_semen,
             'semen_bull_id' => $semen_bull_id,
             'is_pregnant' => $is_pregnant,
             'pregnancy_test_date' => $pregnancy_test_date,
@@ -266,7 +266,7 @@ class BreedController extends CI_Controller
           );
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
           //------ update semen --------
-          if ($update_semen == 'Yes') {
+          if ($update_bull_semen == 'Yes') {
             $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id))->result();
             $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
             $this->db->where('id', $canister_data[0]->id);
