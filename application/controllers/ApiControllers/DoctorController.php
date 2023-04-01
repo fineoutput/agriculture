@@ -676,16 +676,17 @@ class DoctorController extends CI_Controller
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
                     $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id' => $tank_id))->result();
-                    if ($canister_data[$canister]->no_of_units >= $quantity) {
+                    $index=$canister-1;
+                    if ($canister_data[$index]->no_of_units >= $quantity) {
                         $data = [];
                         $data_insert = array(
-                            'doctor_id' => $canister_data[$doctor_id],
-                            'tank_id' => $canister_data[$tank_id],
-                            'bull_name' => $canister_data[$bull_name],
-                            'company_name' => $canister_data[$company_name],
-                            'no_of_units' => $canister_data[$no_of_units],
+                            'doctor_id' => $canister_data[$index]->doctor_id,
+                            'tank_id' => $canister_data[$index]->tank_id,
+                            'bull_name' => $canister_data[$index]->bull_name,
+                            'company_name' => $canister_data[$index]->company_name,
+                            'no_of_units' => $canister_data[$index]->no_of_units,
                             'sell_unit' => $quantity,
-                            'milk_production_of_mother' => $milk_production_of_mother,
+                            'milk_production_of_mother' => $canister_data[$index]->milk_production_of_mother,
                             'farmer_name' => $farmer_name,
                             'farmer_phone' => $farmer_phone,
                             'address' => $address,
@@ -693,7 +694,7 @@ class DoctorController extends CI_Controller
                         );
                         $last_id = $this->base_model->insert_table("tbl_doctor_semen_txn", $data_insert, 1);
                         $data_update = array(
-                            'no_of_units' => $canister_data[$canister]->no_of_units - $quantity,
+                            'no_of_units' => $canister_data[$index]->no_of_units - $quantity,
                         );
                         $this->db->where('id', $canister_data[$canister]->id);
                         $zapak = $this->db->update('tbl_doctor_canister', $data_update);
