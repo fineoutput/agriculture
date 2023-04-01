@@ -42,7 +42,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 1))->num_rows();
-           $limit = 20;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
@@ -156,7 +156,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
-           $limit = 20;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
@@ -263,7 +263,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
-           $limit = 20;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
@@ -370,7 +370,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
-           $limit = 20;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
@@ -477,7 +477,7 @@ class VendorController extends CI_Controller
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
             $count = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('vendor_id' => $vendor_data[0]->id, 'is_admin' => 0, 'payment_status' => 1, 'order_status' => 6))->num_rows();
-           $limit = 20;
+            $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
             } else {
@@ -1118,13 +1118,19 @@ class VendorController extends CI_Controller
             } else {
                 $image = '';
             }
+            $state_data = $this->db->get_where('tbl_states', array('id' => $vendor_data[0]->state,))->result();
+            if (!empty($state_data)) {
+                $state = $state_data[0]->state_name;
+            } else {
+                $state='';
+            }
             $data = array(
                 'name' => $vendor_data[0]->name,
                 'shop_name' => $vendor_data[0]->shop_name,
                 'address' => $vendor_data[0]->address,
                 'district' => $vendor_data[0]->district,
                 'city' => $vendor_data[0]->city,
-                'state' => $vendor_data[0]->state,
+                'state' => $state,
                 'pincode' => $vendor_data[0]->pincode,
                 'commission' => $vendor_data[0]->comission,
                 'gst_no' => $vendor_data[0]->gst_no,
