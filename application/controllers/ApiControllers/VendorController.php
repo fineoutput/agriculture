@@ -1145,6 +1145,10 @@ class VendorController extends CI_Controller
                 'pan_number' => $vendor_data[0]->pan_number,
                 'phone' => $vendor_data[0]->phone,
                 'email' => $vendor_data[0]->email,
+                'bank_name' => $vendor_data[0]->bank_name,
+                'bank_phone' => $vendor_data[0]->bank_phone,
+                'bank_ac' => $vendor_data[0]->bank_ac,
+                'ifsc' => $vendor_data[0]->ifsc,
             );
             $res = array(
                 'message' => "Success!",
