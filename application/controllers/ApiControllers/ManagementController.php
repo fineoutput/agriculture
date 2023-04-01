@@ -1115,7 +1115,7 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-          if ($farm_bull == 'Yes') {
+          if ($farm_bull == 'No') {
             $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id))->like('bull_name', $bull_name)->result();
             if(!empty($canister_data)){
               $res = array(
