@@ -1098,7 +1098,7 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('canister_id', 'canister_id', 'required|xss_clean|trim');
       $this->form_validation->set_rules('farm_bull', 'farm_bull', 'xss_clean|trim');
       $this->form_validation->set_rules('tag_no', 'tag_no', 'xss_clean|trim');
-      $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
+      $this->form_validation->set_rules('bull_name', 'bull_name', 'is_unique[tbl_canister.bull_name]xss_clean|trim');
       $this->form_validation->set_rules('company_name', 'company_name', 'xss_clean|trim');
       $this->form_validation->set_rules('no_of_units', 'no_of_units', 'xss_clean|trim');
       $this->form_validation->set_rules('milk_production_of_mother', 'milk_production_of_mother', 'xss_clean|trim');
@@ -1116,7 +1116,7 @@ class ManagementController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           if ($farm_bull == 'No') {
-            $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id))->like('bull_name', $bull_name)->result();
+            $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id))->result();
             if(!empty($canister_data)){
               $res = array(
                 'message' => 'Bull Name is already exist!',
