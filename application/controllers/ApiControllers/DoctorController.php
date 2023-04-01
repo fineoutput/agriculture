@@ -500,6 +500,7 @@ class DoctorController extends CI_Controller
                 $data[] = array(
                     's_no' => $i,
                     'name' => $tank->name,
+                    'tank_id' => $tank->id,
                     'canister' => $canister_data,
                 );
                 $i++;
