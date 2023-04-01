@@ -191,7 +191,7 @@ class DoctorController extends CI_Controller
             if (!empty($state_data)) {
                 $state = $state_data[0]->state_name;
             } else {
-                $state='';
+                $state = '';
             }
             $data = array(
                 'name' => $doctor_data[0]->name,
@@ -605,7 +605,7 @@ class DoctorController extends CI_Controller
                 $bull_name = $this->input->post('bull_name');
                 $company_name = $this->input->post('company_name');
                 $no_of_units = $this->input->post('no_of_units');
-                $milk_production_of_mother = $this->input->post('milk_production_of_mother');;
+                $milk_production_of_mother = $this->input->post('milk_production_of_mother');
                 $ip = $this->input->ip_address();
                 date_default_timezone_set("Asia/Calcutta");
                 $cur_date = date("Y-m-d H:i:s");
@@ -626,6 +626,89 @@ class DoctorController extends CI_Controller
                         'status' => 200,
                     );
                     echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //==============================================================sell_semen==============================================//
+    public function sell_semen()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('tank_id', 'tank_id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('canister', 'canister', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('quantity', 'quantity', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('farmer_name', 'farmer_name', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('farmer_phone', 'farmer_phone', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('address', 'address', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $tank_id = $this->input->post('tank_id');
+                $canister = $this->input->post('canister');
+                $quantity = $this->input->post('quantity');
+                $farmer_name = $this->input->post('farmer_name');
+                $farmer_phone = $this->input->post('farmer_phone');
+                $address = $this->input->post('address');
+                $ip = $this->input->ip_address();
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $canister_data = $this->db->get_where('tbl_doctor_canister', array('is_active' => $doctor_data[0]->id, 'tank_id' => $tank_id))->result();
+                    if ($canister_data[$canister]->no_of_units >= $quantity) {
+                        $data = [];
+                        $data_insert = array(
+                            'doctor_id' => $canister_data[$doctor_id],
+                            'tank_id' => $canister_data[$tank_id],
+                            'bull_name' => $canister_data[$bull_name],
+                            'company_name' => $canister_data[$company_name],
+                            'no_of_units' => $canister_data[$no_of_units],
+                            'sell_unit' => $quantity,
+                            'milk_production_of_mother' => $milk_production_of_mother,
+                            'farmer_name' => $farmer_name,
+                            'farmer_phone' => $farmer_phone,
+                            'address' => $address,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_doctor_semen_txn", $data_insert, 1);
+                        $data_update = array(
+                            'no_of_units' => $canister_data[$canister]->no_of_units - $quantity,
+                        );
+                        $this->db->where('id', $$canister_data[$canister]->id);
+                        $zapak = $this->db->update('tbl_doctor_canister', $data_update);
+                        $res = array(
+                            'message' => "Record Successfully saved!",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => "Left Semen Unit is " . $tank_data[$canister]->no_of_units,
+                            'status' => 201,
+                        );
+                        echo json_encode($res);
+                    }
                 } else {
                     $res = array(
                         'message' => 'Permission Denied!',
