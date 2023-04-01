@@ -878,7 +878,7 @@ class VendorController extends CI_Controller
                 $discount = (int)$pro->mrp - (int)$pro->selling_price;
                 $percent = 0;
                 if ($discount > 0) {
-                  $percent = $discount / $pro->mrp * 100;
+                  $percent = round($discount / $pro->mrp * 100);
                 }
                 $data[] = array(
                     'pro_id' => $pro->id,
