@@ -219,8 +219,10 @@ class BreedController extends CI_Controller
       $this->form_validation->set_rules('bull_name', 'bull_name', 'xss_clean|trim');
       $this->form_validation->set_rules('expenses', 'expenses', 'required|xss_clean|trim');
       $this->form_validation->set_rules('vet_name', 'vet_name', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('update_semen', 'update_semen', 'required|xss_clean|trim');
       $this->form_validation->set_rules('is_pregnant', 'is_pregnant', 'xss_clean|trim');
       $this->form_validation->set_rules('pregnancy_test_date', 'pregnancy_test_date', 'xss_clean|trim');
+      $this->form_validation->set_rules('semen_bull_id', 'semen_bull_id', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $group_id = $this->input->post('group_id');
         $cattle_type = $this->input->post('cattle_type');
@@ -235,6 +237,8 @@ class BreedController extends CI_Controller
         $vet_name = $this->input->post('vet_name');
         $is_pregnant = $this->input->post('is_pregnant');
         $pregnancy_test_date = $this->input->post('pregnancy_test_date');
+        $update_semen = $this->input->post('update_semen');
+        $semen_bull_id = $this->input->post('semen_bull_id');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -254,11 +258,20 @@ class BreedController extends CI_Controller
             'bull_name' => $bull_name,
             'expenses' => $expenses,
             'vet_name' => $vet_name,
+            'update_semen' => $update_semen,
+            'semen_bull_id' => $semen_bull_id,
             'is_pregnant' => $is_pregnant,
             'pregnancy_test_date' => $pregnancy_test_date,
             'date' => $cur_date
           );
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
+          //------ update semen --------
+          if ($update_semen == 'Yes') {
+            $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id))->result();
+            $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
+            $this->db->where('id', $canister_data[0]->id);
+            $zapak = $this->db->update('tbl_canister', $data_update);
+          }
           $res = array(
             'message' => "Record Successfully Inserted!",
             'status' => 200,
