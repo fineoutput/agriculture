@@ -740,11 +740,12 @@ class DoctorController extends CI_Controller
         $authentication = $headers['Authentication'];
         $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         if (!empty($doctor_data)) {
-            $sell_data = $this->db->order_by('id','desc')->get_where('tbl_doctor_semen_txn', array('doctor_id' => $doctor_data[0]->id))->result();
+            $sell_data = $this->db->order_by('id', 'desc')->get_where('tbl_doctor_semen_txn', array('doctor_id' => $doctor_data[0]->id))->result();
             $tank_data = $this->db->get_where('tbl_doctor_tank', array('id' => $sell_data[0]->tank_id))->result();
             $data = [];
             $i = 1;
             foreach ($sell_data as $sell) {
+                $newDate = new DateTime($sell->date);
                 $data[] = array(
                     's_no' => $i,
                     'tank' => $tank_data[0]->name,
@@ -753,6 +754,7 @@ class DoctorController extends CI_Controller
                     'farmer_name' => $sell->farmer_name,
                     'farmer_phone' => $sell->farmer_phone,
                     'address' => $sell->address,
+                    'date' => $newDate->format('d/m/Y'),
                 );
                 $i++;
             }
