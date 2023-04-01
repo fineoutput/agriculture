@@ -675,7 +675,7 @@ class DoctorController extends CI_Controller
                 $cur_date = date("Y-m-d H:i:s");
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
-                    $canister_data = $this->db->get_where('tbl_doctor_canister', array('is_active' => $doctor_data[0]->id, 'tank_id' => $tank_id))->result();
+                    $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id' => $tank_id))->result();
                     if ($canister_data[$canister]->no_of_units >= $quantity) {
                         $data = [];
                         $data_insert = array(
