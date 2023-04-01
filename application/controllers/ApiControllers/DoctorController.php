@@ -695,7 +695,7 @@ class DoctorController extends CI_Controller
                         $data_update = array(
                             'no_of_units' => $canister_data[$canister]->no_of_units - $quantity,
                         );
-                        $this->db->where('id', $$canister_data[$canister]->id);
+                        $this->db->where('id', $canister_data[$canister]->id);
                         $zapak = $this->db->update('tbl_doctor_canister', $data_update);
                         $res = array(
                             'message' => "Record Successfully saved!",
@@ -704,7 +704,7 @@ class DoctorController extends CI_Controller
                         echo json_encode($res);
                     } else {
                         $res = array(
-                            'message' => "Left Semen Unit is " . $tank_data[$canister]->no_of_units,
+                            'message' => "Left Semen Unit is " . $canister_data[$canister]->no_of_units,
                             'status' => 201,
                         );
                         echo json_encode($res);
