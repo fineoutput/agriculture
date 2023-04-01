@@ -1124,7 +1124,7 @@ class VendorController extends CI_Controller
             } else {
                 $image = '';
             }
-            $state_data = $this->db->get_where('tbl_states', array('id' => $vendor_data[0]->state,))->result();
+            $state_data = $this->db->get_where('all_states', array('id' => $vendor_data[0]->state,))->result();
             if (!empty($state_data)) {
                 $state = $state_data[0]->state_name;
             } else {

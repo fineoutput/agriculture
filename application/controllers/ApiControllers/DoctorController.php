@@ -187,11 +187,17 @@ class DoctorController extends CI_Controller
             } else {
                 $image = '';
             }
+            $state_data = $this->db->get_where('all_states', array('id' => $doctor_data[0]->state,))->result();
+            if (!empty($state_data)) {
+                $state = $state_data[0]->state_name;
+            } else {
+                $state='';
+            }
             $data = array(
                 'name' => $doctor_data[0]->name,
                 'district' => $doctor_data[0]->district,
                 'city' => $doctor_data[0]->city,
-                'state' => $doctor_data[0]->state,
+                'state' => $state,
                 'phone' => $doctor_data[0]->phone,
                 'email' => $doctor_data[0]->email,
                 'type' => $doctor_data[0]->type,
