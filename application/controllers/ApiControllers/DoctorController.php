@@ -676,12 +676,13 @@ class DoctorController extends CI_Controller
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
                     $canister_data = $this->db->get_where('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id' => $tank_id))->result();
-                    $index=$canister-1;
+                    $index = $canister - 1;
                     if ($canister_data[$index]->no_of_units >= $quantity) {
                         $data = [];
                         $data_insert = array(
                             'doctor_id' => $canister_data[$index]->doctor_id,
                             'tank_id' => $canister_data[$index]->tank_id,
+                            'canister' => $canister,
                             'bull_name' => $canister_data[$index]->bull_name,
                             'company_name' => $canister_data[$index]->company_name,
                             'no_of_units' => $canister_data[$index]->no_of_units,
@@ -727,6 +728,43 @@ class DoctorController extends CI_Controller
         } else {
             $res = array(
                 'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //------------------------------sell_transactions ---------------
+    public function sell_transactions()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        if (!empty($doctor_data)) {
+            $sell_data = $this->db->get_where('tbl_doctor_semen_txn', array('doctor_id' => $doctor_data[0]->id))->result();
+            $tank_data = $this->db->get_where('tbl_doctor_tank', array('doctor_id' => $sell_data[0]->tank_id))->result();
+            $data = [];
+            $i = 1;
+            foreach ($sell_data as $sell) {
+                $data[] = array(
+                    's_no' => $i,
+                    'tank' => $tank_data[0]->name,
+                    'tank_id' => 'Canister ' . $sell->canister,
+                    'sell_unit' => $sell->sell_unit,
+                    'farmer_name' => $sell->farmer_name,
+                    'farmer_phone' => $sell->farmer_phone,
+                    'address' => $sell->address,
+                );
+                $i++;
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
                 'status' => 201
             );
             echo json_encode($res);
