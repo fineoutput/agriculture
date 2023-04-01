@@ -748,7 +748,7 @@ class DoctorController extends CI_Controller
                 $data[] = array(
                     's_no' => $i,
                     'tank' => $tank_data[0]->name,
-                    'tank_id' => 'Canister ' . $sell->canister,
+                    'canister' => 'Canister ' . $sell->canister,
                     'sell_unit' => $sell->sell_unit,
                     'farmer_name' => $sell->farmer_name,
                     'farmer_phone' => $sell->farmer_phone,
