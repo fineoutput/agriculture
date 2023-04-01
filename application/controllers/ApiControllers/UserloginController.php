@@ -33,7 +33,7 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('doc_type', 'doc_type', 'xss_clean|trim');
             $this->form_validation->set_rules('degree', 'degree', 'xss_clean|trim');
             $this->form_validation->set_rules('experience', 'experience', 'xss_clean|trim');
-            $this->form_validation->set_rules('qualification', 'qualification', 'xss_clean|trim');
+            // $this->form_validation->set_rules('qualification', 'qualification', 'xss_clean|trim');
             $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
             $this->form_validation->set_rules('address', 'address', 'xss_clean|trim');
             $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
@@ -51,7 +51,7 @@ class UserloginController extends CI_Controller
                 $doc_type = $this->input->post('doc_type');
                 $degree = $this->input->post('degree');
                 $experience = $this->input->post('experience');
-                $qualification = $this->input->post('qualification');
+                // $qualification = $this->input->post('qualification');
                 $shop_name = $this->input->post('shop_name');
                 $address = $this->input->post('address');
                 $gst_no = $this->input->post('gst_no');
@@ -101,7 +101,7 @@ class UserloginController extends CI_Controller
                     'doc_type' => $doc_type,
                     'degree' => $degree,
                     'experience' => $experience,
-                    'qualification' => $qualification,
+                    // 'qualification' => $qualification,
                     'shop_name' => $shop_name,
                     'address' => $address,
                     'gst_no' => $gst_no,

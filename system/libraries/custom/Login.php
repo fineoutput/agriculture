@@ -51,7 +51,7 @@ class CI_Login
                 'doc_type' => $receive['doc_type'],
                 'degree' => $receive['degree'],
                 'experience' => $receive['experience'],
-                'qualification' => $receive['qualification'],
+                // 'qualification' => $receive['qualification'],
                 'shop_name' => $receive['shop_name'],
                 'address' => $receive['address'],
                 'gst' => $receive['gst_no'],
@@ -142,7 +142,7 @@ class CI_Login
                             if ($temp_data[0]->doc_type == 1) {
                                 $dt = "Vet";
                             } else if ($temp_data[0]->doc_type == 2) {
-                                $dt = "Assistant";
+                                $dt = "Livestock Assistant";
                             } else {
                                 $dt = "Private Practitioner";
                             }
@@ -156,7 +156,7 @@ class CI_Login
                                 'type' => $dt,
                                 'degree' => $temp_data[0]->degree,
                                 'experience' => $temp_data[0]->experience,
-                                'qualification' => $temp_data[0]->qualification,
+                                // 'qualification' => $temp_data[0]->qualification,
                                 'aadhar_no' => $temp_data[0]->aadhar_no,
                                 'image' => $temp_data[0]->image,
                                 'auth' => $auth,

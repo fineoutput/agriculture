@@ -40,7 +40,7 @@
                       <th>Name </th>
                       <th>Email</th>
                       <th>Image</th>
-                      <th>Aadhar Image</th>
+                      <th>Aadhar No</th>
                       <th>Type</th>
                       <th>Degree</th>
                       <th>Experience</th>
@@ -48,8 +48,8 @@
                       <th>Expertise</th>
                       <th>Commission(%)</th>
                       <th>Qualification</th>
-                      <th>District</th>
                       <th>State</th>
+                      <th>District</th>
                       <th>City</th>
                       <th>Phone</th>
                       <th>Type</th>
@@ -72,13 +72,7 @@
                             Sorry No image Found
                           <?php } ?>
                         </td>
-                        <td>
-                          <?php if ($data->aadhar_image != "") {  ?>
-                            <img id="aadhar_image" height=50 width=100 src="<?php echo base_url() . $data->aadhar_image ?>">
-                          <?php } else {  ?>
-                            Sorry No image Found
-                          <?php } ?>
-                        </td>
+                        <td><?php echo $data->aadhar_no ?></td>
                         <td><?php echo $data->type ?></td>
                         <td><?php echo $data->degree ?></td>
                         <td><?php echo $data->experience ?></td>
@@ -90,8 +84,18 @@
                               echo $data->commission . "%";
                             } ?></td>
                         <td><?php echo $data->qualification   ?></td>
+                        <td><?php $st = $data->state;
+                            $this->db->select('*');
+                            $this->db->from('all_states');
+                            $this->db->where('id', $st);
+                            $dsa = $this->db->get();
+                            $da = $dsa->row();
+                            if (!empty($da)) {
+                              echo $da->state_name;
+                            }
+                            // echo $st;
+                            ?></td>
                         <td><?php echo $data->district ?></td>
-                        <td><?php echo $data->state ?></td>
                         <td><?php echo $data->city ?></td>
                         <td><?php echo $data->phone ?></td>
                         <td><?php if ($data->is_expert == 1) { ?>
