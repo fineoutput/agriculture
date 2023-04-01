@@ -243,6 +243,36 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    public function get_semen_bulls()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $tag_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'farm_bull' => 'No'))->result();
+            $data = [];
+            $i = 1;
+            foreach ($tag_data as $a) {
+                $data[] = array(
+                    'value' => $a->id,
+                    'label' => $a->bull_name,
+                );
+                $i++;
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //========================================= get_animal_data ===================================//
     public function get_animal_data()
     {
