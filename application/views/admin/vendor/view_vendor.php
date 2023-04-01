@@ -41,15 +41,16 @@
                         <th>Name</th>
                         <th>Shop Name</th>
                         <th>Address</th>
-                        <th>District</th>
                         <th>State</th>
                         <th>City</th>
+                        <th>District</th>
                         <th>Pin Code</th>
                         <th>Commission(%)</th>
                         <th>GST No</th>
-                        <th>Aadhar Image</th>
-                        <th>PAN Number</th>
+                        <th>Aadhar No</th>
+                        <th>Image</th>
                         <th>Phone</th>
+                        <th>PAN Number</th>
                         <th>Email</th>
                         <th>Account</th>
                         <th>Status</th>
@@ -64,18 +65,18 @@
                           <td><?php echo $data->name ?></td>
                           <td><?php echo $data->shop_name ?></td>
                           <td><?php echo $data->address ?></td>
-                          <td><?php echo $data->district ?></td>
                           <td><?php $st = $data->state;
-                              // $this->db->select('*');
-                              // $this->db->from('all_states');
-                              // $this->db->where('id', $st);
-                              // $dsa = $this->db->get();
-                              // $da = $dsa->row();
-                              // if (!empty($da)) {
-                              //   echo $da->state_name;
-                              // }
-                              echo $st;
+                              $this->db->select('*');
+                              $this->db->from('all_states');
+                              $this->db->where('id', $st);
+                              $dsa = $this->db->get();
+                              $da = $dsa->row();
+                              if (!empty($da)) {
+                                echo $da->state_name;
+                              }
+                              // echo $st;
                               ?></td>
+                          <td><?php echo $data->district ?></td>
                           <td><?php $ct = $data->city;
                               // $this->db->select('*');
                               // $this->db->from('all_cities');
@@ -92,17 +93,18 @@
                                 echo $data->comission . "%";
                               } ?></td>
                           <td><?php echo $data->gst_no ?></td>
+                          <td><?php echo $data->aadhar_no ?></td>
                           <td>
-                            <?php if ($data->aadhar_image != "") {  ?>
-                              <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->aadhar_image ?>">
+                            <?php if ($data->image != "") {  ?>
+                              <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image ?>">
                             <?php } else {  ?>
                               Sorry No image Found
                             <?php } ?>
                           </td>
-                          <td><?php echo $data->pan_number ?></td>
                           <td><?php echo $data->phone ?></td>
+                          <td><?php echo $data->pan_number ?></td>
                           <td><?php echo $data->email ?></td>
-                        <td>₹<?php echo $data->account ?></td>
+                          <td>₹<?php echo $data->account ?></td>
                           <td><?php if ($data->is_active == 1) { ?>
                               <p class="label bg-green">Unblocked</p>
                             <?php } else { ?>
@@ -127,7 +129,7 @@
                                       <li><a href="<?php echo base_url() ?>dcadmin/Vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Payments/vendor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
                                       <!-- <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
-                                  <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                      <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
                                     <? } else {
                                       echo "NA";
                                     } ?>
