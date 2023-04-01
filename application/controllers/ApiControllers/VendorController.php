@@ -875,6 +875,11 @@ class VendorController extends CI_Controller
                 } else {
                     $stock = 'Out of Stock';
                 }
+                $discount = (int)$pro->mrp - (int)$pro->selling_price;
+                $percent = 0;
+                if ($discount > 0) {
+                  $percent = $discount / $pro->mrp * 100;
+                }
                 $data[] = array(
                     'pro_id' => $pro->id,
                     'name_english' => $pro->name_english,
@@ -888,6 +893,7 @@ class VendorController extends CI_Controller
                     'selling_price' => $pro->selling_price,
                     'suffix' => $pro->suffix,
                     'stock' => $stock,
+                    'percent' => $percent,
                     'vendor_id' => $pro->added_by,
                     'is_admin' => $pro->is_admin
                 );
