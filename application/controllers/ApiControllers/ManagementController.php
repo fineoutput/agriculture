@@ -729,50 +729,57 @@ class ManagementController extends CI_Controller
     if ($this->input->post()) {
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('filter_reports_by_calendar', 'filter_reports_by_calendar', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('sale', 'sale', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('purchase', 'purchase', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('profit_loss', 'profit_loss', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('feed_expenses', 'feed_expenses', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('milk_income', 'milk_income', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('breeding_income', 'breeding_income', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('animal_expenses', 'animal_expenses', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('animal_income', 'animal_income', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('from', 'from', 'xss_clean|trim');
+      $this->form_validation->set_rules('to', 'to', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
-        $filter_reports_by_calendar = $this->input->post('filter_reports_by_calendar');
-        $sale = $this->input->post('sale');
-        $purchase = $this->input->post('purchase');
-        $profit_loss = $this->input->post('profit_loss');
-        $feed_expenses = $this->input->post('feed_expenses');
-        $milk_income = $this->input->post('milk_income');
-        $breeding_income = $this->input->post('breeding_income');
-        $animal_expenses = $this->input->post('animal_expenses');
-        $animal_income = $this->input->post('animal_income');
-        $ip = $this->input->ip_address();
+        $from = $this->input->post('from');
+        $to = $this->input->post('to');
         date_default_timezone_set("Asia/Calcutta");
-        $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
+          $today = date('d-m-Y', $from);
+          $next_day = date('d-m-Y', $$to);
+          //------ medical count ---------
+          $this->db->select_sum('total_price');
+          $this->db->from('tbl_medical_expenses');
+          if (!empty($from) && !empty($to)) {
+            $this->db->where('milk_date >=', $today);
+            $this->db->where('milk_date <=', $next_day);
+          }
+          $medical = $this->db->get();
+          $medical_exp = $medical->row()->total_price;
+          //------ milk count ---------
+          $this->db->select_sum('total_price');
+          $this->db->from('tbl_milk_records');
+          if (!empty($from) && !empty($to)) {
+            $this->db->where('milk_date >=', $today);
+            $this->db->where('milk_date <=', $next_day);
+          }
+          $milk = $this->db->get();
+          $milk_income = $milk->row()->total_price;
+          $sale = 0;
+          $purchase = 0;
+          $profit_loss = 0;
+          $feed_expenses = 0;
+          $breeding_income = 0;
+          $animal_expenses = 0;
+          $animal_income = 0;
           $data = array(
-            'farmer_id' => $farmer_data[0]->id,
-            'filter_reports_by_calendar' => $filter_reports_by_calendar,
             'sale' => $sale,
             'purchase' => $purchase,
             'profit_loss' => $profit_loss,
             'feed_expenses' => $feed_expenses,
             'milk_income' => $milk_income,
+            'medical_exp' => $medical_exp,
             'breeding_income' => $breeding_income,
             'animal_expenses' => $animal_expenses,
             'animal_income' => $animal_income,
-            'ip' => $ip,
-            'date' => $cur_date
           );
-          $last_id = $this->base_model->insert_table("tbl_reports", $data, 1);
           $res = array(
             'message' => "Success",
             'status' => 200,
-            'data' => []
+            'data' => $data
           );
           echo json_encode($res);
         } else {
