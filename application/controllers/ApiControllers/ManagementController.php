@@ -59,6 +59,7 @@ class ManagementController extends CI_Controller
                 'farmer_id' => $farmer_data[0]->id,
                 'entry_id' => $entry_id,
                 'name' => $d->name,
+                'type' => $d->type,
                 'qty' => $d->values->qty,
                 'price' => $d->values->price,
                 'amount' => $d->values->amount,
