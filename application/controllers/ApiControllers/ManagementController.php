@@ -739,67 +739,135 @@ class ManagementController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
-          // if (!empty($from) && !empty($to)) {
-          //   $today = date('d-m-Y', $from);
-          //   $next_day = date('d-m-Y', $$to);
-          // } else {
-          //   $From = '';
-          //   $TO = '';
-          // }
+          if (!empty($from) && !empty($to)) {
+            $newdate = new DateTime($from);
+            $From = $newdate->format('d-m-Y');
+            $newdate2 = new DateTime($to);
+            $To = $newdate2->format('d-m-Y');
+          } else {
+            $From = '';
+            $To = '';
+          }
+          // echo  $to;die();
           //------ medical exp ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_medical_expenses');
           $this->db->where('farmer_id', $farmer_data[0]->id);
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('expense_date >=', $from);
-            $this->db->where('expense_date <=', $to);
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('expense_date >=', $From);
+            $this->db->where('expense_date <=', $To);
           }
           $medical = $this->db->get();
-          $medical_exp = $medical->row()->total_price? $medical->row()->total_price:0;
+          $medical_exp = $medical->row()->total_price ? $medical->row()->total_price : 0;
           //------ Doctor exp ---------
           $this->db->select_sum('fees');
           $this->db->from('tbl_doctor_req');
           $this->db->where('farmer_id', $farmer_data[0]->id);
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('date >=', $from);
-            $this->db->where('date <=', $to);
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('payment_status >=', 1);
+            $this->db->where('req_date >=', $From);
+            $this->db->where('req_date <=', $To);
           }
           $doc = $this->db->get();
-          $doc_exp = $doc->row()->fees?$doc->row()->fees:0;
+          $doc_exp = $doc->row()->fees ? $doc->row()->fees : 0;
           //------ milk count ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_milk_records');
           $this->db->where('farmer_id', $farmer_data[0]->id);
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('milk_date >=', $from);
-            $this->db->where('milk_date <=', $to);
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('milk_date >=', $From);
+            $this->db->where('milk_date <=', $To);
           }
           $milk = $this->db->get();
-          $milk_income = $milk->row()->total_price?$milk->row()->total_price:0;
+          $milk_income = $milk->row()->total_price ? $milk->row()->total_price : 0;
           //------ feed exp ---------
           $this->db->select_sum('amount');
           $this->db->from('tbl_daily_records');
           $this->db->where('farmer_id', $farmer_data[0]->id);
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('record_date >=', $from);
-            $this->db->where('record_date <=', $to);
+          $this->db->where('type', 'feed');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
           }
           $feed = $this->db->get();
-          $feed_exp = $feed->row()->amount?$feed->row()->amount:0;
-          $sale = 0;
-          $purchase = 0;
+          $feed_exp = $feed->row()->amount ? $feed->row()->amount : 0;
+          //------ sale ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('name', 'Animal Sell');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $sale_data = $this->db->get();
+          $sale = $sale_data->row()->amount ? $sale_data->row()->amount : 0;
+          //------ purchase ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('name', 'Animal Purchase');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $purchase_data = $this->db->get();
+          $purchase = $purchase_data->row()->amount ? $purchase_data->row()->amount : 0;
+          //------ pregnancy care ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('name', 'Pregnancy Care');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $pg_data = $this->db->get();
+          $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
+          //------ sale ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('name', 'Pregnancy Care');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $pg_data = $this->db->get();
+          $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
+          //------ profit ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('type', 'profit');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $profit_data = $this->db->get();
+          $profit = $profit_data->row()->amount ? $profit_data->row()->amount : 0;
+          //------ expense ---------
+          $this->db->select_sum('amount');
+          $this->db->from('tbl_daily_records');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $this->db->where('type', 'expense');
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('record_date >=', $From);
+            $this->db->where('record_date <=', $To);
+          }
+          $exp_data = $this->db->get();
+          $expense = $exp_data->row()->amount ? $exp_data->row()->amount : 0;
           $profit_loss = 0;
-          $breeding_income = 0;
-          $animal_expenses = $medical_exp+$doc_exp;
-          $animal_income = 0;
+          $animal_expenses = $medical_exp + $doc_exp;
+          $sub_profit = $profit + $milk_income;
+          $sub_expense = $expense + $feed_exp + $animal_expenses;
           $data = array(
             'sale' => $sale,
             'purchase' => $purchase,
-            'profit_loss' => $profit_loss,
+            'profit_loss' => $sub_profit - $sub_expense,
             'feed_expenses' => $feed_exp,
             'milk_income' => $milk_income,
-            'animal_expenses' => $animal_expenses,
-            'animal_income' => $animal_income,
+            'animal_expenses' => $animal_expenses + $prg_care,
           );
           $res = array(
             'message' => "Success",

@@ -749,6 +749,7 @@ class ToolsController extends CI_Controller
                     $data = [];
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
+                    $cur_date2 = date("d-m-Y");
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
                         'is_expert' => $is_expert,
@@ -763,6 +764,7 @@ class ToolsController extends CI_Controller
                         'image3' => $nnnn3,
                         'image4' => $nnnn4,
                         'image5' => $nnnn5,
+                        'req_date' => $cur_date2,
                         'date' => $cur_date
                     );
                     $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
