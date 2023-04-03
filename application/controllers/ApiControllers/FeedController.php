@@ -34,6 +34,11 @@ class FeedController extends CI_Controller
                     } else {
                         $weight = ($grith * $grith * $length) / 10797 + 0.5;
                     }
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('weight_calculator' => $service_data[0]->weight_calculator + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -133,6 +138,11 @@ class FeedController extends CI_Controller
                         'silage' => round($silage, 2),
                         'html' => $message,
                     );
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('dmi_calculator' => $service_data[0]->dmi_calculator + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -361,6 +371,11 @@ class FeedController extends CI_Controller
                         'row_qtl' => round(($value / 10), 2),
                         'html' => $message,
                     );
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('feed_calculator' => $service_data[0]->feed_calculator + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -460,7 +475,7 @@ class FeedController extends CI_Controller
                         die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
                     }
                     //  Get worksheet dimensions
-                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group=='Bos taurus'?'Cow':'Buffalo');
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group == 'Bos taurus' ? 'Cow' : 'Buffalo');
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F22', $feeding_system);
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F23', $weight);
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F24', $milk_production);
@@ -487,6 +502,11 @@ class FeedController extends CI_Controller
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/animal_requirements', $data, TRUE);
+                     //------- update service record -----------
+                     $service_data = $this->db->get_where('tbl_service_records')->result();
+                     $data_update = array('animal_req' => $service_data[0]->animal_req + 1);
+                     $this->db->where('id', $service_data[0]->id);
+                     $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,

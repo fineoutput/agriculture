@@ -69,6 +69,11 @@ class ToolsController extends CI_Controller
                         'length' => $length,
                         'fodder_required' => $fodder_required,
                     );
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('silage_making' => $service_data[0]->silage_making + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -138,6 +143,11 @@ class ToolsController extends CI_Controller
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/25_cows', $data, true);
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('pro_req' => $service_data[0]->pro_req + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -292,6 +302,11 @@ class ToolsController extends CI_Controller
                         'calving_date' =>  date('d/m/Y', $calving),
                         'weaning_date' =>  date('d/m/Y', $weaning),
                     );
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('preg_calculator' => $service_data[0]->preg_calculator + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
