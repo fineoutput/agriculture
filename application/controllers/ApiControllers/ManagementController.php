@@ -738,23 +738,28 @@ class ManagementController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
-          $today = date('d-m-Y', $from);
-          $next_day = date('d-m-Y', $$to);
+          if (!empty($from) && !empty($to)) {
+            $today = date('d-m-Y', $from);
+            $next_day = date('d-m-Y', $$to);
+          } else {
+            $From = '';
+            $TO = '';
+          }
           //------ medical count ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_medical_expenses');
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('milk_date >=', $today);
-            $this->db->where('milk_date <=', $next_day);
+          if (!empty($From) && !empty($TO)) {
+            $this->db->where('milk_date >=', $From);
+            $this->db->where('milk_date <=', $TO);
           }
           $medical = $this->db->get();
           $medical_exp = $medical->row()->total_price;
           //------ milk count ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_milk_records');
-          if (!empty($from) && !empty($to)) {
-            $this->db->where('milk_date >=', $today);
-            $this->db->where('milk_date <=', $next_day);
+          if (!empty($From) && !empty($TO)) {
+            $this->db->where('milk_date >=', $From);
+            $this->db->where('milk_date <=', $TO);
           }
           $milk = $this->db->get();
           $milk_income = $milk->row()->total_price;
