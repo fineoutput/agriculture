@@ -47,6 +47,9 @@ class Home extends CI_finecontrol
             $this->db->where('is_admin',0);
             $vendor_product = $this->db->count_all_results();
             $data['vendor_product'] = $vendor_product;
+            $this->db->select('*');
+            $this->db->from('tbl_service_records');
+            $data['service_report'] = $this->db->get()->row();
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/dash');
             $this->load->view('admin/common/footer_view');
