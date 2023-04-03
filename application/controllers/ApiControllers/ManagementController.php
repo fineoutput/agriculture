@@ -784,7 +784,7 @@ class ManagementController extends CI_Controller
             $this->db->where('record_date <=', $to);
           }
           $feed = $this->db->get();
-          $feed_exp = $feed->row()->amount?$milk->row()->amount:0;
+          $feed_exp = $feed->row()->amount?$feed->row()->amount:0;
           $sale = 0;
           $purchase = 0;
           $profit_loss = 0;
@@ -797,7 +797,6 @@ class ManagementController extends CI_Controller
             'profit_loss' => $profit_loss,
             'feed_expenses' => $feed_exp,
             'milk_income' => $milk_income,
-            'breeding_income' => $breeding_income,
             'animal_expenses' => $animal_expenses,
             'animal_income' => $animal_income,
           );
