@@ -738,37 +738,49 @@ class ManagementController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
-          if (!empty($from) && !empty($to)) {
-            $today = date('d-m-Y', $from);
-            $next_day = date('d-m-Y', $$to);
-          } else {
-            $From = '';
-            $TO = '';
-          }
-          //------ medical count ---------
+          // if (!empty($from) && !empty($to)) {
+          //   $today = date('d-m-Y', $from);
+          //   $next_day = date('d-m-Y', $$to);
+          // } else {
+          //   $From = '';
+          //   $TO = '';
+          // }
+          //------ medical exp ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_medical_expenses');
-          if (!empty($From) && !empty($TO)) {
-            $this->db->where('milk_date >=', $From);
-            $this->db->where('milk_date <=', $TO);
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          if (!empty($from) && !empty($to)) {
+            $this->db->where('expense_date >=', $from);
+            $this->db->where('expense_date <=', $to);
           }
           $medical = $this->db->get();
-          $medical_exp = $medical->row()->total_price;
+          $medical_exp = $medical->row()->total_price? $medical->row()->total_price:0;
+          //------ Doctor exp ---------
+          $this->db->select_sum('fees');
+          $this->db->from('tbl_doctor_req');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          if (!empty($from) && !empty($to)) {
+            $this->db->where('date >=', $from);
+            $this->db->where('date <=', $to);
+          }
+          $doc = $this->db->get();
+          $doc_exp = $doc->row()->fees?$doc->row()->fees:0;
           //------ milk count ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_milk_records');
-          if (!empty($From) && !empty($TO)) {
-            $this->db->where('milk_date >=', $From);
-            $this->db->where('milk_date <=', $TO);
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          if (!empty($from) && !empty($to)) {
+            $this->db->where('milk_date >=', $from);
+            $this->db->where('milk_date <=', $to);
           }
           $milk = $this->db->get();
-          $milk_income = $milk->row()->total_price;
+          $milk_income = $milk->row()->total_price?$milk->row()->total_price:0;
           $sale = 0;
           $purchase = 0;
           $profit_loss = 0;
           $feed_expenses = 0;
           $breeding_income = 0;
-          $animal_expenses = 0;
+          $animal_expenses = $medical_exp+$doc_exp;
           $animal_income = 0;
           $data = array(
             'sale' => $sale,
@@ -776,7 +788,6 @@ class ManagementController extends CI_Controller
             'profit_loss' => $profit_loss,
             'feed_expenses' => $feed_expenses,
             'milk_income' => $milk_income,
-            'medical_exp' => $medical_exp,
             'breeding_income' => $breeding_income,
             'animal_expenses' => $animal_expenses,
             'animal_income' => $animal_income,
