@@ -1100,6 +1100,7 @@ class ManagementController extends CI_Controller
         $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id' => $tank->id))->result();
         $data[] = array(
           's_no' => $i,
+          'id' => $tank->id,
           'name' => $tank->name,
           'canister' => $canister_data,
         );
