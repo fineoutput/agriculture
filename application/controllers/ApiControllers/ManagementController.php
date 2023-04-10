@@ -1186,6 +1186,51 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
+  public function delete_semen_tank()
+  {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+      if ($this->form_validation->run() == true) {
+        $id = $this->input->post('id');
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+          $delete = $this->db->delete('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'id', $id));
+          $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id', $id));
+          $res = array(
+            'message' => "Record Successfully Deleted!",
+            'status' => 200,
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //==============================================================CANISTER==============================================//
   public function update_canister()
   {
