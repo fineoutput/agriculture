@@ -1207,7 +1207,7 @@ class ManagementController extends CI_Controller
           $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id'=> $id));
           if(!empty($delete) && !empty($delete2)){
           $res = array(
-            'message' => "Record Successfully Deleted!",
+            'message' => "Tank Successfully Deleted!",
             'status' => 200,
           );
           echo json_encode($res);
