@@ -1203,8 +1203,8 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-          $delete = $this->db->delete('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'id', $id));
-          $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id', $id));
+          $delete = $this->db->delete('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'id'=> $id));
+          $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id'=> $id));
           if(!empty($delete) && !empty($delete2)){
           $res = array(
             'message' => "Record Successfully Deleted!",
