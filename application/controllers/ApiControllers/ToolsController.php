@@ -379,8 +379,8 @@ class ToolsController extends CI_Controller
                 }
                 $en_data[] = array(
                     'pro_id' => $pro->id,
-                    'name_english' => $pro->name_english,
-                    'description_english' => $pro->description_english,
+                    'name' => $pro->name_english,
+                    'description' => $pro->description_english,
                     'image' => $image,
                     'mrp' => $pro->mrp,
                     'selling_price' => $pro->selling_price,
@@ -392,8 +392,8 @@ class ToolsController extends CI_Controller
                 );
                 $hi_data[] = array(
                     'pro_id' => $pro->id,
-                    'name_hindi' => $pro->name_hindi,
-                    'description_hindi' => $pro->description_hindi,
+                    'name' => $pro->name_hindi,
+                    'description' => $pro->description_hindi,
                     'image' => $image,
                     'mrp' => $pro->mrp,
                     'selling_price' => $pro->selling_price,
@@ -405,8 +405,8 @@ class ToolsController extends CI_Controller
                 );
                 $pn_data[] = array(
                     'pro_id' => $pro->id,
-                    'name_punjabi' => $pro->name_punjabi,
-                    'description_punjabi' => $pro->description_punjabi,
+                    'name' => $pro->name_punjabi,
+                    'description' => $pro->description_punjabi,
                     'image' => $image,
                     'mrp' => $pro->mrp,
                     'selling_price' => $pro->selling_price,
