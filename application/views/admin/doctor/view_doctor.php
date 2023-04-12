@@ -52,8 +52,8 @@
                       <th>District</th>
                       <th>City</th>
                       <th>Phone</th>
-                      <th>Type</th>
                       <th>Account</th>
+                      <th>Type</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -98,13 +98,13 @@
                         <td><?php echo $data->district ?></td>
                         <td><?php echo $data->city ?></td>
                         <td><?php echo $data->phone ?></td>
+                        <td><?php echo $data->account ? '₹'.$data->account : '₹0'?></td>
                         <td><?php if ($data->is_expert == 1) { ?>
                             <p class="label bg-green">Expert</p>
                           <?php } else { ?>
                             <p class="label bg-blue">Normal</p>
                           <?php    }   ?>
                         </td>
-                        <td>₹<?php echo $data->account ?></td>
                         <td><?php if ($data->is_active == 1) { ?>
                             <p class="label bg-yellow">Unblocked</p>
                           <?php } else { ?>
@@ -135,8 +135,8 @@
                                       <li><a href="<?php echo base_url() ?>dcadmin/Doctor/set_commission_doctor/<?php echo base64_encode($data->id) ?>">Update Expert Doctor</a></li>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Payments/doctor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
                                     <? } ?>
-                                    <!-- <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
-                                    <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                    <li><a href="<?php echo base_url() ?>dcadmin/Doctor/update_doctor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+                                    <!-- <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li> -->
                                   <? } else {
                                     echo "NA";
                                   } ?>

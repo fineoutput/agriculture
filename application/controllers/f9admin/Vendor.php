@@ -90,12 +90,12 @@ class Vendor extends CI_finecontrol
             $this->load->library('form_validation');
             $this->load->helper('security');
             if ($this->input->post()) {
-                $this->form_validation->set_rules('name', 'name', 'xss_clean|trim');
-                $this->form_validation->set_rules('hi_name', 'hi_name', 'xss_clean|trim');
-                $this->form_validation->set_rules('pn_name', 'pn_name', 'xss_clean|trim');
-                $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
-                $this->form_validation->set_rules('shop_hi_name', 'shop_hi_name', 'xss_clean|trim');
-                $this->form_validation->set_rules('shop_pn_name', 'shop_pn_name', 'xss_clean|trim');
+                $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('hi_name', 'hi_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pn_name', 'pn_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('shop_name', 'shop_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('shop_hi_name', 'shop_hi_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('shop_pn_name', 'shop_pn_name', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('address', 'address', 'required|xss_clean');
                 $this->form_validation->set_rules('hi_address', 'hi_address', 'required|xss_clean');
                 $this->form_validation->set_rules('pn_address', 'pn_address', 'required|xss_clean');
@@ -141,11 +141,11 @@ class Vendor extends CI_finecontrol
                     $img1 = 'image';
                     $file_check = ($_FILES['image']['error']);
                     if ($file_check != 4) {
-                        $image_upload_folder = FCPATH . "assets/uploads/team/";
+                        $image_upload_folder = FCPATH . "assets/uploads/vendor/";
                         if (!file_exists($image_upload_folder)) {
                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                         }
-                        $new_file_name = "team" . date("Ymdhms");
+                        $new_file_name = "vendor" . date("Ymdhms");
                         $this->upload_config = array(
                             'upload_path'   => $image_upload_folder,
                             'file_name' => $new_file_name,
@@ -159,7 +159,7 @@ class Vendor extends CI_finecontrol
                             echo $upload_error;
                         } else {
                             $file_info = $this->upload->data();
-                            $image = "assets/uploads/team/" . $new_file_name . $file_info['file_ext'];
+                            $image = "assets/uploads/vendor/" . $new_file_name . $file_info['file_ext'];
                             $file_info['new_name'] = $image;
                             // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
                             $nnnn = $file_info['file_name'];

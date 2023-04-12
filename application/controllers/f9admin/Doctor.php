@@ -202,32 +202,28 @@ class Doctor extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
-    // public function update_doctor($idd)
-    // {
-    //     if (!empty($this->session->userdata('admin_data'))) {
-    //         $data['user_name'] = $this->load->get_var('user_name');
-    //         $id = base64_decode($idd);
-    //         $data['id'] = $idd;
-    //         $this->db->select('*');
-    //         $this->db->from('tbl_doctor');
-    //         $this->db->where('id', $id);
-    //         $dsa = $this->db->get();
-    //         $data['doctor'] = $dsa->row();
-    //         $this->db->select('*');
-    //         $this->db->from('all_cities');
-    //         //$this->db->where('id',$usr);
-    //         $data['city_data'] = $this->db->get();
-    //         $this->db->select('*');
-    //         $this->db->from('all_states');
-    //         //$this->db->where('id',$usr);
-    //         $data['state_data'] = $this->db->get();
-    //         $this->load->view('admin/common/header_view', $data);
-    //         $this->load->view('admin/doctor/update_doctor');
-    //         $this->load->view('admin/common/footer_view');
-    //     } else {
-    //         redirect("login/admin_login", "refresh");
-    //     }
-    // }
+    public function update_doctor($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $id = base64_decode($idd);
+            $data['id'] = $idd;
+            $this->db->select('*');
+            $this->db->from('tbl_doctor');
+            $this->db->where('id', $id);
+            $dsa = $this->db->get();
+            $data['doctor'] = $dsa->row();
+            $this->db->select('*');
+            $this->db->from('all_states');
+            //$this->db->where('id',$usr);
+            $data['state_data'] = $this->db->get();
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/doctor/update_doctor');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
     public function set_commission_doctor($idd)
     {
         if (!empty($this->session->userdata('admin_data'))) {
@@ -333,6 +329,125 @@ class Doctor extends CI_finecontrol
                     if ($last_id != 0) {
                         $this->session->set_flashdata('smessage', 'Data updated successfully');
                         redirect("dcadmin/doctor/view_doctor", "refresh");
+                    } else {
+                        $this->session->set_flashdata('emessage', 'Sorry error occured');
+                        redirect($_SERVER['HTTP_REFERER']);
+                    }
+                } else {
+                    $this->session->set_flashdata('emessage', validation_errors());
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+            } else {
+                $this->session->set_flashdata('emessage', 'Please insert some data, No data available');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    //****************************Insert Doctor Fees Function**************************************
+    public function update_doctor_data($y)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $this->load->helper(array('form', 'url'));
+            $this->load->library('form_validation');
+            $this->load->helper('security');
+            if ($this->input->post()) {
+                $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('hi_name', 'hi_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pn_name', 'pn_name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('email', 'email', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('degree', 'degree', 'xss_clean|trim');
+                $this->form_validation->set_rules('experience', 'experience', 'xss_clean|trim');
+                $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('hi_district', 'hi_district', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pn_district', 'pn_district', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('hi_city', 'hi_city', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pn_city', 'pn_city', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'required|xss_clean|trim');
+                if ($this->form_validation->run() == TRUE) {
+                    $name = $this->input->post('name');
+                    $hi_name = $this->input->post('hi_name');
+                    $pn_name = $this->input->post('pn_name');
+                    $email = $this->input->post('email');
+                    $type = $this->input->post('type');
+                    $degree = $this->input->post('degree');
+                    $experience = $this->input->post('experience');
+                    $district = $this->input->post('district');
+                    $hi_district = $this->input->post('hi_district');
+                    $pn_district = $this->input->post('pn_district');
+                    $state = $this->input->post('state');
+                    $city = $this->input->post('city');
+                    $hi_city = $this->input->post('hi_city');
+                    $pn_city = $this->input->post('pn_city');
+                    $aadhar_no = $this->input->post('aadhar_no');
+                    $id = base64_decode($y);
+                    $data['id'] = $y;
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $addedby = $this->session->userdata('admin_id');
+                     //--------------image-----------------------------------
+                     $this->load->library('upload');
+                     $image = "";
+                     $img1 = 'image';
+                     $file_check = ($_FILES['image']['error']);
+                     if ($file_check != 4) {
+                         $image_upload_folder = FCPATH . "assets/uploads/doctor/";
+                         if (!file_exists($image_upload_folder)) {
+                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                         }
+                         $new_file_name = "doctor" . date("Ymdhms");
+                         $this->upload_config = array(
+                             'upload_path'   => $image_upload_folder,
+                             'file_name' => $new_file_name,
+                             'allowed_types' => 'jpg|jpeg|png',
+                             'max_size'      => 25000
+                         );
+                         $this->upload->initialize($this->upload_config);
+                         if (!$this->upload->do_upload($img1)) {
+                             $upload_error = $this->upload->display_errors();
+                             // echo json_encode($upload_error);
+                             echo $upload_error;
+                         } else {
+                             $file_info = $this->upload->data();
+                             $image = "assets/uploads/doctor/" . $new_file_name . $file_info['file_ext'];
+                             $file_info['new_name'] = $image;
+                             // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+                             $nnnn = $file_info['file_name'];
+                             // echo json_encode($file_info);
+                         }
+                     }
+                     $vendor_data = $this->db->get_where('tbl_doctor', array('id' => $id,))->result();
+                     if (empty($image)) {
+                         $image = $vendor_data[0]->image;
+                     }
+                    $data_update = array(
+                        'name' => $name,
+                        'hi_name' => $hi_name,
+                        'pn_name' => $pn_name,
+                        'email' => $email,
+                        'type' => $type,
+                        'degree' => $degree,
+                        'experience' => $experience,
+                        'district' => $district,
+                        'hi_district' => $hi_district,
+                        'pn_district' => $pn_district,
+                        'state' => $state,
+                        'city' => $city,
+                        'hi_city' => $hi_city,
+                        'pn_city' => $pn_city,
+                        'aadhar_no' => $aadhar_no,
+                        'image' => $image,
+                    );
+                    $this->db->where('id', $id);
+                    $last_id = $this->db->update('tbl_doctor', $data_update);
+                    if ($last_id != 0) {
+                        $this->session->set_flashdata('smessage', 'Data updated successfully');
+                        redirect("dcadmin/Doctor/accepted_doctors", "refresh");
                     } else {
                         $this->session->set_flashdata('emessage', 'Sorry error occured');
                         redirect($_SERVER['HTTP_REFERER']);

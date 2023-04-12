@@ -104,7 +104,7 @@
                           <td><?php echo $data->phone ?></td>
                           <td><?php echo $data->pan_number ?></td>
                           <td><?php echo $data->email ?></td>
-                          <td>₹<?php echo $data->account ?></td>
+                          <td><?php echo $data->account ? '₹'.$data->account : '₹0'?></td>
                           <td><?php if ($data->is_active == 1) { ?>
                               <p class="label bg-green">Unblocked</p>
                             <?php } else { ?>
