@@ -358,7 +358,9 @@ class ToolsController extends CI_Controller
             }
             $pages = round($count / $limit);
             $pagination = $this->CreatePagination($page_index, $pages);
-            $data = [];
+            $en_data = [];
+            $hi_data = [];
+            $pn_data = [];
             foreach ($ProData as $pro) {
                 if (!empty($pro->image)) {
                     $image = base_url() . $pro->image;
@@ -375,13 +377,35 @@ class ToolsController extends CI_Controller
                 if ($discount > 0) {
                     $percent = round($discount / $pro->mrp * 100);
                 }
-                $data[] = array(
+                $en_data[] = array(
                     'pro_id' => $pro->id,
                     'name_english' => $pro->name_english,
-                    'name_hindi' => $pro->name_hindi,
-                    'name_punjabi' => $pro->name_punjabi,
                     'description_english' => $pro->description_english,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'percent' => $percent,
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
+                );
+                $hi_data[] = array(
+                    'pro_id' => $pro->id,
+                    'name_hindi' => $pro->name_hindi,
                     'description_hindi' => $pro->description_hindi,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'percent' => $percent,
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
+                );
+                $pn_data[] = array(
+                    'pro_id' => $pro->id,
+                    'name_punjabi' => $pro->name_punjabi,
                     'description_punjabi' => $pro->description_punjabi,
                     'image' => $image,
                     'mrp' => $pro->mrp,
@@ -393,6 +417,11 @@ class ToolsController extends CI_Controller
                     'is_admin' => $pro->is_admin
                 );
             }
+            $data = array(
+                'en' => $en_data,
+                'hi' => $hi_data,
+                'pn' => $pn_data,
+            );
             $res = array(
                 'message' => "Success!",
                 'status' => 200,
