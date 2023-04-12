@@ -76,7 +76,7 @@
                                                 </td>
                                                 <td><?php echo $data->reason ?></td>
                                                 <td><?php echo $data->description ?></td>
-                                                <td>₹<?php echo $data->fees ?></td>
+                                                <td><?php echo $data->account ? '₹'.$data->account : '₹0'?></td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
                                                         <a href="<?php echo base_url() . $data->image1 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>"></a>
@@ -94,7 +94,6 @@
                                                         <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=50 width=80 src="<?php echo base_url() . $data->image5 ?>"></a>
                                                     <?php }  ?>
                                                 </td>
-
                                                 <td><?php if ($data->status == 0) { ?>
                                                         <p class="label bg-yellow">Pending</p>
                                                     <?php } else { ?>
