@@ -837,13 +837,15 @@ class ToolsController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $vendorData = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1))->result();
-                    $data = [];
+                    $en_data = [];
+                    $hi_data = [];
+                    $pn_data = [];
                     foreach ($vendorData as $vendor) {
                         $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
                         // echo $km;
                         // echo "<br>";
                         // if ($km <= $radius) {
-                        $data[] = array(
+                        $en_data[] = array(
                             'vendor_id' => $vendor->id,
                             'name' => $vendor->name,
                             'shop_name' => $vendor->shop_name,
@@ -853,8 +855,33 @@ class ToolsController extends CI_Controller
                             'state' => $vendor->state,
                             'pincode' => $vendor->pincode,
                         );
+                        $hi_data[] = array(
+                            'vendor_id' => $vendor->id,
+                            'name' => $vendor->hi_name,
+                            'shop_name' => $vendor->shop_hi_name,
+                            'address' => $vendor->hi_address,
+                            'district' => $vendor->hi_district,
+                            'city' => $vendor->hi_city,
+                            'state' => $vendor->state,
+                            'pincode' => $vendor->pincode,
+                        );
+                        $pn_data[] = array(
+                            'vendor_id' => $vendor->id,
+                            'name' => $vendor->pn_name,
+                            'shop_name' => $vendor->shop_pn_name,
+                            'address' => $vendor->pn_address,
+                            'district' => $vendor->pn_district,
+                            'city' => $vendor->pn_city,
+                            'state' => $vendor->state,
+                            'pincode' => $vendor->pincode,
+                        );
                         // }
                     }
+                    $data = array(
+                        'en' => $en_data,
+                        'hi' => $hi_data,
+                        'pn' => $pn_data,
+                    );
                     $res = array(
                         'message' => "Success",
                         'status' => 200,
