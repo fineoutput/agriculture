@@ -128,8 +128,8 @@
                                       <?php    }   ?>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Vendor/set_comission_vendor/<?php echo base64_encode($data->id) ?>">Update Commission(%)</a></li>
                                       <li><a href="<?php echo base_url() ?>dcadmin/Payments/vendor_txn/<?php echo base64_encode($data->id) ?>">Payment Transactions</a></li>
-                                      <!-- <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
-                                      <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                      <li><a href="<?php echo base_url() ?>dcadmin/vendor/update_Vendor/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+                                      <!-- <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li> -->
                                     <? } else {
                                       echo "NA";
                                     } ?>
