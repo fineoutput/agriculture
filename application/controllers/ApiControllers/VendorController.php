@@ -933,6 +933,7 @@ class VendorController extends CI_Controller
                 $description = $this->input->post('description');
                 $mrp = $this->input->post('mrp');
                 $selling_price = $this->input->post('selling_price');
+                $pro_id = $this->input->post('pro_id');
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($vendor_data)) {
                     $this->load->library('upload');
