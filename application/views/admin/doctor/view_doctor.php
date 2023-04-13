@@ -51,6 +51,7 @@
                       <th>State</th>
                       <th>District</th>
                       <th>City</th>
+                      <th>Pincode</th>
                       <th>Phone</th>
                       <th>Account</th>
                       <th>Type</th>
@@ -97,6 +98,7 @@
                             ?></td>
                         <td><?php echo $data->district ?></td>
                         <td><?php echo $data->city ?></td>
+                        <td><?php echo $data->pincode ?></td>
                         <td><?php echo $data->phone ?></td>
                         <td><?php echo $data->account ? '₹'.$data->account : '₹0'?></td>
                         <td><?php if ($data->is_expert == 1) { ?>

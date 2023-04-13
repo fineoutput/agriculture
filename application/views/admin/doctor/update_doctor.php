@@ -147,6 +147,12 @@
                       </td>
                     </tr>
                     <tr>
+                      <td> <strong>Pincode</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <input type="text" name="pincode" class="form-control" placeholder="" required value="<?= $doctor->pincode ?>" />
+                      </td>
+                    </tr>
+                    <tr>
                       <td> <strong>Aadhar Number</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
                         <input type="text" name="aadhar_no" class="form-control" placeholder="" required value="<?= $doctor->aadhar_no ?>" />

@@ -367,6 +367,7 @@ class Doctor extends CI_finecontrol
                 $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('hi_city', 'hi_city', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('pn_city', 'pn_city', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'required|xss_clean|trim');
                 if ($this->form_validation->run() == TRUE) {
                     $name = $this->input->post('name');
@@ -383,6 +384,7 @@ class Doctor extends CI_finecontrol
                     $city = $this->input->post('city');
                     $hi_city = $this->input->post('hi_city');
                     $pn_city = $this->input->post('pn_city');
+                    $pincode = $this->input->post('pincode');
                     $aadhar_no = $this->input->post('aadhar_no');
                     $id = base64_decode($y);
                     $data['id'] = $y;
@@ -440,6 +442,7 @@ class Doctor extends CI_finecontrol
                         'city' => $city,
                         'hi_city' => $hi_city,
                         'pn_city' => $pn_city,
+                        'pincode' => $pincode,
                         'aadhar_no' => $aadhar_no,
                         'image' => $image,
                     );

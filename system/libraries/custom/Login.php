@@ -156,6 +156,7 @@ class CI_Login
                                 'type' => $dt,
                                 'degree' => $temp_data[0]->degree,
                                 'experience' => $temp_data[0]->experience,
+                                'pincode' => $temp_data[0]->pincode,
                                 // 'qualification' => $temp_data[0]->qualification,
                                 'aadhar_no' => $temp_data[0]->aadhar_no,
                                 'image' => $temp_data[0]->image,
