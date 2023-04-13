@@ -926,6 +926,7 @@ class VendorController extends CI_Controller
             $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
             $this->form_validation->set_rules('description', 'description', 'required|xss_clean|trim');
             $this->form_validation->set_rules('mrp', 'mrp', 'xss_clean|trim');
+            $this->form_validation->set_rules('pro_id', 'pro_id', 'xss_clean|trim');
             $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
@@ -968,18 +969,31 @@ class VendorController extends CI_Controller
                     }
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
-                    $data_insert = array(
-                        'name_english' => $name,
-                        'description_english' => $description,
-                        'image' => $image,
-                        'mrp' => $mrp,
-                        'selling_price' => $selling_price,
-                        'added_by' => $vendor_data[0]->id,
-                        'is_active' => 0,
-                        'is_admin' => 0,
-                        'date' => $cur_date
-                    );
-                    $last_id = $this->base_model->insert_table("tbl_products", $data_insert, 1);
+                    if (empty($pro_id)) {
+                        $data_insert = array(
+                            'name_english' => $name,
+                            'description_english' => $description,
+                            'image' => $image,
+                            'mrp' => $mrp,
+                            'selling_price' => $selling_price,
+                            'added_by' => $vendor_data[0]->id,
+                            'is_active' => 0,
+                            'is_admin' => 0,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_products", $data_insert, 1);
+                    } else {
+                        $data_update = array(
+                            'name_english' => $name,
+                            'description_english' => $description,
+                            'image' => $image,
+                            'mrp' => $mrp,
+                            'selling_price' => $selling_price,
+                            'is_active' => 0,
+                        );
+                        $this->db->where('id', $pro_id);
+                        $zapak = $this->db->update('tbl_products', $data_update);
+                    }
                     $res = array(
                         'message' => "Success",
                         'status' => 200,
@@ -1194,19 +1208,19 @@ class VendorController extends CI_Controller
                     );
                     $this->db->where('id', $vendor_data[0]->id);
                     $zapak = $this->db->update('tbl_vendor', $data_update);
-                    if(!empty($zapak)){
-                    $res = array(
-                        'message' => "Success",
-                        'status' => 200,
-                    );
-                    echo json_encode($res);
-                }else{
-                    $res = array(
-                        'message' => "Some error occurred!",
-                        'status' => 201,
-                    );
-                    echo json_encode($res);
-                }
+                    if (!empty($zapak)) {
+                        $res = array(
+                            'message' => "Success",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => "Some error occurred!",
+                            'status' => 201,
+                        );
+                        echo json_encode($res);
+                    }
                 } else {
                     $res = array(
                         'message' => 'Permission Denied!',
