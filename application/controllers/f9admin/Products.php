@@ -17,8 +17,48 @@ class Products extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_products');
-            $this->db->where('is_admin',1);
+            $this->db->where('is_admin', 1);
             $data['products_data'] = $this->db->get();
+            $data['is_admin'] = 1;
+            $data['heading'] = 'Admin';
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/products/View_products');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    //****************************View Products Function**************************************
+    public function vendor_pending_products()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $this->db->select('*');
+            $this->db->from('tbl_products');
+            $this->db->where('is_admin', 0);
+            $this->db->where('is_active', 0);
+            $data['products_data'] = $this->db->get();
+            $data['is_admin'] = 0;
+            $data['heading'] = 'Vendor Pending';
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/products/View_products');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    //****************************View Products Function**************************************
+    public function vendor_accepted_products()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $this->db->select('*');
+            $this->db->from('tbl_products');
+            $this->db->where('is_admin', 0);
+            $this->db->where('is_active', 1);
+            $data['products_data'] = $this->db->get();
+            $data['is_admin'] = 0;
+            $data['heading'] = 'Vendor Accepted';
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/products/View_products');
             $this->load->view('admin/common/footer_view');

@@ -1,20 +1,21 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-    All Products
+      All <?= $heading ?> Products
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">View All Products</li>
+      <li class="active">View All <?= $heading ?> Products</li>
     </ol>
   </section>
   <section class="content">
     <div class="row">
       <div class="col-lg-12">
-        <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add Product</a>
+        <? if ($is_admin == 1) { ?><a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Products/add_products" role="button" style="margin-bottom:12px;"> Add Product</a>
+        <? } ?>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-box-open "></i> View All Products</h3>
+            <h3 class="panel-title"><i class="fa fa-box-open "></i> View All <?= $heading ?> Products</h3>
           </div>
           <div class="panel panel-default">
             <? if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -37,6 +38,10 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <? if ($is_admin == 0) { ?>
+                        <th>Vendor Name</th>
+                        <th>Vendor Phone</th>
+                      <? } ?>
                       <th>Name (English)</th>
                       <th>Name (Hindi)</th>
                       <th>Name (Punjabi)</th>
@@ -57,9 +62,17 @@
                   </thead>
                   <tbody>
                     <?php $i = 1;
-                    foreach ($products_data->result() as $data) { ?>
+                    foreach ($products_data->result() as $data) {
+                      if ($data->is_admin == 0) {
+                        $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $data->added_by))->result();
+                      }
+                    ?>
                       <tr>
                         <td><?php echo $i ?> </td>
+                        <? if ($data->is_admin == 0) { ?>
+                          <td><?php echo $vendor_data ? $vendor_data[0]->name : 'Not Found!' ?></td>
+                          <td><?php echo $vendor_data ? $vendor_data[0]->phone : 'Not Found!' ?></td>
+                        <? } ?>
                         <td><?php echo $data->name_english ?></td>
                         <td><?php echo $data->name_hindi ?></td>
                         <td><?php echo $data->name_punjabi ?></td>
@@ -73,11 +86,11 @@
                             Sorry No image Found
                           <?php } ?>
                         </td>
-                        <td>₹<?php echo $data->mrp ?></td>
-                        <td>₹<?php echo $data->selling_price ?></td>
-                        <td><?php echo $data->gst ?>%</td>
-                        <td>₹<?php echo $data->gst_price ?></td>
-                        <td>₹<?php echo $data->selling_price_wo_gst ?></td>
+                        <td><?php echo $data->mrp ? '₹' . $data->mrp : '' ?></td>
+                        <td><?php echo $data->selling_price ? '₹' . $data->selling_price : '' ?></td>
+                        <td><?php echo $data->gst ? $data->gst . '%' : '' ?></td>
+                        <td><?php echo $data->gst_price ?  '₹' . $data->gst_price : '' ?></td>
+                        <td><?php echo $data->selling_price_wo_gst ? '₹' . $data->selling_price_wo_gst : '' ?></td>
                         <td><?php echo $data->inventory ?></td>
                         <td><?php echo $data->suffix ?></td>
                         <td><?php if ($data->is_active == 1) { ?>
