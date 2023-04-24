@@ -128,7 +128,7 @@ class ManagementController extends CI_Controller
       $big = [];
       $i = 1;
       foreach ($query->result() as $entry) {
-        $daily_data = $this->db->order_by('id', 'desc')->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
+        $daily_data = $this->db->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
         foreach ($daily_data as $daily) {
           $newdate = new DateTime($daily->date);
           $data[] = array(

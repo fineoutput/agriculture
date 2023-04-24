@@ -116,6 +116,9 @@ class FarmerController extends CI_Controller
             $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
             $data = [];
             $total = 0;
+            $en_data = [];
+            $hi_data = [];
+            $pn_data = [];
             if (!empty($CartData)) {
                 foreach ($CartData as $cart) {
                     if ($cart->is_admin == 1) {
@@ -139,15 +142,39 @@ class FarmerController extends CI_Controller
                             $stock = 'Out of Stock';
                         }
                         $total += $ProData->selling_price * $cart->qty;
-                        $data[] = array(
+                        $en_data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
-                            'name_english' => $ProData->name_english,
-                            'name_hindi' => $ProData->name_hindi,
-                            'name_punjabi' => $ProData->name_punjabi,
-                            'description_english' => $ProData->description_english,
-                            'description_hindi' => $ProData->description_hindi,
-                            'description_punjabi' => $ProData->description_punjabi,
+                            'name' => $ProData->name_english,
+                            'description' => $pro->description_english,
+                            'image' => $image,
+                            // 'mrp' => $ProData->mrp,
+                            'selling_price' => $ProData->selling_price * $cart->qty,
+                            // 'suffix' => $ProData->suffix,
+                            'stock' => $stock,
+                            'vendor_id' => $ProData->added_by,
+                            'is_admin' => $cart->is_admin,
+                            'qty' => $cart->qty,
+                        );
+                        $hi_data[] = array(
+                            'cart_id' => $cart->id,
+                            'pro_id' => $ProData->id,
+                            'name' => $ProData->name_hindi,
+                            'description' => $pro->description_hindi,
+                            'image' => $image,
+                            // 'mrp' => $ProData->mrp,
+                            'selling_price' => $ProData->selling_price * $cart->qty,
+                            // 'suffix' => $ProData->suffix,
+                            'stock' => $stock,
+                            'vendor_id' => $ProData->added_by,
+                            'is_admin' => $cart->is_admin,
+                            'qty' => $cart->qty,
+                        );
+                        $pn_data[] = array(
+                            'cart_id' => $cart->id,
+                            'pro_id' => $ProData->id,
+                            'name' => $ProData->name_punjabi,
+                            'description' => $pro->description_punjabi,
                             'image' => $image,
                             // 'mrp' => $ProData->mrp,
                             'selling_price' => $ProData->selling_price * $cart->qty,
@@ -162,6 +189,11 @@ class FarmerController extends CI_Controller
                     }
                 }
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                $data = array(
+                    'en' => $en_data,
+                    'hi' => $hi_data,
+                    'pn' => $pn_data,
+                );
                 $res = array(
                     'message' => "Success!",
                     'status' => 200,
