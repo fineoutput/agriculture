@@ -106,7 +106,7 @@ class FarmerController extends CI_Controller
         }
     }
     //============================================= GetCart ============================================//
-    public function GetCart()
+    public function GetCart($lang)
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
@@ -142,7 +142,8 @@ class FarmerController extends CI_Controller
                             $stock = 'Out of Stock';
                         }
                         $total += $ProData->selling_price * $cart->qty;
-                        $en_data[] = array(
+                        if($lang=="en"){
+                        $data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
                             'name' => $ProData->name_english,
@@ -156,7 +157,8 @@ class FarmerController extends CI_Controller
                             'is_admin' => $cart->is_admin,
                             'qty' => $cart->qty,
                         );
-                        $hi_data[] = array(
+                    }else if($lang=="hi"){
+                        $data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
                             'name' => $ProData->name_hindi,
@@ -170,7 +172,8 @@ class FarmerController extends CI_Controller
                             'is_admin' => $cart->is_admin,
                             'qty' => $cart->qty,
                         );
-                        $pn_data[] = array(
+                    }else if($lang=="pn"){
+                        $data[] = array(
                             'cart_id' => $cart->id,
                             'pro_id' => $ProData->id,
                             'name' => $ProData->name_punjabi,
@@ -184,16 +187,17 @@ class FarmerController extends CI_Controller
                             'is_admin' => $cart->is_admin,
                             'qty' => $cart->qty,
                         );
+                    }
                     } else {
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
                     }
                 }
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-                $data = array(
-                    'en' => $en_data,
-                    'hi' => $hi_data,
-                    'pn' => $pn_data,
-                );
+                // $data = array(
+                //     'en' => $en_data,
+                //     'hi' => $hi_data,
+                //     'pn' => $pn_data,
+                // );
                 $res = array(
                     'message' => "Success!",
                     'status' => 200,
