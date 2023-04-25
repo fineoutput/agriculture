@@ -611,7 +611,7 @@ class FarmerController extends CI_Controller
                         $encrypted_data = bin2hex($openMode);
                         $encrypted_data = $encrypted_data;
                         $send = array(
-                            'order_id' => $order1_last_id,
+                            'order_id' => $order_id,
                             'access_code' => $access_code,
                             'redirect_url' => $success,
                             'cancel_url' => $fail,
