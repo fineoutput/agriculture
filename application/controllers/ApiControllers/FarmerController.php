@@ -465,10 +465,16 @@ class FarmerController extends CI_Controller
                     );
                     $order2_id = $this->base_model->insert_table("tbl_order2", $Order2Data, 1);
                 }
+                $send = array(
+                    'order_id' => $order1_id,
+                    'total' => $total,
+                    'charges' => $charges,
+                    'final' => $total + $charges,
+                );
                 $res = array(
                     'message' => "Success!",
                     'status' => 200,
-                    'data' => $order1_id,
+                    'data' => $send,
                 );
                 echo json_encode($res);
             } else {
