@@ -499,6 +499,298 @@ class FarmerController extends CI_Controller
     //============================================= Checkout ============================================//
     public function Checkout()
     {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+            //----- Verify Auth --------
+            if (!empty($farmer_data)) {
+                $this->form_validation->set_rules('order_id', 'order_id', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('address', 'address', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('phone', 'pincode', 'required|xss_clean|trim');
+                if ($this->form_validation->run() == true) {
+                    $order_id = $this->input->post('order_id');
+                    $name = $this->input->post('name');
+                    $address = $this->input->post('address');
+                    $city = $this->input->post('city');
+                    $state = $this->input->post('state');
+                    $district = $this->input->post('district');
+                    $pincode = $this->input->post('pincode');
+                    $phone = $this->input->post('phone');
+                    $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $success = base_url() . 'ApiController/FarmerController/payment_success';
+                    $fail = base_url() . 'ApiController/FarmerController/payment_failed';
+                    if (!empty($CartData)) {
+                        foreach ($CartData as $cart) {
+                            $is_admin = $cart->is_admin;
+                            if ($cart->is_admin == 1) {
+                                //---admin products ----
+                                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                            } else {
+                                //---vendor products ----
+                                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                            }
+                            $ProData = $ProData[0];
+                            $vendor_id =  $ProData->added_by;
+                            if (!empty($ProData)) {
+                                //----- Check Inventory  --------
+                                if ($ProData->inventory < $cart->qty) {
+                                    $res = array(
+                                        'message' => $ProData->name . ' is out of stock. Please remove this from cart!',
+                                        'status' => 201
+                                    );
+                                    echo json_encode($res);
+                                    die();
+                                }
+                            }
+                        }
+                        $txn_id = mt_rand(999999, 999999999999);
+                        $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
+                        $data_update = array(
+                            'txn_id' => $txn_id,
+                            'name' => $name,
+                            'address' => $address,
+                            'city' => $city,
+                            'state' => $state_da[0]->state_name,
+                            'district' => $district,
+                            'pincode' => $pincode,
+                            'phone' => $phone,
+                        );
+                        $this->db->where('id', $order_id);
+                        $this->db->update('tbl_order1', $data_update);
+                        $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                        $post = array(
+                            'txn_id' => $txn_id,
+                            'merchant_id' => MERCHAND_ID,
+                            'order_id' => $order_id,
+                            'amount' => $order1_data->final_amount,
+                            'currency' => "INR",
+                            'redirect_url' => $success,
+                            'cancel_url' => $fail,
+                            'billing_name' => $name,
+                            'billing_address' => $address,
+                            'billing_city' => $city,
+                            'billing_state' => $state_da[0]->state_name,
+                            'billing_zip' => $pincode,
+                            'billing_country' => 'India',
+                            'billing_tel' => $phone,
+                            'billing_email' => '',
+                        );
+                        $merchant_data = '';
+                        $working_key = WORKING_KEY; //Shared by CCAVENUES
+                        $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                        foreach ($post as $key => $value) {
+                            $merchant_data .= $key . '=' . $value . '&';
+                        }
+                        $length = strlen(md5($working_key));
+                        $binString = "";
+                        $count = 0;
+                        while ($count < $length) {
+                            $subString = substr(md5($working_key), $count, 2);
+                            $packedString = pack("H*", $subString);
+                            if ($count == 0) {
+                                $binString = $packedString;
+                            } else {
+                                $binString .= $packedString;
+                            }
+                            $count += 2;
+                        }
+                        $key = $binString;
+                        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                        $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                        $encrypted_data = bin2hex($openMode);
+                        $encrypted_data = $encrypted_data;
+                        $send = array(
+                            'order_id' => $order1_last_id,
+                            'access_code' => $access_code,
+                            'redirect_url' => $success,
+                            'cancel_url' => $fail,
+                            'enc_val' => $encrypted_data,
+                            'plain' => $merchant_data,
+                        );
+                        $res = array(
+                            'message' => "Success!",
+                            'status' => 200,
+                            'data' => $send,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
+                        $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                        $res = array(
+                            'message' => "Cart is empty!",
+                            'status' => 201,
+                            'data' => [],
+                            'count' => $count
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => validation_errors(),
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => 'Permission Denied!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    public function payment_success()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        // log_message('error', $encResponse);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $order_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        if ($order_status === "Success") {
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 0);
+            $this->db->where('id', $order_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $data_update = array(
+                    'payment_status' => 1,
+                    'order_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_order1', $data_update);
+                $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
+                $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
+                //------- order2 entry -----------
+                foreach ($order2_data as $cart) {
+                    if ($cart->is_admin == 1) {
+                        //---admin products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    } else {
+                        //---vendor products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    }
+                    $ProData = $ProData[0];
+                    $new_inventory = $ProData->inventory - $cart->qty;
+                    //--------- create inventory transaction -------
+                    $inv_txn = array(
+                        'order_id' => $order_id,
+                        'at_time' => $ProData->inventory,
+                        'less_inventory' => $cart->qty,
+                        'updated_inventory' => $new_inventory,
+                        'date' => $cur_date,
+                    );
+                    $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
+                    //------ Update inventory --------------------
+                    $data_update = array('inventory' => $new_inventory,);
+                    $this->db->where('id', $ProData->id);
+                    $zapak = $this->db->update('tbl_products', $data_update);
+                }
+                //--- Delete Cart -----------
+                $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
+                if ($cart->$is_admin == 0) {
+                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
+                    //------ create amount txn in the table -------------
+                    if (!empty($vendor_data[0]->comission)) {
+                        $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
+                        $data2 = array(
+                            'req_id' => $order_id,
+                            'vendor_id' => $vendor_id,
+                            'cr' => $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update vendor account ------
+                        $data_update = array(
+                            'account' => $vendor_data[0]->account + $amt,
+                        );
+                        $this->db->where('id', $vendor_id);
+                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                    }
+                }
+                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                $send = array(
+                    'count' => $count,
+                    'order_id' => $order1_id,
+                    'amount' => $order1_data[0]->final_amount,
+                );
+                $res = array(
+                    'message' => "success",
+                    'status' => 200,
+                    'order_id' => $order_id,
+                    'user_id' => $user_id,
+                );
+                echo '<p style="display:none">Success</p>';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo '<p style="display:none">Failure</p>';
+            exit;
+        } else {
+            echo '<p style="display:none">Aborted</p>';
+        }
+    }
+    public function payment_failed()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;            //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+    }
+    //============================================= Checkout ============================================//
+    public function Success()
+    {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
@@ -536,8 +828,6 @@ class FarmerController extends CI_Controller
                         }
                         $charges = $cart->qty * VENDOR_CHARGES;
                         $total += $ProData->selling_price * $cart->qty;
-                    } else {
-                        $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'product_id' => $cart->product_id));
                     }
                 }
                 //--- CALCULATE CHARGES ------ 
@@ -826,6 +1116,44 @@ class FarmerController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    public function encrypt($plainText, $key)
+    {
+        $key = $this->hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $openMode = openssl_encrypt($plainText, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+        $encryptedText = bin2hex($openMode);
+        return $encryptedText;
+    }
+    /*
+* @param1 : Encrypted String
+* @param2 : Working key provided by CCAvenue
+* @return : Plain String
+*/
+    public function decrypt($encryptedText, $key)
+    {
+        $key = $this->hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $encryptedText = $this->hextobin($encryptedText);
+        $decryptedText = openssl_decrypt($encryptedText, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+        return $decryptedText;
+    }
+    public function hextobin($hexString)
+    {
+        $length = strlen($hexString);
+        $binString = "";
+        $count = 0;
+        while ($count < $length) {
+            $subString = substr($hexString, $count, 2);
+            $packedString = pack("H*", $subString);
+            if ($count == 0) {
+                $binString = $packedString;
+            } else {
+                $binString .= $packedString;
+            }
+            $count += 2;
+        }
+        return $binString;
     }
 }
   //=========================================END FarmerController======================================//
