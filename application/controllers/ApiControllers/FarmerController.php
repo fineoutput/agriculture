@@ -609,7 +609,6 @@ class FarmerController extends CI_Controller
                         $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
                         $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
                         $encrypted_data = bin2hex($openMode);
-                        $encrypted_data = $encrypted_data;
                         $send = array(
                             'order_id' => $order_id,
                             'access_code' => $access_code,
@@ -660,7 +659,7 @@ class FarmerController extends CI_Controller
     public function payment_success()
     {
         $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
-        // log_message('error', $encResponse);
+        log_message('error', $encResponse);
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -700,7 +699,7 @@ class FarmerController extends CI_Controller
                 $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
                 //------- order2 entry -----------
                 foreach ($order2_data as $cart) {
-                    if ($cart->is_admin == 1) {
+                    if ($order1_data[0]->is_admin == 1) {
                         //---admin products ----
                         $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
                     } else {
@@ -725,7 +724,7 @@ class FarmerController extends CI_Controller
                 }
                 //--- Delete Cart -----------
                 $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
-                if ($cart->$is_admin == 0) {
+                if ($order1_data[0]->$is_admin == 0) {
                     $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
                     //------ create amount txn in the table -------------
                     if (!empty($vendor_data[0]->comission)) {
@@ -745,7 +744,7 @@ class FarmerController extends CI_Controller
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
                 }
-                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
                 $send = array(
                     'count' => $count,
                     'order_id' => $order1_id,
