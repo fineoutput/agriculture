@@ -573,7 +573,7 @@ class FarmerController extends CI_Controller
                             'txn_id' => $txn_id,
                             'merchant_id' => MERCHAND_ID,
                             'order_id' => $order_id,
-                            'amount' => $order1_data->final_amount,
+                            'amount' => $order1_data[0]->final_amount,
                             'currency' => "INR",
                             'redirect_url' => $success,
                             'cancel_url' => $fail,
