@@ -662,111 +662,111 @@ class FarmerController extends CI_Controller
     {
         $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
         log_message('error', $encResponse);
-        // $ip = $this->input->ip_address();
-        // date_default_timezone_set("Asia/Calcutta");
-        // $cur_date = date("Y-m-d H:i:s");
-        // error_reporting(0);
-        // $workingKey = WORKING_KEY;        //Working Key should be provided here.
-        // $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
-        // $order_status = "";
-        // $order_id = "";
-        // $decryptValues = explode('&', $rcvdString);
-        // $dataSize = sizeof($decryptValues);
-        // for ($i = 0; $i < $dataSize; $i++) {
-        //     $information = explode('=', $decryptValues[$i]);
-        //     if ($i == 3)    $order_status = $information[1];
-        //     if ($i == 0) $order_id = $information[1];
-        // }
-        // $data_insert = array(
-        //     'body' => json_encode($decryptValues),
-        //     'date' => $cur_date
-        // );
-        // $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
-        // if ($order_status === "Success") {
-        //     $this->db->select('*');
-        //     $this->db->from('tbl_order1');
-        //     $this->db->where('payment_status', 0);
-        //     $this->db->where('id', $order_id);
-        //     $order_data = $this->db->get()->row();
-        //     if (!empty($order_data)) {
-        //         $data_update = array(
-        //             'payment_status' => 1,
-        //             'order_status' => 1,
-        //             'cc_response' => json_encode($decryptValues),
-        //         );
-        //         $this->db->where('id', $order_id);
-        //         $this->db->update('tbl_order1', $data_update);
-        //         $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
-        //         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
-        //         $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
-        //         //------- order2 entry -----------
-        //         foreach ($order2_data as $cart) {
-        //             if ($order1_data[0]->is_admin == 1) {
-        //                 //---admin products ----
-        //                 $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
-        //             } else {
-        //                 //---vendor products ----
-        //                 $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
-        //             }
-        //             $ProData = $ProData[0];
-        //             $new_inventory = $ProData->inventory - $cart->qty;
-        //             //--------- create inventory transaction -------
-        //             $inv_txn = array(
-        //                 'order_id' => $order_id,
-        //                 'at_time' => $ProData->inventory,
-        //                 'less_inventory' => $cart->qty,
-        //                 'updated_inventory' => $new_inventory,
-        //                 'date' => $cur_date,
-        //             );
-        //             $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
-        //             //------ Update inventory --------------------
-        //             $data_update = array('inventory' => $new_inventory,);
-        //             $this->db->where('id', $ProData->id);
-        //             $zapak = $this->db->update('tbl_products', $data_update);
-        //         }
-        //         //--- Delete Cart -----------
-        //         $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
-        //         if ($order1_data[0]->$is_admin == 0) {
-        //             $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
-        //             //------ create amount txn in the table -------------
-        //             if (!empty($vendor_data[0]->comission)) {
-        //                 $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
-        //                 $data2 = array(
-        //                     'req_id' => $order_id,
-        //                     'vendor_id' => $vendor_id,
-        //                     'cr' => $amt,
-        //                     'date' => $cur_date
-        //                 );
-        //                 $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
-        //                 //------ update vendor account ------
-        //                 $data_update = array(
-        //                     'account' => $vendor_data[0]->account + $amt,
-        //                 );
-        //                 $this->db->where('id', $vendor_id);
-        //                 $zapak = $this->db->update('tbl_vendor', $data_update);
-        //             }
-        //         }
-        //         $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
-        //         $send = array(
-        //             'count' => $count,
-        //             'order_id' => $order1_id,
-        //             'amount' => $order1_data[0]->final_amount,
-        //         );
-        //         $res = array(
-        //             'message' => "success",
-        //             'status' => 200,
-        //             'order_id' => $order_id,
-        //             'user_id' => $user_id,
-        //         );
-        //         echo '<p style="display:none">Success</p>';
-        //         exit;
-        //     }
-        // } else if ($order_status === "Failure") {
-        //     echo '<p style="display:none">Failure</p>';
-        //     exit;
-        // } else {
-        //     echo '<p style="display:none">Aborted</p>';
-        // }
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $order_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        if ($order_status === "Success") {
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 0);
+            $this->db->where('id', $order_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $data_update = array(
+                    'payment_status' => 1,
+                    'order_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_order1', $data_update);
+                $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
+                $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
+                //------- order2 entry -----------
+                foreach ($order2_data as $cart) {
+                    if ($order1_data[0]->is_admin == 1) {
+                        //---admin products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    } else {
+                        //---vendor products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    }
+                    $ProData = $ProData[0];
+                    $new_inventory = $ProData->inventory - $cart->qty;
+                    //--------- create inventory transaction -------
+                    $inv_txn = array(
+                        'order_id' => $order_id,
+                        'at_time' => $ProData->inventory,
+                        'less_inventory' => $cart->qty,
+                        'updated_inventory' => $new_inventory,
+                        'date' => $cur_date,
+                    );
+                    $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
+                    //------ Update inventory --------------------
+                    $data_update = array('inventory' => $new_inventory,);
+                    $this->db->where('id', $ProData->id);
+                    $zapak = $this->db->update('tbl_products', $data_update);
+                }
+                //--- Delete Cart -----------
+                $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
+                if ($order1_data[0]->$is_admin == 0) {
+                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
+                    //------ create amount txn in the table -------------
+                    if (!empty($vendor_data[0]->comission)) {
+                        $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
+                        $data2 = array(
+                            'req_id' => $order_id,
+                            'vendor_id' => $vendor_id,
+                            'cr' => $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update vendor account ------
+                        $data_update = array(
+                            'account' => $vendor_data[0]->account + $amt,
+                        );
+                        $this->db->where('id', $vendor_id);
+                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                    }
+                }
+                $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
+                $send = array(
+                    'count' => $count,
+                    'order_id' => $order1_id,
+                    'amount' => $order1_data[0]->final_amount,
+                );
+                $res = array(
+                    'message' => "success",
+                    'status' => 200,
+                    'order_id' => $order_id,
+                    'user_id' => $user_id,
+                );
+                echo '<p style="display:none">Success</p>';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo '<p style="display:none">Failure</p>';
+            exit;
+        } else {
+            echo '<p style="display:none">Aborted</p>';
+        }
     }
     public function payment_failed()
     {
