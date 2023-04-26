@@ -776,6 +776,7 @@ class FarmerController extends CI_Controller
                     'status' => 200,
                     'data' => $send,
                 );
+                echo json_encode($res);
             } else {
                 $res = array(
                     'message' => 'Please Check Manually!',
