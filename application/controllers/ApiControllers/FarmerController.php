@@ -763,7 +763,7 @@ class FarmerController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id, 'farmer_id' => $order1_data[0]->farmer_id, 'payment_status' => 1))->result();
+            $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             if (!empty($order1_data)) {
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
                 $send = array(
