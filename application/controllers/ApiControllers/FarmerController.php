@@ -768,7 +768,7 @@ class FarmerController extends CI_Controller
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
                 $send = array(
                     'count' => $count,
-                    'order_id' => $order1_id,
+                    'order_id' => $order_id,
                     'amount' => $order1_data[0]->final_amount,
                 );
                 $res = array(
