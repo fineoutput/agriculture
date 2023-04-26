@@ -452,7 +452,9 @@ class FarmerController extends CI_Controller
                     $Order2Data = array(
                         'main_id' => $order1_id,
                         'product_id' => $ProData->id,
-                        'product_name' => $ProData->name_english,
+                        'product_name_en' => $ProData->name_english,
+                        'product_name_hi' => $ProData->name_hindi,
+                        'product_name_pn' => $ProData->name_punjabi,
                         'image' => $ProData->image,
                         'qty' => $cart->qty,
                         'mrp' => $ProData->mrp,
@@ -986,7 +988,9 @@ class FarmerController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name,
+                            'en' => $order2->product_name_en,
+                            'hi' => $order2->product_name_hi,
+                            'pn' => $order2->product_name_pn,
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
