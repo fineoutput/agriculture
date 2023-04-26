@@ -682,6 +682,7 @@ class FarmerController extends CI_Controller
             'date' => $cur_date
         );
         $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        // echo $order_status;die();
         if ($order_status === "Success") {
             $this->db->select('*');
             $this->db->from('tbl_order1');
@@ -696,7 +697,6 @@ class FarmerController extends CI_Controller
                 );
                 $this->db->where('id', $order_id);
                 $this->db->update('tbl_order1', $data_update);
-                $order1_id = $this->base_model->insert_table("tbl_order1", $Order1Data, 1);
                 $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
                 $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
                 //------- order2 entry -----------
@@ -758,14 +758,14 @@ class FarmerController extends CI_Controller
                     'order_id' => $order_id,
                     'user_id' => $user_id,
                 );
-                echo '<p style="display:none">Success</p>';
+                echo 'Success';
                 exit;
             }
         } else if ($order_status === "Failure") {
-            echo '<p style="display:none">Failure</p>';
+            echo 'Failure';
             exit;
         } else {
-            echo '<p style="display:none">Aborted</p>';
+            echo 'Aborted';
         }
     }
     public function payment_failed()
