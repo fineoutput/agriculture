@@ -746,6 +746,25 @@ class FarmerController extends CI_Controller
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
                 }
+                echo 'Success';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo 'Failure';
+            exit;
+        } else {
+            echo 'Aborted';
+        }
+    }
+    public function VerifyPayment($order_id)
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id, 'farmer_id' => $order1_data[0]->farmer_id, 'payment_status' => 1))->result();
+            if (!empty($order1_data)) {
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id))->num_rows();
                 $send = array(
                     'count' => $count,
@@ -755,17 +774,21 @@ class FarmerController extends CI_Controller
                 $res = array(
                     'message' => "success",
                     'status' => 200,
-                    'order_id' => $order_id,
-                    'user_id' => $user_id,
+                    'data' => $send,
                 );
-                echo 'Success';
-                exit;
+            } else {
+                $res = array(
+                    'message' => 'Please Check Manually!',
+                    'status' => 201
+                );
+                echo json_encode($res);
             }
-        } else if ($order_status === "Failure") {
-            echo 'Failure';
-            exit;
         } else {
-            echo 'Aborted';
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
     }
     public function payment_failed()
