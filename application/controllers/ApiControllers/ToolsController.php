@@ -944,7 +944,7 @@ class ToolsController extends CI_Controller
     }
     public function doctor_payment_success()
     {
-        $decryptValues = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
         log_message('error', $encResponse);
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
