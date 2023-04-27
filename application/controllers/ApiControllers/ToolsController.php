@@ -942,62 +942,9 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-    public function other()
-    {
-        $data = [];
-        date_default_timezone_set("Asia/Calcutta");
-        $cur_date = date("Y-m-d H:i:s");
-        $cur_date2 = date("d-m-Y");
-        $data = array(
-            'farmer_id' => $farmer_data[0]->id,
-            'is_expert' => $is_expert,
-            'doctor_id' => $doctor_id,
-            'reason' => $reason,
-            'description' => $description,
-            'fees' => $fees,
-            'payment_status' => 0,
-            'status' => 0,
-            'image1' => $nnnn,
-            'image2' => $nnnn2,
-            'image3' => $nnnn3,
-            'image4' => $nnnn4,
-            'image5' => $nnnn5,
-            'req_date' => $cur_date2,
-            'date' => $cur_date
-        );
-        $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
-        $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
-        //------ create amount txn in the table -------------
-        if (!empty($docData[0]->commission)) {
-            $amt = $fees * $docData[0]->commission / 100;
-            $data2 = array(
-                'req_id' => $last_id,
-                'doctor_id' => $doctor_id,
-                'cr' => $amt,
-                'date' => $cur_date
-            );
-            $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
-            //------ update doctor account ------
-            $data_update = array(
-                'account' => $docData[0]->account + $amt,
-            );
-            $this->db->where('id', $doctor_id);
-            $zapak = $this->db->update('tbl_doctor', $data_update);
-        }
-        $send = array(
-            'order_id' => $last_id,
-            'amount' => $fees,
-        );
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $send
-        );
-        echo json_encode($res);
-    }
     public function doctor_payment_success()
     {
-        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        $decryptValues = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
         log_message('error', $encResponse);
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
@@ -1036,10 +983,10 @@ class ToolsController extends CI_Controller
                 $docData = $this->db->get_where('tbl_doctor', array('id' => $order_data->doctor_id,))->result();
                 //------ create amount txn in the table -------------
                 if (!empty($docData[0]->commission)) {
-                    $amt = $fees * $docData[0]->commission / 100;
+                    $amt = $order_data->fees * $docData[0]->commission / 100;
                     $data2 = array(
                         'req_id' => $order_id,
-                        'doctor_id' => $doctor_id,
+                        'doctor_id' => $order_data->doctor_id,
                         'cr' => $amt,
                         'date' => $cur_date
                     );
