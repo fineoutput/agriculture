@@ -864,7 +864,7 @@ class ToolsController extends CI_Controller
                     $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
                     $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
                     $success = base_url() . 'ApiControllers/ToolsController/doctor_payment_success';
-                    $fail = base_url() . 'ApiControllers/ToolsController/doctor__failed';
+                    $fail = base_url() . 'ApiControllers/ToolsController/doctor_failed';
                     $post = array(
                         'txn_id' => '',
                         'merchant_id' => MERCHAND_ID,
