@@ -913,6 +913,7 @@ class ToolsController extends CI_Controller
                         'cancel_url' => $fail,
                         'enc_val' => $encrypted_data,
                         'plain' => $merchant_data,
+                        'merchant_param1' => 'Doctor Payment',
                     );
                     $res = array(
                         'message' => "Success!",
@@ -1135,7 +1136,6 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
-    
     public function encrypt($plainText, $key)
     {
         $key = $this->hextobin(md5($key));
