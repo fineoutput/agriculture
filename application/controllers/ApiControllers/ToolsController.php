@@ -851,7 +851,7 @@ class ToolsController extends CI_Controller
                         'reason' => $reason,
                         'description' => $description,
                         'fees' => $fees,
-                        'payment_status' => 1,
+                        'payment_status' => 0,
                         'status' => 0,
                         'image1' => $nnnn,
                         'image2' => $nnnn2,
@@ -861,33 +861,62 @@ class ToolsController extends CI_Controller
                         'req_date' => $cur_date2,
                         'date' => $cur_date
                     );
-                    $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
+                    $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
                     $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
-                    //------ create amount txn in the table -------------
-                    if (!empty($docData[0]->commission)) {
-                        $amt = $fees * $docData[0]->commission / 100;
-                        $data2 = array(
-                            'req_id' => $last_id,
-                            'doctor_id' => $doctor_id,
-                            'cr' => $amt,
-                            'date' => $cur_date
-                        );
-                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
-                        //------ update doctor account ------
-                        $data_update = array(
-                            'account' => $docData[0]->account + $amt,
-                        );
-                        $this->db->where('id', $doctor_id);
-                        $zapak = $this->db->update('tbl_doctor', $data_update);
-                    }
-                    $send = array(
-                        'order_id' => $last_id,
+                    $success = base_url() . 'ApiControllers/FarmerController/payment_success';
+                    $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
+                    $post = array(
+                        'txn_id' => '',
+                        'merchant_id' => MERCHAND_ID,
+                        'order_id' => $req_id,
                         'amount' => $fees,
+                        'currency' => "INR",
+                        'redirect_url' => $success,
+                        'cancel_url' => $fail,
+                        'billing_name' => $farmer_data[0]->name,
+                        'billing_address' => $farmer_data[0]->village,
+                        'billing_city' => $farmer_data[0]->city,
+                        'billing_state' => $farmer_data[0]->state,
+                        'billing_zip' => $farmer_data[0]->pincode,
+                        'billing_country' => 'India',
+                        'billing_tel' => $farmer_data[0]->phone,
+                        'billing_email' => '',
+                    );
+                    $merchant_data = '';
+                    $working_key = WORKING_KEY; //Shared by CCAVENUES
+                    $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                    foreach ($post as $key => $value) {
+                        $merchant_data .= $key . '=' . $value . '&';
+                    }
+                    $length = strlen(md5($working_key));
+                    $binString = "";
+                    $count = 0;
+                    while ($count < $length) {
+                        $subString = substr(md5($working_key), $count, 2);
+                        $packedString = pack("H*", $subString);
+                        if ($count == 0) {
+                            $binString = $packedString;
+                        } else {
+                            $binString .= $packedString;
+                        }
+                        $count += 2;
+                    }
+                    $key = $binString;
+                    $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                    $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                    $encrypted_data = bin2hex($openMode);
+                    $send = array(
+                        'order_id' => $req_id,
+                        'access_code' => $access_code,
+                        'redirect_url' => $success,
+                        'cancel_url' => $fail,
+                        'enc_val' => $encrypted_data,
+                        'plain' => $merchant_data,
                     );
                     $res = array(
-                        'message' => "Success",
+                        'message' => "Success!",
                         'status' => 200,
-                        'data' => $send
+                        'data' => $send,
                     );
                     echo json_encode($res);
                 } else {
@@ -911,6 +940,59 @@ class ToolsController extends CI_Controller
             );
             echo json_encode($res);
         }
+    }
+    public function other()
+    {
+        $data = [];
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        $cur_date2 = date("d-m-Y");
+        $data = array(
+            'farmer_id' => $farmer_data[0]->id,
+            'is_expert' => $is_expert,
+            'doctor_id' => $doctor_id,
+            'reason' => $reason,
+            'description' => $description,
+            'fees' => $fees,
+            'payment_status' => 0,
+            'status' => 0,
+            'image1' => $nnnn,
+            'image2' => $nnnn2,
+            'image3' => $nnnn3,
+            'image4' => $nnnn4,
+            'image5' => $nnnn5,
+            'req_date' => $cur_date2,
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
+        $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
+        //------ create amount txn in the table -------------
+        if (!empty($docData[0]->commission)) {
+            $amt = $fees * $docData[0]->commission / 100;
+            $data2 = array(
+                'req_id' => $last_id,
+                'doctor_id' => $doctor_id,
+                'cr' => $amt,
+                'date' => $cur_date
+            );
+            $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+            //------ update doctor account ------
+            $data_update = array(
+                'account' => $docData[0]->account + $amt,
+            );
+            $this->db->where('id', $doctor_id);
+            $zapak = $this->db->update('tbl_doctor', $data_update);
+        }
+        $send = array(
+            'order_id' => $last_id,
+            'amount' => $fees,
+        );
+        $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => $send
+        );
+        echo json_encode($res);
     }
     //====================================================== Vendors ================================================//
     public function GetVendors()
