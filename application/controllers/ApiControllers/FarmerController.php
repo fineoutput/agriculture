@@ -587,6 +587,7 @@ class FarmerController extends CI_Controller
                             'billing_country' => 'India',
                             'billing_tel' => $phone,
                             'billing_email' => '',
+                            'merchant_param1' => 'Order Payment',
                         );
                         $merchant_data = '';
                         $working_key = WORKING_KEY; //Shared by CCAVENUES

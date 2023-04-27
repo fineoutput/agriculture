@@ -881,6 +881,7 @@ class ToolsController extends CI_Controller
                         'billing_country' => 'India',
                         'billing_tel' => $farmer_data[0]->phone,
                         'billing_email' => '',
+                        'merchant_param1' => 'Doctor Payment',
                     );
                     $merchant_data = '';
                     $working_key = WORKING_KEY; //Shared by CCAVENUES
