@@ -844,6 +844,7 @@ class ToolsController extends CI_Controller
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
                     $cur_date2 = date("d-m-Y");
+                    $txn_id = mt_rand(999999, 999999999999);
                     $data = array(
                         'farmer_id' => $farmer_data[0]->id,
                         'is_expert' => $is_expert,
@@ -859,6 +860,7 @@ class ToolsController extends CI_Controller
                         'image4' => $nnnn4,
                         'image5' => $nnnn5,
                         'req_date' => $cur_date2,
+                        'txn_id' => $txn_id,
                         'date' => $cur_date
                     );
                     $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
@@ -868,7 +870,7 @@ class ToolsController extends CI_Controller
                     $post = array(
                         'txn_id' => '',
                         'merchant_id' => MERCHAND_ID,
-                        'order_id' => $req_id,
+                        'order_id' => $txn_id,
                         'amount' => $fees,
                         'currency' => "INR",
                         'redirect_url' => $success,
@@ -960,7 +962,7 @@ class ToolsController extends CI_Controller
         for ($i = 0; $i < $dataSize; $i++) {
             $information = explode('=', $decryptValues[$i]);
             if ($i == 3)    $order_status = $information[1];
-            if ($i == 0) $order_id = $information[1];
+            if ($i == 0) $txn_id = $information[1];
         }
         $data_insert = array(
             'body' => json_encode($decryptValues),
@@ -972,9 +974,10 @@ class ToolsController extends CI_Controller
             $this->db->select('*');
             $this->db->from('tbl_doctor_req');
             $this->db->where('payment_status', 0);
-            $this->db->where('id', $order_id);
+            $this->db->where('txn_id', $txn_id);
             $order_data = $this->db->get()->row();
             if (!empty($order_data)) {
+                $order_id = $order_data->id;
                 $data_update = array(
                     'payment_status' => 1,
                     'cc_response' => json_encode($decryptValues),
@@ -1016,10 +1019,10 @@ class ToolsController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $req_data = $this->db->get_where('tbl_doctor_req', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $req_data = $this->db->get_where('tbl_doctor_req', array('txn_id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             if (!empty($req_data)) {
                 $send = array(
-                    'order_id' => $order_id,
+                    'order_id' => $req_data[0]->txn_id,
                     'amount' => $req_data[0]->fees,
                 );
                 $res = array(

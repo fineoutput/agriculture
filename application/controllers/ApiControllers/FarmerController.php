@@ -619,6 +619,7 @@ class FarmerController extends CI_Controller
                             'cancel_url' => $fail,
                             'enc_val' => $encrypted_data,
                             'plain' => $merchant_data,
+                            'merchant_param1' => 'Order Payment',
                         );
                         $res = array(
                             'message' => "Success!",
