@@ -863,8 +863,8 @@ class ToolsController extends CI_Controller
                     );
                     $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
                     $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
-                    $success = base_url() . 'ApiControllers/FarmerController/payment_success';
-                    $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
+                    $success = base_url() . 'ApiControllers/ToolsController/doctor_payment_success';
+                    $fail = base_url() . 'ApiControllers/ToolsController/doctor__failed';
                     $post = array(
                         'txn_id' => '',
                         'merchant_id' => MERCHAND_ID,
@@ -994,6 +994,106 @@ class ToolsController extends CI_Controller
             'data' => $send
         );
         echo json_encode($res);
+    }
+    public function doctor_payment_success()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        log_message('error', $encResponse);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $order_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        // echo $order_status;die();
+        if ($order_status === "Success") {
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('payment_status', 0);
+            $this->db->where('id', $order_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_doctor_req', $data_update);
+                $docData = $this->db->get_where('tbl_doctor', array('id' => $order_data->doctor_id,))->result();
+                //------ create amount txn in the table -------------
+                if (!empty($docData[0]->commission)) {
+                    $amt = $fees * $docData[0]->commission / 100;
+                    $data2 = array(
+                        'req_id' => $order_id,
+                        'doctor_id' => $doctor_id,
+                        'cr' => $amt,
+                        'date' => $cur_date
+                    );
+                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                    //------ update doctor account ------
+                    $data_update = array(
+                        'account' => $docData[0]->account + $amt,
+                    );
+                    $this->db->where('id', $order_data->doctor_id);
+                    $zapak = $this->db->update('tbl_doctor', $data_update);
+                }
+                echo 'Success';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo 'Failure';
+            exit;
+        } else {
+            echo 'Aborted';
+        }
+    }
+    public function VerifyDoctorPayment($order_id)
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $req_data = $this->db->get_where('tbl_doctor_req', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            if (!empty($req_data)) {
+                $send = array(
+                    'order_id' => $order_id,
+                    'amount' => $req_data[0]->fees,
+                );
+                $res = array(
+                    'message' => "success",
+                    'status' => 200,
+                    'data' => $send,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Please Check Manually!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
     }
     //====================================================== Vendors ================================================//
     public function GetVendors()
