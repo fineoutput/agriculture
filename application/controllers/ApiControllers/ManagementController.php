@@ -1045,7 +1045,20 @@ class ManagementController extends CI_Controller
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->num_rows();
       $summary = [];
-      $this->db->select_sum('green_forage', 'dry_fodder', 'silage', 'cake', 'grains', 'bioproducts', 'churi', 'oil_seeds', 'minerals', 'bypass_fat', 'toxins', 'buffer', 'yeast', 'calcium');
+      $this->db->select_sum('green_forage');
+      $this->db->select_sum('dry_fodder');
+      $this->db->select_sum('silage');
+      $this->db->select_sum('cake');
+      $this->db->select_sum('grains');
+      $this->db->select_sum('bioproducts');
+      $this->db->select_sum('churi');
+      $this->db->select_sum('oil_seeds');
+      $this->db->select_sum('minerals');
+      $this->db->select_sum('bypass_fat');
+      $this->db->select_sum('toxins');
+      $this->db->select_sum('buffer');
+      $this->db->select_sum('yeast');
+      $this->db->select_sum('calcium');
       $this->db->from('tbl_stock_handling');
       $this->db->where('farmer_id', $farmer_data[0]->id);
       $query = $this->db->get();
