@@ -43,9 +43,11 @@ class ManagementController extends CI_Controller
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('date', 'date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('data', 'data', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('update_inventory', 'update_inventory', 'required|xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $date = $this->input->post('date');
         $data = json_decode($this->input->post('data'));
+        $update_inventory = $this->input->post('update_inventory');
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -63,9 +65,19 @@ class ManagementController extends CI_Controller
                 'qty' => $d->values->qty,
                 'price' => $d->values->price,
                 'amount' => $d->values->amount,
+                'update_inventory' => $update_inventory,
                 'date' => $cur_date
               );
               $last_id = $this->base_model->insert_table("tbl_daily_records", $data, 1);
+              //----- update inventory -------
+              if ($update_inventory == "Yes" && $d->values->type == 'feed' &&  $d->column != 'feed') {
+                $data = array(
+                  'farmer_id' => $farmer_data[0]->id,
+                  $d->column => -$d->values->qty,
+                  'date' => $cur_date
+                );
+                $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
+              }
             }
           }
           $res = array(
@@ -1203,21 +1215,21 @@ class ManagementController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-          $delete = $this->db->delete('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'id'=> $id));
-          $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id'=> $id));
-          if(!empty($delete) && !empty($delete2)){
-          $res = array(
-            'message' => "Tank Successfully Deleted!",
-            'status' => 200,
-          );
-          echo json_encode($res);
-        }else{
-          $res = array(
-            'message' => 'Some error ocurred!',
-            'status' => 201
-          );
-          echo json_encode($res);
-        }
+          $delete = $this->db->delete('tbl_tank', array('farmer_id' => $farmer_data[0]->id, 'id' => $id));
+          $delete2 = $this->db->delete('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tank_id' => $id));
+          if (!empty($delete) && !empty($delete2)) {
+            $res = array(
+              'message' => "Tank Successfully Deleted!",
+              'status' => 200,
+            );
+            echo json_encode($res);
+          } else {
+            $res = array(
+              'message' => 'Some error ocurred!',
+              'status' => 201
+            );
+            echo json_encode($res);
+          }
         } else {
           $res = array(
             'message' => 'Permission Denied!',
