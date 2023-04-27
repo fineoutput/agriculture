@@ -1044,6 +1044,27 @@ class ManagementController extends CI_Controller
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
       $count = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $summary = [];
+      $this->db->select_sum('green_forage', 'dry_fodder', 'silage', 'cake', 'grains', 'bioproducts', 'churi', 'oil_seeds', 'minerals', 'bypass_fat', 'toxins', 'buffer', 'yeast', 'calcium');
+      $this->db->from('tbl_stock_handling');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $query = $this->db->get();
+      $summary = array(
+        'green_forage' => $query->row()->green_forage,
+        'dry_fodder' => $query->row()->dry_fodder,
+        'silage' => $query->row()->silage,
+        'cake' => $query->row()->cake,
+        'grains' => $query->row()->grains,
+        'bioproducts' => $query->row()->bioproducts,
+        'churi' => $query->row()->churi,
+        'oil_seeds' => $query->row()->oil_seeds,
+        'minerals' => $query->row()->minerals,
+        'bypass_fat' => $query->row()->bypass_fat,
+        'toxins' => $query->row()->toxins,
+        'buffer' => $query->row()->buffer,
+        'yeast' => $query->row()->yeast,
+        'calcium' => $query->row()->calcium,
+      );
       $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
@@ -1086,6 +1107,7 @@ class ManagementController extends CI_Controller
         'message' => "Success!",
         'status' => 200,
         'data' => $data,
+        'summary' => $summary,
         'pagination' => $pagination,
         'last' => $pages,
       );
