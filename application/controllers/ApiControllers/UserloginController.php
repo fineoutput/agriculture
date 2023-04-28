@@ -233,72 +233,7 @@ class UserloginController extends CI_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
-    //================================== UPDATE RESELLER PROFILE =======================================
-    public function update_reseller_profile()
-    {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('email', 'email', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('shop', 'shop', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('gstin', 'gstin', 'xss_clean|trim');
-            $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('address', 'address', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $name = $this->input->post('name');
-                $email = $this->input->post('email');
-                $shop = $this->input->post('shop');
-                $gstin = $this->input->post('gstin');
-                $city = $this->input->post('city');
-                $address = $this->input->post('address');
-                $update = array('name' => $name, 'email' => $email, 'shop' => $shop, 'gst_number' => $gstin, 'city' => $city, 'address' => $address);
-                $this->db->where('id', $this->session->userdata('user_id'));
-                $zapak2 = $this->db->update('tbl_reseller', $update);
-                if ($zapak2 == 1) {
-                    $this->session->set_flashdata('smessage', 'Profile Updated Successfully!');
-                    redirect('Home/my_profile', 'refresh');
-                } else {
-                    $this->session->set_flashdata('emessage', 'Some Unknown Error Occurred');
-                    redirect('Home/my_profile', 'refresh');
-                }
-            } else {
-                $this->session->set_flashdata('emessage', validation_errors());
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-        } else {
-            $this->session->set_flashdata('emessage', 'Please Insert Some Data, No Data Available');
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-    }
-    //======================================= REDEEM POINTS ==================================================
-    public function redeem_points()
-    {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $this->form_validation->set_rules('points', 'points', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('accountnumber', 'accountnumber', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('ifsccode', 'ifsccode', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $points = $this->input->post('points');
-                $accountnumber = $this->input->post('accountnumber');
-                $ifsccode = $this->input->post('ifsccode');
-                $name = $this->input->post('name');
-                $submit_request = $this->forms->redeemModelPoints($points, $accountnumber, $ifsccode, $points);
-                redirect('Home/my_profile', 'refresh');
-            } else {
-                $this->session->set_flashdata('emessage', validation_errors());
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-        } else {
-            $this->session->set_flashdata('emessage', 'Please Insert Some Data, No Data Available');
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-    }
+   
     //======================================== USER LOGOUT ========================================================
     public function logout()
     {

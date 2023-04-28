@@ -75,9 +75,9 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send Register OTP -----------
-                $msg = 'Dear User, Your OTP for signup to CABME is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Regards, CABME INDIA';
+                $msg = 'Dear User, Your OTP for signup to Dairy Muneem is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Regards, Dairy Muneem';
                 $temp_id = 1707166480333123421;
-                // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
+                // $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$otp,$dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
@@ -314,9 +314,9 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send login OTP----- -----
-                $msg = 'Dear User, Your OTP for login to CABME is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Thank You, CABME INDIA';
+                $msg = 'Dear User, Your OTP for login to Dairy Muneem is ' . $OTP . ' Valid for 30 minutes. Please do not share this OTP. Thank You, Dairy Muneem';
                 $temp_id = 1707166572968709050;
-                // $sendmsg = $this->CI->messages->sendOtpDigitalIndiasms($phone,$msg,$temp_id);
+                // $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$otp,$dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
