@@ -592,6 +592,86 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
+  //================= view other Sale Purchase -----------------------------
+  public function view_others_sale_purchase()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id !=' => $farmer_data[0]->id))->num_rows();
+      $limit = 20;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_sale_purchase');
+      $this->db->where('farmer_id !=', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->limit($limit, $start);
+      $exp_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
+      $data = [];
+      $i = 1;
+      foreach ($exp_data->result() as $exp) {
+        $newdate = new DateTime($exp->date);
+        if (!empty($exp->image1)) {
+          $image1 = base_url() . $exp->image1;
+        } else {
+          $image1 = '';
+        }
+        if (!empty($exp->image2)) {
+          $image2 = base_url() . $exp->image2;
+        } else {
+          $image2 = '';
+        }
+        if (!empty($exp->image3)) {
+          $image3 = base_url() . $exp->image3;
+        } else {
+          $image3 = '';
+        }
+        if (!empty($exp->image4)) {
+          $image4 = base_url() . $exp->image4;
+        } else {
+          $image4 = '';
+        }
+        $data[] = array(
+          's_no' => $i,
+          'information_type' => $exp->information_type,
+          'animal_name' => $exp->animal_name,
+          'milk_production' => $exp->milk_production,
+          'lactation' => $exp->lactation,
+          'location' => $exp->location,
+          'expected_price' => $exp->expected_price,
+          'pastorate_pregnant' => $exp->pastorate_pregnant,
+          'image1' => $image1,
+          'image2' => $image2,
+          'image3' => $image3,
+          'image4' => $image4,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data,
+        'pagination' => $pagination,
+        'last' => $pages,
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
   //====================================================== MEDICAL EXPENSES================================================//
   public function medical_expenses()
   {
