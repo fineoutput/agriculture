@@ -475,7 +475,7 @@ class ToolsController extends CI_Controller
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
                             // echo $km;
                             // echo "<br>";
-                            // if ($km <= $radius) {
+                            if ($km <= $radius) {
                             if (!empty($doctor->image)) {
                                 $image = base_url() . $doctor->image;
                             } else {
@@ -508,7 +508,7 @@ class ToolsController extends CI_Controller
                                 'type' => $doctor->type,
                                 'image' => $image
                             );
-                            // }
+                            }
                         }
                         $data = array(
                             'en' => $en_data,
@@ -1072,7 +1072,7 @@ class ToolsController extends CI_Controller
                         $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
                         // echo $km;
                         // echo "<br>";
-                        // if ($km <= $radius) {
+                        if ($km <= $radius) {
                         $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
                         $en_data[] = array(
                             'vendor_id' => $vendor->id,
@@ -1104,7 +1104,7 @@ class ToolsController extends CI_Controller
                             'state' => $state_data[0]->state_name,
                             'pincode' => $vendor->pincode,
                         );
-                        // }
+                        }
                     }
                     $data = array(
                         'en' => $en_data,

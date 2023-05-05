@@ -979,6 +979,7 @@ class VendorController extends CI_Controller
                             'selling_price' => $selling_price,
                             'added_by' => $vendor_data[0]->id,
                             'is_active' => 0,
+                            'inventory' => 50,
                             'is_admin' => 0,
                             'date' => $cur_date
                         );
@@ -989,6 +990,7 @@ class VendorController extends CI_Controller
                             'description_english' => $description,
                             'image' => $image,
                             'mrp' => $mrp,
+                            'inventory' => 50,
                             'selling_price' => $selling_price,
                             'is_active' => 0,
                         );

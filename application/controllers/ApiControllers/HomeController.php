@@ -430,5 +430,6 @@ class HomeController extends CI_Controller
         );
         echo json_encode($res);
     }
+    
 }
   //======================================================END HOMECONTROLLER================================================//
