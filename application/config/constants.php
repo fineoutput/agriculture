@@ -91,6 +91,11 @@ define('SMTP_PORT', '587');
 define('ADMIN_AMOUNT', 700);
 define('ADMIN_CHARGES', 100);
 define('VENDOR_CHARGES', 5);
+//======================== sms ==================================
+define('SMSAUTH', '396335ADmdafsq6458f062P1');
+define('SMSID', 'AGRIDM');
+define('SIGNUP_DLT', '1207168309232905417');
+define('LOGIN_DLT', '1207168309237668287');
 // ----ccavenue -------------
 define('MERCHAND_ID', '2298208');
 define('WORKING_KEY', '85B6635B4774DED2F398A2E939894DBA'); //live 
