@@ -77,7 +77,7 @@ class CI_Login
                 //--------------- Send Register OTP -----------
                 $msg = 'Dear User, Your OTP for Signup on Dairy Muneem is' . $OTP . 'and is valid for 10 minutes. Please do not share this OTP';
                 $dlt = SIGNUP_DLT;
-                $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$otp,$dlt);
+                $sendmsg = $this->CI->messages->sendOtpMsg91($receive['phone'], $msg,$OTP,$dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
@@ -316,7 +316,7 @@ class CI_Login
                 //--------------- Send login OTP----- -----
                 $msg = 'Dear User, Your OTP for log in on Dairy Muneem is' . $OTP . 'and is valid for 10 minutes. Please do not share this OTP';
                 $dlt = LOGIN_DLT;
-                $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$otp,$dlt);
+                $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$OTP,$dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
