@@ -61,8 +61,8 @@ class CI_Login
                 'date' => $cur_date
             );
             $last_id = $this->CI->base_model->insert_table("tbl_register_temp", $data_insert, 1);
-            // $OTP = random_int(100000, 999999);
-            $OTP = 123456;
+            $OTP = random_int(100000, 999999);
+            // $OTP = 123456;
             //--------------- Insert data into OTP table -----
             $data_insert2 = array(
                 'phone' => $receive['phone'],
@@ -302,8 +302,8 @@ class CI_Login
                 }
             }
             //--------------- Insert data into otp table -----
-            // $OTP = random_int(100000, 999999);
-            $OTP = 123456;
+            $OTP = random_int(100000, 999999);
+            // $OTP = 123456;
             $data_insert2 = array(
                 'phone' => $phone,
                 'otp' => $OTP,
