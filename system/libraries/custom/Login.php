@@ -75,7 +75,7 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send Register OTP -----------
-                $msg = 'Dear User, Your OTP for Signup on Dairy Muneem is' . $OTP . 'and is valid for 10 minutes. Please do not share this OTP';
+                $msg = 'Dear User, Your OTP for Signup on Dairy Muneem is ' . $OTP . ' and is valid for 10 minutes. Please do not share this OTP';
                 $dlt = SIGNUP_DLT;
                 $sendmsg = $this->CI->messages->sendOtpMsg91($receive['phone'], $msg,$OTP,$dlt);
                 $respone['status'] = 200;
@@ -314,7 +314,7 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send login OTP----- -----
-                $msg = 'Dear User, Your OTP for log in on Dairy Muneem is' . $OTP . 'and is valid for 10 minutes. Please do not share this OTP';
+                $msg = 'Dear User, Your OTP for log in on Dairy Muneem is ' . $OTP . ' and is valid for 10 minutes. Please do not share this OTP';
                 $dlt = LOGIN_DLT;
                 $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg,$OTP,$dlt);
                 $respone['status'] = 200;

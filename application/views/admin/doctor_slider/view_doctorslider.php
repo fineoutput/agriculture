@@ -1,21 +1,21 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Farmer Slider1
+      Doctor Slider
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> All Farmer Slider</a></li>
-      <li class="active">View Farmer Slider</li>
+      <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> All Doctor Slider</a></li>
+      <li class="active">View doctorSlider</li>
     </ol>
   </section>
   <section class="content">
     <div class="row">
       <div class="col-lg-12">
-        <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/slider/add_slider" role="button" style="margin-bottom:12px;"> Add slider </a>
+        <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/doctor_slider/add_doctorslider" role="button" style="margin-bottom:12px;"> Add doctorslider </a>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">View Farmer Slider</h3>
+            <h3 class="panel-title">View Doctor Slider</h3>
           </div>
           <div class="panel panel-default">
             <? if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -45,7 +45,7 @@
                   </thead>
                   <tbody>
                     <?php $i = 1;
-                    foreach ($slider_data->result() as $data) { ?>
+                    foreach ($doctorslider_data->result() as $data) { ?>
                       <tr>
                         <td><?php echo $i ?> </td>
                         <td>
@@ -67,18 +67,18 @@
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
                               <ul class="dropdown-menu" role="menu">
                                 <?php if ($data->is_active == 1) { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Slider/updatesliderStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/doctor_slider/updatedoctorsliderStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
                                 <?php } else { ?>
-                                  <li><a href="<?php echo base_url() ?>dcadmin/Slider/updatesliderStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/doctor_slider/updatedoctorsliderStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
                                 <?php    }   ?>
-                                <li><a href="<?php echo base_url() ?>dcadmin/Slider/update_slider/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+                                <li><a href="<?php echo base_url() ?>dcadmin/doctor_slider/update_doctorslider/<?php echo base64_encode($data->id) ?>">Edit</a></li>
                                 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
                               </ul>
                             </div>
                           </div>
                           <div style="display:none" id="cnfbox<?php echo $i ?>">
                             <p> Are you sure delete this </p>
-                            <a href="<?php echo base_url() ?>dcadmin/Slider/delete_slider/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
+                            <a href="<?php echo base_url() ?>dcadmin/doctor_slider/delete_doctorslider/<?php echo base64_encode($data->id); ?>" class="btn btn-danger">Yes</a>
                             <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>">No</a>
                           </div>
                         </td>

@@ -396,9 +396,43 @@ class HomeController extends CI_Controller
                 }
                 $slider[] = $image;
             }
+            //---- Farmerslider2 data -------
+            $FarmerSlider_data = $this->db->get_where('tbl_farmersliderslider', array('is_active' => 1))->result();
+           
+            $Famerslider = [];
+            foreach ($FarmerSlider_data as $farmerslide) {
+                if (!empty($farmerslide->image)) {
+                    $image2 = base_url() . $farmerslide->image;
+                } else {
+                    $image2 = '';
+                }
+                $Famerslider[] = $image2;
+            }
+            //---- Categoryslider data -------
+            $CategorySlider_data = $this->db->get_where('tbl_category_images', array('is_active' => 1))->result();
+           
+            $CategoryData = [];
+            foreach ($CategorySlider_data as $category) {
+                $subCategoryData = [];
+                $subCategoryData = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
+                foreach ($subCategoryData as $subcategory) {
+                    $subCategoryData[] = array(
+                        'catory_id' => $subcategory->category_name,
+                        'catory_id' => $subcategory->name,
+                        'catory_id' => $subcategory->image
+                        
+                    );
+                }
+                $CategoryData[] = array(
+                    'catory_id' => $category->name,
+                    'catory_id' => $category->image,
+                    'subCategoryData' => $subCategoryData
+                );
+            }
+           
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-            $data =  array('slider' => $slider, 'CartCount' => $CartCount);
+            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'CartCount' => $CartCount);
             $res = array(
                 'message' => "Success!",
                 'status' => 200,
@@ -430,6 +464,5 @@ class HomeController extends CI_Controller
         );
         echo json_encode($res);
     }
-    
 }
   //======================================================END HOMECONTROLLER================================================//

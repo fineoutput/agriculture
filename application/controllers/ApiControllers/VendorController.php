@@ -31,6 +31,41 @@ class VendorController extends CI_Controller
         }
         return $pagination;
     }
+    public function HomeData()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            //---- vendor slider data -------
+            $vendorSlider_data = $this->db->get_where('tbl_vendorslider', array('is_active' => 1))->result();
+            $data = [];
+            $vendor_slider = [];
+            foreach ($vendorSlider_data as $vendor_slide) {
+                if (!empty($vendor_slide->image)) {
+                    $image = base_url() . $vendor_slide->image;
+                } else {
+                    $image = '';
+                }
+                $vendor_slider[] = $image;
+            }
+            //---- Cart Count -------
+            $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+            $data =  array('vendor_slider' => $vendor_slider, 'CartCount' => $CartCount);
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //================================ Orders ==========================================
     //====================================== NewOrders =================================//
     public function NewOrders()
