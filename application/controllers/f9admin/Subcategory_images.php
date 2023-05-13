@@ -92,7 +92,7 @@ class Subcategory_images extends CI_finecontrol
 
                     if ($last_id != 0) {
                         $this->session->set_flashdata('smessage', 'Data Updated successfully');
-                        redirect("dcadmin/subcategory_images/view_subcategoryimages", "refresh");
+                        redirect("dcadmin/Subcategory_images/view_subcategoryimages", "refresh");
                     } else {
                         $this->session->set_flashdata('emessage', 'Sorry error occured');
                         redirect($_SERVER['HTTP_REFERER']);
@@ -114,7 +114,7 @@ class Subcategory_images extends CI_finecontrol
             $dsa = $this->db->get();
             $data['subcategory_images'] = $dsa->row();
             $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/subcategory_images/update_subcategoryimages');
+            $this->load->view('admin/Subcategory_images/update_subcategoryimages');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
