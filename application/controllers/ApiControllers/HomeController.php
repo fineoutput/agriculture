@@ -419,22 +419,96 @@ class HomeController extends CI_Controller
                     $subCategoryData[] = array(
                         'id' => $subcategory->id,
                         'name' => $subcategory->name,
-                        'image' =>$subcategory->image? base_url() . $subcategory->image:''
+                        'image' => $subcategory->image ? base_url() . $subcategory->image : ''
 
                     );
                 }
                 $CategoryData[] = array(
                     'id' => $category->id,
                     'name' => $category->name,
-                    'image' => $category->image? base_url() . $category->image:'',
+                    'image' => $category->image ? base_url() . $category->image : '',
                     'subcatgory' => $subCategoryData,
 
                 );
             }
 
+            //tranding products
+            $this->db->select('*');
+            $this->db->from('tbl_products');
+            $this->db->where('tranding_products', 1);
+            $this->db->where('is_active', 1);
+            $this->db->where('is_admin', 1);
+            $data_products = $this->db->get();
+            $product_data=[];
+            $en_data = [];
+            $hi_data = [];
+            $pn_data = [];
+            foreach ($data_products->result() as $pro) {
+
+                if (!empty($pro->image)) {
+                    $image = base_url() . $pro->image;
+                } else {
+                    $image = '';
+                }
+                if ($pro->inventory != 0) {
+                    $stock = 'In Stock';
+                } else {
+                    $stock = 'Out of Stock';
+                }
+                $discount = (int)$pro->mrp - (int)$pro->selling_price;
+                $percent = 0;
+                if ($discount > 0) {
+                    $percent = round($discount / $pro->mrp * 100);
+                }
+
+                $en_data[] = array(
+                    'pro_id' => $pro->id,
+                    'name' => $pro->name_english,
+                    'description' => $pro->description_english,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'percent' => $percent,
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
+                );
+                $hi_data[] = array(
+                    'pro_id' => $pro->id,
+                    'name' => $pro->name_hindi,
+                    'description' => $pro->description_hindi,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'percent' => $percent,
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
+                );
+                $pn_data[] = array(
+                    'pro_id' => $pro->id,
+                    'name' => $pro->name_punjabi,
+                    'description' => $pro->description_punjabi,
+                    'image' => $image,
+                    'mrp' => $pro->mrp,
+                    'selling_price' => $pro->selling_price,
+                    'suffix' => $pro->suffix,
+                    'stock' => $stock,
+                    'percent' => $percent,
+                    'vendor_id' => $pro->added_by,
+                    'is_admin' => $pro->is_admin
+                );
+            }
+            $product_data = array(
+                'en' => $en_data,
+                'hi' => $hi_data,
+                'pn' => $pn_data,
+            );
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'CartCount' => $CartCount);
+            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data'=>$product_data,'CartCount' => $CartCount);
             $res = array(
                 'message' => "Success!",
                 'status' => 200,
