@@ -99,6 +99,7 @@
                                 <?php    }   ?>
                                 <!-- <li><a href="<?php echo base_url() ?>dcadmin/Farmers/update_farmers/<?php echo base64_encode($data->id) ?>">Edit</a></li> -->
                                 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
+                                <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<?php echo base64_encode($data->id) ?>">View Records</a></li>
                               </ul>
                             </div>
                           </div>

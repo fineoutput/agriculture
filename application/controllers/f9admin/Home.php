@@ -51,8 +51,8 @@ class Home extends CI_finecontrol
             $this->db->from('tbl_service_records');
             $data['service_report'] = $this->db->get()->row();
             $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/dash');
-            $this->load->view('admin/common/footer_view');
+             $this->load->view('admin/dash');
+             $this->load->view('admin/common/footer_view');
         } else {
             $this->load->view('admin/login/index');
         }

@@ -261,4 +261,250 @@ class Farmers extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
+
+     //****************************view Farmers records Function**************************************
+     public function viewrecords($idd)
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+
+            $id=base64_decode($idd);
+            $data['farmer_id']=$idd;
+
+            //HEALTH INFO
+            $this->db->select('*');
+            $this->db->from('tbl_health_info');
+            $this->db->where('farmer_id',$id);
+            $data['health_info']= $this->db->count_all_results();
+
+             //BREEDING RECORDS
+             $this->db->select('*');
+             $this->db->from('tbl_breeding_record');
+             $this->db->where('farmer_id',$id);
+             $data['breeding_record']= $this->db->count_all_results();
+
+               //DAILY RECORDS
+             $this->db->select('*');
+             $this->db->from('tbl_daily_records');
+             $this->db->where('farmer_id',$id);
+             $data['daily_records']= $this->db->count_all_results();
+
+               //MILK RECORDS
+               $this->db->select('*');
+               $this->db->from('tbl_milk_records');
+               $this->db->where('farmer_id',$id);
+               $data['milk_records']= $this->db->count_all_results();
+
+              //MEDICAL EXPENSES
+              $this->db->select('*');
+              $this->db->from('tbl_medical_expenses');
+              $this->db->where('farmer_id',$id);
+              $data['medical_expenses']= $this->db->count_all_results();
+
+
+               //VIEW/SALE PURCHASE LIST
+               $this->db->select('*');
+               $this->db->from('tbl_sale_purchase');
+               $this->db->where('farmer_id',$id);
+               $data['sale_purchase']= $this->db->count_all_results();
+
+               //STOCK LIST
+               $this->db->select('*');
+               $this->db->from('tbl_stock_handling');
+               $this->db->where('farmer_id',$id);
+               $data['stock_handling']= $this->db->count_all_results();
+
+
+               //SEMAN TANK
+               $this->db->select('*');
+               $this->db->from('tbl_tank');
+               $this->db->where('farmer_id',$id);
+               $data['tank']= $this->db->count_all_results();
+
+
+
+             
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/farmers/viewrecords');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
+
+      //****************************view Farmers HEALTH INFO Function**************************************
+    public function view_healthinfo($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+           
+            $id=base64_decode($idd);
+            $data['farmer_id']=$idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_health_info');
+            $this->db->where('farmer_id',$id);
+            $data['data_health_info']= $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_healthinfo');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers BREEDING RECORDS Function**************************************
+    public function view_breedingrecord($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+           
+            $id=base64_decode($idd);
+            $data['farmer_id']=$idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_breeding_record');
+            $this->db->where('farmer_id',$id);
+            $data['data_breeding_record']= $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_breedingrecord');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers Daily RECORDS Function**************************************
+    public function view_dailyrecords($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+           
+            $id=base64_decode($idd);
+            $data['farmer_id']=$idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_daily_records');
+            $this->db->where('farmer_id',$id);
+            $data['data_daily_records']= $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_dailyrecords');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers Milk RECORDS Function**************************************
+    public function view_milkrecords($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+           
+            $id=base64_decode($idd);
+            $data['farmer_id']=$idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_milk_records');
+            $this->db->where('farmer_id',$id);
+            $data['data_milk_records']= $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_milkrecords');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+     //****************************view Farmers Medical Expenses Function**************************************
+     public function view_medicalexpenses($idd)
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+            
+             $id=base64_decode($idd);
+             $data['farmer_id']=$idd;
+ 
+             $this->db->select('*');
+             $this->db->from('tbl_medical_expenses');
+             $this->db->where('farmer_id',$id);
+             $data['data_medical_expenses']= $this->db->get();
+ 
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/farmers/view_medicalexpenses');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
+
+     //****************************view Farmers Sale Purchase Function**************************************
+     public function view_salepurchase($idd)
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+            
+             $id=base64_decode($idd);
+             $data['farmer_id']=$idd;
+ 
+             $this->db->select('*');
+             $this->db->from('tbl_sale_purchase');
+             $this->db->where('farmer_id',$id);
+             $data['data_sale_purchase']= $this->db->get();
+ 
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/farmers/view_salepurchase');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
+
+     //****************************view Farmers stock list Function**************************************
+     public function view_stockhandling($idd)
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+            
+             $id=base64_decode($idd);
+             $data['farmer_id']=$idd;
+ 
+             $this->db->select('*');
+             $this->db->from('tbl_stock_handling');
+             $this->db->where('farmer_id',$id);
+             $data['data_stock_handling']= $this->db->get();
+ 
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/farmers/view_stockhandling');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
+
+     //****************************view Farmers Seman Tank  Function**************************************
+     public function view_tank($idd)
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+            
+             $id=base64_decode($idd);
+             $data['farmer_id']=$idd;
+ 
+             $this->db->select('*');
+             $this->db->from('tbl_tank');
+             $this->db->where('farmer_id',$id);
+             $data['data_tank']= $this->db->get();
+ 
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/farmers/view_tank');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
 }
