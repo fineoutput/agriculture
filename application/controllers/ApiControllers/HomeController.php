@@ -417,16 +417,17 @@ class HomeController extends CI_Controller
                 $subCategoryData = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
                 foreach ($subCategoryData as $subcategory) {
                     $subCategoryData[] = array(
-                        'catory_id' => $subcategory->category_name,
-                        'catory_id' => $subcategory->name,
-                        'catory_id' => $subcategory->image
+                        'category_id' => $subcategory->category_name,
+                        'subcategory_name' => $subcategory->name,
+                        'category_image' => base_url() . $subcategory->image
                         
                     );
                 }
                 $CategoryData[] = array(
-                    'catory_id' => $category->name,
-                    'catory_id' => $category->image,
-                    'subCategoryData' => $subCategoryData
+                    'category_id' => $category->name,
+                    'category_id' => base_url() .$category->image,
+                    'subCategoryData' => $subCategoryData,
+                   
                 );
             }
            
