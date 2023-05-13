@@ -1,12 +1,12 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Sale/Purchase
+            SALE/PURCHASE
         </h1>
         <ol class="breadcrumb">
-            <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>view Page</a></li>
-            <li class="active">View Sale/Purchase</li>
+
+            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>View Page</a></li>
+
         </ol>
     </section>
     <section class="content">
@@ -15,7 +15,21 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Sale/Purchase</h3>
+                        <h3>
+                            <?
+                            $farmer_ids = base64_decode($farmer_id);
+
+                            $this->db->select('*');
+                            $this->db->from('tbl_farmers');
+                            $this->db->where('id', $farmer_ids);
+                            $dsa_farmer = $this->db->get()->row();
+                            if (!empty($dsa_farmer)) {
+                                echo $dsa_farmer->name;
+                            }
+
+                            ?>
+
+                        </h3>
                     </div>
                     <div class="panel panel-default">
 
@@ -69,10 +83,10 @@
                                                 <td><?php echo $data->lactation; ?> </td>
                                                 <td><?php echo $data->location; ?> </td>
                                                 <td><?php echo $data->pastorate_pregnant; ?> </td>
-                                                <td><?php echo "₹".$data->expected_price; ?> </td>
+                                                <td><?php echo "₹" . $data->expected_price; ?> </td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
-                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image1?>">
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image1 ?>">
                                                     <?php } else {  ?>
                                                         Sorry No image Found
                                                     <?php } ?>
@@ -80,14 +94,14 @@
 
                                                 <td>
                                                     <?php if ($data->image2 != "") {  ?>
-                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image2?>">
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image2 ?>">
                                                     <?php } else {  ?>
                                                         Sorry No image Found
                                                     <?php } ?>
                                                 </td>
                                                 <td>
                                                     <?php if ($data->image3 != "") {  ?>
-                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image3?>">
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image3 ?>">
                                                     <?php } else {  ?>
                                                         Sorry No image Found
                                                     <?php } ?>
@@ -95,7 +109,7 @@
 
                                                 <td>
                                                     <?php if ($data->image4 != "") {  ?>
-                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image4?>">
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image4 ?>">
                                                     <?php } else {  ?>
                                                         Sorry No image Found
                                                     <?php } ?>

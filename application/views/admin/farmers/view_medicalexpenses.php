@@ -1,12 +1,12 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Medical Expenses
+            MEDICAL EXPENSES
         </h1>
         <ol class="breadcrumb">
-            <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>view Page</a></li>
-            <li class="active">View Medical Expenses</li>
+
+            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>View Page</a></li>
+
         </ol>
     </section>
     <section class="content">
@@ -15,7 +15,21 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Medical Expenses</h3>
+                        <h3>
+                            <?
+                            $farmer_ids = base64_decode($farmer_id);
+
+                            $this->db->select('*');
+                            $this->db->from('tbl_farmers');
+                            $this->db->where('id', $farmer_ids);
+                            $dsa_farmer = $this->db->get()->row();
+                            if (!empty($dsa_farmer)) {
+                                echo $dsa_farmer->name;
+                            }
+
+                            ?>
+
+                        </h3>
                     </div>
                     <div class="panel panel-default">
 
@@ -52,7 +66,7 @@
                                             <th>Other4</th>
                                             <th>Other5</th>
                                             <th>Total Price</th>
-                                          
+
                                             <th>Date</th>
                                         </tr>
                                     </thead>
@@ -63,18 +77,18 @@
                                                 <td><?php echo $i; ?> </td>
                                                 <td><?php echo $data->expense_date; ?> </td>
 
-                                               
-                                                <td><?php echo "₹". $data->doctor_visit_fees; ?> </td>
-                                                <td><?php echo "₹". $data->treatment_expenses; ?> </td>
-                                                <td><?php echo "₹". $data->vaccination_expenses; ?> </td>
-                                                <td><?php echo "₹". $data->deworming_expenses; ?> </td>
+
+                                                <td><?php echo "₹" . $data->doctor_visit_fees; ?> </td>
+                                                <td><?php echo "₹" . $data->treatment_expenses; ?> </td>
+                                                <td><?php echo "₹" . $data->vaccination_expenses; ?> </td>
+                                                <td><?php echo "₹" . $data->deworming_expenses; ?> </td>
                                                 <td><?php echo $data->other1; ?> </td>
                                                 <td><?php echo $data->other2; ?> </td>
                                                 <td><?php echo $data->other3; ?> </td>
                                                 <td><?php echo $data->other4; ?> </td>
                                                 <td><?php echo $data->other5; ?> </td>
-                                              
-                                                <td><?php echo "₹". $data->total_price; ?> </td>
+
+                                                <td><?php echo "₹" . $data->total_price; ?> </td>
 
                                                 <td><?php echo $data->date; ?> </td>
 

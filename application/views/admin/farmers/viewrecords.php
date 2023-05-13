@@ -18,8 +18,8 @@
                  
               </h1>
               <ol class="breadcrumb">
-                  <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                  <li class="active">Dashboard</li>
+                  <li><a href="<? echo base_url() ?>dcadmin/Farmers/View_farmers"><i class="fa fa-dashboard"></i>Home</a></li>
+                  <!-- <li class="active">Dashboard</li> -->
               </ol>
           </section>
           <!-- Main content -->
@@ -40,7 +40,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_breedingrecord/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-red"><i class="	fa fa-user-md"></i></span>
+                              <span class="info-box-icon bg-red"><i class="fa fa-medkit"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">BREEDING RECORD</span>
                                   <span class="info-box-number"><?= $breeding_record; ?></span>
@@ -66,7 +66,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_milkrecords/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                              <span class="info-box-icon bg-yellow"><i class="fa fa-cube"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">MILK RECORD</span>
                                   <span class="info-box-number"><?= $milk_records; ?></span>
@@ -79,7 +79,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_medicalexpenses/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-black"><i class="fa fa-cube"></i></span>
+                              <span class="info-box-icon bg-black"><i class="fas fa-syringe"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">MEDICAL EXPENSES</span>
                                   <span class="info-box-number"><?= $medical_expenses ?></span>
@@ -90,7 +90,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_salepurchase/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-blue"><i class="fa fa-cube"></i></span>
+                              <span class="info-box-icon bg-blue"><i class="fa fa-credit-card"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">VIEW SALE PURCHSE LIST</span>
                                   <span class="info-box-number"><?= $sale_purchase ?></span>
@@ -101,7 +101,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_stockhandling/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-blue"><i class="fa fa-cube"></i></span>
+                              <span class="info-box-icon bg-blue"><i class="fas fa-calculator"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">STOCK LIST</span>
                                   <span class="info-box-number"><?= $stock_handling ?></span>
@@ -112,7 +112,7 @@
                   <a href="<?php echo base_url() ?>dcadmin/Farmers/view_tank/<?php echo $farmer_id; ?>">
                       <div class="col-md-3 col-sm-6 col-xs-12">
                           <div class="info-box">
-                              <span class="info-box-icon bg-blue"><i class="fa fa-cube"></i></span>
+                              <span class="info-box-icon bg-blue"><i class="fas fa-prescription-bottle"></i></span>
                               <div class="info-box-content">
                                   <span class="info-box-text">SEMAN TANK</span>
                                   <span class="info-box-number"><?= $tank ?></span>

@@ -1,12 +1,12 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Seman Tank List
+            SEMAN TANK LIST
         </h1>
         <ol class="breadcrumb">
-            <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>view Page</a></li>
-            <li class="active">View Seman Tank List</li>
+
+            <li><a href="<?php echo base_url() ?>dcadmin/Farmers/viewrecords/<? echo $farmer_id; ?>"><i class="fa fa-dashboard"></i>View Page</a></li>
+
         </ol>
     </section>
     <section class="content">
@@ -15,7 +15,21 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Seman Tank List</h3>
+                        <h3>
+                            <?
+                            $farmer_ids = base64_decode($farmer_id);
+
+                            $this->db->select('*');
+                            $this->db->from('tbl_farmers');
+                            $this->db->where('id', $farmer_ids);
+                            $dsa_farmer = $this->db->get()->row();
+                            if (!empty($dsa_farmer)) {
+                                echo $dsa_farmer->name;
+                            }
+
+                            ?>
+
+                        </h3>
                     </div>
                     <div class="panel panel-default">
 
