@@ -91,7 +91,7 @@ class Category_images extends CI_finecontrol
 
                     if ($last_id != 0) {
                         $this->session->set_flashdata('smessage', 'Data Updated successfully');
-                        redirect("dcadmin/category_images/view_categoryimages", "refresh");
+                        redirect("dcadmin/Category_images/view_categoryimages", "refresh");
                     } else {
                         $this->session->set_flashdata('emessage', 'Sorry error occured');
                         redirect($_SERVER['HTTP_REFERER']);
@@ -113,7 +113,7 @@ class Category_images extends CI_finecontrol
             $dsa = $this->db->get();
             $data['category_images'] = $dsa->row();
             $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/category_images/add_categoryimages');
+            $this->load->view('admin/Category_images/add_Categoryimages');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
@@ -135,7 +135,7 @@ class Category_images extends CI_finecontrol
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_category_images', $data_update);
                 if ($zapak != 0) {
-                    redirect("dcadmin/category_images/View_categoryimages", "refresh");
+                    redirect("dcadmin/Category_images/View_categoryimages", "refresh");
                 } else {
                     echo "Error";
                     exit;
@@ -148,7 +148,7 @@ class Category_images extends CI_finecontrol
                 $this->db->where('id', $id);
                 $zapak = $this->db->update('tbl_category_images', $data_update);
                 if ($zapak != 0) {
-                    redirect("dcadmin/category_images/View_categoryimages", "refresh");
+                    redirect("dcadmin/Category_images/View_categoryimages", "refresh");
                 } else {
                     $data['e'] = "Error Occured";
                     // exit;
