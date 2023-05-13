@@ -16,7 +16,7 @@ class Category_images extends CI_finecontrol
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
-            $this->db->from('tbl_Category_images');
+            $this->db->from('tbl_category_images');
             $data['Categoryimages_data'] = $this->db->get();
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/Category_images/View_categoryimages');
