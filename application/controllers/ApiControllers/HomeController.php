@@ -414,8 +414,8 @@ class HomeController extends CI_Controller
             $CategoryData = [];
             foreach ($CategorySlider_data as $category) {
                 $subCategoryData = [];
-                $subCategoryData = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
-                foreach ($subCategoryData as $subcategory) {
+                $subCategoryDatas = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
+                foreach ($subCategoryDatas as $subcategory) {
                     $subCategoryData[] = array(
                         'id' => $subcategory->id,
                         'name' => $subcategory->name,
