@@ -398,7 +398,7 @@ class HomeController extends CI_Controller
             }
             //---- Farmerslider2 data -------
             $FarmerSlider_data = $this->db->get_where('tbl_farmersliderslider', array('is_active' => 1))->result();
-           
+
             $Famerslider = [];
             foreach ($FarmerSlider_data as $farmerslide) {
                 if (!empty($farmerslide->image)) {
@@ -410,27 +410,28 @@ class HomeController extends CI_Controller
             }
             //---- Categoryslider data -------
             $CategorySlider_data = $this->db->get_where('tbl_category_images', array('is_active' => 1))->result();
-           
+
             $CategoryData = [];
             foreach ($CategorySlider_data as $category) {
                 $subCategoryData = [];
                 $subCategoryData = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
                 foreach ($subCategoryData as $subcategory) {
                     $subCategoryData[] = array(
-                        'category_id' => $subcategory->category_name,
-                        'subcategory_name' => $subcategory->name,
-                        'category_image' => base_url() . $subcategory->image
-                        
+                        'id' => $subcategory->id,
+                        'name' => $subcategory->name,
+                        'image' =>$subcategory->image? base_url() . $subcategory->image:''
+
                     );
                 }
                 $CategoryData[] = array(
-                    'category_id' => $category->name,
-                    'category_id' => base_url() .$category->image,
-                    'subCategoryData' => $subCategoryData,
-                   
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'image' => $category->image? base_url() . $category->image:'',
+                    'subcatgory' => $subCategoryData,
+
                 );
             }
-           
+
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
             $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'CartCount' => $CartCount);
