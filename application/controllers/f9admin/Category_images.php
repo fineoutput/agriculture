@@ -113,7 +113,7 @@ class Category_images extends CI_finecontrol
             $dsa = $this->db->get();
             $data['category_images'] = $dsa->row();
             $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/category_images/add_Categoryimages');
+            $this->load->view('admin/category_images/add_categoryimages');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
