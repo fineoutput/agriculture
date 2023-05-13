@@ -50,7 +50,21 @@
                                         foreach ($subCategoryimages_data->result() as $data) { ?>
                                             <tr>
                                                 <td><?php echo $i ?> </td>
-                                                <td><?php echo $data->category_name; ?> </td>
+                                                <td><?php $cid=$data->category_id; 
+                                                        $this->db->select('*');
+                                                                    $this->db->from('tbl_category_images');
+                                                                    $this->db->where('id',$cid);
+                                                                    $dsa_sub= $this->db->get()->row();
+
+                                                                    if(!empty($dsa_sub)){
+                                                                        echo $dsa_sub->name;
+                                                                    }else{
+                                                                        echo "No Category Found";
+                                                                    }
+                                                                   
+
+
+                                                ?> </td>
                                                 <td><?php echo $data->name; ?> </td>
                                                 <td>
                                                     <?php if ($data->image != "") {  ?>
