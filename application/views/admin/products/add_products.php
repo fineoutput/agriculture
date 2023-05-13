@@ -118,6 +118,17 @@
                         <input type="text" name="suffix" class="form-control" placeholder="" required value="" />
                       </td>
                     </tr>
+                    <tr>
+                      <td> <strong>Tranding Products</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <select class="form-control" name="tranding_products">
+                          <option>---select---</option>
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                          
+                        </select>
+                      </td>
+                    </tr>
                     <td colspan="2">
                       <input type="submit" class="btn btn-success" value="save">
                     </td>

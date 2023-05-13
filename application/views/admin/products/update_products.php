@@ -124,6 +124,17 @@
                         <input type="text" name="suffix" class="form-control" placeholder="" required value="<?= $products->suffix ?>" />
                       </td>
                     </tr>
+                    <tr>
+                      <td> <strong>Tranding Products</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <select class="form-control" name="tranding_products">
+                          <option>---select---</option>
+                          <option value="1" <? if($products->tranding_products==1) {echo "selected";} ?>>Yes</option>
+                          <option value="0" <? if($products->tranding_products==0) {echo "selected";} ?>>No</option>
+                          
+                        </select>
+                      </td>
+                    </tr>
                     <td colspan="2">
                       <input type="submit" class="btn btn-success" value="save">
                     </td>
