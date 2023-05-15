@@ -33,41 +33,7 @@ class DoctorController extends CI_Controller
         return $pagination;
     }
     //============================================= GetRequests ============================================//
-    public function HomeData()
-    {
-        $headers = apache_request_headers();
-        $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-        if (!empty($farmer_data)) {
-            //---- Doctor slider data -------
-            $DoctorSlider_data = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
-            $data = [];
-            $doctorslider = [];
-            foreach ($DoctorSlider_data as $doctorslide) {
-                if (!empty($doctorslide->image)) {
-                    $image = base_url() . $doctorslide->image;
-                } else {
-                    $image = '';
-                }
-                $doctorslider[] = $image;
-            }
-            //---- Cart Count -------
-            $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-            $data =  array('Doctor_slider' => $doctorslider, 'CartCount' => $CartCount);
-            $res = array(
-                'message' => "Success!",
-                'status' => 200,
-                'data' => $data
-            );
-            echo json_encode($res);
-        } else {
-            $res = array(
-                'message' => 'Permission Denied!',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
-    }
+    
     public function GetRequests()
     {
         $headers = apache_request_headers();
@@ -498,13 +464,26 @@ class DoctorController extends CI_Controller
             } else {
                 $total_income = 0;
             }
+             //---- Doctor slider data -------
+             $DoctorSlider_data = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
+             $data = [];
+             $doctorslider = [];
+             foreach ($DoctorSlider_data as $doctorslide) {
+                 if (!empty($doctorslide->image)) {
+                     $image = base_url() . $doctorslide->image;
+                 } else {
+                     $image = '';
+                 }
+                 $doctorslider[] = $image;
+             }
             $data = [];
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
-                'is_expert' => $doctor_data[0]->is_expert
+                'is_expert' => $doctor_data[0]->is_expert,
+                'doctor_slider'=>$doctorslider
             );
             $res = array(
                 'message' => "Success!",

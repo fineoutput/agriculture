@@ -31,41 +31,7 @@ class VendorController extends CI_Controller
         }
         return $pagination;
     }
-    public function HomeData()
-    {
-        $headers = apache_request_headers();
-        $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-        if (!empty($farmer_data)) {
-            //---- vendor slider data -------
-            $vendorSlider_data = $this->db->get_where('tbl_vendorslider', array('is_active' => 1))->result();
-            $data = [];
-            $vendor_slider = [];
-            foreach ($vendorSlider_data as $vendor_slide) {
-                if (!empty($vendor_slide->image)) {
-                    $image = base_url() . $vendor_slide->image;
-                } else {
-                    $image = '';
-                }
-                $vendor_slider[] = $image;
-            }
-            //---- Cart Count -------
-            $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-            $data =  array('vendor_slider' => $vendor_slider, 'CartCount' => $CartCount);
-            $res = array(
-                'message' => "Success!",
-                'status' => 200,
-                'data' => $data
-            );
-            echo json_encode($res);
-        } else {
-            $res = array(
-                'message' => 'Permission Denied!',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
-    }
+    
     //================================ Orders ==========================================
     //====================================== NewOrders =================================//
     public function NewOrders()
@@ -963,11 +929,13 @@ class VendorController extends CI_Controller
             $this->form_validation->set_rules('mrp', 'mrp', 'xss_clean|trim');
             $this->form_validation->set_rules('pro_id', 'pro_id', 'xss_clean|trim');
             $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('inventory', 'Inventory', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $description = $this->input->post('description');
                 $mrp = $this->input->post('mrp');
                 $selling_price = $this->input->post('selling_price');
+                $inventory = $this->input->post('inventory');
                 $pro_id = $this->input->post('pro_id');
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($vendor_data)) {
@@ -1014,7 +982,7 @@ class VendorController extends CI_Controller
                             'selling_price' => $selling_price,
                             'added_by' => $vendor_data[0]->id,
                             'is_active' => 0,
-                            'inventory' => 50,
+                            'inventory' => $inventory,
                             'is_admin' => 0,
                             'date' => $cur_date
                         );
@@ -1025,7 +993,7 @@ class VendorController extends CI_Controller
                             'description_english' => $description,
                             'image' => $image,
                             'mrp' => $mrp,
-                            'inventory' => 50,
+                            'inventory' => $inventory,
                             'selling_price' => $selling_price,
                             'is_active' => 0,
                         );
@@ -1138,6 +1106,17 @@ class VendorController extends CI_Controller
             } else {
                 $total_income = 0;
             }
+            $vendorSlider_data = $this->db->get_where('tbl_vendorslider', array('is_active' => 1))->result();
+            $data = [];
+            $vendor_slider = [];
+            foreach ($vendorSlider_data as $vendor_slide) {
+                if (!empty($vendor_slide->image)) {
+                    $image = base_url() . $vendor_slide->image;
+                } else {
+                    $image = '';
+                }
+                $vendor_slider[] = $image;
+            }
             $data = [];
             $data = array(
                 'today_orders' => $today_orders,
@@ -1148,6 +1127,8 @@ class VendorController extends CI_Controller
                 'rejected_orders' => $rejected_orders,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
+                'vendor_slider'=>$vendor_slider
+
             );
             $res = array(
                 'message' => "Success!",
