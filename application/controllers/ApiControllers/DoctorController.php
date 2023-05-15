@@ -33,7 +33,6 @@ class DoctorController extends CI_Controller
         return $pagination;
     }
     //============================================= GetRequests ============================================//
-
     public function GetRequests()
     {
         $headers = apache_request_headers();
@@ -513,46 +512,42 @@ class DoctorController extends CI_Controller
                 $total_income = 0;
             }
             //---- Doctor slider data -------
-            $DoctorSlider_data = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
+            $DoctorSliderData = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
             $data = [];
-            $doctorslider = [];
-            foreach ($DoctorSlider_data as $doctorslide) {
-                if (!empty($doctorslide->image)) {
-                    $image = base_url() . $doctorslide->image;
+            $doctorSlider = [];
+            foreach ($DoctorSliderData as $slider) {
+                if (!empty($slider->image)) {
+                    $image = base_url() . $slider->image;
                 } else {
                     $image = '';
                 }
-                $doctorslider[] = $image;
+                $doctorSlider[] = $image;
             }
-           
             //---- Doctor notification data -------
-            $doctor_nft = [];
-            $Doctornotification_datas = $this->db->get_where('tbl_doctor_notification', array('doctor_id' => $doctor_data[0]->id))->result();
-
-            foreach ($Doctornotification_datas as $Doctornotification_data) {
-                $doctor_nft[] = array(
-                    'id' => $Doctornotification_data->id,
-                    'name' => $Doctornotification_data->name,
-                    'image' => base_url() . $Doctornotification_data->image,
-                    'description' => $$Doctornotification_data->dsc,
-
+            $notifications = [];
+            $DoctorNotifications = $this->db->get_where('tbl_doctor_notification', array('doctor_id' => $doctor_data[0]->id))->result();
+            foreach ($DoctorNotifications as $notification) {
+                $newDate = new DateTime($notification->date); 
+                $notifications[] = array(
+                    'id' => $notification->id,
+                    'name' => $notification->name,
+                    'image' => base_url() . $notification->image,
+                    'description' => $notification->dsc,
+                    'date' => $newDate->format('d-m-y, g:i a'),
                 );
             }
             $this->db->select('*');
             $this->db->from('tbl_doctor_notification');
             $this->db->where('doctor_id', $doctor_data[0]->id);
             $count_dr = $this->db->count_all_results();
-
-
-
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
                 'is_expert' => $doctor_data[0]->is_expert,
-                'doctor_slider' => $doctorslider,
-                'notification_data' => $doctor_nft,
+                'doctor_slider' => $doctorSlider,
+                'notification_data' => $notifications,
                 'notification_count' => $count_dr
             );
             $res = array(
