@@ -896,6 +896,7 @@ class VendorController extends CI_Controller
                     'percent' => $percent,
                     'inventory' => $pro->inventory,
                     'vendor_id' => $pro->added_by,
+                    'is_active' => $pro->is_active,
                     'is_admin' => $pro->is_admin
                 );
             }
