@@ -1120,11 +1120,15 @@ class VendorController extends CI_Controller
             $vendor_nft = [];
             $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' =>$vendor_data[0]->id))->result();
             foreach ($vendornotification_datas as $vendornotification_data) {
+                $newDate = new DateTime($vendornotification_data->date); 
+
                 $vendor_nft[] = array(
                     'id' => $vendornotification_data->id,
                     'name' => $vendornotification_data->name,
-                    'image' => base_url() . $vendornotification_data->image,
+                    'image' => $vendornotification_data->image? base_url() . $vendornotification_data->image:'',
                     'description' => $vendornotification_data->dsc,
+                    'date' => $newDate->format('d-m-y, g:i a'),
+
                 );
             }
             $this->db->select('*');
