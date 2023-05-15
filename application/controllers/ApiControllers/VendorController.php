@@ -894,6 +894,7 @@ class VendorController extends CI_Controller
                     'suffix' => $pro->suffix,
                     'stock' => $stock,
                     'percent' => $percent,
+                    'inventory' => $inventory,
                     'vendor_id' => $pro->added_by,
                     'is_admin' => $pro->is_admin
                 );
@@ -1121,14 +1122,12 @@ class VendorController extends CI_Controller
             $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' =>$vendor_data[0]->id))->result();
             foreach ($vendornotification_datas as $vendornotification_data) {
                 $newDate = new DateTime($vendornotification_data->date); 
-
                 $vendor_nft[] = array(
                     'id' => $vendornotification_data->id,
                     'name' => $vendornotification_data->name,
                     'image' => $vendornotification_data->image? base_url() . $vendornotification_data->image:'',
                     'description' => $vendornotification_data->dsc,
                     'date' => $newDate->format('d-m-y, g:i a'),
-
                 );
             }
             $this->db->select('*');
