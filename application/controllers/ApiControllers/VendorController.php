@@ -1262,4 +1262,69 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
+     //============================= updateBankInfo =====================================//
+     public function editaddress()
+     {
+         $this->load->helper(array('form', 'url'));
+         $this->load->library('form_validation');
+         $this->load->helper('security');
+         if ($this->input->post()) {
+             $headers = apache_request_headers();
+             $authentication = $headers['Authentication'];
+             $this->form_validation->set_rules('bank_name', 'bank_name', 'required|xss_clean|trim');
+             $this->form_validation->set_rules('bank_phone', 'bank_phone', 'required|xss_clean|trim');
+             $this->form_validation->set_rules('bank_ac', 'bank_ac', 'required|xss_clean|trim');
+             $this->form_validation->set_rules('ifsc', 'ifsc', 'required|xss_clean|trim');
+             if ($this->form_validation->run() == true) {
+                 $bank_name = $this->input->post('bank_name');
+                 $bank_phone = $this->input->post('bank_phone');
+                 $bank_ac = $this->input->post('bank_ac');
+                 $ifsc = $this->input->post('ifsc');
+                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                 if (!empty($vendor_data)) {
+                     date_default_timezone_set("Asia/Calcutta");
+                     $cur_date = date("Y-m-d H:i:s");
+                     $data_update = array(
+                         'bank_name' => $bank_name,
+                         'bank_phone' => $bank_phone,
+                         'bank_ac' => $bank_ac,
+                         'ifsc' => $ifsc,
+                     );
+                     $this->db->where('id', $vendor_data[0]->id);
+                     $zapak = $this->db->update('tbl_vendor', $data_update);
+                     if (!empty($zapak)) {
+                         $res = array(
+                             'message' => "Success",
+                             'status' => 200,
+                         );
+                         echo json_encode($res);
+                     } else {
+                         $res = array(
+                             'message' => "Some error occurred!",
+                             'status' => 201,
+                         );
+                         echo json_encode($res);
+                     }
+                 } else {
+                     $res = array(
+                         'message' => 'Permission Denied!',
+                         'status' => 201
+                     );
+                     echo json_encode($res);
+                 }
+             } else {
+                 $res = array(
+                     'message' => validation_errors(),
+                     'status' => 201
+                 );
+                 echo json_encode($res);
+             }
+         } else {
+             $res = array(
+                 'message' => 'Please Insert Data',
+                 'status' => 201
+             );
+             echo json_encode($res);
+         }
+     }
 }

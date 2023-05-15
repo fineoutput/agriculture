@@ -269,6 +269,52 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //====================================================== UpdateLocation ================================================//
+    public function UpdateLocation()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('latitude', 'Latitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('longitude', 'Longitude', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $data_update = array('latitude' => $latitude,'longitude'=>$longitude);
+                    $this->db->where('id', $doctor_data[0]->id);
+                    $zapak = $this->db->update('tbl_doctor', $data_update);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //============================================= PaymentInfo ============================================//
     public function PaymentInfo()
     {
