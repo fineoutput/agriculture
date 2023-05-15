@@ -600,7 +600,7 @@ class ManagementController extends CI_Controller
     $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id !=' => $farmer_data[0]->id))->num_rows();
+      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id !=' => $farmer_data[0]->id,'status'=>1))->num_rows();
       $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
@@ -610,6 +610,7 @@ class ManagementController extends CI_Controller
       $this->db->select('*');
       $this->db->from('tbl_sale_purchase');
       $this->db->where('farmer_id !=', $farmer_data[0]->id);
+      $this->db->where('status',1);
       $this->db->order_by('id', 'desc');
       $this->db->limit($limit, $start);
       $exp_data = $this->db->get();
