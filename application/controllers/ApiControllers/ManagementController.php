@@ -330,6 +330,9 @@ class ManagementController extends CI_Controller
       $this->form_validation->set_rules('pastorate_pregnant', 'pastorate_pregnant', 'xss_clean|trim');
       $this->form_validation->set_rules('expected_price', 'expected_price', 'required|xss_clean|trim');
       $this->form_validation->set_rules('location', 'location', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('animal_type', 'Animal Type', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('description', 'Description', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('remarks', 'Remarks', 'xss_clean|trim');
       if ($this->form_validation->run() == true) {
         $information_type = $this->input->post('information_type');
         $animal_name = $this->input->post('animal_name');
@@ -337,6 +340,9 @@ class ManagementController extends CI_Controller
         $lactation = $this->input->post('lactation');
         $expected_price = $this->input->post('expected_price');
         $pastorate_pregnant = $this->input->post('pastorate_pregnant');
+        $animal_type = $this->input->post('animal_type');
+        $description = $this->input->post('description');
+        $remarks = $this->input->post('remarks');
         $location = $this->input->post('location');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
@@ -481,7 +487,12 @@ class ManagementController extends CI_Controller
             'image2' => $nnnn2,
             'image3' => $nnnn3,
             'image4' => $nnnn4,
-            'date' => $cur_date
+            'status'=>0,
+            'date' => $cur_date,
+            'animal_type' => $animal_type,
+            'description' => $description,
+            'remarks' => $remarks
+
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
           $res = array(
@@ -572,6 +583,9 @@ class ManagementController extends CI_Controller
           'image2' => $image2,
           'image3' => $image3,
           'image4' => $image4,
+          'animal_type' => $exp->animal_type,
+          'description' => $exp->description,
+          'remarks' => $exp->remarks,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
@@ -663,6 +677,9 @@ class ManagementController extends CI_Controller
           'image4' => $image4,
           'f_name' => $f_name,
           'f_phone' => $f_phone,
+          'animal_type' => $exp->animal_type,
+          'description' => $exp->description,
+          'remarks' => $exp->remarks,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;

@@ -48,8 +48,10 @@
                                              <th>Location</th>
                                              <th>Pastorate Pregnant</th>
                                              <th>Expected Price</th>
+                                             <th>Animal Type</th>
+                                             <th>Description</th>
+                                             <th>Remarks</th>
                                              <th>Image1</th>
-
                                              <th>Action</th>
                                          </tr>
                                      </thead>
@@ -65,6 +67,9 @@
                                                  <td><?php echo $data->location ?></td>
                                                  <td><?php echo $data->pastorate_pregnant ?></td>
                                                  <td><?php echo "₹" . $data->expected_price ?></td>
+                                                 <td><?php echo  $data->animal_type ?></td>
+                                                 <td><?php echo $data->description ?></td>
+                                                 <td><?php echo $data->remarks ?></td>
                                                  <td>
                                                      <?php if ($data->image1 != "") {  ?>
                                                          <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image1 ?>">
