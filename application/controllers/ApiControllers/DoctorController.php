@@ -280,12 +280,14 @@ class DoctorController extends CI_Controller
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('latitude', 'Latitude', 'required|xss_clean|trim');
             $this->form_validation->set_rules('longitude', 'Longitude', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('fcm_token', 'Fcm Token', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $latitude = $this->input->post('latitude');
                 $longitude = $this->input->post('longitude');
+                $fcm_token = $this->input->post('fcm_token');
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
-                    $data_update = array('latitude' => $latitude, 'longitude' => $longitude);
+                    $data_update = array('latitude' => $latitude, 'longitude' => $longitude,'fcm_token'=>$fcm_token);
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
                     $res = array(
