@@ -829,7 +829,7 @@ class DoctorController extends CI_Controller
                         $data_update = array(
                             'no_of_units' => $canister_data[$index]->no_of_units - $quantity,
                         );
-                        $this->db->where('id', $canister_data[$canister]->id);
+                        $this->db->where('id', $canister_data[$index]->id);
                         $zapak = $this->db->update('tbl_doctor_canister', $data_update);
                         $res = array(
                             'message' => "Record Successfully saved!",
