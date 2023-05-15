@@ -521,7 +521,7 @@ class DoctorController extends CI_Controller
                 } else {
                     $image = '';
                 }
-                $doctorSlider[] = $image;
+                $doctorSlider[] = array('image'=>$image);
             }
             //---- Doctor notification data -------
             $notifications = [];
