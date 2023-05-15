@@ -439,7 +439,7 @@ class HomeController extends CI_Controller
             $this->db->where('is_active', 1);
             $this->db->where('is_admin', 1);
             $data_products = $this->db->get();
-            $product_data=[];
+            $product_data = [];
             $en_data = [];
             $hi_data = [];
             $pn_data = [];
@@ -508,7 +508,28 @@ class HomeController extends CI_Controller
             );
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data'=>$product_data,'CartCount' => $CartCount);
+           
+            //---- farmer notification data -------
+            $farmer_nft = [];
+            $farmernotification_datas = $this->db->get_where('tbl_farmer_notification', array('farmer_id' => $farmer_data[0]->id))->result();
+
+            foreach ($farmernotification_datas as $farmernotification_data) {
+                $farmer_nft[] = array(
+                    'id' => $farmernotification_data->id,
+                    'name' => $farmernotification_data->name,
+                    'image' => base_url() . $farmernotification_data->image,
+                    'description' => $farmernotification_data->dsc,
+
+                );
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_farmer_notification');
+            $this->db->where('farmer_id', $farmer_data[0]->id);
+            $count_farmer = $this->db->count_all_results();
+
+            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
+            'notification_count' => $count_farmer ,'CartCount' => $CartCount);
+
             $res = array(
                 'message' => "Success!",
                 'status' => 200,

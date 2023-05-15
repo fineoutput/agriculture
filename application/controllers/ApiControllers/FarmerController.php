@@ -728,14 +728,14 @@ class FarmerController extends CI_Controller
                 }
                 //--- Delete Cart -----------
                 $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
-                if ($order1_data[0]->$is_admin == 0) {
+                if ($order1_data[0]->is_admin == 0) {
                     $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
                     //------ create amount txn in the table -------------
                     if (!empty($vendor_data[0]->comission)) {
                         $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
                         $data2 = array(
                             'req_id' => $order_id,
-                            'vendor_id' => $vendor_id,
+                            'vendor_id' => $order1_data[0]->vendor_id,
                             'cr' => $amt,
                             'date' => $cur_date
                         );
@@ -744,7 +744,7 @@ class FarmerController extends CI_Controller
                         $data_update = array(
                             'account' => $vendor_data[0]->account + $amt,
                         );
-                        $this->db->where('id', $vendor_id);
+                        $this->db->where('id', $order1_data[0]->vendor_id);
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
                 }

@@ -33,7 +33,7 @@ class DoctorController extends CI_Controller
         return $pagination;
     }
     //============================================= GetRequests ============================================//
-    
+
     public function GetRequests()
     {
         $headers = apache_request_headers();
@@ -285,7 +285,7 @@ class DoctorController extends CI_Controller
                 $longitude = $this->input->post('longitude');
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
-                    $data_update = array('latitude' => $latitude,'longitude'=>$longitude);
+                    $data_update = array('latitude' => $latitude, 'longitude' => $longitude);
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
                     $res = array(
@@ -510,26 +510,48 @@ class DoctorController extends CI_Controller
             } else {
                 $total_income = 0;
             }
-             //---- Doctor slider data -------
-             $DoctorSlider_data = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
-             $data = [];
-             $doctorslider = [];
-             foreach ($DoctorSlider_data as $doctorslide) {
-                 if (!empty($doctorslide->image)) {
-                     $image = base_url() . $doctorslide->image;
-                 } else {
-                     $image = '';
-                 }
-                 $doctorslider[] = $image;
-             }
+            //---- Doctor slider data -------
+            $DoctorSlider_data = $this->db->get_where('tbl_doctorsliderslider', array('is_active' => 1))->result();
             $data = [];
+            $doctorslider = [];
+            foreach ($DoctorSlider_data as $doctorslide) {
+                if (!empty($doctorslide->image)) {
+                    $image = base_url() . $doctorslide->image;
+                } else {
+                    $image = '';
+                }
+                $doctorslider[] = $image;
+            }
+           
+            //---- Doctor notification data -------
+            $doctor_nft = [];
+            $Doctornotification_datas = $this->db->get_where('tbl_doctor_notification', array('doctor_id' => $doctor_data[0]->id))->result();
+
+            foreach ($Doctornotification_datas as $Doctornotification_data) {
+                $doctor_nft[] = array(
+                    'id' => $Doctornotification_data->id,
+                    'name' => $Doctornotification_data->name,
+                    'image' => base_url() . $Doctornotification_data->image,
+                    'description' => $$Doctornotification_data->dsc,
+
+                );
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_notification');
+            $this->db->where('doctor_id', $doctor_data[0]->id);
+            $count_dr = $this->db->count_all_results();
+
+
+
             $data = array(
                 'today_req' => $today_req,
                 'total_req' => $total_req,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
                 'is_expert' => $doctor_data[0]->is_expert,
-                'doctor_slider'=>$doctorslider
+                'doctor_slider' => $doctorslider,
+                'notification_data' => $doctor_nft,
+                'notification_count' => $count_dr
             );
             $res = array(
                 'message' => "Success!",
@@ -580,58 +602,58 @@ class DoctorController extends CI_Controller
         }
     }
     public function delete_semen_tank()
-  {
-    $this->load->helper(array('form', 'url'));
-    $this->load->library('form_validation');
-    $this->load->helper('security');
-    if ($this->input->post()) {
-      $headers = apache_request_headers();
-      $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
-      if ($this->form_validation->run() == true) {
-        $id = $this->input->post('id');
-        $ip = $this->input->ip_address();
-        date_default_timezone_set("Asia/Calcutta");
-        $cur_date = date("Y-m-d H:i:s");
-        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-        if (!empty($doctor_data)) {
-          $delete = $this->db->delete('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id, 'id'=> $id));
-          $delete2 = $this->db->delete('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id'=> $id));
-          if(!empty($delete) && !empty($delete2)){
-          $res = array(
-            'message' => "Tank Successfully Deleted!",
-            'status' => 200,
-          );
-          echo json_encode($res);
-        }else{
-          $res = array(
-            'message' => 'Some error ocurred!',
-            'status' => 201
-          );
-          echo json_encode($res);
-        }
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $id = $this->input->post('id');
+                $ip = $this->input->ip_address();
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($doctor_data)) {
+                    $delete = $this->db->delete('tbl_doctor_tank', array('doctor_id' => $doctor_data[0]->id, 'id' => $id));
+                    $delete2 = $this->db->delete('tbl_doctor_canister', array('doctor_id' => $doctor_data[0]->id, 'tank_id' => $id));
+                    if (!empty($delete) && !empty($delete2)) {
+                        $res = array(
+                            'message' => "Tank Successfully Deleted!",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => 'Some error ocurred!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
         } else {
-          $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-          );
-          echo json_encode($res);
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
-      } else {
-        $res = array(
-          'message' => validation_errors(),
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
-    } else {
-      $res = array(
-        'message' => 'Please Insert Data',
-        'status' => 201
-      );
-      echo json_encode($res);
     }
-  }
     public function add_doc_semen_tank()
     {
         $this->load->helper(array('form', 'url'));

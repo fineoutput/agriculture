@@ -1117,7 +1117,24 @@ class VendorController extends CI_Controller
                 }
                 $vendor_slider[] = $image;
             }
-            $data = [];
+            //---- vendor notification data -------
+            $vendor_nft = [];
+            $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' =>$vendor_data[0]->id))->result();
+
+            foreach ($vendornotification_datas as $vendornotification_data) {
+                $vendor_nft[] = array(
+                    'id' => $vendornotification_data->id,
+                    'name' => $vendornotification_data->name,
+                    'image' => base_url() . $vendornotification_data->image,
+                    'description' => $vendornotification_data->dsc,
+
+                );
+            }
+            $this->db->select('*');
+            $this->db->from('tbl_vendor_notification');
+            $this->db->where('vendor_id',$vendor_data[0]->id);
+            $count_vendor = $this->db->count_all_results();
+         
             $data = array(
                 'today_orders' => $today_orders,
                 'new_orders' => $new_orders,
@@ -1127,7 +1144,9 @@ class VendorController extends CI_Controller
                 'rejected_orders' => $rejected_orders,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
-                'vendor_slider' => $vendor_slider
+                'vendor_slider' => $vendor_slider,
+                'notification_data' => $vendor_nft,
+                'notification_count' => $count_vendor
 
             );
             $res = array(
