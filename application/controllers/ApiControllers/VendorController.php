@@ -31,7 +31,7 @@ class VendorController extends CI_Controller
         }
         return $pagination;
     }
-    
+
     //================================ Orders ==========================================
     //====================================== NewOrders =================================//
     public function NewOrders()
@@ -1127,7 +1127,7 @@ class VendorController extends CI_Controller
                 'rejected_orders' => $rejected_orders,
                 'today_income' =>  round($today_income, 2),
                 'total_income' => round($total_income, 2),
-                'vendor_slider'=>$vendor_slider
+                'vendor_slider' => $vendor_slider
 
             );
             $res = array(
@@ -1262,133 +1262,192 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
-     //============================= updateBankInfo =====================================//
-     public function UpdateProfile()
-     {
-         $this->load->helper(array('form', 'url'));
-         $this->load->library('form_validation');
-         $this->load->helper('security');
-         if ($this->input->post()) {
-             $headers = apache_request_headers();
-             $authentication = $headers['Authentication'];
-             $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-             $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
-             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
-             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
-             $this->form_validation->set_rules('pincode', 'pincode', 'xss_clean|trim'); 
-             $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
-             $this->form_validation->set_rules('address', 'address', 'xss_clean|trim');
-             $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
-             $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
-             $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
+    //============================= updateBankInfo =====================================//
+    public function UpdateProfile()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('pincode', 'pincode', 'xss_clean|trim');
+            $this->form_validation->set_rules('shop_name', 'shop_name', 'xss_clean|trim');
+            $this->form_validation->set_rules('address', 'address', 'xss_clean|trim');
+            $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
             $this->form_validation->set_rules('email', 'email', 'xss_clean|trim');
             $this->form_validation->set_rules('latitude', 'Latitude', 'xss_clean|trim');
             $this->form_validation->set_rules('longitude', 'Longitude', 'xss_clean|trim');
 
-             if ($this->form_validation->run() == true) {
-                 $name = $this->input->post('name');
-                 $district = $this->input->post('district');
-                 $city = $this->input->post('city');
-                 $state = $this->input->post('state');
-                 $pincode = $this->input->post('pincode');
-                 $shop_name = $this->input->post('shop_name');
-                 $address = $this->input->post('address');
-                 $gst_no = $this->input->post('gst_no');
-                 $aadhar_no = $this->input->post('aadhar_no');
-                 $pan_no = $this->input->post('pan_no');
-                 $email = $this->input->post('email');
-                 $latitude = $this->input->post('latitude');
-                 $longitude = $this->input->post('longitude');
-                 $image = '';
-                 $img1 = 'image';
+            if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $district = $this->input->post('district');
+                $city = $this->input->post('city');
+                $state = $this->input->post('state');
+                $pincode = $this->input->post('pincode');
+                $shop_name = $this->input->post('shop_name');
+                $address = $this->input->post('address');
+                $gst_no = $this->input->post('gst_no');
+                $aadhar_no = $this->input->post('aadhar_no');
+                $pan_no = $this->input->post('pan_no');
+                $email = $this->input->post('email');
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
+                $image = '';
+                $img1 = 'image';
 
-                 if (!empty($_FILES['image'])) {
+                if (!empty($_FILES['image'])) {
                     if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0) {
-                     $file_check = ($_FILES['image']['error']);
-                     if ($file_check != 4) {
-                         $image_upload_folder = FCPATH . "assets/uploads/UpdateProfile/";
-                         if (!file_exists($image_upload_folder)) {
-                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-                         }
-                         $new_file_name = "image" . date("Ymdhms");
-                         $this->upload_config = array(
-                             'upload_path'   => $image_upload_folder,
-                             'file_name' => $new_file_name,
-                             'allowed_types' => 'jpg|jpeg|png',
-                             'max_size'      => 25000
-                         );
-                         $this->upload->initialize($this->upload_config);
-                         if (!$this->upload->do_upload($img1)) {
-                             $upload_error = $this->upload->display_errors();
-                             $respone['status'] = false;
-                             $respone['message'] = $upload_error;
-                             echo json_encode($respone);
-                             die();
-                         } else {
-                             $file_info = $this->upload->data();
-                             $image = "assets/uploads/UpdateProfile/" . $new_file_name . $file_info['file_ext'];
-                         }
-                     }
+                        $file_check = ($_FILES['image']['error']);
+                        if ($file_check != 4) {
+                            $image_upload_folder = FCPATH . "assets/uploads/UpdateProfile/";
+                            if (!file_exists($image_upload_folder)) {
+                                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                            }
+                            $new_file_name = "image" . date("Ymdhms");
+                            $this->upload_config = array(
+                                'upload_path'   => $image_upload_folder,
+                                'file_name' => $new_file_name,
+                                'allowed_types' => 'jpg|jpeg|png',
+                                'max_size'      => 25000
+                            );
+                            $this->upload->initialize($this->upload_config);
+                            if (!$this->upload->do_upload($img1)) {
+                                $upload_error = $this->upload->display_errors();
+                                $respone['status'] = false;
+                                $respone['message'] = $upload_error;
+                                echo json_encode($respone);
+                                die();
+                            } else {
+                                $file_info = $this->upload->data();
+                                $image = "assets/uploads/UpdateProfile/" . $new_file_name . $file_info['file_ext'];
+                            }
+                        }
                     }
-                 }
+                }
 
 
 
-                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-                 if (!empty($vendor_data)) {
-                     date_default_timezone_set("Asia/Calcutta");
-                     $cur_date = date("Y-m-d H:i:s");
-                     $data_update = array(
-                         'name' => $name,
-                         'district' => $district,
-                         'city' => $city,
-                         'state' => $state,
-                         'pincode' => $pincode,
-                         'shop_name' => $shop_name,
-                         'address' => $address,
-                         'gst_no' => $gst_no,
-                         'aadhar_no' => $aadhar_no,
-                         'pan_number' => $pan_no,
-                         'email' => $email,
-                         'latitude' => $latitude,
-                         'longitude' => $longitude,
-                         'image' => $image
-                     );
-                     $this->db->where('id', $vendor_data[0]->id);
-                     $zapak = $this->db->update('tbl_vendor', $data_update);
-                     if (!empty($zapak)) {
-                         $res = array(
-                             'message' => "Success",
-                             'status' => 200,
-                         );
-                         echo json_encode($res);
-                     } else {
-                         $res = array(
-                             'message' => "Some error occurred!",
-                             'status' => 201,
-                         );
-                         echo json_encode($res);
-                     }
-                 } else {
-                     $res = array(
-                         'message' => 'Permission Denied!',
-                         'status' => 201
-                     );
-                     echo json_encode($res);
-                 }
-             } else {
-                 $res = array(
-                     'message' => validation_errors(),
-                     'status' => 201
-                 );
-                 echo json_encode($res);
-             }
-         } else {
-             $res = array(
-                 'message' => 'Please Insert Data',
-                 'status' => 201
-             );
-             echo json_encode($res);
-         }
-     }
+                $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                if (!empty($vendor_data)) {
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $data_update = array(
+                        'name' => $name,
+                        'district' => $district,
+                        'city' => $city,
+                        'state' => $state,
+                        'pincode' => $pincode,
+                        'shop_name' => $shop_name,
+                        'address' => $address,
+                        'gst_no' => $gst_no,
+                        'aadhar_no' => $aadhar_no,
+                        'pan_number' => $pan_no,
+                        'email' => $email,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
+                        'image' => $image
+                    );
+                    $this->db->where('id', $vendor_data[0]->id);
+                    $zapak = $this->db->update('tbl_vendor', $data_update);
+                    if (!empty($zapak)) {
+                        $res = array(
+                            'message' => "Success",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => "Some error occurred!",
+                            'status' => 201,
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+
+    //============================= updateProductStatus=====================================//
+    public function updateProductStatus()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('product_id', 'Product Id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('status', 'Status', 'required|xss_clean|trim');
+
+            if ($this->form_validation->run() == true) {
+                $id = $this->input->post('product_id');
+                $status = $this->input->post('status');
+
+                if ($status == 'inactive') {
+
+                    $data_update = array(
+                        'is_active' => 0,
+
+                    );
+                } else {
+                    $data_update = array(
+                        'is_active' => 1,
+
+                    );
+                }
+                $this->db->where('id', $id);
+                $zapak = $this->db->update('tbl_products', $data_update);
+                if (!empty($zapak)) {
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => "Some error occurred!",
+                        'status' => 201,
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
