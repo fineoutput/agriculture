@@ -31,7 +31,6 @@ class VendorController extends CI_Controller
         }
         return $pagination;
     }
-
     //================================ Orders ==========================================
     //====================================== NewOrders =================================//
     public function NewOrders()
@@ -1109,32 +1108,29 @@ class VendorController extends CI_Controller
             $vendorSlider_data = $this->db->get_where('tbl_vendorslider', array('is_active' => 1))->result();
             $data = [];
             $vendor_slider = [];
-            foreach ($vendorSlider_data as $vendor_slide) {
-                if (!empty($vendor_slide->image)) {
-                    $image = base_url() . $vendor_slide->image;
+            foreach ($vendorSlider_data as $slider) {
+                if (!empty($slider->image)) {
+                    $image = base_url() . $slider->image;
                 } else {
                     $image = '';
                 }
-                $vendor_slider[] = $image;
+                $vendor_slider[] = array('image'=>$image);
             }
             //---- vendor notification data -------
             $vendor_nft = [];
             $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' =>$vendor_data[0]->id))->result();
-
             foreach ($vendornotification_datas as $vendornotification_data) {
                 $vendor_nft[] = array(
                     'id' => $vendornotification_data->id,
                     'name' => $vendornotification_data->name,
                     'image' => base_url() . $vendornotification_data->image,
                     'description' => $vendornotification_data->dsc,
-
                 );
             }
             $this->db->select('*');
             $this->db->from('tbl_vendor_notification');
             $this->db->where('vendor_id',$vendor_data[0]->id);
             $count_vendor = $this->db->count_all_results();
-         
             $data = array(
                 'today_orders' => $today_orders,
                 'new_orders' => $new_orders,
@@ -1147,7 +1143,6 @@ class VendorController extends CI_Controller
                 'vendor_slider' => $vendor_slider,
                 'notification_data' => $vendor_nft,
                 'notification_count' => $count_vendor
-
             );
             $res = array(
                 'message' => "Success!",
@@ -1303,7 +1298,6 @@ class VendorController extends CI_Controller
             $this->form_validation->set_rules('email', 'email', 'xss_clean|trim');
             $this->form_validation->set_rules('latitude', 'Latitude', 'xss_clean|trim');
             $this->form_validation->set_rules('longitude', 'Longitude', 'xss_clean|trim');
-
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $district = $this->input->post('district');
@@ -1320,7 +1314,6 @@ class VendorController extends CI_Controller
                 $longitude = $this->input->post('longitude');
                 $image = '';
                 $img1 = 'image';
-
                 if (!empty($_FILES['image'])) {
                     if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0) {
                         $file_check = ($_FILES['image']['error']);
@@ -1350,9 +1343,6 @@ class VendorController extends CI_Controller
                         }
                     }
                 }
-
-
-
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($vendor_data)) {
                     date_default_timezone_set("Asia/Calcutta");
@@ -1410,7 +1400,6 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
-
     //============================= updateProductStatus=====================================//
     public function updateProductStatus()
     {
@@ -1422,21 +1411,16 @@ class VendorController extends CI_Controller
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('product_id', 'Product Id', 'required|xss_clean|trim');
             $this->form_validation->set_rules('status', 'Status', 'required|xss_clean|trim');
-
             if ($this->form_validation->run() == true) {
                 $id = $this->input->post('product_id');
                 $status = $this->input->post('status');
-
                 if ($status == 'inactive') {
-
                     $data_update = array(
                         'is_active' => 0,
-
                     );
                 } else {
                     $data_update = array(
                         'is_active' => 1,
-
                     );
                 }
                 $this->db->where('id', $id);
