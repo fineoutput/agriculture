@@ -639,6 +639,14 @@ class ManagementController extends CI_Controller
         } else {
           $image4 = '';
         }
+        $farmerData = $this->db->get_where('tbl_farmers', array('id' => $exp->farmer_id))->result();
+        if (!empty($farmerData)) {
+          $f_name = $farmerData[0]->name;
+          $f_phone = $farmerData[0]->phone;
+        } else {
+          $f_name = '';
+          $f_phone = '';
+        }
         $data[] = array(
           's_no' => $i,
           'information_type' => $exp->information_type,
@@ -652,6 +660,8 @@ class ManagementController extends CI_Controller
           'image2' => $image2,
           'image3' => $image3,
           'image4' => $image4,
+          'f_name' => $f_name,
+          'f_phone' => $f_phone,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
