@@ -531,7 +531,7 @@ class DoctorController extends CI_Controller
                 $notifications[] = array(
                     'id' => $notification->id,
                     'name' => $notification->name,
-                    'image' => base_url() . $notification->image,
+                    'image' => $notification->image? base_url() . $notification->image:'',
                     'description' => $notification->dsc,
                     'date' => $newDate->format('d-m-y, g:i a'),
                 );
