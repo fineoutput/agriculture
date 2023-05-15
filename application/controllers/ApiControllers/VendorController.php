@@ -894,7 +894,7 @@ class VendorController extends CI_Controller
                     'suffix' => $pro->suffix,
                     'stock' => $stock,
                     'percent' => $percent,
-                    'inventory' => $inventory,
+                    'inventory' => $pro->inventory,
                     'vendor_id' => $pro->added_by,
                     'is_admin' => $pro->is_admin
                 );
