@@ -135,6 +135,12 @@
                         </select>
                       </td>
                     </tr>
+                    <tr>
+                      <td> <strong>Offer</strong> </strong> </td>
+                      <td>
+                        <input type="text" name="offer" class="form-control" placeholder="" required value="<? echo $products->offer;?>" />
+                      </td>
+                    </tr>
                     <td colspan="2">
                       <input type="submit" class="btn btn-success" value="save">
                     </td>

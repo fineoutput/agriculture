@@ -119,7 +119,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td> <strong>Tranding Products</strong> <span style="color:red;">*</span></strong> </td>
+                      <td> <strong>Tranding Products</strong></strong> </td>
                       <td>
                         <select class="form-control" name="tranding_products">
                           <option>---select---</option>
@@ -127,6 +127,12 @@
                           <option value="0">No</option>
                           
                         </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> <strong>Offer</strong> </strong> </td>
+                      <td>
+                        <input type="text" name="offer" class="form-control" placeholder="" required value="" />
                       </td>
                     </tr>
                     <td colspan="2">

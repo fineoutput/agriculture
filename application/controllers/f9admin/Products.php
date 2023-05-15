@@ -102,6 +102,7 @@ class Products extends CI_finecontrol
                 $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('suffix', 'suffix', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('tranding_products', 'Tranding products', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('offer', 'Offer', 'xss_clean|trim');
                 if ($this->form_validation->run() == TRUE) {
                     $name_english = $this->input->post('name_english');
                     $name_hindi = $this->input->post('name_hindi');
@@ -117,6 +118,7 @@ class Products extends CI_finecontrol
                     $inventory = $this->input->post('inventory');
                     $suffix = $this->input->post('suffix');
                     $tranding_products = $this->input->post('tranding_products');
+                    $offer = $this->input->post('offer');
                     $ip = $this->input->ip_address();
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
@@ -171,6 +173,7 @@ class Products extends CI_finecontrol
                             'inventory' => $inventory,
                             'suffix' => $suffix,
                             'tranding_products'=>$tranding_products,
+                            'offer'=>$offer,
                             'ip' => $ip,
                             'added_by' => $addedby,
                             'is_active' => 1,
@@ -200,7 +203,8 @@ class Products extends CI_finecontrol
                             'selling_price_wo_gst' => $selling_price_wo_gst,
                             'inventory' => $inventory,
                             'suffix' => $suffix,
-                            'tranding_products'=>$tranding_products
+                            'tranding_products'=>$tranding_products,
+                            'offer'=>$offer
                         );
                         $this->db->where('id', $idw);
                         $last_id = $this->db->update('tbl_products', $data_insert);

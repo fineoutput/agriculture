@@ -56,6 +56,7 @@
                       <th>Selling Price(without GST)</th>
                       <th>Inventory</th>
                       <th>Suffix</th>
+                      <th>Offer</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -93,6 +94,7 @@
                         <td><?php echo $data->selling_price_wo_gst ? '₹' . $data->selling_price_wo_gst : '' ?></td>
                         <td><?php echo $data->inventory ?></td>
                         <td><?php echo $data->suffix ?></td>
+                        <td><?php echo $data->offer ?></td>
                         <td><?php if ($data->is_active == 1) { ?>
                             <p class="label bg-green">Active</p>
                           <?php } else { ?>
