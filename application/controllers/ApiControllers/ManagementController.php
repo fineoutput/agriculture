@@ -487,7 +487,7 @@ class ManagementController extends CI_Controller
             'image2' => $nnnn2,
             'image3' => $nnnn3,
             'image4' => $nnnn4,
-            'status'=>0,
+            'status' => 0,
             'date' => $cur_date,
             'animal_type' => $animal_type,
             'description' => $description,
@@ -570,18 +570,22 @@ class ManagementController extends CI_Controller
           $image4 = '';
         }
         if ($exp->status == 0) {
+          $show = 1;
           $status = 'Pending';
           $bg_color = '#65bcd7';
-      } elseif ($exp->status == 1) {
+        } elseif ($exp->status == 1) {
+          $show = 1;
           $status = 'Accepted';
           $bg_color = '#3b71ca';
-      } elseif ($exp->status == 2) {
+        } elseif ($exp->status == 2) {
+          $show = 0;
           $status = 'Completed';
           $bg_color = '#139c49';
-      } elseif ($exp->status == 3) {
+        } elseif ($exp->status == 3) {
           $status = 'Rejected';
+          $show = 0;
           $bg_color = '#dc4c64';
-      }
+        }
         $data[] = array(
           's_no' => $i,
           'id' => $exp->id,
@@ -599,6 +603,7 @@ class ManagementController extends CI_Controller
           'animal_type' => $exp->animal_type,
           'description' => $exp->description,
           'remarks' => $exp->remarks,
+          'show' => $show,
           'status' => $status,
           'bg_color' => $bg_color,
           'date' => $newdate->format('d/m/Y')
@@ -629,7 +634,7 @@ class ManagementController extends CI_Controller
     $page_index = $headers['Index'];
     $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
     if (!empty($farmer_data)) {
-      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id !=' => $farmer_data[0]->id,'status'=>1))->num_rows();
+      $count = $this->db->get_where('tbl_sale_purchase', array('farmer_id !=' => $farmer_data[0]->id, 'status' => 1))->num_rows();
       $limit = 20;
       if (!empty($page_index)) {
         $start = ($page_index - 1) * $limit;
@@ -639,7 +644,7 @@ class ManagementController extends CI_Controller
       $this->db->select('*');
       $this->db->from('tbl_sale_purchase');
       $this->db->where('farmer_id !=', $farmer_data[0]->id);
-      $this->db->where('status',1);
+      $this->db->where('status', 1);
       $this->db->order_by('id', 'desc');
       $this->db->limit($limit, $start);
       $exp_data = $this->db->get();
@@ -1741,47 +1746,47 @@ class ManagementController extends CI_Controller
   }
   public function salePurchaseUpdate()
   {
-      $this->load->helper(array('form', 'url'));
-      $this->load->library('form_validation');
-      $this->load->helper('security');
-      if ($this->input->post()) {
-          $headers = apache_request_headers();
-          $authentication = $headers['Authentication'];
-          $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
-          if ($this->form_validation->run() == true) {
-              $id = $this->input->post('id');
-              $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-              if (!empty($farmer_data)) {
-                  $data_update = array('status' => 2,);
-                  $this->db->where('id', $id);
-                  $this->db->where('farmer_id', $farmer_data[0]->id);
-                  $zapak = $this->db->update('tbl_sale_purchase', $data_update);
-                  $res = array(
-                      'message' => "Success",
-                      'status' => 200,
-                  );
-                  echo json_encode($res);
-              } else {
-                  $res = array(
-                      'message' => 'Permission Denied!',
-                      'status' => 201
-                  );
-                  echo json_encode($res);
-              }
-          } else {
-              $res = array(
-                  'message' => validation_errors(),
-                  'status' => 201
-              );
-              echo json_encode($res);
-          }
-      } else {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+      if ($this->form_validation->run() == true) {
+        $id = $this->input->post('id');
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+          $data_update = array('status' => 2,);
+          $this->db->where('id', $id);
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $zapak = $this->db->update('tbl_sale_purchase', $data_update);
           $res = array(
-              'message' => 'Please Insert Data',
-              'status' => 201
+            'message' => "Success",
+            'status' => 200,
           );
           echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
       }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
   }
 }
 //==============================================================END MANAGECONTROLLER====================================//
