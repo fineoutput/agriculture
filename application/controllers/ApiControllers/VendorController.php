@@ -101,7 +101,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name,
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
