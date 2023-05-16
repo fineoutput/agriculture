@@ -594,7 +594,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->district,
                                 'city' => $doctor->city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             $hi_data[] = array(
@@ -610,7 +610,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->hi_district,
                                 'city' => $doctor->hi_city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             $pn_data[] = array(
@@ -626,7 +626,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->pn_district,
                                 'city' => $doctor->pn_city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             // }
@@ -1222,7 +1222,5 @@ class ToolsController extends CI_Controller
         }
         return $binString;
     }
-
- 
 }
   //====================================================== END TOOLSCONTROLLER================================================//
