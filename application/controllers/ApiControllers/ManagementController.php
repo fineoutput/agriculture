@@ -586,6 +586,7 @@ class ManagementController extends CI_Controller
           'animal_type' => $exp->animal_type,
           'description' => $exp->description,
           'remarks' => $exp->remarks,
+          'status' => $exp->status,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
