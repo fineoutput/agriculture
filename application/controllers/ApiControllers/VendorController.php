@@ -1033,9 +1033,9 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        if($headers['fcm_token'] != ''){
+        if($headers['Fcm_token'] != ''){
 
-            $fcm_token = $headers['fcm_token'];
+            $fcm_token = $headers['Fcm_token'];
         }else{
             $fcm_token='';
         }
