@@ -1033,7 +1033,12 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $fcm_token = $headers['fcm_token'];
+        if($headers['fcm_token'] != ''){
+
+            $fcm_token = $headers['fcm_token'];
+        }else{
+            $fcm_token='';
+        }
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
 
         //update fcm_token
