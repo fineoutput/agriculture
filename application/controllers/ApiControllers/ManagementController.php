@@ -492,7 +492,6 @@ class ManagementController extends CI_Controller
             'animal_type' => $animal_type,
             'description' => $description,
             'remarks' => $remarks
-
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
           $res = array(
@@ -572,6 +571,7 @@ class ManagementController extends CI_Controller
         }
         $data[] = array(
           's_no' => $i,
+          'id' => $exp->id,
           'information_type' => $exp->information_type,
           'animal_name' => $exp->animal_name,
           'milk_production' => $exp->milk_production,
@@ -664,6 +664,7 @@ class ManagementController extends CI_Controller
         }
         $data[] = array(
           's_no' => $i,
+          'id' => $exp->id,
           'information_type' => $exp->information_type,
           'animal_name' => $exp->animal_name,
           'milk_production' => $exp->milk_production,
