@@ -931,6 +931,7 @@ class VendorController extends CI_Controller
             $this->form_validation->set_rules('pro_id', 'pro_id', 'xss_clean|trim');
             $this->form_validation->set_rules('selling_price', 'selling_price', 'required|xss_clean|trim');
             $this->form_validation->set_rules('inventory', 'Inventory', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('is_active', 'is active', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $description = $this->input->post('description');
@@ -938,6 +939,7 @@ class VendorController extends CI_Controller
                 $selling_price = $this->input->post('selling_price');
                 $inventory = $this->input->post('inventory');
                 $pro_id = $this->input->post('pro_id');
+                $is_active = $this->input->post('is_active');
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($vendor_data)) {
                     $this->load->library('upload');
@@ -982,7 +984,7 @@ class VendorController extends CI_Controller
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'added_by' => $vendor_data[0]->id,
-                            'is_active' => 0,
+                            'is_active' =>$is_active,
                             'inventory' => $inventory,
                             'is_admin' => 0,
                             'date' => $cur_date
@@ -996,7 +998,7 @@ class VendorController extends CI_Controller
                             'mrp' => $mrp,
                             'inventory' => $inventory,
                             'selling_price' => $selling_price,
-                            'is_active' => 0,
+                            'is_active' => $is_active,
                         );
                         $this->db->where('id', $pro_id);
                         $zapak = $this->db->update('tbl_products', $data_update);
@@ -1421,57 +1423,5 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //============================= updateProductStatus=====================================//
-    public function updateProductStatus()
-    {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('product_id', 'Product Id', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('status', 'Status', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $id = $this->input->post('product_id');
-                $status = $this->input->post('status');
-                if ($status == 'inactive') {
-                    $data_update = array(
-                        'is_active' => 0,
-                    );
-                } else {
-                    $data_update = array(
-                        'is_active' => 1,
-                    );
-                }
-                $this->db->where('id', $id);
-                $zapak = $this->db->update('tbl_products', $data_update);
-                if (!empty($zapak)) {
-                    $res = array(
-                        'message' => "Success",
-                        'status' => 200,
-                    );
-                    echo json_encode($res);
-                } else {
-                    $res = array(
-                        'message' => "Some error occurred!",
-                        'status' => 201,
-                    );
-                    echo json_encode($res);
-                }
-            } else {
-                $res = array(
-                    'message' => validation_errors(),
-                    'status' => 201
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Please Insert Data',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
-    }
+
 }
