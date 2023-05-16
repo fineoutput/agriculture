@@ -382,8 +382,22 @@ class HomeController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        if($headers['Fcm_token'] != ''){
+
+            $fcm_token = $headers['Fcm_token'];
+        }else{
+            $fcm_token='';
+        }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
+              //update fcm_token
+        if (!empty($fcm_token) && $fcm_token !=  $farmer_data->fcm_token) {
+            $data_updatev = array(
+                'fcm_token' => $fcm_token,
+            );
+            $this->db->where('id', $farmer_data[0]->id);
+            $zapakv = $this->db->update('tbl_farmers', $data_updatev);
+        }
             //---- slider data -------
             $Slider_data = $this->db->get_where('tbl_slider', array('is_active' => 1))->result();
             $data = [];
