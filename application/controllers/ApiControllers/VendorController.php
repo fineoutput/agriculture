@@ -1035,14 +1035,12 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        if($headers['Fcm_token'] != ''){
-
+        if (array_key_exists("Fcm_token", $header)) {
             $fcm_token = $headers['Fcm_token'];
         }else{
             $fcm_token='';
         }
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-
         //update fcm_token
         if (!empty($fcm_token) && $fcm_token != $vendor_data[0]->fcm_token) {
             $data_updatev = array(
@@ -1423,5 +1421,4 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
-
 }

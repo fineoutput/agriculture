@@ -382,8 +382,12 @@ class HomeController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        if($headers['Fcm_token'] != ''){
-
+        if (array_key_exists("Fcm_token", $header)) {
+            $fcm_token = $headers['Fcm_token'];
+        }else{
+            $fcm_token='';
+        } $authentication = $headers['Authentication'];
+        if (array_key_exists("Fcm_token", $header)) {
             $fcm_token = $headers['Fcm_token'];
         }else{
             $fcm_token='';
@@ -412,7 +416,6 @@ class HomeController extends CI_Controller
             }
             //---- Farmerslider2 data -------
             $FarmerSlider_data = $this->db->get_where('tbl_farmersliderslider', array('is_active' => 1))->result();
-
             $Famerslider = [];
             foreach ($FarmerSlider_data as $farmerslide) {
                 if (!empty($farmerslide->image)) {
@@ -424,7 +427,6 @@ class HomeController extends CI_Controller
             }
             //---- Categoryslider data -------
             $CategorySlider_data = $this->db->get_where('tbl_category_images', array('is_active' => 1))->result();
-
             $CategoryData = [];
             foreach ($CategorySlider_data as $category) {
                 $subCategoryData = [];
@@ -434,7 +436,6 @@ class HomeController extends CI_Controller
                         'id' => $subcategory->id,
                         'name' => $subcategory->name,
                         'image' => $subcategory->image ? base_url() . $subcategory->image : ''
-
                     );
                 }
                 $CategoryData[] = array(
@@ -442,10 +443,8 @@ class HomeController extends CI_Controller
                     'name' => $category->name,
                     'image' => $category->image ? base_url() . $category->image : '',
                     'subcatgory' => $subCategoryData,
-
                 );
             }
-
             //tranding products
             $this->db->select('*');
             $this->db->from('tbl_products');
@@ -458,7 +457,6 @@ class HomeController extends CI_Controller
             $hi_data = [];
             $pn_data = [];
             foreach ($data_products->result() as $pro) {
-
                 if (!empty($pro->image)) {
                     $image = base_url() . $pro->image;
                 } else {
@@ -474,7 +472,6 @@ class HomeController extends CI_Controller
                 if ($discount > 0) {
                     $percent = round($discount / $pro->mrp * 100);
                 }
-
                 $en_data[] = array(
                     'pro_id' => $pro->id,
                     'name' => $pro->name_english,
@@ -522,28 +519,23 @@ class HomeController extends CI_Controller
             );
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
-           
             //---- farmer notification data -------
             $farmer_nft = [];
             $farmernotification_datas = $this->db->get_where('tbl_farmer_notification', array('farmer_id' => $farmer_data[0]->id))->result();
-
             foreach ($farmernotification_datas as $farmernotification_data) {
                 $farmer_nft[] = array(
                     'id' => $farmernotification_data->id,
                     'name' => $farmernotification_data->name,
                     'image' => base_url() . $farmernotification_data->image,
                     'description' => $farmernotification_data->dsc,
-
                 );
             }
             $this->db->select('*');
             $this->db->from('tbl_farmer_notification');
             $this->db->where('farmer_id', $farmer_data[0]->id);
             $count_farmer = $this->db->count_all_results();
-
             $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
             'notification_count' => $count_farmer ,'CartCount' => $CartCount);
-
             $res = array(
                 'message' => "Success!",
                 'status' => 200,
