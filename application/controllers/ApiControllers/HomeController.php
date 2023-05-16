@@ -380,28 +380,28 @@ class HomeController extends CI_Controller
     //=======================================================HomeData===============================================//
     public function HomeData()
     {
-        $headers = apache_request_headers();
+        $headers = $this->input->request_headers();
+        if (array_key_exists("Fcm_token", $headers)) {
+            $fcm_token = $headers['Fcm_token'];
+        } else {
+            $fcm_token = '';
+        }
         $authentication = $headers['Authentication'];
         if (array_key_exists("Fcm_token", $header)) {
             $fcm_token = $headers['Fcm_token'];
-        }else{
-            $fcm_token='';
-        } $authentication = $headers['Authentication'];
-        if (array_key_exists("Fcm_token", $header)) {
-            $fcm_token = $headers['Fcm_token'];
-        }else{
-            $fcm_token='';
+        } else {
+            $fcm_token = '';
         }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
-              //update fcm_token
-        if (!empty($fcm_token) && $fcm_token !=  $farmer_data->fcm_token) {
-            $data_updatev = array(
-                'fcm_token' => $fcm_token,
-            );
-            $this->db->where('id', $farmer_data[0]->id);
-            $zapakv = $this->db->update('tbl_farmers', $data_updatev);
-        }
+            //update fcm_token
+            if (!empty($fcm_token) && $fcm_token !=  $farmer_data->fcm_token) {
+                $data_updatev = array(
+                    'fcm_token' => $fcm_token,
+                );
+                $this->db->where('id', $farmer_data[0]->id);
+                $zapakv = $this->db->update('tbl_farmers', $data_updatev);
+            }
             //---- slider data -------
             $Slider_data = $this->db->get_where('tbl_slider', array('is_active' => 1))->result();
             $data = [];
@@ -534,8 +534,10 @@ class HomeController extends CI_Controller
             $this->db->from('tbl_farmer_notification');
             $this->db->where('farmer_id', $farmer_data[0]->id);
             $count_farmer = $this->db->count_all_results();
-            $data =  array('slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
-            'notification_count' => $count_farmer ,'CartCount' => $CartCount);
+            $data =  array(
+                'slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
+                'notification_count' => $count_farmer, 'CartCount' => $CartCount
+            );
             $res = array(
                 'message' => "Success!",
                 'status' => 200,

@@ -1033,13 +1033,13 @@ class VendorController extends CI_Controller
     //============================= HomeData =====================================//
     public function HomeData()
     {
-        $headers = apache_request_headers();
-        $authentication = $headers['Authentication'];
-        if (array_key_exists("Fcm_token", $header)) {
+        $headers = $this->input->request_headers();
+        if (array_key_exists("Fcm_token", $headers)) {
             $fcm_token = $headers['Fcm_token'];
-        }else{
-            $fcm_token='';
+        } else {
+            $fcm_token = '';
         }
+        $authentication = $headers['Authentication'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //update fcm_token
         if (!empty($fcm_token) && $fcm_token != $vendor_data[0]->fcm_token) {
