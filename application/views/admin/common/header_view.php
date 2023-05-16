@@ -29,15 +29,16 @@
     /* ==============================Custom theme=========================================== */
     .custom_btn {
       color: white;
-      background-color: hsl(353deg 91% 53%);
+      background-color: #3c5772;
     }
     .custom_btn:hover {
       color: white;
       background-color: black;
     }
     .custom_header {
-      color: white;
-      background-color: #008000 !important;
+    
+      background-color:white;
+      color:black;
     }
     .custom_header>a:hover {
       color: #008000;
@@ -47,7 +48,7 @@
     .custom_header>li>a:hover {
       color: #fff;
       background: #262626;
-      border-left-color: hsl(353deg 91% 53%);
+      border-left-color: #3c5772;
     }
     .active>a {
       color: #008000;
@@ -276,7 +277,7 @@
                         if (empty($dawwa)) {
                           echo base_url() . ADMIN_URL . "/" . $sd['url'] . '">'; ?>
                                 <span style=" <?php if ($currentURL == $urls) {
-                                                echo "color:#fff;";
+                                                echo "color:#000;";
                                               } ?>"><i class="fa fa-adjust" aria-hidden="true" style="width: 20px;"></i></span>
                 <span> <? echo $sd['name'] ?></span>
                 <span class="label label-primary pull-right"></span>
