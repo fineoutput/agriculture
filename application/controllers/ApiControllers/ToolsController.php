@@ -594,7 +594,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->district,
                                 'city' => $doctor->city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             $hi_data[] = array(
@@ -610,7 +610,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->hi_district,
                                 'city' => $doctor->hi_city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             $pn_data[] = array(
@@ -626,7 +626,7 @@ class ToolsController extends CI_Controller
                                 'qualification' => $doctor->qualification,
                                 'district' => $doctor->pn_district,
                                 'city' => $doctor->pn_city,
-                                'state' => $state_data[0]->state_name,
+                                'state' => $state_data ? $state_data[0]->state_name : '',
                                 'image' => $image
                             );
                             // }
@@ -1221,51 +1221,6 @@ class ToolsController extends CI_Controller
             $count += 2;
         }
         return $binString;
-    }
-
-    public function salePurchaseUpdate()
-    {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $id = $this->input->post('id');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-                if (!empty($farmer_data)) {
-                    $data_update = array('status' => 2,);
-                    $this->db->where('id', $id);
-                    $this->db->where('farmer_id', $farmer_data[0]->id);
-                    $zapak = $this->db->update('tbl_sale_purchase', $data_update);
-                    $res = array(
-                        'message' => "Success",
-                        'status' => 200,
-                    );
-                    echo json_encode($res);
-                } else {
-                    $res = array(
-                        'message' => 'Permission Denied!',
-                        'status' => 201
-                    );
-                    echo json_encode($res);
-                }
-            } else {
-                $res = array(
-                    'message' => validation_errors(),
-                    'status' => 201
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Please Insert Data',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
     }
 }
   //====================================================== END TOOLSCONTROLLER================================================//
