@@ -390,7 +390,7 @@ class HomeController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             //update fcm_token
-            if (!empty($fcm_token) && $fcm_token !=  $farmer_data->fcm_token) {
+            if (!empty($fcm_token) && $fcm_token !=  $farmer_data[0]->fcm_token) {
                 $data_updatev = array(
                     'fcm_token' => $fcm_token,
                 );
