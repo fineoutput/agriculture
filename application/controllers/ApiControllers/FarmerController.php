@@ -747,6 +747,48 @@ class FarmerController extends CI_Controller
                         $this->db->where('id', $order1_data[0]->vendor_id);
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
+                    //------ send notification to doctor -----
+                    if (!empty($vendor_data[0]->fcm_token)) {
+                        // echo $user_device_tokens->device_token;
+                        //success notification code
+                        $url = 'https://fcm.googleapis.com/fcm/send';
+                        $title = "New Request";
+                        $message = "New order #" . $order_id . "  received with the  amount of  ₹" . $order1_data[0]->final_amount;
+                        $msg2 = array(
+                            'title' => $title,
+                            'body' => $message,
+                            "sound" => "default"
+                        );
+                        $fields = array(
+                            // 'to'=>"/topics/all",
+                            'to' => $vendor_data[0]->fcm_token,
+                            'notification' => $msg2,
+                            'priority' => 'high'
+                        );
+                        $fields = json_encode($fields);
+                        $headers = array(
+                            'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                            'Content-Type: application/json'
+                        );
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                        $result = curl_exec($ch);
+                        // echo $fields;
+                        // echo $result;
+                        curl_close($ch);
+                        //End success notification code
+                        $data_insert = array(
+                            'vendor_id' => $order1_data[0]->vendor_id,
+                            'name' => $title,
+                            'dsc' => $message,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_vendor_notification", $data_insert, 1);
+                    }
                 }
                 echo 'Success';
                 exit;

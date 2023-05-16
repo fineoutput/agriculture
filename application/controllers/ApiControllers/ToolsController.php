@@ -479,38 +479,38 @@ class ToolsController extends CI_Controller
                             // echo $km;
                             // echo "<br>";
                             if ($km <= $radius) {
-                            if (!empty($doctor->image)) {
-                                $image = base_url() . $doctor->image;
-                            } else {
-                                $image = '';
-                            }
-                            $en_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'image' => $image
-                            );
-                            $hi_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->hi_name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'image' => $image
-                            );
-                            $pn_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->pn_name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'image' => $image
-                            );
+                                if (!empty($doctor->image)) {
+                                    $image = base_url() . $doctor->image;
+                                } else {
+                                    $image = '';
+                                }
+                                $en_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
+                                $hi_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->hi_name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
+                                $pn_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->pn_name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
                             }
                         }
                         $data = array(
@@ -1005,6 +1005,48 @@ class ToolsController extends CI_Controller
                     $this->db->where('id', $order_data->doctor_id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
                 }
+                //------ send notification to doctor -----
+                if (!empty($docData[0]->fcm_token)) {
+                    // echo $user_device_tokens->device_token;
+                    //success notification code
+                    $url = 'https://fcm.googleapis.com/fcm/send';
+                    $title = "New Request";
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees;
+                    $msg2 = array(
+                        'title' => $title,
+                        'body' => $message,
+                        "sound" => "default"
+                    );
+                    $fields = array(
+                        // 'to'=>"/topics/all",
+                        'to' => $docData[0]->fcm_token,
+                        'notification' => $msg2,
+                        'priority' => 'high'
+                    );
+                    $fields = json_encode($fields);
+                    $headers = array(
+                        'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                        'Content-Type: application/json'
+                    );
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                    $result = curl_exec($ch);
+                    // echo $fields;
+                    // echo $result;
+                    curl_close($ch);
+                    //End success notification code
+                    $data_insert = array(
+                        'doctor_id' => $order_data->doctor_id,
+                        'name' => $title,
+                        'dsc' => $message,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_doctor_notification", $data_insert, 1);
+                }
                 echo 'Success';
                 exit;
             }
@@ -1076,37 +1118,37 @@ class ToolsController extends CI_Controller
                         // echo $km;
                         // echo "<br>";
                         if ($km <= $radius) {
-                        $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
-                        $en_data[] = array(
-                            'vendor_id' => $vendor->id,
-                            'name' => $vendor->name,
-                            'shop_name' => $vendor->shop_name,
-                            'address' => $vendor->address,
-                            'district' => $vendor->district,
-                            'city' => $vendor->city,
-                            'state' => $state_data[0]->state_name,
-                            'pincode' => $vendor->pincode,
-                        );
-                        $hi_data[] = array(
-                            'vendor_id' => $vendor->id,
-                            'name' => $vendor->hi_name,
-                            'shop_name' => $vendor->shop_hi_name,
-                            'address' => $vendor->hi_address,
-                            'district' => $vendor->hi_district,
-                            'city' => $vendor->hi_city,
-                            'state' => $state_data[0]->state_name,
-                            'pincode' => $vendor->pincode,
-                        );
-                        $pn_data[] = array(
-                            'vendor_id' => $vendor->id,
-                            'name' => $vendor->pn_name,
-                            'shop_name' => $vendor->shop_pn_name,
-                            'address' => $vendor->pn_address,
-                            'district' => $vendor->pn_district,
-                            'city' => $vendor->pn_city,
-                            'state' => $state_data[0]->state_name,
-                            'pincode' => $vendor->pincode,
-                        );
+                            $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
+                            $en_data[] = array(
+                                'vendor_id' => $vendor->id,
+                                'name' => $vendor->name,
+                                'shop_name' => $vendor->shop_name,
+                                'address' => $vendor->address,
+                                'district' => $vendor->district,
+                                'city' => $vendor->city,
+                                'state' => $state_data[0]->state_name,
+                                'pincode' => $vendor->pincode,
+                            );
+                            $hi_data[] = array(
+                                'vendor_id' => $vendor->id,
+                                'name' => $vendor->hi_name,
+                                'shop_name' => $vendor->shop_hi_name,
+                                'address' => $vendor->hi_address,
+                                'district' => $vendor->hi_district,
+                                'city' => $vendor->hi_city,
+                                'state' => $state_data[0]->state_name,
+                                'pincode' => $vendor->pincode,
+                            );
+                            $pn_data[] = array(
+                                'vendor_id' => $vendor->id,
+                                'name' => $vendor->pn_name,
+                                'shop_name' => $vendor->shop_pn_name,
+                                'address' => $vendor->pn_address,
+                                'district' => $vendor->pn_district,
+                                'city' => $vendor->pn_city,
+                                'state' => $state_data[0]->state_name,
+                                'pincode' => $vendor->pincode,
+                            );
                         }
                     }
                     $data = array(
