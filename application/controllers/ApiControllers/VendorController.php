@@ -1215,6 +1215,8 @@ class VendorController extends CI_Controller
                 'bank_phone' => $vendor_data[0]->bank_phone,
                 'bank_ac' => $vendor_data[0]->bank_ac,
                 'ifsc' => $vendor_data[0]->ifsc,
+                'latitude' => $vendor_data[0]->latitude,
+                'longitude' => $vendor_data[0]->longitude,
             );
             $res = array(
                 'message' => "Success!",
