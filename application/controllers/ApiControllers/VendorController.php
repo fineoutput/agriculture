@@ -101,7 +101,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en : '',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
@@ -208,7 +208,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en : '',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
@@ -315,7 +315,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en : '',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
@@ -422,7 +422,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en : '',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
@@ -529,7 +529,7 @@ class VendorController extends CI_Controller
                         }
                         $details[] = array(
                             'id' => $order2->id,
-                            'product_name' => $order2->product_name_en ? $order2->product_name_en :'',
+                            'product_name' => $order2->product_name_en ? $order2->product_name_en : '',
                             'image' => $image,
                             'qty' => $order2->qty,
                             'selling_price' => $order2->selling_price,
@@ -984,17 +984,18 @@ class VendorController extends CI_Controller
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'added_by' => $vendor_data[0]->id,
-                            'is_active' =>$is_active,
+                            'is_active' => $is_active,
                             'inventory' => $inventory,
                             'is_admin' => 0,
                             'date' => $cur_date
                         );
                         $last_id = $this->base_model->insert_table("tbl_products", $data_insert, 1);
                     } else {
+                        $pro_data = $this->db->get_where('tbl_products', array('id' => $pro_id))->result();
                         $data_update = array(
                             'name_english' => $name,
                             'description_english' => $description,
-                            'image' => $image,
+                            'image' => $image ? $image : $pro_data[0]->image,
                             'mrp' => $mrp,
                             'inventory' => $inventory,
                             'selling_price' => $selling_price,
