@@ -518,11 +518,13 @@ class HomeController extends CI_Controller
             $farmer_nft = [];
             $farmernotification_datas = $this->db->get_where('tbl_farmer_notification', array('farmer_id' => $farmer_data[0]->id))->result();
             foreach ($farmernotification_datas as $farmernotification_data) {
+                $newDate = new DateTime($farmernotification_data->date);
                 $farmer_nft[] = array(
                     'id' => $farmernotification_data->id,
                     'name' => $farmernotification_data->name,
                     'image' => $farmernotification_data->image ? base_url() . $farmernotification_data->image:'',
                     'description' => $farmernotification_data->dsc,
+                    'date' => $newDate->format('d-m-y, g:i a'),
                 );
             }
             $this->db->select('*');
