@@ -387,11 +387,6 @@ class HomeController extends CI_Controller
             $fcm_token = '';
         }
         $authentication = $headers['Authentication'];
-        if (array_key_exists("Fcm_token", $header)) {
-            $fcm_token = $headers['Fcm_token'];
-        } else {
-            $fcm_token = '';
-        }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             //update fcm_token
