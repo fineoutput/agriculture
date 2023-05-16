@@ -1033,7 +1033,17 @@ class VendorController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
+        $fcm_token = $headers['fcm_token'];
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+
+        //update fcm_token
+        if (!empty($fcm_token) && $fcm_token != $vendor_data[0]->fcm_token) {
+            $data_updatev = array(
+                'fcm_token' => $fcm_token,
+            );
+            $this->db->where('id', $vendor_data[0]->id);
+            $zapakv = $this->db->update('tbl_vendor', $data_updatev);
+        }
         //----- Verify Auth --------
         $cur_date = date("Y-m-d");
         if (!empty($vendor_data)) {
@@ -1116,24 +1126,24 @@ class VendorController extends CI_Controller
                 } else {
                     $image = '';
                 }
-                $vendor_slider[] = array('image'=>$image);
+                $vendor_slider[] = array('image' => $image);
             }
             //---- vendor notification data -------
             $vendor_nft = [];
-            $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' =>$vendor_data[0]->id))->result();
+            $vendornotification_datas = $this->db->get_where('tbl_vendor_notification', array('vendor_id' => $vendor_data[0]->id))->result();
             foreach ($vendornotification_datas as $vendornotification_data) {
-                $newDate = new DateTime($vendornotification_data->date); 
+                $newDate = new DateTime($vendornotification_data->date);
                 $vendor_nft[] = array(
                     'id' => $vendornotification_data->id,
                     'name' => $vendornotification_data->name,
-                    'image' => $vendornotification_data->image? base_url() . $vendornotification_data->image:'',
+                    'image' => $vendornotification_data->image ? base_url() . $vendornotification_data->image : '',
                     'description' => $vendornotification_data->dsc,
                     'date' => $newDate->format('d-m-y, g:i a'),
                 );
             }
             $this->db->select('*');
             $this->db->from('tbl_vendor_notification');
-            $this->db->where('vendor_id',$vendor_data[0]->id);
+            $this->db->where('vendor_id', $vendor_data[0]->id);
             $count_vendor = $this->db->count_all_results();
             $data = array(
                 'today_orders' => $today_orders,
