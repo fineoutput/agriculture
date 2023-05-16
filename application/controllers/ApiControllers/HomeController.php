@@ -497,7 +497,7 @@ class HomeController extends CI_Controller
                     'pro_id' => $pro->id,
                     'name' => $pro->name_punjabi,
                     'description' => $pro->description_punjabi,
-                    'image' => $image,
+                    'image' => $image ,
                     'mrp' => $pro->mrp,
                     'selling_price' => $pro->selling_price,
                     'suffix' => $pro->suffix,
@@ -521,7 +521,7 @@ class HomeController extends CI_Controller
                 $farmer_nft[] = array(
                     'id' => $farmernotification_data->id,
                     'name' => $farmernotification_data->name,
-                    'image' => base_url() . $farmernotification_data->image,
+                    'image' => $farmernotification_data->image ? base_url() . $farmernotification_data->image:'',
                     'description' => $farmernotification_data->dsc,
                 );
             }
