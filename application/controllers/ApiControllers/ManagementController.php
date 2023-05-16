@@ -569,6 +569,19 @@ class ManagementController extends CI_Controller
         } else {
           $image4 = '';
         }
+        if ($exp->status == 0) {
+          $status = 'Pending';
+          $bg_color = '#65bcd7';
+      } elseif ($exp->status == 1) {
+          $status = 'Accepted';
+          $bg_color = '#3b71ca';
+      } elseif ($exp->status == 2) {
+          $status = 'Completed';
+          $bg_color = '#139c49';
+      } elseif ($exp->status == 3) {
+          $status = 'Rejected';
+          $bg_color = '#dc4c64';
+      }
         $data[] = array(
           's_no' => $i,
           'id' => $exp->id,
@@ -586,7 +599,8 @@ class ManagementController extends CI_Controller
           'animal_type' => $exp->animal_type,
           'description' => $exp->description,
           'remarks' => $exp->remarks,
-          'status' => $exp->status,
+          'status' => $status,
+          'bg_color' => $bg_color,
           'date' => $newdate->format('d/m/Y')
         );
         $i++;
