@@ -81,7 +81,7 @@ body {
     font-size: .9em;
     border: none;
     background: transparent;
-    width: 93%;
+    /* width: 93%; */
     color: #000;
     font-family: 'Open Sans', sans-serif;
     letter-spacing: 1px;
