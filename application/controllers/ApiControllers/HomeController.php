@@ -478,7 +478,8 @@ class HomeController extends CI_Controller
                     'stock' => $stock,
                     'percent' => $percent,
                     'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin
+                    'is_admin' => $pro->is_admin,
+                    'offer' => $pro->offer,
                 );
                 $hi_data[] = array(
                     'pro_id' => $pro->id,
@@ -491,20 +492,22 @@ class HomeController extends CI_Controller
                     'stock' => $stock,
                     'percent' => $percent,
                     'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin
+                    'is_admin' => $pro->is_admin,
+                    'offer' => $pro->offer,
                 );
                 $pn_data[] = array(
                     'pro_id' => $pro->id,
                     'name' => $pro->name_punjabi,
                     'description' => $pro->description_punjabi,
-                    'image' => $image ,
+                    'image' => $image,
                     'mrp' => $pro->mrp,
                     'selling_price' => $pro->selling_price,
                     'suffix' => $pro->suffix,
                     'stock' => $stock,
                     'percent' => $percent,
                     'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin
+                    'is_admin' => $pro->is_admin,
+                    'offer' => $pro->offer,
                 );
             }
             $product_data = array(
@@ -522,7 +525,7 @@ class HomeController extends CI_Controller
                 $farmer_nft[] = array(
                     'id' => $farmernotification_data->id,
                     'name' => $farmernotification_data->name,
-                    'image' => $farmernotification_data->image ? base_url() . $farmernotification_data->image:'',
+                    'image' => $farmernotification_data->image ? base_url() . $farmernotification_data->image : '',
                     'description' => $farmernotification_data->dsc,
                     'date' => $newDate->format('d-m-y, g:i a'),
                 );
