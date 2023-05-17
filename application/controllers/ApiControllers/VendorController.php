@@ -952,7 +952,7 @@ class VendorController extends CI_Controller
                             if (!file_exists($image_upload_folder)) {
                                 mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                             }
-                            $new_file_name = "vendor_products" . date("Ymdhms");
+                            $new_file_name = "vendor_products" . date("YmdHis");
                             $this->upload_config = array(
                                 'upload_path'   => $image_upload_folder,
                                 'file_name' => $new_file_name,
@@ -970,7 +970,7 @@ class VendorController extends CI_Controller
                                 die();
                             } else {
                                 $file_info = $this->upload->data();
-                                $image = "assets/uploads/vendor_products/" . $new_file_name . $file_info['file_ext'];
+                                $image = "assets/uploads/vendor_products/" . $file_info['file_name'];
                             }
                         }
                     }
@@ -1344,7 +1344,7 @@ class VendorController extends CI_Controller
                             if (!file_exists($image_upload_folder)) {
                                 mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                             }
-                            $new_file_name = "image" . date("Ymdhms");
+                            $new_file_name = "image" . date("YmdHis");
                             $this->upload_config = array(
                                 'upload_path'   => $image_upload_folder,
                                 'file_name' => $new_file_name,
@@ -1360,7 +1360,7 @@ class VendorController extends CI_Controller
                                 die();
                             } else {
                                 $file_info = $this->upload->data();
-                                $image = "assets/uploads/UpdateProfile/" . $new_file_name . $file_info['file_ext'];
+                                $image = "assets/uploads/UpdateProfile/" . $file_info['file_name'];
                             }
                         }
                     }
