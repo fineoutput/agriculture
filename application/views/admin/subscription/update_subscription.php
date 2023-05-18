@@ -43,14 +43,80 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <tr>
   <td> <strong>Name </strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="name"  class="form-control" placeholder="" required value="<?=$subscription->name?>" />
+  <input type="text" name="service_name"  class="form-control" placeholder="" required value="<?=$subscription->service_name?>" />
   </td>
   </tr>
 
   <tr>
-  <td> <strong>Price</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Monthly Price</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="price"  class="form-control" placeholder="" required value="<?=$subscription->price?>" />
+  <input type="text" name="monthly_price"  class="form-control" placeholder="" required value="<?=$subscription->monthly_price?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Monthly Description</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="monthly_description"  class="form-control" placeholder="" required value="<?=$subscription->monthly_description?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Monthly Service</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="monthly_service"  class="form-control" placeholder="" required value="<?=$subscription->monthly_service?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Quaterly Price</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="quaterly_price"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_price?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Quaterly Description</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="quaterly_description"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_description?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Quaterly Service</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="quaterly_service"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_service?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Half Yealy Price</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="halfyearly_price"  class="form-control" placeholder="" required value="<?=$subscription->halfyearly_price?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Half Yealy Description</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="halfyearly_description"  class="form-control" placeholder="" required value="<?=$subscription->halfyearly_description?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Half Yealy Service</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="halfyearly_service"  class="form-control" placeholder="" required value="<?=$subscription->halfyearly_service?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Yealy Price</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="yearly_price"  class="form-control" placeholder="" required value="<?=$subscription->yearly_price?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Yealy Description</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="yearly_description"  class="form-control" placeholder="" required value="<?=$subscription->yearly_description?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Yealy Service</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="yearly_service"  class="form-control" placeholder="" required value="<?=$subscription->yearly_service?>" />
   </td>
   </tr>
 
