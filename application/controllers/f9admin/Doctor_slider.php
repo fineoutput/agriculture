@@ -57,7 +57,7 @@ class Doctor_slider extends CI_finecontrol
                 if (!file_exists($image_upload_folder)) {
                     mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                 }
-                $new_file_name = "doctorslider" . date("Ymdhms");
+                $new_file_name = "doctorslider" . date("YmdHis");
                 $this->upload_config = array(
                     'upload_path'   => $image_upload_folder,
                     'file_name' => $new_file_name,
@@ -73,7 +73,7 @@ class Doctor_slider extends CI_finecontrol
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
                     $file_info = $this->upload->data();
-                    $image = "assets/uploads/Doctorslider/" . $new_file_name . $file_info['file_ext'];
+                    $image = "assets/uploads/Doctorslider/" . $file_info['file_name'];
                 }
             }
             //-----------------------image tag end------------------------------------------

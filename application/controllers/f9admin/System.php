@@ -220,7 +220,7 @@ class System extends CI_finecontrol
                         if (!file_exists($image_upload_folder)) {
                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                         }
-                        $new_file_name="team".date("Ymdhms");
+                        $new_file_name="team".date("YmdHis");
                         $this->upload_config = array(
                                 'upload_path'   => $image_upload_folder,
                                 'file_name' => $new_file_name,

@@ -68,7 +68,7 @@ class UserloginController extends CI_Controller
                         if (!file_exists($image_upload_folder)) {
                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
                         }
-                        $new_file_name = "image" . date("Ymdhms");
+                        $new_file_name = "image" . date("YmdHis");
                         $this->upload_config = array(
                             'upload_path'   => $image_upload_folder,
                             'file_name' => $new_file_name,
@@ -84,7 +84,7 @@ class UserloginController extends CI_Controller
                             die();
                         } else {
                             $file_info = $this->upload->data();
-                            $image = "assets/uploads/aadhar/" . $new_file_name . $file_info['file_ext'];
+                            $image = "assets/uploads/aadhar/" . $file_info['file_name'];
                         }
                     }
                 }

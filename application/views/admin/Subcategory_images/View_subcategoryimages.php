@@ -38,11 +38,11 @@
                                 <table class="table table-bordered table-hover table-striped" id="userTable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Category Name</th>
-                                            <th>SubCategory Name</th>
-                                            <th>Image</th>
-                                            <th>Edit</th>
+                                           <th>S.no</th>
+                                           <th>Category Name</th>
+                                           <th>Name</th>
+                                           <th>Image</th>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>
