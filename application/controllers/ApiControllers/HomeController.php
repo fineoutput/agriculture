@@ -418,7 +418,7 @@ class HomeController extends CI_Controller
                 } else {
                     $image2 = '';
                 }
-                $Famerslider[] = $image2;
+                $Famerslider[] = array('image' => $image2);
             }
             //---- Categoryslider data -------
             $CategorySlider_data = $this->db->get_where('tbl_category_images', array('is_active' => 1))->result();
