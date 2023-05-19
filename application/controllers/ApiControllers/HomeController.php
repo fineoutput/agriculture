@@ -344,7 +344,7 @@ class HomeController extends CI_Controller
             $data = [];
             foreach ($Subscription_data as $a) {
                 $active = 0;
-                if (!empty($Subscribed) && $Subscribed[0]->plan_id == $a) {
+                if (!empty($Subscribed) && $Subscribed[0]->plan_id == $a->id) {
                     $active = 1;
                 } else if (!empty($Subscribed)) {
                     $active = 2;
