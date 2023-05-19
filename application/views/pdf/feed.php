@@ -10,10 +10,7 @@
 </head>
 
 <body>
-    <div class="container-fluid p-5  text-center" style="width:440px;height:120px; color:blue;">
-        <h1>Dairy Muneem </h1>
-        <p>Feed Calculation</p>
-    </div>
+   
     <div class="container mt-5">
         <div class="row">
             <table class="table table-bordered">
@@ -39,9 +36,12 @@
                     }
 
                     .labels tr td {
-                        background-color: #2cc16a;
+                        background-color: #20b9aa;
                         font-weight: bold;
                         color: #fff;
+                    }
+                    .two{
+                        color: #20b9aa;
                     }
 
                     .label tr td label {
@@ -51,11 +51,51 @@
                     [data-toggle="toggle"] {
                         display: none;
                     }
+                    .info{
+                        color:#20b9aa;
+                    }
+                    .success{
+                        background-color: #198754;
+                        color:white;
+                    }
+                    .success1{
+                        color: #198754;
+                    }
+                    .primary{
+                        background-color: #0d6efd;
+                        color:white;
+                    }
+                    .primary1{
+                        color:#0d6efd;
+                    }
                 </style>
                 <table>
                     <thead>
                     </thead>
                     <!-- =========================================================================== -->
+                    <tbody>
+                        <tr>
+                            <td colspan="3"  style="border-right:none">
+                                <img src="<? echo base_url()?>/assets/logo2.png">
+                                <h5>Agristar Animal Solution Private Limited</h5>
+                                <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
+                            
+                            </td>
+                            <td  colspan="2" style="border-left:none">
+                            <h6>Contact:</h6>
+                                <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
+                                <h6>Email:</h6>
+                                <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
+
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-center"><h3><span class="two">F</span><span class="three">eed </span> <span class="two">C</span><span class="four">alculation</span></h3></td>
+                        </tr>
+                        <tr>
+                          
+                        </tr>
+                    </tbody>
                     <tbody class="labels">
                         <tr>
                             <td colspan="5">Fresh</td>
@@ -64,42 +104,42 @@
                     <tbody class="hide">
                         <tr>
                             <td>CP</td>
-                            <td><?= $result['fresh']['CP'] ?></td>
+                            <td class="info"><?= $result['fresh']['CP'] ?></td>
                             <td>FAT</td>
-                            <td><?= $result['fresh']['FAT'] ?></td>
+                            <td class="info"><?= $result['fresh']['FAT'] ?></td>
                         </tr>
                         <tr>
                             <td>FIBER</td>
-                            <td><?= $result['fresh']['FIBER'] ?></td>
+                            <td class="info"><?= $result['fresh']['FIBER'] ?></td>
                             <td>TDN</td>
-                            <td><?= $result['fresh']['TDN'] ?></td>
+                            <td class="info"><?= $result['fresh']['TDN'] ?></td>
                         </tr>
                         <tr>
                             <td>ENERGY</td>
-                            <td><?= $result['fresh']['ENERGY'] ?></td>
+                            <td class="info"><?= $result['fresh']['ENERGY'] ?></td>
                             <td>CA</td>
-                            <td><?= $result['fresh']['CA'] ?></td>
+                            <td class="info"><?= $result['fresh']['CA'] ?></td>
                         </tr>
                         <tr>
                             <td>P</td>
-                            <td><?= $result['fresh']['P'] ?></td>
+                            <td class="info"><?= $result['fresh']['P'] ?></td>
                             <td>RUDP</td>
-                            <td><?= $result['fresh']['RUDP'] ?></td>
+                            <td class="info"><?= $result['fresh']['RUDP'] ?></td>
                         </tr>
                         <tr>
                             <td>ADF</td>
-                            <td><?= $result['fresh']['ADF'] ?></td>
+                            <td class="info"><?= $result['fresh']['ADF'] ?></td>
                             <td>NDF</td>
-                            <td><?= $result['fresh']['NDF'] ?></td>
+                            <td class="info"><?= $result['fresh']['NDF'] ?></td>
                         </tr>
                         <tr>
                             <td>NEL</td>
-                            <td><?= $result['fresh']['NEL'] ?></td>
+                            <td class="info"><?= $result['fresh']['NEL'] ?></td>
                             <td>ENDF</td>
-                            <td><?= $result['fresh']['ENDF'] ?></td>
+                            <td class="info"><?= $result['fresh']['ENDF'] ?></td>
                         </tr>
                     </tbody>
-                    <tbody class="labels">
+                    <tbody class="success">
                         <tr>
                             <td colspan="5">DMB</td>
                         </tr>
@@ -107,42 +147,42 @@
                     <tbody class="hide">
                         <tr>
                             <td>CP</td>
-                            <td><?= $result['dmb']['CP'] ?></td>
+                            <td class="success1"><?= $result['dmb']['CP'] ?></td>
                             <td>FAT</td>
-                            <td><?= $result['dmb']['FAT'] ?></td>
+                            <td class="success1"><?= $result['dmb']['FAT'] ?></td>
                         </tr>
                         <tr>
                             <td>FIBER</td>
-                            <td><?= $result['dmb']['FIBER'] ?></td>
+                            <td class="success1"><?= $result['dmb']['FIBER'] ?></td>
                             <td>TDN</td>
-                            <td><?= $result['dmb']['TDN'] ?></td>
+                            <td class="success1"><?= $result['dmb']['TDN'] ?></td>
                         </tr>
                         <tr>
                             <td>ENERGY</td>
-                            <td><?= $result['dmb']['ENERGY'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ENERGY'] ?></td>
                             <td>CA</td>
-                            <td><?= $result['dmb']['CA'] ?></td>
+                            <td class="success1"><?= $result['dmb']['CA'] ?></td>
                         </tr>
                         <tr>
                             <td>P</td>
-                            <td><?= $result['dmb']['P'] ?></td>
+                            <td class="success1"><?= $result['dmb']['P'] ?></td>
                             <td>RUDP</td>
-                            <td><?= $result['dmb']['RUDP'] ?></td>
+                            <td class="success1"><?= $result['dmb']['RUDP'] ?></td>
                         </tr>
                         <tr>
                             <td>ADF</td>
-                            <td><?= $result['dmb']['ADF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ADF'] ?></td>
                             <td>NDF</td>
-                            <td><?= $result['dmb']['NDF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['NDF'] ?></td>
                         </tr>
                         <tr>
                             <td>NEL</td>
-                            <td><?= $result['dmb']['NEL'] ?></td>
+                            <td class="success1"><?= $result['dmb']['NEL'] ?></td>
                             <td>ENDF</td>
-                            <td><?= $result['dmb']['ENDF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
                     </tbody>
-                    <tbody class="labels">
+                    <tbody class="primary">
                         <tr>
                             <td colspan="5">Raw Cost</td>
                         </tr>
@@ -150,9 +190,9 @@
                     <tbody class="hide">
                         <tr>
                             <td>TON</td>
-                            <td><?= $result['row_ton'] ?></td>
+                            <td class="primary1"><?= $result['row_ton'] ?></td>
                             <td>Qtl</td>
-                            <td><?= $result['row_qtl'] ?></td>
+                            <td class="primary1"><?= $result['row_qtl'] ?></td>
                         </tr>
 
                     </tbody>

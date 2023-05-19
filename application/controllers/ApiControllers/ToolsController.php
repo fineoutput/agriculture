@@ -111,8 +111,9 @@ class ToolsController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
+         
             $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
+           if ($this->form_validation->run() == true) {
                 $number_of_cows = $this->input->post('number_of_cows');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
@@ -143,6 +144,7 @@ class ToolsController extends CI_Controller
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/25_cows', $data, true);
+                  
                     //------- update service record -----------
                     $service_data = $this->db->get_where('tbl_service_records')->result();
                     $data_update = array('pro_req' => $service_data[0]->pro_req + 1);
