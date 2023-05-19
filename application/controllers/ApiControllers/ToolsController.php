@@ -341,6 +341,11 @@ class ToolsController extends CI_Controller
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $page_index = $headers['Index'];
+        if ($this->uri->segment(3) === FALSE) {
+            $search = '';
+        } else {
+            $search = $this->uri->segment(3);
+        }
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             $limit = 20;
@@ -350,11 +355,21 @@ class ToolsController extends CI_Controller
                 $start = 0;
             }
             if ($is_admin == 'admin') {
-                $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
-                $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                if (!empty($search)) {
+                    $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
+                    $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                } else {
+                    $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
+                    $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                }
             } else {
-                $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                if (!empty($search)) {
+                    $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                    $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                } else {
+                    $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                    $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                }
             }
             $pages = round($count / $limit);
             $pagination = $this->CreatePagination($page_index, $pages);
