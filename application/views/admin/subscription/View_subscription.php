@@ -47,9 +47,9 @@
                       <th>Monthly Price</th>
                       <th>Monthly Description</th>
                       <th>Monthly Service</th>
-                      <th>Quaterly Price</th>
-                      <th>Quaterly Description</th>
-                      <th>Quaterly Service</th>
+                      <th>Quarterly Price</th>
+                      <th>Quarterly Description</th>
+                      <th>Quarterly Service</th>
                       <th>Half Yealy Price</th>
                       <th>Half Yealy Description</th>
                       <th>Half Yealy Service</th>
@@ -66,14 +66,14 @@
                       <tr>
                         <td><?php echo $i ?> </td>
                         <td><?php echo $data->animals ?></td>
-                        <td><?php echo $data->doctor ?></td>
+                        <td><?php echo $data->doctor_calls ?></td>
                         <td><?php echo $data->service_name ?></td>
                         <td><?php echo $data->monthly_price ?></td>
                         <td><?php echo $data->monthly_description ?></td>
                         <td><?php echo $data->monthly_service ?></td>
-                        <td><?php echo $data->quaterly_price ?></td>
-                        <td><?php echo $data->quaterly_description	 ?></td>
-                        <td><?php echo $data->quaterly_service ?></td>
+                        <td><?php echo $data->quarterly_price ?></td>
+                        <td><?php echo $data->quarterly_description	 ?></td>
+                        <td><?php echo $data->quarterly_service ?></td>
                         <td><?php echo $data->halfyearly_price ?></td>
                         <td><?php echo $data->halfyearly_description ?></td>
                         <td><?php echo $data->halfyearly_service	 ?></td>

@@ -66,21 +66,21 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   </td>
   </tr>
   <tr>
-  <td> <strong>Quaterly Price</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Quarterly Price</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="quaterly_price"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_price?>" />
+  <input type="text" name="quaterly_price"  class="form-control" placeholder="" required value="<?=$subscription->quarterly_price?>" />
   </td>
   </tr>
   <tr>
-  <td> <strong>Quaterly Description</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Quarterly Description</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="quaterly_description"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_description?>" />
+  <input type="text" name="quaterly_description"  class="form-control" placeholder="" required value="<?=$subscription->quarterly_description?>" />
   </td>
   </tr>
   <tr>
-  <td> <strong>Quaterly Service</strong>  <span style="color:red;">*</span></strong> </td>
+  <td> <strong>Quarterly Service</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="quaterly_service"  class="form-control" placeholder="" required value="<?=$subscription->quaterly_service?>" />
+  <input type="text" name="quaterly_service"  class="form-control" placeholder="" required value="<?=$subscription->quarterly_service?>" />
   </td>
   </tr>
   <tr>
@@ -128,7 +128,7 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <tr>
   <td> <strong>Doctor</strong>  <span style="color:red;">*</span></strong> </td>
   <td>
-  <input type="text" name="doctor"  class="form-control" placeholder="" required value="<?=$subscription->doctor?>" />
+  <input type="text" name="doctor"  class="form-control" placeholder="" required value="<?=$subscription->doctor_calls?>" />
   </td>
   </tr>
 
