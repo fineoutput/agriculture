@@ -336,121 +336,141 @@ class ToolsController extends CI_Controller
         }
     }
     //====================================================== AllProducts ================================================//
-    public function AllProducts($is_admin, $vendor_id = "")
+    public function AllProducts()
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $page_index = $headers['Index'];
-        if ($this->uri->segment(3) === FALSE) {
-            $search = '';
-        } else {
-            $search = $this->uri->segment(3);
-        }
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-        if (!empty($farmer_data)) {
-            $limit = 20;
-            if (!empty($page_index)) {
-                $start = ($page_index - 1) * $limit;
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('is_admin', 'is_admin', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('vendor_id', 'vendor_id', 'xss_clean|trim');
+            $this->form_validation->set_rules('search', 'search', 'xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $is_admin = $this->input->post('is_admin');
+                $vendor_id = $this->input->post('vendor_id');
+                $search = $this->input->post('search');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $limit = 20;
+                    if (!empty($page_index)) {
+                        $start = ($page_index - 1) * $limit;
+                    } else {
+                        $start = 0;
+                    }
+                    if ($is_admin == 'admin') {
+                        if (empty($search)) {
+                            $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                        } else {
+                            $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
+                            $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                        }
+                    } else {
+                        if (empty($search)) {
+                            $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                        } else {
+                            $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                            $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                        }
+                    }
+                    $pages = round($count / $limit);
+                    $pagination = $this->CreatePagination($page_index, $pages);
+                    $en_data = [];
+                    $hi_data = [];
+                    $pn_data = [];
+                    foreach ($ProData as $pro) {
+                        if (!empty($pro->image)) {
+                            $image = base_url() . $pro->image;
+                        } else {
+                            $image = '';
+                        }
+                        if ($pro->inventory != 0) {
+                            $stock = 'In Stock';
+                        } else {
+                            $stock = 'Out of Stock';
+                        }
+                        $discount = (int)$pro->mrp - (int)$pro->selling_price;
+                        $percent = 0;
+                        if ($discount > 0) {
+                            $percent = round($discount / $pro->mrp * 100);
+                        }
+                        $en_data[] = array(
+                            'pro_id' => $pro->id,
+                            'name' => $pro->name_english,
+                            'description' => $pro->description_english,
+                            'image' => $image,
+                            'mrp' => $pro->mrp,
+                            'selling_price' => $pro->selling_price,
+                            'suffix' => $pro->suffix,
+                            'stock' => $stock,
+                            'percent' => $percent,
+                            'vendor_id' => $pro->added_by,
+                            'is_admin' => $pro->is_admin,
+                            'offer' => $pro->offer
+                        );
+                        $hi_data[] = array(
+                            'pro_id' => $pro->id,
+                            'name' => $pro->name_hindi,
+                            'description' => $pro->description_hindi,
+                            'image' => $image,
+                            'mrp' => $pro->mrp,
+                            'selling_price' => $pro->selling_price,
+                            'suffix' => $pro->suffix,
+                            'stock' => $stock,
+                            'percent' => $percent,
+                            'vendor_id' => $pro->added_by,
+                            'is_admin' => $pro->is_admin,
+                            'offer' => $pro->offer
+                        );
+                        $pn_data[] = array(
+                            'pro_id' => $pro->id,
+                            'name' => $pro->name_punjabi,
+                            'description' => $pro->description_punjabi,
+                            'image' => $image,
+                            'mrp' => $pro->mrp,
+                            'selling_price' => $pro->selling_price,
+                            'suffix' => $pro->suffix,
+                            'stock' => $stock,
+                            'percent' => $percent,
+                            'vendor_id' => $pro->added_by,
+                            'is_admin' => $pro->is_admin,
+                            'offer' => $pro->offer
+                        );
+                    }
+                    $data = array(
+                        'en' => $en_data,
+                        'hi' => $hi_data,
+                        'pn' => $pn_data,
+                    );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data,
+                        'pagination' => $pagination,
+                        'last' => $pages,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
-                $start = 0;
-            }
-            if ($is_admin == 'admin') {
-                if (!empty($search)) {
-                    $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
-                    $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
-                } else {
-                    $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
-                    $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
-                }
-            } else {
-                if (!empty($search)) {
-                    $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                    $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
-                } else {
-                    $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                    $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
-                }
-            }
-            $pages = round($count / $limit);
-            $pagination = $this->CreatePagination($page_index, $pages);
-            $en_data = [];
-            $hi_data = [];
-            $pn_data = [];
-            foreach ($ProData as $pro) {
-                if (!empty($pro->image)) {
-                    $image = base_url() . $pro->image;
-                } else {
-                    $image = '';
-                }
-                if ($pro->inventory != 0) {
-                    $stock = 'In Stock';
-                } else {
-                    $stock = 'Out of Stock';
-                }
-                $discount = (int)$pro->mrp - (int)$pro->selling_price;
-                $percent = 0;
-                if ($discount > 0) {
-                    $percent = round($discount / $pro->mrp * 100);
-                }
-                $en_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_english,
-                    'description' => $pro->description_english,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
                 );
-                $hi_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_hindi,
-                    'description' => $pro->description_hindi,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer
-                );
-                $pn_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_punjabi,
-                    'description' => $pro->description_punjabi,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer
-                );
+                echo json_encode($res);
             }
-            $data = array(
-                'en' => $en_data,
-                'hi' => $hi_data,
-                'pn' => $pn_data,
-            );
-            $res = array(
-                'message' => "Success!",
-                'status' => 200,
-                'data' => $data,
-                'pagination' => $pagination,
-                'last' => $pages,
-            );
-            echo json_encode($res);
         } else {
             $res = array(
-                'message' => 'Permission Denied!',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
