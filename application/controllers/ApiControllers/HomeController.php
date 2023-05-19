@@ -340,7 +340,7 @@ class HomeController extends CI_Controller
             $Subscription_data = $this->db->get_where('tbl_subscription', array('is_active' => 1))->result();
             date_default_timezone_set("Asia/Calcutta");
             $cur_date = date("Y-m-d");
-            $Subscribed = $this->db->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $cur_date))->result();
+            $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $cur_date))->result();
             $data = [];
             foreach ($Subscription_data as $a) {
                 $active = 0;
