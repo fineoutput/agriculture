@@ -588,7 +588,7 @@ class HomeController extends CI_Controller
                         date_default_timezone_set("Asia/Calcutta");
                         $cur_date = date("Y-m-d H:i:s");
                         $start_date = date("Y-m-d");
-                        $expiry_data = date('Y-m-d', strtotime("+".$months." month"));
+                        $expiry_data = date('Y-m-d', strtotime("+" . $months . " month"));
                         $txn_id = mt_rand(999999, 999999999999);
                         $data = array(
                             'farmer_id' => $farmer_data[0]->id,
@@ -691,7 +691,7 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
-    public function doctor_payment_success()
+    public function plan_payment_success()
     {
         $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
         log_message('error', $encResponse);
@@ -718,7 +718,7 @@ class HomeController extends CI_Controller
         // echo $order_status;die();
         if ($order_status === "Success") {
             $this->db->select('*');
-            $this->db->from('tbl_doctor_req');
+            $this->db->from('tbl_subscription_buy');
             $this->db->where('payment_status', 0);
             $this->db->where('txn_id', $txn_id);
             $order_data = $this->db->get()->row();
@@ -729,67 +729,7 @@ class HomeController extends CI_Controller
                     'cc_response' => json_encode($decryptValues),
                 );
                 $this->db->where('id', $order_id);
-                $this->db->update('tbl_doctor_req', $data_update);
-                $docData = $this->db->get_where('tbl_doctor', array('id' => $order_data->doctor_id,))->result();
-                //------ create amount txn in the table -------------
-                if (!empty($docData[0]->commission)) {
-                    $amt = $order_data->fees * $docData[0]->commission / 100;
-                    $data2 = array(
-                        'req_id' => $order_id,
-                        'doctor_id' => $order_data->doctor_id,
-                        'cr' => $amt,
-                        'date' => $cur_date
-                    );
-                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
-                    //------ update doctor account ------
-                    $data_update = array(
-                        'account' => $docData[0]->account + $amt,
-                    );
-                    $this->db->where('id', $order_data->doctor_id);
-                    $zapak = $this->db->update('tbl_doctor', $data_update);
-                }
-                //------ send notification to doctor -----
-                if (!empty($docData[0]->fcm_token)) {
-                    // echo $user_device_tokens->device_token;
-                    //success notification code
-                    $url = 'https://fcm.googleapis.com/fcm/send';
-                    $title = "New Request";
-                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees;
-                    $msg2 = array(
-                        'title' => $title,
-                        'body' => $message,
-                        "sound" => "default"
-                    );
-                    $fields = array(
-                        // 'to'=>"/topics/all",
-                        'to' => $docData[0]->fcm_token,
-                        'notification' => $msg2,
-                        'priority' => 'high'
-                    );
-                    $fields = json_encode($fields);
-                    $headers = array(
-                        'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
-                        'Content-Type: application/json'
-                    );
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $url);
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-                    $result = curl_exec($ch);
-                    // echo $fields;
-                    // echo $result;
-                    curl_close($ch);
-                    //End success notification code
-                    $data_insert = array(
-                        'doctor_id' => $order_data->doctor_id,
-                        'name' => $title,
-                        'dsc' => $message,
-                        'date' => $cur_date
-                    );
-                    $last_id = $this->base_model->insert_table("tbl_doctor_notification", $data_insert, 1);
-                }
+                $this->db->update('tbl_subscription_buy', $data_update);
                 echo 'Success';
                 exit;
             }
@@ -800,18 +740,18 @@ class HomeController extends CI_Controller
             echo 'Aborted';
         }
     }
-    public function VerifyDoctorPayment($order_id)
+    public function VerifyPlanPayment($order_id)
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $req_data = $this->db->get_where('tbl_doctor_req', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $req_data = $this->db->get_where('tbl_subscription_buy', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             if (!empty($req_data)) {
                 $send = array(
-                    'order_id' => $req_data[0]->txn_id,
-                    'amount' => $req_data[0]->fees,
+                    'order_id' => $req_data[0]->id,
+                    'amount' => $req_data[0]->price,
                 );
                 $res = array(
                     'message' => "success",
