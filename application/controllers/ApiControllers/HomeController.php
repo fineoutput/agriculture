@@ -355,7 +355,7 @@ class HomeController extends CI_Controller
                     'yearly_description' => $a->yearly_description,
                     'yearly_service' => $a->yearly_service,
                     'animals' => $a->animals,
-                    'doctor' => $a->doctor,
+                    'doctor_calls' => $a->doctor_calls,
                 );
             }
             $res = array(
@@ -575,9 +575,11 @@ class HomeController extends CI_Controller
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('plan_id', 'plan_id', 'required|xss_clean|trim');
             $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('months', 'months', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $plan_id = $this->input->post('plan_id');
                 $type = $this->input->post('type');
+                $months = $this->input->post('months');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $data = [];
