@@ -338,8 +338,17 @@ class HomeController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             $Subscription_data = $this->db->get_where('tbl_subscription', array('is_active' => 1))->result();
+            date_default_timezone_set("Asia/Calcutta");
+            $cur_date = date("Y-m-d");
+            $Subscribed = $this->db->get_where('tbl_subscription_buy', array('is_active' => 1, 'expiry_date >=' => $cur_date))->result();
             $data = [];
             foreach ($Subscription_data as $a) {
+                $active = 0;
+                if (!empty($Subscribed && $Subscribed[0]->plain_id == $a)) {
+                    $active = 1;
+                } else if (!empty($Subscribed)) {
+                    $active = 2;
+                }
                 $data[] = array(
                     'id' => $a->id,
                     'service_name' => $a->service_name,
@@ -357,6 +366,7 @@ class HomeController extends CI_Controller
                     'yearly_service' => $a->yearly_service,
                     'animals' => $a->animals,
                     'doctor_calls' => $a->doctor_calls,
+                    'active' => $active,
                 );
             }
             $res = array(
