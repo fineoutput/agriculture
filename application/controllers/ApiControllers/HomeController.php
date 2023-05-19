@@ -333,25 +333,43 @@ class HomeController extends CI_Controller
     //====================================================== SUBSCRIPTION PLAN================================================//
     public function subscription_plan()
     {
-        $Subscription_data = $this->db->get_where('tbl_subscription', array('is_active' => 1))->result();
-        $data = [];
-        foreach ($Subscription_data as $a) {
-            if (!empty($a->image)) {
-                $image = base_url() . $a->image;
-            } else {
-                $image = '';
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $Subscription_data = $this->db->get_where('tbl_subscription', array('is_active' => 1))->result();
+            $data = [];
+            foreach ($Subscription_data as $a) {
+                $data[] = array(
+                    'service_name' => $a->service_name,
+                    'monthly_price' => $a->monthly_price,
+                    'monthly_description' => $a->monthly_description,
+                    'monthly_service' => $a->monthly_service,
+                    'quaterly_price' => $a->quaterly_price,
+                    'quaterly_description' => $a->quaterly_description,
+                    'quaterly_service' => $a->quaterly_service,
+                    'halfyearly_price' => $a->halfyearly_price,
+                    'halfyearly_description' => $a->halfyearly_description,
+                    'halfyearly_service' => $a->halfyearly_service,
+                    'yearly_price' => $a->yearly_price,
+                    'yearly_description' => $a->yearly_description,
+                    'yearly_service' => $a->yearly_service,
+                    'animals' => $a->animals,
+                );
             }
-            $data[] = array(
-                'name' => $a->name,
-                'price' => $a->price
+            $res = array(
+                'message' => "Success",
+                'status' => 200,
+                'data' => $data
             );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
     }
     //=======================================================NOTIFICATIONS===============================================//
     public function notifications()
@@ -418,7 +436,7 @@ class HomeController extends CI_Controller
                 } else {
                     $image2 = '';
                 }
-                $Famerslider[] = $image2;
+                $Famerslider[] = array('image' => $image2);
             }
             //---- Categoryslider data -------
             $CategorySlider_data = $this->db->get_where('tbl_category_images', array('is_active' => 1))->result();
