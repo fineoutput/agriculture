@@ -347,8 +347,8 @@ class HomeController extends CI_Controller
                 $plan_details = [];
                 if (!empty($Subscribed) && $Subscribed[0]->plan_id == $a->id) {
                     $active = 1;
-                    $newdate = new DateTime($Subscribed[0]->expiry);
-                    $plan_details = array('months' => $Subscribed[0]->months, 'price' => $Subscribed[0]->price, 'expiry' => $newdate->format('d-m-y'));
+                    $newdate = new DateTime($Subscribed[0]->expiry_date);
+                    $plan_details = array('months' => $Subscribed[0]->months, 'price' => $Subscribed[0]->price, 'expiry_date' => $newdate->format('d-m-y'));
                 } else if (!empty($Subscribed)) {
                     $active = 2;
                 }
