@@ -341,6 +341,7 @@ class HomeController extends CI_Controller
             $data = [];
             foreach ($Subscription_data as $a) {
                 $data[] = array(
+                    'id' => $a->id,
                     'service_name' => $a->service_name,
                     'monthly_price' => $a->monthly_price,
                     'monthly_description' => $a->monthly_description,
