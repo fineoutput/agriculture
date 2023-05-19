@@ -1065,6 +1065,22 @@ class FarmerController extends CI_Controller
                             'total_amount' => $order2->total_amount,
                         );
                     }
+                    if ($order->is_admin == 1) {
+                        $en = "Dairy Mart";
+                        $hi = "डेयरी मार्ट";
+                        $pn = "ਡੇਅਰੀ ਮਾਰਟ";
+                    } else {
+                        $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order->vendor_id))->result();
+                        if (!empty($vendor_data)) {
+                            $en = $vendor_data[0]->shop_name;
+                            $hi = $vendor_data[0]->shop_hi_name;
+                            $pn = $vendor_data[0]->shop_pn_name;
+                        } else {
+                            $en = "Vendor not found";
+                            $hi = "विक्रेता नहीं मिला";
+                            $pn = "ਵਿਕਰੇਤਾ ਨਹੀਂ ਮਿਲਿਆ";
+                        }
+                    }
                     $data[] = array(
                         'id' => $order->id,
                         'charges' => $order->charges,
@@ -1072,6 +1088,9 @@ class FarmerController extends CI_Controller
                         'final_amount' => $order->final_amount,
                         'status' => $status,
                         'bg_color' => $bg_color,
+                        'en' => $en,
+                        'hi' => $hi,
+                        'pn' => $pn,
                         'date' => $newDate->format('d/m/Y'),
                         'details' => $details
                     );
