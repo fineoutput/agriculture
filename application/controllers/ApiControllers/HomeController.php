@@ -345,9 +345,9 @@ class HomeController extends CI_Controller
                     'monthly_price' => $a->monthly_price,
                     'monthly_description' => $a->monthly_description,
                     'monthly_service' => $a->monthly_service,
-                    'quaterly_price' => $a->quaterly_price,
-                    'quaterly_description' => $a->quaterly_description,
-                    'quaterly_service' => $a->quaterly_service,
+                    'quarterly_price' => $a->quarterly_price,
+                    'quarterly_description' => $a->quarterly_description,
+                    'quarterly_service' => $a->quarterly_service,
                     'halfyearly_price' => $a->halfyearly_price,
                     'halfyearly_description' => $a->halfyearly_description,
                     'halfyearly_service' => $a->halfyearly_service,
@@ -355,6 +355,7 @@ class HomeController extends CI_Controller
                     'yearly_description' => $a->yearly_description,
                     'yearly_service' => $a->yearly_service,
                     'animals' => $a->animals,
+                    'doctor' => $a->doctor,
                 );
             }
             $res = array(
@@ -370,30 +371,6 @@ class HomeController extends CI_Controller
             );
             echo json_encode($res);
         }
-    }
-    //=======================================================NOTIFICATIONS===============================================//
-    public function notifications()
-    {
-        $notifications_data = $this->db->get_where('tbl_notification', array('is_active' => 1))->result();
-        $data = [];
-        foreach ($notifications_data as $notifications) {
-            if (!empty($notifications->image)) {
-                $image = base_url() . $notifications->image;
-            } else {
-                $image = '';
-            }
-            $data[] = array(
-                'name' => $notifications->name,
-                'dsc' => $notifications->dsc,
-                'image' => $notifications->image
-            );
-        }
-        $res = array(
-            'message' => "Success",
-            'status' => 200,
-            'data' => $data
-        );
-        echo json_encode($res);
     }
     //=======================================================HomeData===============================================//
     public function HomeData()
@@ -586,6 +563,303 @@ class HomeController extends CI_Controller
             'data' => $data
         );
         echo json_encode($res);
+    }
+    //====================================================== buyPlan ================================================//
+    public function buyPlan()
+    {
+        $this->load->helper(array('form', 'url')); 
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('plan_id', 'plan_id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $plan_id = $this->input->post('plan_id');
+                $type = $this->input->post('type');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $data = [];
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $cur_date2 = date("d-m-Y");
+                    $txn_id = mt_rand(999999, 999999999999);
+                    $data = array(
+                        'farmer_id' => $farmer_data[0]->id,
+                        'is_expert' => $is_expert,
+                        'doctor_id' => $doctor_id,
+                        'reason' => $reason,
+                        'description' => $description,
+                        'fees' => $fees,
+                        'payment_status' => 0,
+                        'status' => 0,
+                        'image1' => $nnnn,
+                        'image2' => $nnnn2,
+                        'image3' => $nnnn3,
+                        'image4' => $nnnn4,
+                        'image5' => $nnnn5,
+                        'req_date' => $cur_date2,
+                        'txn_id' => $txn_id,
+                        'date' => $cur_date
+                    );
+                    $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
+                    $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
+                    $success = base_url() . 'ApiControllers/ToolsController/doctor_payment_success';
+                    $fail = base_url() . 'ApiControllers/ToolsController/doctor_failed';
+                    $post = array(
+                        'txn_id' => '',
+                        'merchant_id' => MERCHAND_ID,
+                        'order_id' => $txn_id,
+                        'amount' => $fees,
+                        'currency' => "INR",
+                        'redirect_url' => $success,
+                        'cancel_url' => $fail,
+                        'billing_name' => $farmer_data[0]->name,
+                        'billing_address' => $farmer_data[0]->village,
+                        'billing_city' => $farmer_data[0]->city,
+                        'billing_state' => $farmer_data[0]->state,
+                        'billing_zip' => $farmer_data[0]->pincode,
+                        'billing_country' => 'India',
+                        'billing_tel' => $farmer_data[0]->phone,
+                        'billing_email' => '',
+                        'merchant_param1' => 'Doctor Payment',
+                    );
+                    $merchant_data = '';
+                    $working_key = WORKING_KEY; //Shared by CCAVENUES
+                    $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                    foreach ($post as $key => $value) {
+                        $merchant_data .= $key . '=' . $value . '&';
+                    }
+                    $length = strlen(md5($working_key));
+                    $binString = "";
+                    $count = 0;
+                    while ($count < $length) {
+                        $subString = substr(md5($working_key), $count, 2);
+                        $packedString = pack("H*", $subString);
+                        if ($count == 0) {
+                            $binString = $packedString;
+                        } else {
+                            $binString .= $packedString;
+                        }
+                        $count += 2;
+                    }
+                    $key = $binString;
+                    $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                    $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                    $encrypted_data = bin2hex($openMode);
+                    $send = array(
+                        'order_id' => $req_id,
+                        'access_code' => $access_code,
+                        'redirect_url' => $success,
+                        'cancel_url' => $fail,
+                        'enc_val' => $encrypted_data,
+                        'plain' => $merchant_data,
+                        'merchant_param1' => 'Doctor Payment',
+                    );
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $send,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    public function doctor_payment_success()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        log_message('error', $encResponse);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $txn_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        // echo $order_status;die();
+        if ($order_status === "Success") {
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $txn_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $order_id = $order_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_doctor_req', $data_update);
+                $docData = $this->db->get_where('tbl_doctor', array('id' => $order_data->doctor_id,))->result();
+                //------ create amount txn in the table -------------
+                if (!empty($docData[0]->commission)) {
+                    $amt = $order_data->fees * $docData[0]->commission / 100;
+                    $data2 = array(
+                        'req_id' => $order_id,
+                        'doctor_id' => $order_data->doctor_id,
+                        'cr' => $amt,
+                        'date' => $cur_date
+                    );
+                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                    //------ update doctor account ------
+                    $data_update = array(
+                        'account' => $docData[0]->account + $amt,
+                    );
+                    $this->db->where('id', $order_data->doctor_id);
+                    $zapak = $this->db->update('tbl_doctor', $data_update);
+                }
+                //------ send notification to doctor -----
+                if (!empty($docData[0]->fcm_token)) {
+                    // echo $user_device_tokens->device_token;
+                    //success notification code
+                    $url = 'https://fcm.googleapis.com/fcm/send';
+                    $title = "New Request";
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees;
+                    $msg2 = array(
+                        'title' => $title,
+                        'body' => $message,
+                        "sound" => "default"
+                    );
+                    $fields = array(
+                        // 'to'=>"/topics/all",
+                        'to' => $docData[0]->fcm_token,
+                        'notification' => $msg2,
+                        'priority' => 'high'
+                    );
+                    $fields = json_encode($fields);
+                    $headers = array(
+                        'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                        'Content-Type: application/json'
+                    );
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                    $result = curl_exec($ch);
+                    // echo $fields;
+                    // echo $result;
+                    curl_close($ch);
+                    //End success notification code
+                    $data_insert = array(
+                        'doctor_id' => $order_data->doctor_id,
+                        'name' => $title,
+                        'dsc' => $message,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_doctor_notification", $data_insert, 1);
+                }
+                echo 'Success';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo 'Failure';
+            exit;
+        } else {
+            echo 'Aborted';
+        }
+    }
+    public function VerifyDoctorPayment($order_id)
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $req_data = $this->db->get_where('tbl_doctor_req', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            if (!empty($req_data)) {
+                $send = array(
+                    'order_id' => $req_data[0]->txn_id,
+                    'amount' => $req_data[0]->fees,
+                );
+                $res = array(
+                    'message' => "success",
+                    'status' => 200,
+                    'data' => $send,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Please Check Manually!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    public function encrypt($plainText, $key)
+    {
+        $key = $this->hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $openMode = openssl_encrypt($plainText, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+        $encryptedText = bin2hex($openMode);
+        return $encryptedText;
+    }
+    public function decrypt($encryptedText, $key)
+    {
+        $key = $this->hextobin(md5($key));
+        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+        $encryptedText = $this->hextobin($encryptedText);
+        $decryptedText = openssl_decrypt($encryptedText, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+        return $decryptedText;
+    }
+    public function hextobin($hexString)
+    {
+        $length = strlen($hexString);
+        $binString = "";
+        $count = 0;
+        while ($count < $length) {
+            $subString = substr($hexString, $count, 2);
+            $packedString = pack("H*", $subString);
+            if ($count == 0) {
+                $binString = $packedString;
+            } else {
+                $binString .= $packedString;
+            }
+            $count += 2;
+        }
+        return $binString;
     }
 }
   //======================================================END HOMECONTROLLER================================================//
