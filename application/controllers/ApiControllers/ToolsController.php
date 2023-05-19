@@ -111,7 +111,6 @@ class ToolsController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-         
             $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
            if ($this->form_validation->run() == true) {
                 $number_of_cows = $this->input->post('number_of_cows');
@@ -144,7 +143,6 @@ class ToolsController extends CI_Controller
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
                     $message = $this->load->view('pdf/25_cows', $data, true);
-                  
                     //------- update service record -----------
                     $service_data = $this->db->get_where('tbl_service_records')->result();
                     $data_update = array('pro_req' => $service_data[0]->pro_req + 1);
@@ -930,7 +928,7 @@ class ToolsController extends CI_Controller
                     $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
                     $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
                     $success = base_url() . 'ApiControllers/ToolsController/doctor_payment_success';
-                    $fail = base_url() . 'ApiControllers/ToolsController/doctor_failed';
+                    $fail = base_url() . 'ApiControllers/ToolsController/payment_failed';
                     $post = array(
                         'txn_id' => '',
                         'merchant_id' => MERCHAND_ID,
@@ -1283,5 +1281,26 @@ class ToolsController extends CI_Controller
         }
         return $binString;
     }
+    public function payment_failed()
+	{
+		$encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+		date_default_timezone_set("Asia/Calcutta");
+		$cur_date = date("Y-m-d H:i:s");
+		error_reporting(0);
+		$workingKey = WORKING_KEY;			//Working Key should be provided here.
+		$rcvdString = $this->decrypt($encResponse, $workingKey);		//Crypto Decryption used as per the specified working key.
+		$order_status = "";
+		$decryptValues = explode('&', $rcvdString);
+		$dataSize = sizeof($decryptValues);
+		for ($i = 0; $i < $dataSize; $i++) {
+			$information = explode('=', $decryptValues[$i]);
+			if ($i == 3)	$order_status = $information[1];
+		}
+		$data_insert = array(
+			'body' => json_encode($decryptValues),
+			'date' => $cur_date
+		);
+		$last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+	}
 }
   //====================================================== END TOOLSCONTROLLER================================================//

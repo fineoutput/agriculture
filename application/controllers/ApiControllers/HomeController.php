@@ -605,7 +605,7 @@ class HomeController extends CI_Controller
                         );
                         $req_id = $this->base_model->insert_table("tbl_subscription_buy", $data, 1);
                         $success = base_url() . 'ApiControllers/HomeController/plan_payment_success';
-                        $fail = base_url() . 'ApiControllers/HomeController/plan_failed';
+                        $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
                         $post = array(
                             'txn_id' => '',
                             'merchant_id' => MERCHAND_ID,
