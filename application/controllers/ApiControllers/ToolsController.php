@@ -363,18 +363,42 @@ class ToolsController extends CI_Controller
                     if ($is_admin == 'admin') {
                         if (empty($search)) {
                             $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
-                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1));
                         } else {
-                            $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->num_rows();
-                            $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 1))->result();
+                            $this->db->select('*');
+                            $this->db->from('tbl_products');
+                            $this->db->where('is_active', 1);
+                            $this->db->where('is_admin', 1);
+                            $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                            $count = $this->db->count_all_results();
+                            $this->db->select('*');
+                            $this->db->from('tbl_products');
+                            $this->db->where('is_active', 1);
+                            $this->db->where('is_admin', 1);
+                            $this->db->limit($limit, $start);
+                            $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                            $ProData = $this->db->get();
                         }
                     } else {
                         if (empty($search)) {
                             $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id));
                         } else {
-                            $count = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                            $ProData = $this->db->like('name_english', $search)->or_like('name_hindi', $search)->like('name_punjabi', $search)->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->result();
+                            $this->db->select('*');
+                            $this->db->from('tbl_products');
+                            $this->db->where('is_active', 1);
+                            $this->db->where('is_admin', 0);
+                            $this->db->where('added_by', $vendor_id);
+                            $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                            $count = $this->db->count_all_results();
+                            $this->db->select('*');
+                            $this->db->from('tbl_products');
+                            $this->db->where('is_active', 1);
+                            $this->db->where('is_admin', 0);
+                            $this->db->where('added_by', $vendor_id);
+                            $this->db->limit($limit, $start);
+                            $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                            $ProData = $this->db->get();
                         }
                     }
                     $pages = round($count / $limit);
@@ -382,7 +406,7 @@ class ToolsController extends CI_Controller
                     $en_data = [];
                     $hi_data = [];
                     $pn_data = [];
-                    foreach ($ProData as $pro) {
+                    foreach ($ProData->result() as $pro) {
                         if (!empty($pro->image)) {
                             $image = base_url() . $pro->image;
                         } else {
