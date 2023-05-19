@@ -72,9 +72,9 @@ class Subscription extends CI_finecontrol
                 $this->form_validation->set_rules('monthly_price', 'monthly price', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('monthly_description', 'monthly description', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('monthly_service', 'monthly service', 'required|xss_clean|trim');
-                $this->form_validation->set_rules('quaterly_price', 'quaterly price', 'required|xss_clean|trim');
-                $this->form_validation->set_rules('quaterly_description', 'quaterly description', 'required|xss_clean|trim');
-                $this->form_validation->set_rules('quaterly_service', 'quaterly service', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('quaterly_price', 'quarterly price', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('quaterly_description', 'quarterly description', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('quaterly_service', 'quarterly service', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('halfyearly_price', 'halfyearly price', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('halfyearly_description', 'halfyearly description', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('halfyearly_service', 'halfyearly service', 'required|xss_clean|trim');
@@ -118,9 +118,9 @@ class Subscription extends CI_finecontrol
                         'monthly_price' => $monthly_price,
                         'monthly_description' => $monthly_description,
                         'monthly_service' => $monthly_service,
-                        'quaterly_price' => $quaterly_price,
-                        'quaterly_description' => $quaterly_description,
-                        'quaterly_service' => $quaterly_service,
+                        'quarterly_price' => $quaterly_price,
+                        'quarterly_description' => $quaterly_description,
+                        'quarterly_service' => $quaterly_service,
                         'halfyearly_price' => $halfyearly_price,
                         'halfyearly_description' => $halfyearly_description,
                         'halfyearly_service' => $halfyearly_service,
@@ -128,7 +128,7 @@ class Subscription extends CI_finecontrol
                         'yearly_description' => $yearly_description,
                         'yearly_service' => $yearly_service,
                         'animals' => $animals,
-                        'doctor' => $doctor
+                        'doctor_calls' => $doctor
                     );
 
                     $this->db->where('id', $idw);
