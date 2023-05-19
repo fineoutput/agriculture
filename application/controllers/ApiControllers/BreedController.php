@@ -448,7 +448,7 @@ class BreedController extends CI_Controller
               $today = date("Y-m-d");
               $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
               if (!empty($Subscribed)) {
-                if ($Subscribed[0]->animal == $Subscribed[0]->used_animal) {
+                if ($Subscribed[0]->animals == $Subscribed[0]->used_animal) {
                   $res = array(
                     'message' => 'Your milking animal registering limit is reached for current subscription plan!',
                     'status' => 201
