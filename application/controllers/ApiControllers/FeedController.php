@@ -85,6 +85,10 @@ class FeedController extends CI_Controller
                 $feed_percentage = $this->input->post('feed_percentage');
                 $milk_yield = $this->input->post('milk_yield');
                 $weight = $this->input->post('weight');
+                $lactation = 1;
+                $feed_percentage =2;
+                $milk_yield =3;
+                $weight = 4;
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $dry_matter_intake = 33 / 100 * $milk_yield + 2 / 100 * $weight;
@@ -124,6 +128,7 @@ class FeedController extends CI_Controller
                     );
                     $data['result'] = $data1;
                     $message = $this->load->view('pdf/dmi', $data, TRUE);
+                   
                     $send = array(
                         'dry_matter_intake' => round($dry_matter_intake, 2),
                         'feed' => round($feed, 2),
@@ -231,11 +236,12 @@ class FeedController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
+          
             $this->form_validation->set_rules('ProteinData', 'ProteinData', 'xss_clean|trim');
             $this->form_validation->set_rules('EnergyData', 'EnergyData', 'xss_clean|trim');
             $this->form_validation->set_rules('ProductData', 'ProductData', 'xss_clean|trim');
             $this->form_validation->set_rules('MedicineData', 'MedicineData', 'xss_clean|trim');
-            if ($this->form_validation->run() == true) {
+           if ($this->form_validation->run() == true) {
                 $ProteinData = $this->input->post('ProteinData');
                 $EnergyData = $this->input->post('EnergyData');
                 $ProductData = $this->input->post('ProductData');
@@ -257,6 +263,7 @@ class FeedController extends CI_Controller
                     $endf = 0;
                     $value = 0;
                     $prot = json_decode($ProteinData);
+                    $prot=array();
                     foreach ($prot as $prt) {
                         if (!empty($prt[3])) {
                             $cp += $prt[4] ? $prt[4] * $prt[3] / 1000 : 0;
@@ -364,6 +371,7 @@ class FeedController extends CI_Controller
                     );
                     $data['result'] = $data1;
                     $message = $this->load->view('pdf/feed', $data, TRUE);
+                   
                     $send = array(
                         'fresh' => $fresh,
                         'dmb' => $dmb,
