@@ -354,6 +354,7 @@ class HomeController extends CI_Controller
                     'yearly_price' => $a->yearly_price,
                     'yearly_description' => $a->yearly_description,
                     'yearly_service' => $a->yearly_service,
+                    'animals' => $a->animals,
                 );
             }
             $res = array(
