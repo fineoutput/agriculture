@@ -344,8 +344,11 @@ class HomeController extends CI_Controller
             $data = [];
             foreach ($Subscription_data as $a) {
                 $active = 0;
+                $plan_details = [];
                 if (!empty($Subscribed) && $Subscribed[0]->plan_id == $a->id) {
                     $active = 1;
+                    $newdate = new DateTime($Subscribed[0]->expiry);
+                    $plan_details = array('months' => $Subscribed[0]->months, 'price' => $Subscribed[0]->price, 'expiry' => $newdate->format('d-m-y'));
                 } else if (!empty($Subscribed)) {
                     $active = 2;
                 }
@@ -367,6 +370,7 @@ class HomeController extends CI_Controller
                     'animals' => $a->animals,
                     'doctor_calls' => $a->doctor_calls,
                     'active' => $active,
+                    'plan_details' => $plan_details,
                 );
             }
             $res = array(
