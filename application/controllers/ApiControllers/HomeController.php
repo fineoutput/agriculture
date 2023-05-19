@@ -344,7 +344,7 @@ class HomeController extends CI_Controller
             $data = [];
             foreach ($Subscription_data as $a) {
                 $active = 0;
-                if (!empty($Subscribed) && $Subscribed[0]->plain_id == $a) {
+                if (!empty($Subscribed) && $Subscribed[0]->plan_id == $a) {
                     $active = 1;
                 } else if (!empty($Subscribed)) {
                     $active = 2;
@@ -603,7 +603,7 @@ class HomeController extends CI_Controller
                         $txn_id = mt_rand(999999, 999999999999);
                         $data = array(
                             'farmer_id' => $farmer_data[0]->id,
-                            'plain_id' => $plan_id,
+                            'plan_id' => $plan_id,
                             'months' => $months,
                             'price' => $plan_data[0]->$type,
                             'animals' => $plan_data[0]->animals,
