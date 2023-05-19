@@ -41,6 +41,8 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>Animal</th>
+                      <th>Doctor</th>
                       <th>Service Name</th>
                       <th>Monthly Price</th>
                       <th>Monthly Description</th>
@@ -63,6 +65,8 @@
                     foreach ($subscription_data->result() as $data) { ?>
                       <tr>
                         <td><?php echo $i ?> </td>
+                        <td><?php echo $data->animals ?></td>
+                        <td><?php echo $data->doctor ?></td>
                         <td><?php echo $data->service_name ?></td>
                         <td><?php echo $data->monthly_price ?></td>
                         <td><?php echo $data->monthly_description ?></td>

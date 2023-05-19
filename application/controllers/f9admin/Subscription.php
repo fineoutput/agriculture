@@ -81,6 +81,8 @@ class Subscription extends CI_finecontrol
                 $this->form_validation->set_rules('yearly_price', 'yearly price', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('yearly_description', 'yearly description', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('yearly_service', 'yearly service', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('doctor', 'Doctor', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('animals', 'Animal', 'required|xss_clean|trim');
 
 
 
@@ -100,6 +102,8 @@ class Subscription extends CI_finecontrol
                     $yearly_price = $this->input->post('yearly_price');
                     $yearly_description = $this->input->post('yearly_description');
                     $yearly_service = $this->input->post('yearly_service');
+                    $doctor = $this->input->post('doctor');
+                    $animals = $this->input->post('animals');
 
 
                     $ip = $this->input->ip_address();
@@ -123,6 +127,8 @@ class Subscription extends CI_finecontrol
                         'yearly_price' => $yearly_price,
                         'yearly_description' => $yearly_description,
                         'yearly_service' => $yearly_service,
+                        'animals' => $animals,
+                        'doctor' => $doctor
                     );
 
                     $this->db->where('id', $idw);

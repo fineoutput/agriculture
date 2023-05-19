@@ -119,6 +119,18 @@ if(!empty($this->session->flashdata('emessage'))){ ?>
   <input type="text" name="yearly_service"  class="form-control" placeholder="" required value="<?=$subscription->yearly_service?>" />
   </td>
   </tr>
+  <tr>
+  <td> <strong>Aninal</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="animals"  class="form-control" placeholder="" required value="<?=$subscription->animals?>" />
+  </td>
+  </tr>
+  <tr>
+  <td> <strong>Doctor</strong>  <span style="color:red;">*</span></strong> </td>
+  <td>
+  <input type="text" name="doctor"  class="form-control" placeholder="" required value="<?=$subscription->doctor?>" />
+  </td>
+  </tr>
 
 
 
