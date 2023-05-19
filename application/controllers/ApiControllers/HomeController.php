@@ -567,7 +567,7 @@ class HomeController extends CI_Controller
     //====================================================== buyPlan ================================================//
     public function buyPlan()
     {
-        $this->load->helper(array('form', 'url')); 
+        $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->helper('security');
         if ($this->input->post()) {
@@ -583,88 +583,92 @@ class HomeController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $data = [];
-                    date_default_timezone_set("Asia/Calcutta");
-                    $cur_date = date("Y-m-d H:i:s");
-                    $cur_date2 = date("d-m-Y");
-                    $txn_id = mt_rand(999999, 999999999999);
-                    $data = array(
-                        'farmer_id' => $farmer_data[0]->id,
-                        'is_expert' => $is_expert,
-                        'doctor_id' => $doctor_id,
-                        'reason' => $reason,
-                        'description' => $description,
-                        'fees' => $fees,
-                        'payment_status' => 0,
-                        'status' => 0,
-                        'image1' => $nnnn,
-                        'image2' => $nnnn2,
-                        'image3' => $nnnn3,
-                        'image4' => $nnnn4,
-                        'image5' => $nnnn5,
-                        'req_date' => $cur_date2,
-                        'txn_id' => $txn_id,
-                        'date' => $cur_date
-                    );
-                    $req_id = $this->base_model->insert_table("tbl_doctor_req", $data, 1);
-                    $docData = $this->db->get_where('tbl_doctor', array('id' => $doctor_id,))->result();
-                    $success = base_url() . 'ApiControllers/ToolsController/doctor_payment_success';
-                    $fail = base_url() . 'ApiControllers/ToolsController/doctor_failed';
-                    $post = array(
-                        'txn_id' => '',
-                        'merchant_id' => MERCHAND_ID,
-                        'order_id' => $txn_id,
-                        'amount' => $fees,
-                        'currency' => "INR",
-                        'redirect_url' => $success,
-                        'cancel_url' => $fail,
-                        'billing_name' => $farmer_data[0]->name,
-                        'billing_address' => $farmer_data[0]->village,
-                        'billing_city' => $farmer_data[0]->city,
-                        'billing_state' => $farmer_data[0]->state,
-                        'billing_zip' => $farmer_data[0]->pincode,
-                        'billing_country' => 'India',
-                        'billing_tel' => $farmer_data[0]->phone,
-                        'billing_email' => '',
-                        'merchant_param1' => 'Doctor Payment',
-                    );
-                    $merchant_data = '';
-                    $working_key = WORKING_KEY; //Shared by CCAVENUES
-                    $access_code = ACCESS_CODE; //Shared by CCAVENUES
-                    foreach ($post as $key => $value) {
-                        $merchant_data .= $key . '=' . $value . '&';
-                    }
-                    $length = strlen(md5($working_key));
-                    $binString = "";
-                    $count = 0;
-                    while ($count < $length) {
-                        $subString = substr(md5($working_key), $count, 2);
-                        $packedString = pack("H*", $subString);
-                        if ($count == 0) {
-                            $binString = $packedString;
-                        } else {
-                            $binString .= $packedString;
+                    $plan_data = $this->db->get_where('tbl_subscription', array('is_active' => 1, 'id' => $plan_id))->result();
+                    if (!empty($plan_data)) {
+                        date_default_timezone_set("Asia/Calcutta");
+                        $cur_date = date("Y-m-d H:i:s");
+                        $start_date = date("Y-m-d");
+                        $expiry_data = date('Y-m-d', strtotime("+".$months." month"));
+                        $txn_id = mt_rand(999999, 999999999999);
+                        $data = array(
+                            'farmer_id' => $farmer_data[0]->id,
+                            'plain_id' => $plan_id,
+                            'months' => $months,
+                            'price' => $plan_data[0]->$type,
+                            'animals' => $animals,
+                            'doctor_calls' => $doctor_calls,
+                            'start_date' => $start_date,
+                            'expiry_data' => $expiry_data,
+                            'payment_status' => 0,
+                            'txn_id' => $txn_id,
+                            'date' => $cur_date
+                        );
+                        $req_id = $this->base_model->insert_table("tbl_subscription_buy", $data, 1);
+                        $success = base_url() . 'ApiControllers/HomeController/plan_payment_success';
+                        $fail = base_url() . 'ApiControllers/HomeController/plan_failed';
+                        $post = array(
+                            'txn_id' => '',
+                            'merchant_id' => MERCHAND_ID,
+                            'order_id' => $txn_id,
+                            'amount' => $price,
+                            'currency' => "INR",
+                            'redirect_url' => $success,
+                            'cancel_url' => $fail,
+                            'billing_name' => $farmer_data[0]->name,
+                            'billing_address' => $farmer_data[0]->village,
+                            'billing_city' => $farmer_data[0]->city,
+                            'billing_state' => $farmer_data[0]->state,
+                            'billing_zip' => $farmer_data[0]->pincode,
+                            'billing_country' => 'India',
+                            'billing_tel' => $farmer_data[0]->phone,
+                            'billing_email' => '',
+                            'merchant_param1' => 'Plan Payment',
+                        );
+                        $merchant_data = '';
+                        $working_key = WORKING_KEY; //Shared by CCAVENUES
+                        $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                        foreach ($post as $key => $value) {
+                            $merchant_data .= $key . '=' . $value . '&';
                         }
-                        $count += 2;
+                        $length = strlen(md5($working_key));
+                        $binString = "";
+                        $count = 0;
+                        while ($count < $length) {
+                            $subString = substr(md5($working_key), $count, 2);
+                            $packedString = pack("H*", $subString);
+                            if ($count == 0) {
+                                $binString = $packedString;
+                            } else {
+                                $binString .= $packedString;
+                            }
+                            $count += 2;
+                        }
+                        $key = $binString;
+                        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                        $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                        $encrypted_data = bin2hex($openMode);
+                        $send = array(
+                            'order_id' => $req_id,
+                            'access_code' => $access_code,
+                            'redirect_url' => $success,
+                            'cancel_url' => $fail,
+                            'enc_val' => $encrypted_data,
+                            'plain' => $merchant_data,
+                            'merchant_param1' => 'Plan Payment',
+                        );
+                        $res = array(
+                            'message' => "Success!",
+                            'status' => 200,
+                            'data' => $send,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => 'Some error occurred!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
                     }
-                    $key = $binString;
-                    $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
-                    $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
-                    $encrypted_data = bin2hex($openMode);
-                    $send = array(
-                        'order_id' => $req_id,
-                        'access_code' => $access_code,
-                        'redirect_url' => $success,
-                        'cancel_url' => $fail,
-                        'enc_val' => $encrypted_data,
-                        'plain' => $merchant_data,
-                        'merchant_param1' => 'Doctor Payment',
-                    );
-                    $res = array(
-                        'message' => "Success!",
-                        'status' => 200,
-                        'data' => $send,
-                    );
-                    echo json_encode($res);
                 } else {
                     $res = array(
                         'message' => 'Permission Denied!',
