@@ -611,7 +611,7 @@ class HomeController extends CI_Controller
                             'txn_id' => '',
                             'merchant_id' => MERCHAND_ID,
                             'order_id' => $txn_id,
-                            'amount' => $price,
+                            'amount' => $plan_data[0]->$type,
                             'currency' => "INR",
                             'redirect_url' => $success,
                             'cancel_url' => $fail,
