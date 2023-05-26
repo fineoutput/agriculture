@@ -543,7 +543,9 @@ class FeedController extends CI_Controller
     //====================================================== Animal Requirements ================================================//
     public function test()
     {
-        $inputFileName2 = 'assets/excel/animal_requirement.xls';
+        require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+        $inputFileName2 = 'assets/excel/CHECKMYFEED.xlsm';
+      
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -552,7 +554,9 @@ class FeedController extends CI_Controller
             die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
         }
         $data['objPHPExcel'] = $objPHPExcel;
-        $message = $this->load->view('pdf/animal_requirements', $data, TRUE);
+      
+
+        $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
         print_r($message);
     }
     //====================================================== DAIRY MART ================================================//
