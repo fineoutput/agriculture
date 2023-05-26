@@ -603,7 +603,7 @@ class HomeController extends CI_Controller
                         date_default_timezone_set("Asia/Calcutta");
                         $cur_date = date("Y-m-d H:i:s");
                         $start_date = date("Y-m-d");
-                        $expiry_data = date('Y-m-d', strtotime("+" . $months . " month"));
+                        $expiry_date = date('Y-m-d', strtotime("+" . $months . " month"));
                         $txn_id = mt_rand(999999, 999999999999);
                         $data = array(
                             'farmer_id' => $farmer_data[0]->id,
@@ -613,7 +613,7 @@ class HomeController extends CI_Controller
                             'animals' => $plan_data[0]->animals,
                             'doctor_calls' => $plan_data[0]->doctor_calls,
                             'start_date' => $start_date,
-                            'expiry_data' => $expiry_data,
+                            'expiry_date' => $expiry_date,
                             'payment_status' => 0,
                             'txn_id' => $txn_id,
                             'date' => $cur_date
