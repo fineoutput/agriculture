@@ -543,7 +543,6 @@ class FeedController extends CI_Controller
     //====================================================== Check my Feed ================================================//
     public function check_my_feed()
     {
-
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->helper('security');
@@ -599,7 +598,6 @@ class FeedController extends CI_Controller
                 $milk_return = $this->input->post('milk_return');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-
                     // $lactation = "Early lactation";
                     // // $feed_percentage = $this->input->post('feed_percentage');
                     // $live_weight = 550;
@@ -652,8 +650,8 @@ class FeedController extends CI_Controller
                     );
                     $data['input'] = $input;
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
-                    $inputFileName = 'assets/excel/checkmyfeed.xlsm';
-                    $inputFileName2 = 'assets/excel/checkmyfeed.xlsm';
+                    $inputFileName = 'assets/excel/check_my_feed.xlsm';
+                    $inputFileName2 = 'assets/excel/check_my_feed.xlsm';
                     try {
                         $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
                         $objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -688,7 +686,7 @@ class FeedController extends CI_Controller
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
                     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
                     $objWriter->setPreCalculateFormulas(true);
-                    $objWriter->save('assets/excel/checkmyfeed.xlsm');
+                    $objWriter->save('assets/excel/check_my_feed.xlsm');
                     // die();
                     try {
                         $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
@@ -700,7 +698,6 @@ class FeedController extends CI_Controller
                     $data['objPHPExcel'] = $objPHPExcel;
                     // $data['farmername']=$farmer_data->name;
                     $data['farmername'] = 'Nitesh';
-
                     $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
                     // print_r($message);
                     // die();
