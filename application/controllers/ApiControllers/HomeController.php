@@ -822,5 +822,57 @@ class HomeController extends CI_Controller
         }
         return $binString;
     }
+      //========================================= get__milking_tag_no ===================================//
+      public function get_milking_tag_no()
+      {
+          $headers = apache_request_headers();
+          $authentication = $headers['Authentication'];
+          $this->load->helper(array('form', 'url'));
+          $this->load->library('form_validation');
+          $this->load->helper('security');
+          if ($this->input->post()) {
+              $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
+              if ($this->form_validation->run() == true) {
+                  $assign_to_group = $this->input->post('assign_to_group');
+                  $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                  if (!empty($farmer_data)) {
+                      $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => 'Milking'))->result();
+                      $data = [];
+                      $i = 1;
+                      foreach ($tag_data as $a) {
+                          $data[] = array(
+                              'value' => $a->tag_no,
+                              'label' => $a->tag_no,
+                          );
+                          $i++;
+                      }
+                      $res = array(
+                          'message' => "Success!",
+                          'status' => 200,
+                          'data' => $data
+                      );
+                      echo json_encode($res);
+                  } else {
+                      $res = array(
+                          'message' => 'Permission Denied!',
+                          'status' => 201
+                      );
+                      echo json_encode($res);
+                  }
+              } else {
+                  $res = array(
+                      'message' => validation_errors(),
+                      'status' => 201
+                  );
+                  echo json_encode($res);
+              }
+          } else {
+              $res = array(
+                  'message' => 'Please Insert Data',
+                  'status' => 201
+              );
+              echo json_encode($res);
+          }
+      }
 }
   //======================================================END HOMECONTROLLER================================================//
