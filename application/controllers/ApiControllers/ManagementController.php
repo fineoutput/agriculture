@@ -182,7 +182,7 @@ class ManagementController extends CI_Controller
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('information_type', 'information_type', 'required|xss_clean|trim');
       $this->form_validation->set_rules('group_id', 'group_id', 'xss_clean|trim');
-      $this->form_validation->set_rules('cattle_type', 'cattle_type', 'xss_clean|trim');
+      $this->form_validation->set_rules('tag_no', 'tag no', 'xss_clean|trim');
       $this->form_validation->set_rules('milking_slot', 'milking_slot', 'required|xss_clean|trim');
       $this->form_validation->set_rules('milk_date', 'milk_date', 'required|xss_clean|trim');
       $this->form_validation->set_rules('entry_milk', 'entry_milk', 'required|xss_clean|trim');
@@ -193,7 +193,7 @@ class ManagementController extends CI_Controller
       if ($this->form_validation->run() == true) {
         $information_type = $this->input->post('information_type');
         $group_id = $this->input->post('group_id');
-        $cattle_type = $this->input->post('cattle_type');
+        $tag_no = $this->input->post('tag_no');
         $milking_slot = $this->input->post('milking_slot');
         $milk_date = $this->input->post('milk_date');
         $entry_milk = $this->input->post('entry_milk');
@@ -210,7 +210,7 @@ class ManagementController extends CI_Controller
             'farmer_id' => $farmer_data[0]->id,
             'information_type' => $information_type,
             'group_id' => $group_id,
-            'cattle_type' => $cattle_type,
+            'tag_no' => $tag_no,
             'milking_slot' => $milking_slot,
             'milk_date' => $milk_date,
             'entry_milk' => $entry_milk,
@@ -286,7 +286,7 @@ class ManagementController extends CI_Controller
           's_no' => $i,
           'information_type' => $milk->information_type,
           'group' => $group,
-          'cattle_type' => $milk->cattle_type,
+          'tag_no' => $milk->tag_no,
           'milking_slot' => $milk->milking_slot,
           'milk_date' => $milk->milk_date,
           'entry_milk' => $milk->entry_milk,
