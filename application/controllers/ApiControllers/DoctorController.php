@@ -837,8 +837,9 @@ class DoctorController extends CI_Controller
                         );
                         echo json_encode($res);
                     } else {
+                        $a = $canister_data[$canister]->no_of_units ? $canister_data[$canister]->no_of_units : 0;
                         $res = array(
-                            'message' => "Available semen unit is " . $canister_data[$canister]->no_of_units ? $canister_data[$canister]->no_of_units : 0,
+                            'message' => "Available semen unit is " . $a,
                             'status' => 201,
                         );
                         echo json_encode($res);
