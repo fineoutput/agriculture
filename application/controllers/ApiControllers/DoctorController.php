@@ -286,7 +286,7 @@ class DoctorController extends CI_Controller
                 $fcm_token = $this->input->post('fcm_token');
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
-                    $data_update = array('latitude' => $latitude, 'longitude' => $longitude,'fcm_token'=>$fcm_token);
+                    $data_update = array('latitude' => $latitude, 'longitude' => $longitude, 'fcm_token' => $fcm_token);
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
                     $res = array(
@@ -521,17 +521,17 @@ class DoctorController extends CI_Controller
                 } else {
                     $image = '';
                 }
-                $doctorSlider[] = array('image'=>$image);
+                $doctorSlider[] = array('image' => $image);
             }
             //---- Doctor notification data -------
             $notifications = [];
             $DoctorNotifications = $this->db->get_where('tbl_doctor_notification', array('doctor_id' => $doctor_data[0]->id))->result();
             foreach ($DoctorNotifications as $notification) {
-                $newDate = new DateTime($notification->date); 
+                $newDate = new DateTime($notification->date);
                 $notifications[] = array(
                     'id' => $notification->id,
                     'name' => $notification->name,
-                    'image' => $notification->image? base_url() . $notification->image:'',
+                    'image' => $notification->image ? base_url() . $notification->image : '',
                     'description' => $notification->dsc,
                     'date' => $newDate->format('d-m-y, g:i a'),
                 );
@@ -838,7 +838,7 @@ class DoctorController extends CI_Controller
                         echo json_encode($res);
                     } else {
                         $res = array(
-                            'message' => "Left Semen Unit is " . $canister_data[$canister]->no_of_units,
+                            'message' => "Available semen unit is " . $canister_data[$canister]->no_of_units ? $canister_data[$canister]->no_of_units : 0,
                             'status' => 201,
                         );
                         echo json_encode($res);
