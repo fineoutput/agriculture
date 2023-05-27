@@ -105,7 +105,7 @@
                                 ?>
                                 <span class="ht"><? echo $cur_date;?></span></p>
                                 <p><b>Technician </b><span class="ht">VIPIN SHARMA </span></p>
-                                <p><b>Farmer</b><span class="ht">SRI BANKE BIHARI FARM</span><p>
+                                <p><b>Farmer</b><span class="ht"><?= $farmername;?></span><p>
                                 <p><b>Cow</b><span class="ht">MILKING</span><p>
                                
 

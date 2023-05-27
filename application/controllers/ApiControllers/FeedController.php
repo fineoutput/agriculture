@@ -86,8 +86,8 @@ class FeedController extends CI_Controller
                 $milk_yield = $this->input->post('milk_yield');
                 $weight = $this->input->post('weight');
                 $lactation = 1;
-                $feed_percentage =2;
-                $milk_yield =3;
+                $feed_percentage = 2;
+                $milk_yield = 3;
                 $weight = 4;
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
@@ -239,7 +239,7 @@ class FeedController extends CI_Controller
             $this->form_validation->set_rules('EnergyData', 'EnergyData', 'xss_clean|trim');
             $this->form_validation->set_rules('ProductData', 'ProductData', 'xss_clean|trim');
             $this->form_validation->set_rules('MedicineData', 'MedicineData', 'xss_clean|trim');
-           if ($this->form_validation->run() == true) {
+            if ($this->form_validation->run() == true) {
                 $ProteinData = $this->input->post('ProteinData');
                 $EnergyData = $this->input->post('EnergyData');
                 $ProductData = $this->input->post('ProductData');
@@ -261,7 +261,7 @@ class FeedController extends CI_Controller
                     $endf = 0;
                     $value = 0;
                     $prot = json_decode($ProteinData);
-                    $prot=array();
+                    $prot = array();
                     foreach ($prot as $prt) {
                         if (!empty($prt[3])) {
                             $cp += $prt[4] ? $prt[4] * $prt[3] / 1000 : 0;
@@ -540,12 +540,169 @@ class FeedController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //====================================================== Animal Requirements ================================================//
-    public function test()
+    //====================================================== Check my Feed ================================================//
+    public function check_my_feed()
     {
-        require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
-        $inputFileName2 = 'assets/excel/CHECKMYFEED.xlsm';
+
+        // $this->load->helper(array('form', 'url'));
+        // $this->load->library('form_validation');
+        // $this->load->helper('security');
+        // if ($this->input->post()) {
+        //     $headers = apache_request_headers();
+        //     $authentication = $headers['Authentication'];
+        //    $this->form_validation->set_rules('lactation', 'feed lactation', 'required|xss_clean|trim');
+        //    // $this->form_validation->set_rules('feed_percentage', 'feed percentage', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('live_weight', 'live weight', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('pregnancy', 'pregnancy', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_volume', 'milk yield volume', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_fat', 'milk yield fat', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('maize_gain', 'maize gain', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('cotton_cake', 'cotton cake', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('makka_khal', 'makka khal', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('musturd_doc', 'musturd doc', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('chana_churi', 'chana churi', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('wheat_bran', 'wheat bran', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('mung_churi', 'mung churi', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('molasses', 'molasses', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('musturd_cake', 'musturd cake', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('wheat_straw', 'wheat straw', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('silage_maize', 'silage maize', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('bypass_fat', 'bypass fat', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('green_fodder', 'green fodder', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('dorb', 'dorb', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_return', 'milk return', 'required|xss_clean|trim');
+        //     if ($this->form_validation->run() == true) {
+        //         $lactation = $this->input->post('lactation');
+        //        // $feed_percentage = $this->input->post('feed_percentage');
+        //         $live_weight = $this->input->post('live_weight');
+        //         $pregnancy = $this->input->post('pregnancy');
+        //         $milk_yield_volume = $this->input->post('milk_yield_volume');
+        //         $milk_yield_fat = $this->input->post('milk_yield_fat');
+        //         $milk_yield_protein = $this->input->post('milk_yield_protein');
+        //         $live_weight_gain = $this->input->post('live_weight_gain');
+        //         $maize_gain = $this->input->post('maize_gain');
+        //         $cotton_cake = $this->input->post('cotton_cake');
+        //         $makka_khal = $this->input->post('makka_khal');
+        //         $musturd_doc = $this->input->post('musturd_doc');
+        //         $chana_churi = $this->input->post('chana_churi');
+        //         $wheat_bran = $this->input->post('wheat_bran');
+        //         $mung_churi = $this->input->post('mung_churi');
+        //         $molasses = $this->input->post('molasses');
+        //         $musturd_cake = $this->input->post('musturd_cake');
+        //         $wheat_straw = $this->input->post('wheat_straw');
+        //         $silage_maize = $this->input->post('silage_maize');
+        //         $bypass_fat = $this->input->post('bypass_fat');
+        //         $green_fodder = $this->input->post('green_fodder');
+        //         $dorb = $this->input->post('dorb');
+        //         $milk_return = $this->input->post('milk_return');
+        //         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //         if (!empty($farmer_data)) {
       
+        $lactation = "Early lactation";
+        // $feed_percentage = $this->input->post('feed_percentage');
+        $live_weight = 550;  
+          $pregnancy = 0 ; 
+          $milk_yield_volume = 25;
+        $milk_yield_fat =3.5;
+        $milk_yield_protein =3;
+        $live_weight_gain =12;
+        $maize_gain =5;
+        $cotton_cake =2.5;
+        $makka_khal =0;
+        $musturd_doc =2;
+        $chana_churi =2;
+        $wheat_bran =0.5;
+        $mung_churi =0.5;
+        $molasses =0.05;
+        $musturd_cake =0.05;
+        $wheat_straw =3;
+        $silage_maize =15;
+        $bypass_fat =0.2;
+        $green_fodder = 0.03;
+        $dorb =0;
+        $milk_return =40;
+        if($lactation=="Early Lactation"){
+            $ca='0.80%';
+            $pa='0.40%';
+        }else if($lactation=="Mid-lactation"){
+            $ca='0.70%';
+            $pa='0.35%';
+        }else if($lactation=="Dry Period"){
+            $ca='0.40%';
+            $pa='0.20%';
+        }else if($lactation=="Late Lactation"){
+            $ca='0.40%';
+            $pa='0.20%';
+        }
+        $input = array(
+           'lactation' => $lactation,
+           // 'feed_percentage' => $feed_percentage,
+            'live_weight' => $live_weight,
+            'pregnancy' => $pregnancy,
+            'milk_yield_volume' => $milk_yield_volume,
+            'milk_yield_fat' => $milk_yield_fat,
+            'milk_yield_protein' => $milk_yield_protein,
+            'live_weight_gain' => $live_weight_gain,
+            'maize_gain' => $maize_gain,
+            'cotton_cake' => $cotton_cake,
+            'makka_khal' => $makka_khal,
+            'musturd_doc' => $musturd_doc,
+            'chana_churi' => $chana_churi,
+            'wheat_bran' => $wheat_bran,
+            'mung_churi' => $mung_churi,
+            'molasses' => $molasses,
+            'musturd_cake' => $musturd_cake,
+            'wheat_straw' => $wheat_straw,
+            'silage_maize' => $silage_maize,
+            'bypass_fat' => $bypass_fat,
+            'green_fodder' => $green_fodder,
+            'dorb' => $dorb,
+            'milk_return' => $milk_return,
+            // 'ca' => $ca,
+            // 'pa' => $pa,
+        );
+        $data['input'] = $input;
+        require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+        $inputFileName = 'assets/excel/checkmyfeed.xlsm';
+        $inputFileName2 = 'assets/excel/checkmyfeed.xlsm';
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel1 = $objReader->load($inputFileName);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
+        //  Get worksheet dimensions
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('B13', $lactation);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C4', $live_weight);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C5', $pregnancy);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C6', $milk_yield_volume);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C7', $milk_yield_fat);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C8', $milk_yield_protein);
+        $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C9', $live_weight_gain);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D4', $maize_gain);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D5', $cotton_cake);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D6', $makka_khal);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D7', $musturd_doc);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D8', $chana_churi);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D9', $wheat_bran);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D10', $mung_churi);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D11', $molasses);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D12', $musturd_cake);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D14', $wheat_straw);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D15', $silage_maize);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D16', $bypass_fat);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D18', $green_fodder);
+        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D19', $dorb);
+        $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
+        // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D19', $ca);
+        // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
+        $objWriter->setPreCalculateFormulas(true);
+        $objWriter->save('assets/excel/checkmyfeed.xlsm');
+// die();
         try {
             $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
             $objReader = PHPExcel_IOFactory::createReader($inputFileType);
@@ -554,7 +711,55 @@ class FeedController extends CI_Controller
             die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
         }
         $data['objPHPExcel'] = $objPHPExcel;
+        // $data['farmername']=$farmer_data->name;
+        $data['farmername'] = 'Nitesh';
+        $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
       
+        //------- update service record -----------
+        $service_data = $this->db->get_where('tbl_service_records')->result();
+        $data_update = array('animal_req' => $service_data[0]->animal_req + 1);
+        $this->db->where('id', $service_data[0]->id);
+        $zapak = $this->db->update('tbl_service_records', $data_update);
+        $res = array(
+            'message' => "Success!",
+            'status' => 200,
+            'data' => $message
+        );
+        echo json_encode($res);
+        //         } else {
+        //             $res = array(
+        //                 'message' => 'Permission Denied!',
+        //                 'status' => 201
+        //             );
+        //             echo json_encode($res);
+        //         }
+        //     } else {
+        //         $res = array(
+        //             'message' => validation_errors(),
+        //             'status' => 201
+        //         );
+        //         echo json_encode($res);
+        //     }
+        // } else {
+        //     $res = array(
+        //         'message' => 'Please Insert Data',
+        //         'status' => 201
+        //     );
+        //     echo json_encode($res);
+        // }
+
+        require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
+        $inputFileName2 = 'assets/excel/checkmyfeed.XLSM';
+
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFileName2);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFileName2);
+        } catch (Exception $e) {
+            die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
+        }
+        $data['objPHPExcel'] = $objPHPExcel;
+
 
         $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
         print_r($message);
