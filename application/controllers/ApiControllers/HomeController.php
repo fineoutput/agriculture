@@ -836,7 +836,7 @@ class HomeController extends CI_Controller
                   $assign_to_group = $this->input->post('assign_to_group');
                   $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                   if (!empty($farmer_data)) {
-                      $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => 'Milking'))->result();
+                      $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => $assign_to_group, 'animal_type' => 'Milking'))->result();
                       $data = [];
                       $i = 1;
                       foreach ($tag_data as $a) {
@@ -874,5 +874,101 @@ class HomeController extends CI_Controller
               echo json_encode($res);
           }
       }
+
+      public function update_group()
+  {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+      $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+     
+      if ($this->form_validation->run() == true) {
+        $id = $this->input->post('id');
+        $name = $this->input->post('name');
+       
+            $data_update = array(
+              'name' => $name
+              
+            );
+          
+          $this->db->where('id', $id);
+          $zapak = $this->db->update('tbl_group', $data_update);
+          if($zapak>0){
+          $res = array(
+            'message' => "Record Successfully Updated!",
+            'status' => 200,
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  public function delete_group()
+  {
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->load->helper('security');
+    if ($this->input->post()) {
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+    
+     
+      if ($this->form_validation->run() == true) {
+        $id = $this->input->post('id');
+          
+            $delete=$this->db->delete('tbl_cart', array('user_id' => $user_id,'product_id',$product_id));
+        
+        
+          if($delete>0){
+          $res = array(
+            'message' => "Record Successfully Updated!",
+            'status' => 200,
+          );
+          echo json_encode($res);
+        } else {
+          $res = array(
+            'message' => 'Permission Denied!',
+            'status' => 201
+          );
+          echo json_encode($res);
+        }
+      } else {
+        $res = array(
+          'message' => validation_errors(),
+          'status' => 201
+        );
+        echo json_encode($res);
+      }
+    } else {
+      $res = array(
+        'message' => 'Please Insert Data',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
 }
   //======================================================END HOMECONTROLLER================================================//
