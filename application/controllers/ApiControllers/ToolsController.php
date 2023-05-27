@@ -1053,13 +1053,13 @@ class ToolsController extends CI_Controller
                     $data2 = array(
                         'req_id' => $order_id,
                         'doctor_id' => $order_data->doctor_id,
-                        'cr' => $amt,
+                        'cr' =>  $order_data->fees-$amt,
                         'date' => $cur_date
                     );
                     $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
                     //------ update doctor account ------
                     $data_update = array(
-                        'account' => $docData[0]->account + $amt,
+                        'account' => $docData[0]->account + $order_data->fees-$amt,
                     );
                     $this->db->where('id', $order_data->doctor_id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
@@ -1070,7 +1070,7 @@ class ToolsController extends CI_Controller
                     //success notification code
                     $url = 'https://fcm.googleapis.com/fcm/send';
                     $title = "New Request";
-                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees;
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees-$amt;
                     $msg2 = array(
                         'title' => $title,
                         'body' => $message,

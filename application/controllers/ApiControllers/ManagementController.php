@@ -1707,12 +1707,27 @@ class ManagementController extends CI_Controller
             $data_update = array(
               'dry_date' => $date,
             );
-          } else {
+          } else if ($status == 'Delivered') {
             $data_update = array(
               'delivered_date' => $date,
               'is_pregnant' => 'No',
               'pregnancy_test_date' => '',
               'dry_date' => '',
+            );
+          } else if ($status == 'Pregnant') {
+            $data_update = array(
+              'delivered_date' => '',
+              'is_pregnant' => 'Yes',
+              'pregnancy_test_date' => $date,
+              'dry_date' => '',
+            );
+          } else if ($status == 'Not Pregnant') {
+            $data_update = array(
+              'delivered_date' => '',
+              'is_pregnant' => 'No',
+              'pregnancy_test_date' => '',
+              'dry_date' => '',
+              'calving_date' => $date
             );
           }
           $this->db->where('id', $id);
@@ -1786,6 +1801,60 @@ class ManagementController extends CI_Controller
         'status' => 201
       );
       echo json_encode($res);
+    }
+  }
+
+  public function cron_jobs()
+  {
+   
+
+    $this->db->select('DISTINCT(animal_id)');
+    $this->db->from('tbl_animal_cycle');
+    //$this->db->where('id',$usr);
+    $data_anmlcycle = $this->db->get();
+
+   
+
+    foreach ($data_anmlcycle->result() as $data) {
+
+     
+      $animal_id=$data->animal_id;
+
+      $this->db->select('*');
+      $this->db->from('tbl_my_animal');
+      $this->db->where('id', $animal_id);
+
+      $dsa_animl = $this->db->get()->row();
+
+      $calving_date = $dsa_animl->calving_date;
+      echo $calving_date;echo "<br>";
+
+
+      date_default_timezone_set("Asia/Calcutta");
+      $cur_date = date("Y-m-d H:i:s");
+
+      // $two_month = date('d-m-Y', strtotime("-60 day"));
+      // $seven_month = date('d-m-Y', strtotime("-210 day"));
+      // $nine_month = date('d-m-Y', strtotime("-270 day"));
+
+   
+     $two_month= date('Y-m-d', strtotime($calving_date . ' +60 days'));
+      $seven_month=date('Y-m-d', strtotime($calving_date . ' + 210 days'));
+      $nine_month=date('Y-m-d', strtotime($calving_date . ' + 270 days'));
+
+     
+
+
+      if (($two_month <= $cur_date) && ($two_month >= $calving_date)) {
+        if ($dsa_animl->two_month == 0) {
+        }
+      } else if (($seven_month <= $calving_date) && ($cur_date >= $calving_date)) {
+        if ($dsa_animl->seven_month == 0) {
+        }
+      } else if (($nine_month <= $calving_date) && ($cur_date >= $calving_date)) {
+        if ($dsa_animl->nine_month == 0) {
+        }
+      }
     }
   }
 }
