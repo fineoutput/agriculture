@@ -939,12 +939,50 @@ class HomeController extends CI_Controller
       if ($this->form_validation->run() == true) {
         $id = $this->input->post('id');
           
-            $delete=$this->db->delete('tbl_cart', array('user_id' => $user_id,'product_id',$product_id));
+            $delete=$this->db->delete('tbl_group', array('id' => $id));
+
+            $this->db->select('*');
+            $this->db->from('tbl_my_animal');
+            $this->db->where('assign_to_group',$id);
+            $data_animl= $this->db->get();
+
+            foreach($data_animl->result() as $data_animls){
+
+                $animl_id=$data_animls->id;
+                $tag_no=$data_animls->tag_no;
+                $animal_del=$this->db->delete('tbl_my_animal', array('id' => $animl_id));
+                $animal_cyc=$this->db->delete('tbl_animal_cycle', array('animal_id' => $animl_id));
+
+
+                //$animal_cns=$this->db->delete('tbl_canister', array('tag_no' => $tag_no));
+                
+            $data_update = array(
+                'farm_bull' => '',
+                'bull_name' => '',
+                'company_name' => '',
+                'no_of_units' => '',
+                'milk_production_of_mother' => '',
+                'date' => ''
+                
+              );
+            $this->db->where('tag_no', $tag_no);
+            $zapak = $this->db->update('tbl_canister', $data_update);
+
+               
+
+            }
+            $animal_brd=$this->db->delete('tbl_breeding_record', array('group_id' => $id));
+            $animal_hlt=$this->db->delete('tbl_health_info', array('group_id' => $id));
+            $animal_mlkr=$this->db->delete('tbl_milk_records', array('group_id' => $id));
+
+          
+            
+
         
         
           if($delete>0){
           $res = array(
-            'message' => "Record Successfully Updated!",
+            'message' => "Record Successfully Deleted!",
             'status' => 200,
           );
           echo json_encode($res);
