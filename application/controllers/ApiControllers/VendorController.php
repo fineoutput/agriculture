@@ -844,10 +844,20 @@ class VendorController extends CI_Controller
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $page_index = $headers['Index'];
+        $search = $this->input->get('search');
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
-            $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
+            if (empty($search)) {
+                $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
+            } else {
+                $this->db->select('*');
+                $this->db->from('tbl_products');
+                $this->db->where('added_by',  $vendor_data[0]->id);
+                $this->db->where('is_admin', 0);
+                $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                $count = $this->db->count_all_results();
+            }
             $limit = 20;
             if (!empty($page_index)) {
                 $start = ($page_index - 1) * $limit;
@@ -860,6 +870,9 @@ class VendorController extends CI_Controller
             $this->db->where('is_admin', 0);
             $this->db->order_by('id', 'desc');
             $this->db->limit($limit, $start);
+            if (!empty($search)) {
+                $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+            }
             $ProData = $this->db->get();
             $pages = round($count / $limit);
             $pagination = $this->CreatePagination($page_index, $pages);
