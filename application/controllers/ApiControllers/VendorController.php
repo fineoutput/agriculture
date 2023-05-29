@@ -844,73 +844,106 @@ class VendorController extends CI_Controller
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $page_index = $headers['Index'];
-        $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
-        //----- Verify Auth --------
-        if (!empty($vendor_data)) {
-            $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
-            $limit = 20;
-            if (!empty($page_index)) {
-                $start = ($page_index - 1) * $limit;
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('search', 'search', 'xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $search = $this->input->post('search');
+                $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+                //----- Verify Auth --------
+                if (!empty($vendor_data)) {
+                    if (empty($search)) {
+                        $count = $this->db->get_where('tbl_products', array('added_by' => $vendor_data[0]->id, 'is_admin' => 0,))->num_rows();
+                    } else {
+                        $this->db->select('*');
+                        $this->db->from('tbl_products');
+                        $this->db->where('added_by',  $vendor_data[0]->id);
+                        $this->db->where('is_admin', 0);
+                        $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                        $count = $this->db->count_all_results();
+                    }
+                    $limit = 20;
+                    if (!empty($page_index)) {
+                        $start = ($page_index - 1) * $limit;
+                    } else {
+                        $start = 0;
+                    }
+                    $this->db->select('*');
+                    $this->db->from('tbl_products');
+                    $this->db->where('added_by', $vendor_data[0]->id);
+                    $this->db->where('is_admin', 0);
+                    $this->db->order_by('id', 'desc');
+                    $this->db->limit($limit, $start);
+                    if (!empty($search)) {
+                        $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
+                    }
+                    $ProData = $this->db->get();
+                    $pages = round($count / $limit);
+                    $pagination = $this->CreatePagination($page_index, $pages);
+                    $data = [];
+                    foreach ($ProData->result() as $pro) {
+                        if (!empty($pro->image)) {
+                            $image = base_url() . $pro->image;
+                        } else {
+                            $image = '';
+                        }
+                        if ($pro->inventory != 0) {
+                            $stock = 'In Stock';
+                        } else {
+                            $stock = 'Out of Stock';
+                        }
+                        $discount = (int)$pro->mrp - (int)$pro->selling_price;
+                        $percent = 0;
+                        if ($discount > 0) {
+                            $percent = round($discount / $pro->mrp * 100);
+                        }
+                        $data[] = array(
+                            'pro_id' => $pro->id,
+                            'name_english' => $pro->name_english,
+                            'name_hindi' => $pro->name_hindi,
+                            'name_punjabi' => $pro->name_punjabi,
+                            'description_english' => $pro->description_english,
+                            'description_hindi' => $pro->description_hindi,
+                            'description_punjabi' => $pro->description_punjabi,
+                            'image' => $image,
+                            'mrp' => $pro->mrp,
+                            'selling_price' => $pro->selling_price,
+                            'suffix' => $pro->suffix,
+                            'stock' => $stock,
+                            'percent' => $percent,
+                            'inventory' => $pro->inventory,
+                            'vendor_id' => $pro->added_by,
+                            'is_active' => $pro->is_active,
+                            'is_admin' => $pro->is_admin
+                        );
+                    }
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data,
+                        'pagination' => $pagination,
+                        'last' => $pages,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
             } else {
-                $start = 0;
-            }
-            $this->db->select('*');
-            $this->db->from('tbl_products');
-            $this->db->where('added_by', $vendor_data[0]->id);
-            $this->db->where('is_admin', 0);
-            $this->db->order_by('id', 'desc');
-            $this->db->limit($limit, $start);
-            $ProData = $this->db->get();
-            $pages = round($count / $limit);
-            $pagination = $this->CreatePagination($page_index, $pages);
-            $data = [];
-            foreach ($ProData->result() as $pro) {
-                if (!empty($pro->image)) {
-                    $image = base_url() . $pro->image;
-                } else {
-                    $image = '';
-                }
-                if ($pro->inventory != 0) {
-                    $stock = 'In Stock';
-                } else {
-                    $stock = 'Out of Stock';
-                }
-                $discount = (int)$pro->mrp - (int)$pro->selling_price;
-                $percent = 0;
-                if ($discount > 0) {
-                    $percent = round($discount / $pro->mrp * 100);
-                }
-                $data[] = array(
-                    'pro_id' => $pro->id,
-                    'name_english' => $pro->name_english,
-                    'name_hindi' => $pro->name_hindi,
-                    'name_punjabi' => $pro->name_punjabi,
-                    'description_english' => $pro->description_english,
-                    'description_hindi' => $pro->description_hindi,
-                    'description_punjabi' => $pro->description_punjabi,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'inventory' => $pro->inventory,
-                    'vendor_id' => $pro->added_by,
-                    'is_active' => $pro->is_active,
-                    'is_admin' => $pro->is_admin
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
                 );
+                echo json_encode($res);
             }
-            $res = array(
-                'message' => "Success!",
-                'status' => 200,
-                'data' => $data,
-                'pagination' => $pagination,
-                'last' => $pages,
-            );
-            echo json_encode($res);
         } else {
             $res = array(
-                'message' => 'Permission Denied!',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
