@@ -1803,29 +1803,18 @@ class ManagementController extends CI_Controller
       echo json_encode($res);
     }
   }
-
   public function cron_jobs()
   {
-
-
     $this->db->select('DISTINCT(animal_id)');
     $this->db->from('tbl_animal_cycle');
     //$this->db->where('id',$usr);
     $data_anmlcycle = $this->db->get();
-
-
-
     foreach ($data_anmlcycle->result() as $data) {
-
-
       $animal_id = $data->animal_id;
-
       $this->db->select('*');
       $this->db->from('tbl_my_animal');
       $this->db->where('id', $animal_id);
-
       $dsa_animl = $this->db->get()->row();
-
       $calving_date = $dsa_animl->calving_date;
       $farmer_id = $dsa_animl->farmer_id;
       //fcm_token
@@ -1834,44 +1823,34 @@ class ManagementController extends CI_Controller
       $this->db->where('id', $farmer_id);
       $dsa_farmer = $this->db->get()->row();
       if (!empty($dsa_farmer->fcm_token)) {
-
         $fcm_token = $dsa_farmer->fcm_token;
-
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
-
-
-
-
         $twentyone_days = date('Y-m-d', strtotime($calving_date . ' +21 days'));
         $two_month = date('Y-m-d', strtotime($calving_date . ' +60 days'));
         $seven_month = date('Y-m-d', strtotime($calving_date . ' + 210 days'));
         $nine_month = date('Y-m-d', strtotime($calving_date . ' + 270 days'));
-
-
-
+        $animal_data = $this->db->get_where('tbl_my_animal', array('id' => $animal_id))->result();
         if (($twentyone_days <= $cur_date) && ($twentyone_days >= $calving_date)) {
+          //--- check for 21 days insemination ----
           if ($dsa_animl->twentyone_days == 0) {
-            // code...
-            //success notification code
             $url = 'https://fcm.googleapis.com/fcm/send';
-            $title = "New Order Arrived";
-            $message = "New delivery order transfered to you from admin, Please check.";
+            $title = "Inseminate Check Alert";
+            $message = "Please check insemination of " . $animal_data[0]->animal_name . " (" . $animal_data[0]->tag_no . ") ";
             $msg2 = array(
               'body' => $message,
               'title' => $title,
-              'fcm_token' => $fcm_token,
               "sound" => "default"
             );
             $fields = array(
               //'to'=>"/topics/all",
-              // 'to' => $user_device_token->device_token,
+              'to' => $fcm_token,
               'notification' => $msg2,
               'priority' => 'high'
             );
             $fields = json_encode($fields);
             $headers = array(
-              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
               'Content-Type: application/json'
             );
             $ch = curl_init();
@@ -1885,35 +1864,41 @@ class ManagementController extends CI_Controller
             // echo $result;
             curl_close($ch);
             //End success notification code
-
             $data_update = array(
               'twentyone_days' => 1,
             );
             $this->db->where('id', $animal_id);
             $zapak = $this->db->update('tbl_my_animal', $data_update);
+            //--- notification entry
+            $data_insert = array(
+              'farmer_id' => $farmer_id,
+              'name' => $title,
+              'desc' => $message,
+              'added_by' => 'Cron Job',
+              'date' => $cur_date
+            );
+            $last_id = $this->base_model->insert_table("tbl_farmer_notification", $data_insert, 1);
           }
         } else if (($two_month <= $cur_date) && ($two_month >= $calving_date)) {
+          //--- check for 2 months diagnosis ----
           if ($dsa_animl->two_month == 0) {
-            // code...
-            //success notification code
             $url = 'https://fcm.googleapis.com/fcm/send';
-            $title = "New Order Arrived";
-            $message = "New delivery order transfered to you from admin, Please check.";
+            $title = "Doctor Diagnosis Alert";
+            $message = "Please check diagnosis of " . $animal_data[0]->animal_name . " (" . $animal_data[0]->tag_no . ") ";
             $msg2 = array(
               'body' => $message,
               'title' => $title,
-              'fcm_token' => $fcm_token,
               "sound" => "default"
             );
             $fields = array(
               //'to'=>"/topics/all",
-              // 'to' => $user_device_token->device_token,
+              'to' => $fcm_token,
               'notification' => $msg2,
               'priority' => 'high'
             );
             $fields = json_encode($fields);
             $headers = array(
-              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
               'Content-Type: application/json'
             );
             $ch = curl_init();
@@ -1927,35 +1912,42 @@ class ManagementController extends CI_Controller
             // echo $result;
             curl_close($ch);
             //End success notification code
-
             $data_update = array(
               'twentyone_days' => 1,
             );
             $this->db->where('id', $animal_id);
             $zapak = $this->db->update('two_month', $data_update);
+            //--- notification entry
+            $data_insert = array(
+              'farmer_id' => $farmer_id,
+              'name' => $title,
+              'desc' => $message,
+              'added_by' => 'Cron Job',
+              'date' => $cur_date
+            );
+            $last_id = $this->base_model->insert_table("tbl_farmer_notification", $data_insert, 1);
+            
           }
         } else if (($seven_month <= $cur_date) && ($seven_month >= $calving_date)) {
+          //--- check for 7 months dry state ----
           if ($dsa_animl->seven_month == 0) {
-            // code...
-            //success notification code
             $url = 'https://fcm.googleapis.com/fcm/send';
-            $title = "New Order Arrived";
-            $message = "New delivery order transfered to you from admin, Please check.";
+            $title = "Dry State Alert";
+            $message = "Please check dry state of " . $animal_data[0]->animal_name . " (" . $animal_data[0]->tag_no . ") ";
             $msg2 = array(
               'body' => $message,
               'title' => $title,
-              'fcm_token' => $fcm_token,
               "sound" => "default"
             );
             $fields = array(
               //'to'=>"/topics/all",
-              // 'to' => $user_device_token->device_token,
+              'to' => $fcm_token,
               'notification' => $msg2,
               'priority' => 'high'
             );
             $fields = json_encode($fields);
             $headers = array(
-              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
               'Content-Type: application/json'
             );
             $ch = curl_init();
@@ -1969,35 +1961,43 @@ class ManagementController extends CI_Controller
             // echo $result;
             curl_close($ch);
             //End success notification code
-
             $data_update = array(
               'seven_month' => 1,
             );
             $this->db->where('id', $animal_id);
             $zapak = $this->db->update('tbl_my_animal', $data_update);
+            //--- notification entry
+            $data_insert = array(
+              'farmer_id' => $farmer_id,
+              'name' => $title,
+              'desc' => $message,
+              'added_by' => 'Cron Job',
+              'date' => $cur_date
+            );
+            $last_id = $this->base_model->insert_table("tbl_farmer_notification", $data_insert, 1);
           }
         } else if (($nine_month <= $cur_date) && ($nine_month >= $calving_date)) {
+          //--- check for 9 months delivery state ----
           if ($dsa_animl->nine_month == 0) {
             // code...
             //success notification code
             $url = 'https://fcm.googleapis.com/fcm/send';
-            $title = "New Order Arrived";
-            $message = "New delivery order transfered to you from admin, Please check.";
+            $title = "Delivery State Alert";
+            $message = "Please check delivery state of " . $animal_data[0]->animal_name . " (" . $animal_data[0]->tag_no . ") ";
             $msg2 = array(
               'body' => $message,
               'title' => $title,
-              'fcm_token' => $fcm_token,
               "sound" => "default"
             );
             $fields = array(
               //'to'=>"/topics/all",
-              // 'to' => $user_device_token->device_token,
+              'to' => $fcm_token,
               'notification' => $msg2,
               'priority' => 'high'
             );
             $fields = json_encode($fields);
             $headers = array(
-              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
               'Content-Type: application/json'
             );
             $ch = curl_init();
@@ -2011,12 +2011,20 @@ class ManagementController extends CI_Controller
             // echo $result;
             curl_close($ch);
             //End success notification code
-
             $data_update = array(
               'nine_month' => 1,
             );
             $this->db->where('id', $animal_id);
             $zapak = $this->db->update('tbl_my_animal', $data_update);
+            //--- notification entry
+            $data_insert = array(
+              'farmer_id' => $farmer_id,
+              'name' => $title,
+              'desc' => $message,
+              'added_by' => 'Cron Job',
+              'date' => $cur_date
+            );
+            $last_id = $this->base_model->insert_table("tbl_farmer_notification", $data_insert, 1);
           }
         }
       }
