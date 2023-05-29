@@ -595,7 +595,7 @@ class FeedController extends CI_Controller
                 $bypass_fat = $this->input->post('bypass_fat');
                 $green_fodder = $this->input->post('green_fodder');
                 $dorb = $this->input->post('dorb');
-        //         $milk_return = $this->input->post('milk_return');
+                $milk_return = $this->input->post('milk_return');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                    // $lactation = "Early lactation";
