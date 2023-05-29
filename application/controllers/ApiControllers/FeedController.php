@@ -595,17 +595,17 @@ class FeedController extends CI_Controller
                 $bypass_fat = $this->input->post('bypass_fat');
                 $green_fodder = $this->input->post('green_fodder');
                 $dorb = $this->input->post('dorb');
-                $milk_return = $this->input->post('milk_return');
+        //         $milk_return = $this->input->post('milk_return');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    // $lactation = "Early lactation";
-                    // // $feed_percentage = $this->input->post('feed_percentage');
-                    // $live_weight = 550;
+                   // $lactation = "Early lactation";
+                    // $feed_percentage = $this->input->post('feed_percentage');
+                    // $live_weight =600;
                     // $pregnancy = 0;
                     // $milk_yield_volume = 25;
                     // $milk_yield_fat = 3.5;
                     // $milk_yield_protein = 3;
-                    // $live_weight_gain = 12;
+                    // $live_weight_gain =10;
                     // $maize_gain = 5;
                     // $cotton_cake = 2.5;
                     // $makka_khal = 0;
@@ -648,7 +648,7 @@ class FeedController extends CI_Controller
                         // 'ca' => $ca,
                         // 'pa' => $pa,
                     );
-                    $data['input'] = $input;
+                   $data['input'] = $input;
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/check_my_feed.xlsm';
                     $inputFileName2 = 'assets/excel/check_my_feed.xlsm';
@@ -696,8 +696,8 @@ class FeedController extends CI_Controller
                         die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
-                    $data['farmername']=$farmer_data[0]->name;
-                    // $data['farmername'] = 'Nitesh';
+                   // $data['farmername']=$farmer_data[0]->name;
+                     $data['farmername'] = 'Nitesh';
                     $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
                     // print_r($message);
                     // die();
@@ -718,7 +718,7 @@ class FeedController extends CI_Controller
                         'status' => 201
                     );
                     echo json_encode($res);
-                }
+               }
             } else {
                 $res = array(
                     'message' => validation_errors(),

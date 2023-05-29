@@ -67,6 +67,20 @@
 
                     .info2 {
                         color: #3498db;
+
+                    }
+
+                    .info3 {
+                        <?php
+                        if ($objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() < 173 || $objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() > 193) {
+
+                        ?>color: red;
+                        <?php
+                        } else {
+                        ?>color: #009252;
+                        <?php
+                        }
+                        ?>
                     }
 
                     .success {
@@ -80,9 +94,10 @@
                     .warning {
                         color: #ffc107;
                     }
-                    .ht{
-                       margin-left: 30px;
-                       
+
+                    .ht {
+                        margin-left: 30px;
+
                     }
                 </style>
                 <table>
@@ -94,20 +109,23 @@
                         <tr>
                             <td colspan="3" style="border-right:none">
                                 <img src="<? echo base_url() ?>/assets/logo2.png">
-                              
+
 
                             </td>
                             <td colspan="2" style="border-left:none">
                                 <p><b>Date</b>
-                                <?
-                                 date_default_timezone_set("Asia/Calcutta");
-                                 $cur_date=date("Y-m-d");
-                                ?>
-                                <span class="ht"><? echo $cur_date;?></span></p>
+                                    <?
+                                    date_default_timezone_set("Asia/Calcutta");
+                                    $cur_date = date("Y-m-d");
+                                    ?>
+                                    <span class="ht"><? echo $cur_date; ?></span>
+                                </p>
                                 <p><b>Technician </b><span class="ht">VIPIN SHARMA </span></p>
-                                <p><b>Farmer</b><span class="ht"><?= $farmername;?></span><p>
-                                <p><b>Cow</b><span class="ht">MILKING</span><p>
-                               
+                                <p><b>Farmer</b><span class="ht"><?= $farmername; ?></span>
+                                <p>
+                                <p><b>Cow</b><span class="ht">MILKING</span>
+                                <p>
+
 
                             </td>
                         </tr>
@@ -120,8 +138,8 @@
 
                         </tr>
                     </tbody>
-                    
-                  
+
+
                     <tbody class="labels">
 
                         <tr>
@@ -142,39 +160,40 @@
                             <td>Intake</td>
                         </tr>
                         <tr>
+
                             <td>Pregnancy (mth)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C16')->getFormattedValue() ?></td>
                             <td>Metabolisable Energy (MJ/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() ?></td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H16')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H16')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Milk Volume (kg)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C17')->getFormattedValue() ?></td>
                             <td>Crude protein (kg/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G17')->getFormattedValue() ?></td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H17')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G17')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H17')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Milk fat (%)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C18')->getFormattedValue() ?></td>
                             <td>Calcium (g/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G18')->getFormattedValue() ?></td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H18')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G18')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H18')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Milk protein (%)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C19')->getFormattedValue() ?></td>
                             <td>Phosphorus (g/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G19')->getFormattedValue() ?></td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H19')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G19')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H19')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Live weight gain/loss (kg/d)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C20')->getFormattedValue() ?></td>
                             <td>NDF</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G20')->getFormattedValue() ?></td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H20')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('G20')->getFormattedValue() ?></td>
+                            <td class="info3"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H20')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Stage of lactation</td>
@@ -302,7 +321,7 @@
 
                         </tr>
                         <tr>
-                          
+
                             <td colspan="5"></td>
                         </tr>
                         <tr>
@@ -317,7 +336,7 @@
 
                         </tr>
                         <tr>
-                        <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
+                            <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
                         </tr>
 
 

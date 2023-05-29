@@ -1806,19 +1806,19 @@ class ManagementController extends CI_Controller
 
   public function cron_jobs()
   {
-   
+
 
     $this->db->select('DISTINCT(animal_id)');
     $this->db->from('tbl_animal_cycle');
     //$this->db->where('id',$usr);
     $data_anmlcycle = $this->db->get();
 
-   
+
 
     foreach ($data_anmlcycle->result() as $data) {
 
-     
-      $animal_id=$data->animal_id;
+
+      $animal_id = $data->animal_id;
 
       $this->db->select('*');
       $this->db->from('tbl_my_animal');
@@ -1827,32 +1827,197 @@ class ManagementController extends CI_Controller
       $dsa_animl = $this->db->get()->row();
 
       $calving_date = $dsa_animl->calving_date;
-      echo $calving_date;echo "<br>";
+      $farmer_id = $dsa_animl->farmer_id;
+      //fcm_token
+      $this->db->select('*');
+      $this->db->from('tbl_farmers');
+      $this->db->where('id', $farmer_id);
+      $dsa_farmer = $this->db->get()->row();
+      if (!empty($dsa_farmer->fcm_token)) {
+
+        $fcm_token = $dsa_farmer->fcm_token;
+
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
 
 
-      date_default_timezone_set("Asia/Calcutta");
-      $cur_date = date("Y-m-d H:i:s");
-
-      // $two_month = date('d-m-Y', strtotime("-60 day"));
-      // $seven_month = date('d-m-Y', strtotime("-210 day"));
-      // $nine_month = date('d-m-Y', strtotime("-270 day"));
-
-   
-     $two_month= date('Y-m-d', strtotime($calving_date . ' +60 days'));
-      $seven_month=date('Y-m-d', strtotime($calving_date . ' + 210 days'));
-      $nine_month=date('Y-m-d', strtotime($calving_date . ' + 270 days'));
-
-     
 
 
-      if (($two_month <= $cur_date) && ($two_month >= $calving_date)) {
-        if ($dsa_animl->two_month == 0) {
-        }
-      } else if (($seven_month <= $calving_date) && ($cur_date >= $calving_date)) {
-        if ($dsa_animl->seven_month == 0) {
-        }
-      } else if (($nine_month <= $calving_date) && ($cur_date >= $calving_date)) {
-        if ($dsa_animl->nine_month == 0) {
+        $twentyone_days = date('Y-m-d', strtotime($calving_date . ' +21 days'));
+        $two_month = date('Y-m-d', strtotime($calving_date . ' +60 days'));
+        $seven_month = date('Y-m-d', strtotime($calving_date . ' + 210 days'));
+        $nine_month = date('Y-m-d', strtotime($calving_date . ' + 270 days'));
+
+
+
+        if (($twentyone_days <= $cur_date) && ($twentyone_days >= $calving_date)) {
+          if ($dsa_animl->twentyone_days == 0) {
+            // code...
+            //success notification code
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $title = "New Order Arrived";
+            $message = "New delivery order transfered to you from admin, Please check.";
+            $msg2 = array(
+              'body' => $message,
+              'title' => $title,
+              'fcm_token' => $fcm_token,
+              "sound" => "default"
+            );
+            $fields = array(
+              //'to'=>"/topics/all",
+              // 'to' => $user_device_token->device_token,
+              'notification' => $msg2,
+              'priority' => 'high'
+            );
+            $fields = json_encode($fields);
+            $headers = array(
+              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Content-Type: application/json'
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            $result = curl_exec($ch);
+            // echo $fields;
+            // echo $result;
+            curl_close($ch);
+            //End success notification code
+
+            $data_update = array(
+              'twentyone_days' => 1,
+            );
+            $this->db->where('id', $animal_id);
+            $zapak = $this->db->update('tbl_my_animal', $data_update);
+          }
+        } else if (($two_month <= $cur_date) && ($two_month >= $calving_date)) {
+          if ($dsa_animl->two_month == 0) {
+            // code...
+            //success notification code
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $title = "New Order Arrived";
+            $message = "New delivery order transfered to you from admin, Please check.";
+            $msg2 = array(
+              'body' => $message,
+              'title' => $title,
+              'fcm_token' => $fcm_token,
+              "sound" => "default"
+            );
+            $fields = array(
+              //'to'=>"/topics/all",
+              // 'to' => $user_device_token->device_token,
+              'notification' => $msg2,
+              'priority' => 'high'
+            );
+            $fields = json_encode($fields);
+            $headers = array(
+              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Content-Type: application/json'
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            $result = curl_exec($ch);
+            // echo $fields;
+            // echo $result;
+            curl_close($ch);
+            //End success notification code
+
+            $data_update = array(
+              'twentyone_days' => 1,
+            );
+            $this->db->where('id', $animal_id);
+            $zapak = $this->db->update('two_month', $data_update);
+          }
+        } else if (($seven_month <= $cur_date) && ($seven_month >= $calving_date)) {
+          if ($dsa_animl->seven_month == 0) {
+            // code...
+            //success notification code
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $title = "New Order Arrived";
+            $message = "New delivery order transfered to you from admin, Please check.";
+            $msg2 = array(
+              'body' => $message,
+              'title' => $title,
+              'fcm_token' => $fcm_token,
+              "sound" => "default"
+            );
+            $fields = array(
+              //'to'=>"/topics/all",
+              // 'to' => $user_device_token->device_token,
+              'notification' => $msg2,
+              'priority' => 'high'
+            );
+            $fields = json_encode($fields);
+            $headers = array(
+              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Content-Type: application/json'
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            $result = curl_exec($ch);
+            // echo $fields;
+            // echo $result;
+            curl_close($ch);
+            //End success notification code
+
+            $data_update = array(
+              'seven_month' => 1,
+            );
+            $this->db->where('id', $animal_id);
+            $zapak = $this->db->update('tbl_my_animal', $data_update);
+          }
+        } else if (($nine_month <= $cur_date) && ($nine_month >= $calving_date)) {
+          if ($dsa_animl->nine_month == 0) {
+            // code...
+            //success notification code
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $title = "New Order Arrived";
+            $message = "New delivery order transfered to you from admin, Please check.";
+            $msg2 = array(
+              'body' => $message,
+              'title' => $title,
+              'fcm_token' => $fcm_token,
+              "sound" => "default"
+            );
+            $fields = array(
+              //'to'=>"/topics/all",
+              // 'to' => $user_device_token->device_token,
+              'notification' => $msg2,
+              'priority' => 'high'
+            );
+            $fields = json_encode($fields);
+            $headers = array(
+              'Authorization: key=' . "AAAAWlT0RSA:APA91bHgSPLXkn_RDZ7C3KcGChZKEVM-J9DLMya1exCG1Dbd1cQtG3nKVG4jxFhhrad_7aWOvbRblCbC9KLcMuzkxkquBlKUwcfnVaNZZkA_l7k1md9j9gazWGQfWJ_S1-j_--5870RS",
+              'Content-Type: application/json'
+            );
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+            $result = curl_exec($ch);
+            // echo $fields;
+            // echo $result;
+            curl_close($ch);
+            //End success notification code
+
+            $data_update = array(
+              'nine_month' => 1,
+            );
+            $this->db->where('id', $animal_id);
+            $zapak = $this->db->update('tbl_my_animal', $data_update);
+          }
         }
       }
     }
