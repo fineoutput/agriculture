@@ -765,7 +765,7 @@ class FarmerController extends CI_Controller
                         // echo $user_device_tokens->device_token;
                         //success notification code
                         $url = 'https://fcm.googleapis.com/fcm/send';
-                        $title = "New Request";
+                        $title = "New Order";
                         $message = "New order #" . $order_id . "  received with the  amount of  ₹" . $order1_data[0]->final_amount;
                         $msg2 = array(
                             'title' => $title,

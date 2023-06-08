@@ -12,6 +12,27 @@ class Admin_orders extends CI_finecontrol
         $this->load->model("admin/base_model");
         $this->load->library('user_agent');
     }
+     //==============================all_order=========================\\
+     public function all_order()
+     {
+         if (!empty($this->session->userdata('admin_data'))) {
+             $data['user_name'] = $this->load->get_var('user_name');
+             $this->db->select('*');
+             $this->db->from('tbl_order1');
+             $this->db->where('payment_status', 1);
+             $this->db->order_by('id', 'desc');
+            
+             $this->db->where('is_admin', 1); //admin orders
+             $data['order1_data'] = $this->db->get();
+             $data['heading'] = "New";
+             $data['order_type'] = 1;
+             $this->load->view('admin/common/header_view', $data);
+             $this->load->view('admin/order/view_order');
+             $this->load->view('admin/common/footer_view');
+         } else {
+             redirect("login/admin_login", "refresh");
+         }
+     }
     //==============================new_order=========================\\
     public function new_order()
     {

@@ -12,8 +12,9 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12">
-
-                <div class="panel panel-default">
+    
+              
+                    
                     <div class="panel-heading">
                         <h3>
                             <?
@@ -32,6 +33,26 @@
                         </h3>
                     </div>
                     <div class="panel panel-default">
+                    <div class="panel panel-default">
+                <div class="panel-body">
+              <form action="<?php echo base_url() ?>dcadmin/Farmers/view_dailyrecords/<?=$farmer_id; ?>" method="get" id="slide_frm" enctype="multipart/form-data">
+              <div style="display:flex;justify-content: flex-end">
+                <div style="display:flex">
+                  <label>Start Date</label>
+                  <input type="date" name="start_date" class="form-control" placeholder=""  required  style="width:60%" value="" />
+                </div>
+                <div style="display:flex">
+                  <label>End Date</label>
+                  <input type="date" name="end_date" class="form-control" placeholder="" required  value="" style="width:60%" />
+                </div>
+                <!-- <div style="display:flex">
+                  <label>Order ID</label>
+                  <input type="type" name="order_id" class="form-control" placeholder=""  style="width:60%" value="" />
+                </div> -->
+                <input type="submit" class="btn btn-success" value="save">
+              </div>
+            </form>
+              <hr />
 
                         <? if (!empty($this->session->flashdata('smessage'))) { ?>
                             <div class="alert alert-success alert-dismissible">
@@ -65,16 +86,40 @@
                                     <tbody>
                                        
                                     <?
-                                    if(!empty($data_daily_records)){
+                                    foreach($data_daily_records->result() as $data){
+                                        
                                     ?>
                                             <tr>
                                               
 
-                                                <td><?php echo $data_daily_records->entry_id; ?> </td>
-                                                <td><?php echo $data_daily_records->record_date; ?> </td>
+                                                <td><?php echo $data->entry_id; ?> </td>
+                                               
+                                                <td><? if(!empty($data->entry_id)) {
+
+                                                        $this->db->select('*');
+                                                                    $this->db->from('tbl_daily_records');
+                                                                    $this->db->where('entry_id',$data->entry_id);
+                                                                    $dsa_dr= $this->db->get()->row();
+                                                                    if(!empty($dsa_dr)){
+                                                                        echo $dsa_dr->record_date;
+                                                                    }
+                                                                    
+
+                                                    } ?></td>
                                                 
 
-                                                <td><?php echo $data_daily_records->date; ?> </td>
+                                                <td><? if(!empty($data->entry_id)) {
+
+$this->db->select('*');
+            $this->db->from('tbl_daily_records');
+            $this->db->where('entry_id',$data->entry_id);
+            $dsa_dr= $this->db->get()->row();
+            if(!empty($dsa_dr)){
+                echo $dsa_dr->date;
+            }
+            
+
+} ?></td>
 
                                                 
                                                 <td>
@@ -83,7 +128,7 @@
                                            
                                             
                                            
-                                            <a class="btn btn-primary btn-sm" href="<?php echo base_url() ?>dcadmin/Farmers/view_detailsdr/<?php echo $farmer_id ?>">View Details</a>
+                                            <a class="btn btn-primary btn-sm" href="<?php echo base_url() ?>dcadmin/Farmers/view_detailsdr/<?php echo $farmer_id ?>/<?=$data->entry_id;?>">View Details</a>
                                             
                                            
                                             </div>

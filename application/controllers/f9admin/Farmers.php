@@ -262,89 +262,89 @@ class Farmers extends CI_finecontrol
         }
     }
 
-     //****************************view Farmers records Function**************************************
-     public function viewrecords($idd)
-     {
-         if (!empty($this->session->userdata('admin_data'))) {
-             $data['user_name'] = $this->load->get_var('user_name');
+    //****************************view Farmers records Function**************************************
+    public function viewrecords($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
 
-            $id=base64_decode($idd);
-            $data['farmer_id']=$idd;
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
 
             //HEALTH INFO
             $this->db->select('*');
             $this->db->from('tbl_health_info');
-            $this->db->where('farmer_id',$id);
-            $data['health_info']= $this->db->count_all_results();
+            $this->db->where('farmer_id', $id);
+            $data['health_info'] = $this->db->count_all_results();
 
-             //BREEDING RECORDS
-             $this->db->select('*');
-             $this->db->from('tbl_breeding_record');
-             $this->db->where('farmer_id',$id);
-             $data['breeding_record']= $this->db->count_all_results();
+            //BREEDING RECORDS
+            $this->db->select('*');
+            $this->db->from('tbl_breeding_record');
+            $this->db->where('farmer_id', $id);
+            $data['breeding_record'] = $this->db->count_all_results();
 
-               //DAILY RECORDS
-             $this->db->select('*');
-             $this->db->from('tbl_daily_records');
-             $this->db->where('farmer_id',$id);
-             $data['daily_records']= $this->db->count_all_results();
+            //DAILY RECORDS
+            $this->db->select('*');
+            $this->db->from('tbl_daily_records');
+            $this->db->where('farmer_id', $id);
+            $data['daily_records'] = $this->db->count_all_results();
 
-               //MILK RECORDS
-               $this->db->select('*');
-               $this->db->from('tbl_milk_records');
-               $this->db->where('farmer_id',$id);
-               $data['milk_records']= $this->db->count_all_results();
+            //MILK RECORDS
+            $this->db->select('*');
+            $this->db->from('tbl_milk_records');
+            $this->db->where('farmer_id', $id);
+            $data['milk_records'] = $this->db->count_all_results();
 
-              //MEDICAL EXPENSES
-              $this->db->select('*');
-              $this->db->from('tbl_medical_expenses');
-              $this->db->where('farmer_id',$id);
-              $data['medical_expenses']= $this->db->count_all_results();
-
-
-               //VIEW/SALE PURCHASE LIST
-               $this->db->select('*');
-               $this->db->from('tbl_sale_purchase');
-               $this->db->where('farmer_id',$id);
-               $data['sale_purchase']= $this->db->count_all_results();
-
-               //STOCK LIST
-               $this->db->select('*');
-               $this->db->from('tbl_stock_handling');
-               $this->db->where('farmer_id',$id);
-               $data['stock_handling']= $this->db->count_all_results();
+            //MEDICAL EXPENSES
+            $this->db->select('*');
+            $this->db->from('tbl_medical_expenses');
+            $this->db->where('farmer_id', $id);
+            $data['medical_expenses'] = $this->db->count_all_results();
 
 
-               //SEMAN TANK
-               $this->db->select('*');
-               $this->db->from('tbl_tank');
-               $this->db->where('farmer_id',$id);
-               $data['tank']= $this->db->count_all_results();
+            //VIEW/SALE PURCHASE LIST
+            $this->db->select('*');
+            $this->db->from('tbl_sale_purchase');
+            $this->db->where('farmer_id', $id);
+            $data['sale_purchase'] = $this->db->count_all_results();
+
+            //STOCK LIST
+            $this->db->select('*');
+            $this->db->from('tbl_stock_handling');
+            $this->db->where('farmer_id', $id);
+            $data['stock_handling'] = $this->db->count_all_results();
+
+
+            //SEMAN TANK
+            $this->db->select('*');
+            $this->db->from('tbl_tank');
+            $this->db->where('farmer_id', $id);
+            $data['tank'] = $this->db->count_all_results();
 
 
 
-             
-             $this->load->view('admin/common/header_view', $data);
-             $this->load->view('admin/farmers/viewrecords');
-             $this->load->view('admin/common/footer_view');
-         } else {
-             redirect("login/admin_login", "refresh");
-         }
-     }
 
-      //****************************view Farmers HEALTH INFO Function**************************************
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/viewrecords');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers HEALTH INFO Function**************************************
     public function view_healthinfo($idd)
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
-           
-            $id=base64_decode($idd);
-            $data['farmer_id']=$idd;
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
 
             $this->db->select('*');
             $this->db->from('tbl_health_info');
-            $this->db->where('farmer_id',$id);
-            $data['data_health_info']= $this->db->get();
+            $this->db->where('farmer_id', $id);
+            $data['data_health_info'] = $this->db->get();
 
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/farmers/view_healthinfo');
@@ -359,14 +359,14 @@ class Farmers extends CI_finecontrol
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
-           
-            $id=base64_decode($idd);
-            $data['farmer_id']=$idd;
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
 
             $this->db->select('*');
             $this->db->from('tbl_breeding_record');
-            $this->db->where('farmer_id',$id);
-            $data['data_breeding_record']= $this->db->get();
+            $this->db->where('farmer_id', $id);
+            $data['data_breeding_record'] = $this->db->get();
 
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/farmers/view_breedingrecord');
@@ -379,21 +379,50 @@ class Farmers extends CI_finecontrol
     //****************************view Farmers Daily RECORDS Function**************************************
     public function view_dailyrecords($idd)
     {
+
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
-           
-            $id=base64_decode($idd);
-            $data['farmer_id']=$idd;
 
-            $this->db->select('*');
-            $this->db->from('tbl_daily_records');
-            $this->db->where('farmer_id',$id);
-            $data_daily_records= $this->db->get()->row();
-            if(!empty($data_daily_records))
-            {
-                $data['data_daily_records']= $data_daily_records;
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
+
+            $para = $this->input->get(); // get parameters
+
+
+
+            if (!empty($para)) {
+
+                $start_date = $para['start_date'];
+                $end_date = $para['end_date'];
+
+
+
+                $newdate = new DateTime($start_date);
+                $s_date = $newdate->format('d-m-y');
+                $newdate2 = new DateTime($end_date);
+                $e_date = $newdate2->format('d-m-y');
+              
+
+                $this->db->select('DISTINCT(entry_id)');
+                $this->db->from('tbl_daily_records');
+                $this->db->where(' record_date >= date("' . $start_date . '")');
+                $this->db->where('record_date <= date("' . $end_date . '")');
+             
+                $this->db->where('farmer_id', $id);
+                $this->db->where('entry_id !=', 0);
+                $data['data_daily_records'] = $this->db->get();
+            } else {
+                $this->db->select('DISTINCT(entry_id)');
+                $this->db->from('tbl_daily_records');
+                $this->db->where('farmer_id', $id);
+                $this->db->where('entry_id !=', 0);
+                $data['data_daily_records'] = $this->db->get();
             }
-           
+
+
+
+
+
 
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/farmers/view_dailyrecords');
@@ -403,21 +432,25 @@ class Farmers extends CI_finecontrol
         }
     }
     //****************************view Farmers Daily RECORDS Details Function**************************************
-    public function view_detailsdr($idd)
+    public function view_detailsdr($idd, $eid)
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
-           
-            $id=base64_decode($idd);
-          
-            $data['farmer_id']=$idd;
+
+            $id = base64_decode($idd);
+
+            $data['farmer_id'] = $idd;
+
+            $eids = base64_decode($eid);
+
+
 
             $this->db->select('*');
             $this->db->from('tbl_daily_records');
-            $this->db->where('farmer_id',$id);
-          
+            $this->db->where('entry_id', $eids);
 
-            $data['data_daily_records']= $this->db->get();
+
+            $data['data_daily_records'] = $this->db->get();
 
 
 
@@ -434,14 +467,14 @@ class Farmers extends CI_finecontrol
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
-           
-            $id=base64_decode($idd);
-            $data['farmer_id']=$idd;
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
 
             $this->db->select('*');
             $this->db->from('tbl_milk_records');
-            $this->db->where('farmer_id',$id);
-            $data['data_milk_records']= $this->db->get();
+            $this->db->where('farmer_id', $id);
+            $data['data_milk_records'] = $this->db->get();
 
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/farmers/view_milkrecords');
@@ -451,91 +484,91 @@ class Farmers extends CI_finecontrol
         }
     }
 
-     //****************************view Farmers Medical Expenses Function**************************************
-     public function view_medicalexpenses($idd)
-     {
-         if (!empty($this->session->userdata('admin_data'))) {
-             $data['user_name'] = $this->load->get_var('user_name');
-            
-             $id=base64_decode($idd);
-             $data['farmer_id']=$idd;
- 
-             $this->db->select('*');
-             $this->db->from('tbl_medical_expenses');
-             $this->db->where('farmer_id',$id);
-             $data['data_medical_expenses']= $this->db->get();
- 
-             $this->load->view('admin/common/header_view', $data);
-             $this->load->view('admin/farmers/view_medicalexpenses');
-             $this->load->view('admin/common/footer_view');
-         } else {
-             redirect("login/admin_login", "refresh");
-         }
-     }
+    //****************************view Farmers Medical Expenses Function**************************************
+    public function view_medicalexpenses($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
 
-     //****************************view Farmers Sale Purchase Function**************************************
-     public function view_salepurchase($idd)
-     {
-         if (!empty($this->session->userdata('admin_data'))) {
-             $data['user_name'] = $this->load->get_var('user_name');
-            
-             $id=base64_decode($idd);
-             $data['farmer_id']=$idd;
- 
-             $this->db->select('*');
-             $this->db->from('tbl_sale_purchase');
-             $this->db->where('farmer_id',$id);
-             $data['data_sale_purchase']= $this->db->get();
- 
-             $this->load->view('admin/common/header_view', $data);
-             $this->load->view('admin/farmers/view_salepurchase');
-             $this->load->view('admin/common/footer_view');
-         } else {
-             redirect("login/admin_login", "refresh");
-         }
-     }
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
 
-     //****************************view Farmers stock list Function**************************************
-     public function view_stockhandling($idd)
-     {
-         if (!empty($this->session->userdata('admin_data'))) {
-             $data['user_name'] = $this->load->get_var('user_name');
-            
-             $id=base64_decode($idd);
-             $data['farmer_id']=$idd;
- 
-             $this->db->select('*');
-             $this->db->from('tbl_stock_handling');
-             $this->db->where('farmer_id',$id);
-             $data['data_stock_handling']= $this->db->get();
- 
-             $this->load->view('admin/common/header_view', $data);
-             $this->load->view('admin/farmers/view_stockhandling');
-             $this->load->view('admin/common/footer_view');
-         } else {
-             redirect("login/admin_login", "refresh");
-         }
-     }
+            $this->db->select('*');
+            $this->db->from('tbl_medical_expenses');
+            $this->db->where('farmer_id', $id);
+            $data['data_medical_expenses'] = $this->db->get();
 
-     //****************************view Farmers Seman Tank  Function**************************************
-     public function view_tank($idd)
-     {
-         if (!empty($this->session->userdata('admin_data'))) {
-             $data['user_name'] = $this->load->get_var('user_name');
-            
-             $id=base64_decode($idd);
-             $data['farmer_id']=$idd;
- 
-             $this->db->select('*');
-             $this->db->from('tbl_tank');
-             $this->db->where('farmer_id',$id);
-             $data['data_tank']= $this->db->get();
- 
-             $this->load->view('admin/common/header_view', $data);
-             $this->load->view('admin/farmers/view_tank');
-             $this->load->view('admin/common/footer_view');
-         } else {
-             redirect("login/admin_login", "refresh");
-         }
-     }
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_medicalexpenses');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers Sale Purchase Function**************************************
+    public function view_salepurchase($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_sale_purchase');
+            $this->db->where('farmer_id', $id);
+            $data['data_sale_purchase'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_salepurchase');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers stock list Function**************************************
+    public function view_stockhandling($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_stock_handling');
+            $this->db->where('farmer_id', $id);
+            $data['data_stock_handling'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_stockhandling');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //****************************view Farmers Seman Tank  Function**************************************
+    public function view_tank($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $id = base64_decode($idd);
+            $data['farmer_id'] = $idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_tank');
+            $this->db->where('farmer_id', $id);
+            $data['data_tank'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_tank');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
 }
