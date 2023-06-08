@@ -381,12 +381,13 @@ class ToolsController extends CI_Controller
                         }
                     } else {
                         if (empty($search)) {
-                            $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_admin' => 0, 'added_by' => $vendor_id));
+                            $count = $this->db->get_where('tbl_products', array('is_active' => 1,'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1,'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id));
                         } else {
                             $this->db->select('*');
                             $this->db->from('tbl_products');
                             $this->db->where('is_active', 1);
+                            $this->db->where('is_approved', 1);
                             $this->db->where('is_admin', 0);
                             $this->db->where('added_by', $vendor_id);
                             $this->db->where("(name_english LIKE '%" . $search . "%' OR name_hindi LIKE '%" . $search . "%' OR name_punjabi LIKE '%" . $search . "%')", NULL, FALSE);
@@ -394,6 +395,7 @@ class ToolsController extends CI_Controller
                             $this->db->select('*');
                             $this->db->from('tbl_products');
                             $this->db->where('is_active', 1);
+                            $this->db->where('is_approved', 1);
                             $this->db->where('is_admin', 0);
                             $this->db->where('added_by', $vendor_id);
                             $this->db->limit($limit, $start);
