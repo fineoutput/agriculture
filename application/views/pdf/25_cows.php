@@ -1461,11 +1461,11 @@
                         </tr>
                         <tr>
                             <td>% Of Required Fodder Grown</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('B183')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C183')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D183')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E183')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F183')->getFormattedValue() ?>%</td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('B183')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C183')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D183')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E183')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F183')->getFormattedValue() ?></td>
                             <td class="warning1"></td>
                         </tr>
                         <tr>
