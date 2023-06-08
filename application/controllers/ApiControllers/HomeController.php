@@ -396,8 +396,8 @@ class HomeController extends CI_Controller
         } else {
             $fcm_token = '';
         }
-        if (array_key_exists("language", $headers)) {
-            $language = $headers['language'];
+        if (array_key_exists("Lang", $headers)) {
+            $language = $headers['Lang'];
         } else {
             $language = 'en';
         }
