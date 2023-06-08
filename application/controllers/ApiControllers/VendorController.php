@@ -110,8 +110,8 @@ class VendorController extends CI_Controller
                     }
                     $data[] = array(
                         'id' => $order->id,
-                        'farmer_name' => $farData[0]->name,
-                        'farmer_phone' => $farData[0]->phone,
+                        'farmer_name' => $order->name,
+                        'farmer_phone' => $order->phone,
                         'charges' => $order->charges,
                         'total_amount' => $order->total_amount,
                         'final_amount' => $order->final_amount,
