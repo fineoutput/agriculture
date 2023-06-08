@@ -70,7 +70,7 @@ class VendorController extends CI_Controller
             if (!empty($OrderData)) {
                 foreach ($OrderData->result() as $order) {
                     $farData = $this->db->get_where('tbl_farmers', array('id' => $order->farmer_id))->result();
-                    $pro_count = $this->db->get_where('tbl_order2', array('id' => $order->id))->num_rows();
+                    $pro_count = $this->db->get_where('tbl_order2', array('main_id' => $order->id))->num_rows();
                     $newDate = new DateTime($order->date);
                     if ($order->order_status == 1) {
                         $status = 'Pending';
