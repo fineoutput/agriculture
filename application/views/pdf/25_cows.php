@@ -174,7 +174,7 @@
                         </tr>
                         <tr>
                             <td>a) Owners Capital (Rs)</td>
-                            <td class="tr1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C13')->getOldCalculatedValue() ?></td>
+                            <td class="tr1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C13')->getFormattedValue() ?></td>
                             <td class="tr1"></td>
                             <td class="tr1"></td>
                             <td class="tr1"></td>
@@ -285,12 +285,12 @@
                         </tr>
                         <tr>
                             <td>Inter Calving Period Months</td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C24')->getFormattedValue() ?></td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D24')->getFormattedValue() ?></td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E24')->getFormattedValue() ?></td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F24')->getFormattedValue() ?></td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('G24')->getFormattedValue() ?></td>
-                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('H24')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C25')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D25')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E25')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F25')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('G25')->getFormattedValue() ?></td>
+                            <td class="secondary1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('H25')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td colspan="7"></td>
@@ -513,12 +513,12 @@
                         </tr>
                         <tr>
                             <td>Total Lactating Heifers Less Mortality </td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C55')->getFormattedValue() ?></td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D55')->getFormattedValue() ?></td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E55')->getFormattedValue() ?></td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F55')->getFormattedValue() ?></td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('G55')->getFormattedValue() ?></td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('H55')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C56')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D56')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E56')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F56')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('G56')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('H56')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td>Total Growing Calves(Above 1 Year) Mortality</td>
@@ -556,7 +556,6 @@
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C62')->getFormattedValue() ?></td>
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D62')->getFormattedValue() ?></td>
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E62')->getFormattedValue() ?></td>
-                            <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F62')->getFormattedValue() ?></td>
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F62')->getFormattedValue() ?></td>
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('G62')->getFormattedValue() ?></td>
                             <td class="info1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('H62')->getFormattedValue() ?></td>
@@ -1489,11 +1488,11 @@
                         </tr>
                         <tr>
                             <td>Silage Feeding Of Purchased Fodder</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('B186')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C186')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D186')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E186')->getFormattedValue() ?>%</td>
-                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F186')->getFormattedValue() ?>%</td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('B186')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('C186')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('D186')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('E186')->getFormattedValue() ?></td>
+                            <td class="warning1"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F186')->getFormattedValue() ?></td>
                             <td class="warning1"></td>
                         </tr>
                         <tr>
