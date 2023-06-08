@@ -106,6 +106,9 @@
                             <div class="btn-group">
                               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action <span class="caret"></span></button>
                               <ul class="dropdown-menu" role="menu">
+                                <?php if ($data->is_admin == 0 && $data->is_approved == 0) { ?>
+                                  <li><a href="<?php echo base_url() ?>dcadmin/Products/approvedProduct/<?php echo base64_encode($data->id) ?>">Approved</a></li>
+                                <?php    }   ?>
                                 <?php if ($data->is_active == 1) { ?>
                                   <li><a href="<?php echo base_url() ?>dcadmin/Products/updateProductsStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
                                 <?php } else { ?>

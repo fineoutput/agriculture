@@ -172,8 +172,8 @@ class Products extends CI_finecontrol
                             'selling_price_wo_gst' => $selling_price_wo_gst,
                             'inventory' => $inventory,
                             'suffix' => $suffix,
-                            'tranding_products'=>$tranding_products,
-                            'offer'=>$offer,
+                            'tranding_products' => $tranding_products,
+                            'offer' => $offer,
                             'ip' => $ip,
                             'added_by' => $addedby,
                             'is_active' => 1,
@@ -203,8 +203,8 @@ class Products extends CI_finecontrol
                             'selling_price_wo_gst' => $selling_price_wo_gst,
                             'inventory' => $inventory,
                             'suffix' => $suffix,
-                            'tranding_products'=>$tranding_products,
-                            'offer'=>$offer
+                            'tranding_products' => $tranding_products,
+                            'offer' => $offer
                         );
                         $this->db->where('id', $idw);
                         $last_id = $this->db->update('tbl_products', $data_insert);
@@ -306,6 +306,32 @@ class Products extends CI_finecontrol
                     // exit;
                     $this->load->view('errors/error500admin', $data);
                 }
+            }
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
+    public function approvedProduct($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            // echo SITE_NAME;
+            // echo $this->session->userdata('image');
+            // echo $this->session->userdata('position');
+            // exit;
+            $id = base64_decode($idd);
+            $data_update = array(
+                'is_approved' => 1
+            );
+            $this->db->where('id', $id);
+            $zapak = $this->db->update('tbl_products', $data_update);
+            if ($zapak != 0) {
+                $this->session->set_flashdata('smessage', 'Product approved successfully');
+                redirect("dcadmin/Products/View_products", "refresh");
+            } else {
+                $data['e'] = "Error Occured";
+                // exit;
+                $this->load->view('errors/error500admin', $data);
             }
         } else {
             $this->load->view('admin/login/index');
