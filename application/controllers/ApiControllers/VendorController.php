@@ -895,7 +895,7 @@ class VendorController extends CI_Controller
                 }
                 if ($pro->is_active == 0) {
                     $status = 'Inactive';
-                    $bg_color = '#65bcd7';
+                    $bg_color = '#ffc30e';
                 } else {
                     $status = 'Active';
                     $bg_color = '#139c49';
