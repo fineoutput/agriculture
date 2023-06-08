@@ -480,7 +480,7 @@ class FeedController extends CI_Controller
                         die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME) . '": ' . $e->getMessage());
                     }
                     //  Get worksheet dimensions
-                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group == 'Bos taurus' ? 'Cow' : 'Buffalo');
+                    $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F21', $group);
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F22', $feeding_system);
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F23', $weight);
                     $objPHPExcel1->setActiveSheetIndex(0)->setCellValue('F24', $milk_production);
