@@ -845,8 +845,6 @@ class VendorController extends CI_Controller
         $authentication = $headers['Authentication'];
         $page_index = $headers['Index'];
         $search = $this->input->get('search');
-        echo json_encode($search);
-        die();
         $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($vendor_data)) {
