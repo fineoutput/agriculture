@@ -41,6 +41,8 @@
                                             <th>#</th>
                                             <th>Name</th>
                                             <th>Image</th>
+                                            <th>Image Hindi</th>
+                                            <th>Image Punjabi</th>
                                            
                                             <th>Edit</th>
                                         </tr>
@@ -54,6 +56,20 @@
                                                 <td>
                                                     <?php if ($data->image != "") {  ?>
                                                         <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image ?>">
+                                                    <?php } else {  ?>
+                                                        Sorry No image Found
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($data->image_hindi != "") {  ?>
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image_hindi ?>">
+                                                    <?php } else {  ?>
+                                                        Sorry No image Found
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($data->image_punjabi != "") {  ?>
+                                                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image_punjabi ?>">
                                                     <?php } else {  ?>
                                                         Sorry No image Found
                                                     <?php } ?>

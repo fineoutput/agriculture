@@ -33,16 +33,24 @@
                         <? } ?>
                         <div class="panel-body">
                             <div class="box-body table-responsive no-padding">
-                                <table class="table table-bordered table-hover table-striped">
+                                <table class="table table-bordered table-hover table-striped" id="dataTable">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <? if ($title == 'Vendor') { ?>
                                                 <th>Vendor Name</th>
                                                 <th>Vendor Number</th>
+                                                <th>Vendor Bank Name</th>
+                                                <th>Vendor Account No</th>
+                                                <th>Vendor Ifsc</th>
+                                                <th>Vendor Bank Phone</th>
                                             <? } else { ?>
                                                 <th>Doctor Name</th>
                                                 <th>Doctor Number</th>
+                                                <th>Doctor Bank Name</th>
+                                                <th>Doctor Account No</th>
+                                                <th>Doctor Ifsc</th>
+                                                <th>Doctor Bank Phone</th>
                                             <? } ?>
                                             <th>Available</th>
                                             <th>Amount</th>
@@ -63,6 +71,10 @@
                                                 <td><?php echo $i ?> </td>
                                                 <td><?php echo $UData[0]->name ?> </td>
                                                 <td><?php echo $UData[0]->phone ?> </td>
+                                                <td><?php echo $UData[0]->bank_name ?> </td>
+                                                <td><?php echo $UData[0]->bank_ac ?> </td>
+                                                <td><?php echo $UData[0]->ifsc ?> </td>
+                                                <td><?php echo $UData[0]->bank_phone ?> </td>
                                                 <td>₹<?php echo $data->available ?></td>
                                                 <td>₹<?php echo $data->amount ?></td>
                                                 <td><?php echo $data->date ?></td>
@@ -104,27 +116,77 @@
         margin: 5px;
     }
 </style>
+<!-- //===========================order excel====================================\\ -->
 <script src="<?php echo base_url() ?>assets/admin/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?php echo base_url() ?>assets/admin/plugins/datatables/dataTables.bootstrap.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#userTable').DataTable({
-            responsive: true,
-            // bSort: true
-        });
-        $(document.body).on('click', '.dCnf', function() {
-            var i = $(this).attr("mydata");
-            console.log(i);
-            $("#btns" + i).hide();
-            $("#cnfbox" + i).show();
-        });
-        $(document.body).on('click', '.cans', function() {
-            var i = $(this).attr("mydatas");
-            console.log(i);
-            $("#btns" + i).show();
-            $("#cnfbox" + i).hide();
-        })
+  // buttons: [
+  //     'copy', 'csv', 'excel', 'pdf', 'print'
+  // ]
+  $(document).ready(function() {
+    $('#dataTable').DataTable({
+      responsive: true,
+      "bStateSave": true,
+      "fnStateSave": function(oSettings, oData) {
+        localStorage.setItem('offersDataTables', JSON.stringify(oData));
+      },
+      "fnStateLoad": function(oSettings) {
+        return JSON.parse(localStorage.getItem('offersDataTables'));
+      },
+      dom: 'Bfrtip',
+      buttons: [{
+          extend: 'copyHtml5',
+          exportOptions: {
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10] //number of columns, excluding # column
+          }
+        },
+        {
+          extend: 'csvHtml5',
+          exportOptions: {
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          exportOptions: {
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          exportOptions: {
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
+          }
+        },
+        {
+          extend: 'print',
+          exportOptions: {
+            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
+          }
+        },
+      ]
     });
+    $(document.body).on('click', '.dCnf', function() {
+      var i = $(this).attr("mydata");
+      console.log(i);
+      $("#btns" + i).hide();
+      $("#cnfbox" + i).show();
+    });
+    $(document.body).on('click', '.cans', function() {
+      var i = $(this).attr("mydatas");
+      console.log(i);
+      $("#btns" + i).show();
+      $("#cnfbox" + i).hide();
+    })
+  });
 </script>
 <!-- <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/rs.js"></script>	  -->

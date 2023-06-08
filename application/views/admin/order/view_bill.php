@@ -17,7 +17,7 @@
   <div class="container main_container">
     <div class="row">
       <div class="col-sm-6 oswal_logo">
-        <img src="<?= base_url() ?>assets/bill_logo.png" class="img-fluid" alt="Logo">
+        <img src="<?= base_url() ?>assets/logo2.png" class="img-fluid" alt="Logo">
       </div>
       <div class="col-sm-6 content_part">Tax Invoice/Bill of Supply/Cash Memo
         <p>(Original for Recipient)</p>
@@ -26,10 +26,10 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6"><span class="font-weight-bold ">Sold By</span><br>
-          <span class="seller_details">Dairy Muneem <br>
-            Rajasthan<br>India
-            <br><br>
-            www.DairyMuneem.com<br></span>
+          <span class="seller_details">Agristar Animal Solution Private Limited <br>
+            Dream City, Suratgarh, Ganganagar, Rajasthan, 335804<br>India
+            <br><br><b>Email:</b><br>
+            info@dairymuneem.com <br>dairymuneem@gmail.com<br></span>
         </div>
         <div class="col-sm-6 billing_content"><span class="font-weight-bold ">Vendor Details:</span><br>
           <!-- code here -->
@@ -41,11 +41,11 @@
             $vendor_data = $this->db->get()->row();
             if (!empty($vendor_data)) {
               $vendor_name = $vendor_data->name;
-              $vendor_company = $vendor_data->company_name;
+              $vendor_company = $vendor_data->shop_name;
               $vendor_phone = $vendor_data->phone;
               $vendor_address = $vendor_data->address;
               $vendor_email = $vendor_data->email;
-              $vendor_gstin = $vendor_data->gstin;
+              $vendor_gstin = $vendor_data->gst_no;
             } else {
               $vendor_name = "Owner";
               $vendor_company = "Dairy Muneem";
@@ -70,15 +70,13 @@
           GST: <?= $vendor_gstin; ?><br>
           <?php
           if (!empty($order1_data)) {
-            $this->db->select('*');
-            $this->db->from('tbl_farmers');
-            $this->db->where('id', $order1_data->farmer_id);
-            $farmers_data = $this->db->get()->row();
-            $name = $farmers_data->name;
-            $phone = $farmers_data->phone;
-            $pincode = $farmers_data->pincode;
-            $state = $farmers_data->city;
-            $city = $farmers_data->city;
+
+            $name = $order1_data->name;
+            $address = $order1_data->address;
+            $phone = $order1_data->phone;
+            $pincode = $order1_data->pincode;
+            $state = $order1_data->state;
+            $city = $order1_data->city;
           }
           ?>
         </div>
@@ -87,36 +85,53 @@
       <div class="row">
         <div class="col-sm-6"></div>
         <div class="col-sm-6 shipping_content"><span class="font-weight-bold ">Shipping Address:</span> <br>
-          Name:<?php
+          Name: <?php
                 if (!empty($name)) {
                   echo $name;
                 } else {
                   echo "No Name Found";
                 }
                 ?> <br>
-          Phone:<?php
-                if (!empty($phone)) {
-                  echo $phone;
-                } else {
-                  echo "no phone number";
-                }
-                ?> <br>
+          Address: <?php
+                    if (!empty($address)) {
+                      echo $address;
+                    } else {
+                      echo "No Name Found";
+                    }
+                    ?> <br>
+          Phone: <?php
+                  if (!empty($phone)) {
+                    echo $phone;
+                  } else {
+                    echo "no phone number";
+                  }
+                  ?> <br>
           Pincode: <?php echo $pincode; ?><br>
-          State:
-          <?php echo $state; ?><br>
-          City:<?php
+          City: <?php
                 if (!empty($city)) {
                   echo $city;
                 } else {
                   echo "";
                 }
                 ?> <br>
+          State:
+          <?php echo $state; ?><br>
+
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6">Order No: &nbsp; <?php if (!empty($order1_data)) {
-                                                  echo '#' . $order1_data->id;
-                                                } ?><br>
+        <div class="col-sm-6">
+          Invoice No: &nbsp; <?php if (!empty($order1_data)) {
+                                $num = (int)$order1_data->invoice_no;
+                                //  $num_length = strlen((string)$num);
+                                echo  "DM-".$invoice_no = sprintf("%06d", $num);
+                              } ?><br>
+          Invoice Year: &nbsp; <?php if (!empty($order1_data)) {
+                                  echo $order1_data->invoice_year;
+                                } ?><br>
+          Order No: &nbsp; <?php if (!empty($order1_data)) {
+                              echo '#' . $order1_data->id;
+                            } ?><br>
           <p> Order Date: &nbsp;
             <?php if (!empty($order1_data)) {
               $source = $order1_data->date;
@@ -222,7 +237,7 @@
                                                         echo "";
                                                       } ?></th>
                 <th class="product_table"><?php if (!empty($order1_data)) {
-                                            echo "₹". $order1_data->charges;
+                                            echo "₹" . $order1_data->charges;
                                           } ?></th>
               </tr>
               <tr>

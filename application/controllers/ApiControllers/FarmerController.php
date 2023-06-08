@@ -692,9 +692,22 @@ class FarmerController extends CI_Controller
             $this->db->where('id', $order_id);
             $order_data = $this->db->get()->row();
             if (!empty($order_data)) {
+                //---- start calculate invoice number ----
+                $now = date('y');
+                $next = date('y', strtotime('+1 year'));
+                $order1 = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('payment_status' => 1, 'invoice_year' => $now . '-' . $next))->result();
+                if (empty($order1)) {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = 1;
+                } else {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = $order1[0]->invoice_no + 1;
+                }
                 $data_update = array(
                     'payment_status' => 1,
                     'order_status' => 1,
+                    'invoice_year' => $invoice_year,
+                    'invoice_no' => $invoice_no,
                     'cc_response' => json_encode($decryptValues),
                 );
                 $this->db->where('id', $order_id);

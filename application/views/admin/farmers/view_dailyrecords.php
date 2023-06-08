@@ -54,40 +54,51 @@
                                 <table class="table table-bordered table-hover table-striped" id="userTable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                          
                                             <th>Entry Id</th>
                                             <th>Record Date</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Amount</th>
-                                            <th>Update Inventory</th>
+                                            
                                             <th>Date</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 1;
-                                        foreach ($data_daily_records->result() as $data) { ?>
+                                       
+                                    <?
+                                    if(!empty($data_daily_records)){
+                                    ?>
                                             <tr>
-                                                <td><?php echo $i; ?> </td>
+                                              
 
-                                                <td><?php echo $data->entry_id; ?> </td>
-                                                <td><?php echo $data->record_date; ?> </td>
-                                                <td><?php echo $data->name; ?> </td>
-                                                <td><?php echo $data->type; ?> </td>
-                                                <td><?php echo $data->qty; ?> </td>
-                                                <td><?php echo "₹" . $data->price; ?> </td>
-                                                <td><?php echo "₹" . $data->amount; ?> </td>
-                                                <td><?php echo $data->update_inventory; ?> </td>
+                                                <td><?php echo $data_daily_records->entry_id; ?> </td>
+                                                <td><?php echo $data_daily_records->record_date; ?> </td>
+                                                
 
-                                                <td><?php echo $data->date; ?> </td>
+                                                <td><?php echo $data_daily_records->date; ?> </td>
+
+                                                
+                                                <td>
+                                           
+                                            <div class="btn-group">
+                                           
+                                            
+                                           
+                                            <a class="btn btn-primary btn-sm" href="<?php echo base_url() ?>dcadmin/Farmers/view_detailsdr/<?php echo $farmer_id ?>">View Details</a>
+                                            
+                                           
+                                            </div>
+                                           
+                                            
+                                           
+                                            </td>
 
 
 
                                             </tr>
-                                        <?php $i++;
-                                        } ?>
+                                            <?
+                                    }
+                                            ?>
+                                       
                                     </tbody>
                                 </table>
 

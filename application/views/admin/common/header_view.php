@@ -23,6 +23,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+  
   </script>
   <!--end excel ------>
   <style>
@@ -52,7 +53,7 @@
     }
     .active>a {
       color: #008000;
-      background: #fff !important;
+      background: #20b9aa !important;
       border-color: #fff !important;
     }
     /* ==========================================Theme end================================================ */

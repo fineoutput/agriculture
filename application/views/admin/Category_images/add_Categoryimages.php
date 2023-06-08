@@ -38,10 +38,24 @@
                   <table class="table table-hover">
                   
                     <tr>
-                      <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
+                      <td> <strong>Image</strong> <span style="color:red;"></span></strong> </td>
                       <td>
                         <input type="file" name="image" class="form-control" placeholder=""  value="" />
                         <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $category_images->image ?>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> <strong>Image Hindi</strong> <span style="color:red;"></span></strong> </td>
+                      <td>
+                        <input type="file" name="image_hindi" class="form-control" placeholder=""  value="" />
+                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $category_images->image_hindi ?>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> <strong>Image Punjabi</strong> <span style="color:red;"></span></strong> </td>
+                      <td>
+                        <input type="file" name="image_punjabi" class="form-control" placeholder=""  value="" />
+                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $category_images->image_punjabi ?>">
                       </td>
                     </tr>
                     <td colspan="2">

@@ -388,10 +388,41 @@ class Farmers extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_daily_records');
             $this->db->where('farmer_id',$id);
-            $data['data_daily_records']= $this->db->get();
+            $data_daily_records= $this->db->get()->row();
+            if(!empty($data_daily_records))
+            {
+                $data['data_daily_records']= $data_daily_records;
+            }
+           
 
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/farmers/view_dailyrecords');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    //****************************view Farmers Daily RECORDS Details Function**************************************
+    public function view_detailsdr($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+           
+            $id=base64_decode($idd);
+          
+            $data['farmer_id']=$idd;
+
+            $this->db->select('*');
+            $this->db->from('tbl_daily_records');
+            $this->db->where('farmer_id',$id);
+          
+
+            $data['data_daily_records']= $this->db->get();
+
+
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/view_detailsdr');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");

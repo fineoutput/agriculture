@@ -73,6 +73,69 @@ class Subcategory_images extends CI_finecontrol
                         $image = '';
                     }
                     //-----------------------image tag end------------------------------------------
+                    //------------------------------------image Hindi insert-----------------------------------------
+                    $image_hindi = "";
+                    $img1_hindi = 'image_hindi';
+                    $file_check = ($_FILES['image_hindi']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/Subcategory_images/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "Subcategory_images2" . date("YmdHis");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1_hindi)) {
+                            $upload_error = $this->upload->display_errors();
+                            // echo json_encode($upload_error);
+                            // echo $upload_error;
+                            $this->session->set_flashdata('emessage', $upload_error);
+                            redirect($_SERVER['HTTP_REFERER']);
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image_hindi = "assets/uploads/Subcategory_images/" . $file_info['file_name'];
+                        }
+                    } else {
+                        $image_hindi = '';
+                    }
+                    //-----------------------image Hindi  tag end------------------------------------------
+                    //------------------------------------image Punjabi insert-----------------------------------------
+                    $image_punjabi = "";
+                    $img1_punjabi = 'image_punjabi';
+                    $file_check = ($_FILES['image_punjabi']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/Subcategory_images/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "Subcategory_images3" . date("YmdHis");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1_punjabi)) {
+                            $upload_error = $this->upload->display_errors();
+                            // echo json_encode($upload_error);
+                            // echo $upload_error;
+                            $this->session->set_flashdata('emessage', $upload_error);
+                            redirect($_SERVER['HTTP_REFERER']);
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image_punjabi = "assets/uploads/Subcategory_images/" . $file_info['file_name'];
+                        }
+                    } else {
+                        $image_punjabi = '';
+                    }
+                    //-----------------------image Punjani  tag end------------------------------------------
+                    
 
                     $idw = base64_decode($iw);
                     $cat_imag = $this->db->get_where('tbl_subcategory_images', array('id' => $idw))->result();
@@ -81,9 +144,21 @@ class Subcategory_images extends CI_finecontrol
                     } else {
                         $img = $image;
                     }
+                    if (empty($image_punjabi)) {
+                        $img_punjabi = $cat_imag[0]->image_punjabi;
+                    } else {
+                        $img_punjabi = $image_punjabi;
+                    }
+                    if (empty($image_hindi)) {
+                        $img_hindi = $cat_imag[0]->image_hindi;
+                    } else {
+                        $img_hindi = $image_hindi;
+                    }
                     $data_insert = array(
                        
-                        'image' => $img
+                        'image' => $img,
+                        'image_hindi' => $img_hindi,
+                        'image_punjabi' => $img_punjabi
 
                     );
                   
