@@ -209,6 +209,10 @@ class DoctorController extends CI_Controller
                 'image' => $image,
                 'is_expert' => $doctor_data[0]->is_expert,
                 'expertise' => $doctor_data[0]->expertise,
+                'bank_name' => $doctor_data[0]->bank_name,
+                'bank_phone' => $doctor_data[0]->bank_phone,
+                'bank_ac' => $doctor_data[0]->bank_ac,
+                'ifsc' => $doctor_data[0]->ifsc,
             );
             $res = array(
                 'message' => "Success!",
