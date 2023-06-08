@@ -1070,7 +1070,7 @@ class ToolsController extends CI_Controller
                     //success notification code
                     $url = 'https://fcm.googleapis.com/fcm/send';
                     $title = "New Request";
-                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . $order_data->fees-$amt;
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . ($order_data->fees-$amt);
                     $msg2 = array(
                         'title' => $title,
                         'body' => $message,

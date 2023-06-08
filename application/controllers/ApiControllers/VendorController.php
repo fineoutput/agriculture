@@ -893,6 +893,13 @@ class VendorController extends CI_Controller
                 if ($discount > 0) {
                     $percent = round($discount / $pro->mrp * 100);
                 }
+                if ($pro->is_active == 0) {
+                    $status = 'Inactive';
+                    $bg_color = '#65bcd7';
+                } else {
+                    $status = 'Active';
+                    $bg_color = '#139c49';
+                }
                 $data[] = array(
                     'pro_id' => $pro->id,
                     'name_english' => $pro->name_english,
@@ -910,6 +917,8 @@ class VendorController extends CI_Controller
                     'inventory' => $pro->inventory,
                     'vendor_id' => $pro->added_by,
                     'is_active' => $pro->is_active,
+                    'status' => $status,
+                    'bg_color' => $bg_color,
                     'is_admin' => $pro->is_admin
                 );
             }
