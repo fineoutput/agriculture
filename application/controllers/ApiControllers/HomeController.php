@@ -396,6 +396,11 @@ class HomeController extends CI_Controller
         } else {
             $fcm_token = '';
         }
+        if (array_key_exists("language", $headers)) {
+            $language = $headers['language'];
+        } else {
+            $language = 'en';
+        }
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
@@ -437,16 +442,26 @@ class HomeController extends CI_Controller
                 $subCategoryData = [];
                 $subCategoryDatas = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
                 foreach ($subCategoryDatas as $subcategory) {
+                    if ($language == 'en') {
+                        $cat_image =  $category->image ? base_url() . $category->image : '';
+                        $sub_image =  $subcategory->image ? base_url() . $subcategory->image : '';
+                    } elseif ($language == 'hi') {
+                        $cat_image =  $category->image_hindi ? base_url() . $category->image_hindi : '';
+                        $sub_image =  $subcategory->image_hindi ? base_url() . $subcategory->image_hindi : '';
+                    } else {
+                        $cat_image =  $category->image_punjabi ? base_url() . $category->image_punjabi : '';
+                        $sub_image =  $subcategory->image_punjabi ? base_url() . $subcategory->image_punjabi : '';
+                    }
                     $subCategoryData[] = array(
                         'id' => $subcategory->id,
                         'name' => $subcategory->name,
-                        'image' => $subcategory->image ? base_url() . $subcategory->image : ''
+                        'image' => $sub_image
                     );
                 }
                 $CategoryData[] = array(
                     'id' => $category->id,
                     'name' => $category->name,
-                    'image' => $category->image ? base_url() . $category->image : '',
+                    'image' => $cat_image,
                     'subcatgory' => $subCategoryData,
                 );
             }
@@ -458,9 +473,6 @@ class HomeController extends CI_Controller
             $this->db->where('is_admin', 1);
             $data_products = $this->db->get();
             $product_data = [];
-            $en_data = [];
-            $hi_data = [];
-            $pn_data = [];
             foreach ($data_products->result() as $pro) {
                 if (!empty($pro->image)) {
                     $image = base_url() . $pro->image;
@@ -477,54 +489,53 @@ class HomeController extends CI_Controller
                 if ($discount > 0) {
                     $percent = round($discount / $pro->mrp * 100);
                 }
-                $en_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_english,
-                    'description' => $pro->description_english,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer,
-                );
-                $hi_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_hindi,
-                    'description' => $pro->description_hindi,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer,
-                );
-                $pn_data[] = array(
-                    'pro_id' => $pro->id,
-                    'name' => $pro->name_punjabi,
-                    'description' => $pro->description_punjabi,
-                    'image' => $image,
-                    'mrp' => $pro->mrp,
-                    'selling_price' => $pro->selling_price,
-                    'suffix' => $pro->suffix,
-                    'stock' => $stock,
-                    'percent' => $percent,
-                    'vendor_id' => $pro->added_by,
-                    'is_admin' => $pro->is_admin,
-                    'offer' => $pro->offer,
-                );
+                if ($language == 'en') {
+                    $product_data[] = array(
+                        'pro_id' => $pro->id,
+                        'name' => $pro->name_english,
+                        'description' => $pro->description_english,
+                        'image' => $image,
+                        'mrp' => $pro->mrp,
+                        'selling_price' => $pro->selling_price,
+                        'suffix' => $pro->suffix,
+                        'stock' => $stock,
+                        'percent' => $percent,
+                        'vendor_id' => $pro->added_by,
+                        'is_admin' => $pro->is_admin,
+                        'offer' => $pro->offer,
+                    );
+                } elseif ($language == 'en') {
+                    $product_data[] = array(
+                        'pro_id' => $pro->id,
+                        'name' => $pro->name_hindi,
+                        'description' => $pro->description_hindi,
+                        'image' => $image,
+                        'mrp' => $pro->mrp,
+                        'selling_price' => $pro->selling_price,
+                        'suffix' => $pro->suffix,
+                        'stock' => $stock,
+                        'percent' => $percent,
+                        'vendor_id' => $pro->added_by,
+                        'is_admin' => $pro->is_admin,
+                        'offer' => $pro->offer,
+                    );
+                } else {
+                    $product_data[] = array(
+                        'pro_id' => $pro->id,
+                        'name' => $pro->name_punjabi,
+                        'description' => $pro->description_punjabi,
+                        'image' => $image,
+                        'mrp' => $pro->mrp,
+                        'selling_price' => $pro->selling_price,
+                        'suffix' => $pro->suffix,
+                        'stock' => $stock,
+                        'percent' => $percent,
+                        'vendor_id' => $pro->added_by,
+                        'is_admin' => $pro->is_admin,
+                        'offer' => $pro->offer,
+                    );
+                }
             }
-            $product_data = array(
-                'en' => $en_data,
-                'hi' => $hi_data,
-                'pn' => $pn_data,
-            );
             //---- Cart Count -------
             $CartCount = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
             //---- farmer notification data -------
@@ -822,211 +833,185 @@ class HomeController extends CI_Controller
         }
         return $binString;
     }
-      //========================================= get__milking_tag_no ===================================//
-      public function get_milking_tag_no()
-      {
-          $headers = apache_request_headers();
-          $authentication = $headers['Authentication'];
-          $this->load->helper(array('form', 'url'));
-          $this->load->library('form_validation');
-          $this->load->helper('security');
-          if ($this->input->post()) {
-              $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
-              if ($this->form_validation->run() == true) {
-                  $assign_to_group = $this->input->post('assign_to_group');
-                  $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-                  if (!empty($farmer_data)) {
-                      $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => $assign_to_group, 'animal_type' => 'Milking'))->result();
-                      $data = [];
-                      $i = 1;
-                      foreach ($tag_data as $a) {
-                          $data[] = array(
-                              'value' => $a->tag_no,
-                              'label' => $a->tag_no,
-                          );
-                          $i++;
-                      }
-                      $res = array(
-                          'message' => "Success!",
-                          'status' => 200,
-                          'data' => $data
-                      );
-                      echo json_encode($res);
-                  } else {
-                      $res = array(
-                          'message' => 'Permission Denied!',
-                          'status' => 201
-                      );
-                      echo json_encode($res);
-                  }
-              } else {
-                  $res = array(
-                      'message' => validation_errors(),
-                      'status' => 201
-                  );
-                  echo json_encode($res);
-              }
-          } else {
-              $res = array(
-                  'message' => 'Please Insert Data',
-                  'status' => 201
-              );
-              echo json_encode($res);
-          }
-      }
-
-      public function update_group()
-  {
-    $this->load->helper(array('form', 'url'));
-    $this->load->library('form_validation');
-    $this->load->helper('security');
-    if ($this->input->post()) {
-      $headers = apache_request_headers();
-      $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
-      $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
-
-      $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-      if (!empty($farmer_data)) {
-     
-      if ($this->form_validation->run() == true) {
-        $id = $this->input->post('id');
-        $name = $this->input->post('name');
-       
-            $data_update = array(
-              'name' => $name
-              
-            );
-          
-          $this->db->where('id', $id);
-          $zapak = $this->db->update('tbl_group', $data_update);
-          if($zapak>0){
-          $res = array(
-            'message' => "Record Successfully Updated!",
-            'status' => 200,
-          );
-          echo json_encode($res);
-        } else {
-          $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-          );
-          echo json_encode($res);
-        }
-      } else {
-        $res = array(
-          'message' => validation_errors(),
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
-    } else {
-        $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-        );
-        echo json_encode($res);
-    }
-    } else {
-      $res = array(
-        'message' => 'Please Insert Data',
-        'status' => 201
-      );
-      echo json_encode($res);
-    }
-  }
-  public function delete_group()
-  {
-    $this->load->helper(array('form', 'url'));
-    $this->load->library('form_validation');
-    $this->load->helper('security');
-    if ($this->input->post()) {
-      $headers = apache_request_headers();
-      $authentication = $headers['Authentication'];
-      $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
-
-      $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-      if (!empty($farmer_data)) {
-    
-     
-      if ($this->form_validation->run() == true) {
-        $id = $this->input->post('id');
-          
-            $delete=$this->db->delete('tbl_group', array('id' => $id,'farmer_id'=>$farmer_data[0]->id));
-
-            $this->db->select('*');
-            $this->db->from('tbl_my_animal');
-            $this->db->where('assign_to_group',$id);
-            $data_animl= $this->db->get();
-
-            foreach($data_animl->result() as $data_animls){
-
-                $animl_id=$data_animls->id;
-                $tag_no=$data_animls->tag_no;
-                $animal_del=$this->db->delete('tbl_my_animal', array('id' => $animl_id));
-                $animal_cyc=$this->db->delete('tbl_animal_cycle', array('animal_id' => $animl_id));
-
-
-                //$animal_cns=$this->db->delete('tbl_canister', array('tag_no' => $tag_no));
-                
-            $data_update = array(
-                'farm_bull' => '',
-                'bull_name' => '',
-                'company_name' => '',
-                'no_of_units' => '',
-                'milk_production_of_mother' => '',
-                'date' => ''
-                
-              );
-            $this->db->where('tag_no', $tag_no);
-            $zapak = $this->db->update('tbl_canister', $data_update);
-
-               
-
+    //========================================= get__milking_tag_no ===================================//
+    public function get_milking_tag_no()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('assign_to_group', 'assign_to_group', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $assign_to_group = $this->input->post('assign_to_group');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $tag_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => $assign_to_group, 'animal_type' => 'Milking'))->result();
+                    $data = [];
+                    $i = 1;
+                    foreach ($tag_data as $a) {
+                        $data[] = array(
+                            'value' => $a->tag_no,
+                            'label' => $a->tag_no,
+                        );
+                        $i++;
+                    }
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
             }
-            $animal_brd=$this->db->delete('tbl_breeding_record', array('group_id' => $id));
-            $animal_hlt=$this->db->delete('tbl_health_info', array('group_id' => $id));
-            $animal_mlkr=$this->db->delete('tbl_milk_records', array('group_id' => $id));
-
-          
-            
-
-        
-        
-          if($delete>0){
-          $res = array(
-            'message' => "Record Successfully Deleted!",
-            'status' => 200,
-          );
-          echo json_encode($res);
         } else {
-          $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-          );
-          echo json_encode($res);
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
-      } else {
-        $res = array(
-          'message' => validation_errors(),
-          'status' => 201
-        );
-        echo json_encode($res);
-      }
-    } else {
-        $res = array(
-            'message' => 'Permission Denied!',
-            'status' => 201
-        );
-        echo json_encode($res);
     }
-    } else {
-      $res = array(
-        'message' => 'Please Insert Data',
-        'status' => 201
-      );
-      echo json_encode($res);
+    public function update_group()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+            $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+            if (!empty($farmer_data)) {
+                if ($this->form_validation->run() == true) {
+                    $id = $this->input->post('id');
+                    $name = $this->input->post('name');
+                    $data_update = array(
+                        'name' => $name
+                    );
+                    $this->db->where('id', $id);
+                    $zapak = $this->db->update('tbl_group', $data_update);
+                    if ($zapak > 0) {
+                        $res = array(
+                            'message' => "Record Successfully Updated!",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => 'Permission Denied!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => validation_errors(),
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => 'Permission Denied!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
     }
-  }
+    public function delete_group()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('id', 'id', 'required|xss_clean|trim');
+            $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+            if (!empty($farmer_data)) {
+                if ($this->form_validation->run() == true) {
+                    $id = $this->input->post('id');
+                    $delete = $this->db->delete('tbl_group', array('id' => $id, 'farmer_id' => $farmer_data[0]->id));
+                    $this->db->select('*');
+                    $this->db->from('tbl_my_animal');
+                    $this->db->where('assign_to_group', $id);
+                    $data_animl = $this->db->get();
+                    foreach ($data_animl->result() as $data_animls) {
+                        $animl_id = $data_animls->id;
+                        $tag_no = $data_animls->tag_no;
+                        $animal_del = $this->db->delete('tbl_my_animal', array('id' => $animl_id));
+                        $animal_cyc = $this->db->delete('tbl_animal_cycle', array('animal_id' => $animl_id));
+                        //$animal_cns=$this->db->delete('tbl_canister', array('tag_no' => $tag_no));
+                        $data_update = array(
+                            'farm_bull' => '',
+                            'bull_name' => '',
+                            'company_name' => '',
+                            'no_of_units' => '',
+                            'milk_production_of_mother' => '',
+                            'date' => ''
+                        );
+                        $this->db->where('tag_no', $tag_no);
+                        $zapak = $this->db->update('tbl_canister', $data_update);
+                    }
+                    $animal_brd = $this->db->delete('tbl_breeding_record', array('group_id' => $id));
+                    $animal_hlt = $this->db->delete('tbl_health_info', array('group_id' => $id));
+                    $animal_mlkr = $this->db->delete('tbl_milk_records', array('group_id' => $id));
+                    if ($delete > 0) {
+                        $res = array(
+                            'message' => "Record Successfully Deleted!",
+                            'status' => 200,
+                        );
+                        echo json_encode($res);
+                    } else {
+                        $res = array(
+                            'message' => 'Permission Denied!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => validation_errors(),
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => 'Permission Denied!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //======================================================END HOMECONTROLLER================================================//
