@@ -36,7 +36,7 @@ class Products extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_products');
             $this->db->where('is_admin', 0);
-            $this->db->where('is_active', 0);
+            $this->db->where('is_approved', 0);
             $data['products_data'] = $this->db->get();
             $data['is_admin'] = 0;
             $data['heading'] = 'Vendor Pending';
@@ -55,7 +55,7 @@ class Products extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_products');
             $this->db->where('is_admin', 0);
-            $this->db->where('is_active', 1);
+            $this->db->where('is_approved', 1);
             $data['products_data'] = $this->db->get();
             $data['is_admin'] = 0;
             $data['heading'] = 'Vendor Accepted';
