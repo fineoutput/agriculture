@@ -85,10 +85,7 @@ class FeedController extends CI_Controller
                 $feed_percentage = $this->input->post('feed_percentage');
                 $milk_yield = $this->input->post('milk_yield');
                 $weight = $this->input->post('weight');
-                $lactation = 1;
-                $feed_percentage = 2;
-                $milk_yield = 3;
-                $weight = 4;
+             
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $dry_matter_intake = 33 / 100 * $milk_yield + 2 / 100 * $weight;
