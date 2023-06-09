@@ -394,23 +394,20 @@ class Farmers extends CI_finecontrol
 
                 $start_date = $para['start_date'];
                 $end_date = $para['end_date'];
-
-
-
-                $newdate = new DateTime($start_date);
-                $s_date = $newdate->format('d-m-y');
-                $newdate2 = new DateTime($end_date);
-                $e_date = $newdate2->format('d-m-y');
               
 
                 $this->db->select('DISTINCT(entry_id)');
                 $this->db->from('tbl_daily_records');
-                $this->db->where(' record_date >= date("' . $start_date . '")');
-                $this->db->where('record_date <= date("' . $end_date . '")');
+              
+                $this->db->where('record_date BETWEEN "'. date('Y-m-d', strtotime($start_date)). '" and "'. date('Y-m-d', strtotime($end_date)).'"');
+
+
              
                 $this->db->where('farmer_id', $id);
                 $this->db->where('entry_id !=', 0);
-                $data['data_daily_records'] = $this->db->get();
+
+              
+              $data['data_daily_records'] = $this->db->get();
             } else {
                 $this->db->select('DISTINCT(entry_id)');
                 $this->db->from('tbl_daily_records');
