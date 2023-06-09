@@ -57,7 +57,7 @@ class ManagementController extends CI_Controller
           foreach ($data as $d) {
             if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
               $data = array(
-                'record_date' => $date,
+                'record_date' => date('Y-m-d', strtotime($date)),
                 'farmer_id' => $farmer_data[0]->id,
                 'entry_id' => $entry_id,
                 'name' => $d->name,
@@ -145,7 +145,7 @@ class ManagementController extends CI_Controller
         foreach ($daily_data as $daily) {
           $newdate = new DateTime($daily->date);
           $data[] = array(
-            'record_date' => $daily->record_date,
+            'record_date' =>date('d-m-Y', strtotime($daily->record_date)),
             'name' => $daily->name,
             'qty' => $daily->qty,
             'price' => $daily->price,

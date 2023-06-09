@@ -276,7 +276,7 @@
                 <span class="info-box-icon bg-blue"><i class="fa fa-cube"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Subscriptions Purchased</span>
-                  <span class="info-box-number"><?= $subscriptions_purchased ?></span>
+                  <span class="info-box-number"><?= '₹'.$subscriptions_purchased ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
