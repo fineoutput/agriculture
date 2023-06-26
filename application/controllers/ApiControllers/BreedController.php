@@ -344,10 +344,10 @@ class BreedController extends CI_Controller
         }
         if ($breed->farm_bull == 'Yes') {
           $bull_data = $this->db->get_where('tbl_my_animal', array( 'tag_no' => $breed->tag_no))->result();
-          $bull_name=$bull_data[0]?$bull_data[0]->animal_name:'';
+          $bull_name=$bull_data?$bull_data[0]->animal_name:'';
         } else {
           $bull_data = $this->db->get_where('tbl_canister', array( 'id' => $breed->semen_bull_id))->result();
-          $bull_name=$bull_data[0]?$bull_data[0]->bull_name:'';
+          $bull_name=$bull_data?$bull_data[0]->bull_name:'';
         }
         $newdate = new DateTime($breed->date);
         $data[] = array(
