@@ -268,7 +268,7 @@ class BreedController extends CI_Controller
           //------ update semen --------
           if ($update_bull_semen == 'Yes') {
             if ($farm_bull === 'Yes') {
-              $bull_data = $this->db->get_where('tbl_my_animal', array('tag_no' => $bull_tag_no))->result();
+              $bull_data = $this->db->get_where('tbl_my_animal', array('id' => $semen_bull_id))->result();
               $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $bull_data[0]->tag_no))->result();
               $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
               $this->db->where('id', $canister_data[0]->id);
