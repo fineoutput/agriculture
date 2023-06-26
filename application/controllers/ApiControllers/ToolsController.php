@@ -1128,7 +1128,7 @@ class ToolsController extends CI_Controller
             $req_data = $this->db->get_where('tbl_doctor_req', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
             if (!empty($req_data)) {
                 $send = array(
-                    'order_id' => $req_data[0]->txn_id,
+                    'order_id' => $req_data[0]->id,
                     'amount' => $req_data[0]->fees,
                 );
                 $res = array(
