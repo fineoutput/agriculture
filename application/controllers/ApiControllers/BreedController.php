@@ -259,8 +259,7 @@ class BreedController extends CI_Controller
             'expenses' => $expenses,
             'vet_name' => $vet_name,
             'update_bull_semen' => $update_bull_semen,
-            '
-            ' => $semen_bull_id,
+            'semen_bull_id' => $semen_bull_id,
             'is_pregnant' => $is_pregnant,
             'pregnancy_test_date' => $pregnancy_test_date,
             'date' => $cur_date
@@ -268,8 +267,8 @@ class BreedController extends CI_Controller
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
           //------ update semen --------
           if ($update_bull_semen == 'Yes') {
-            if ($farm_bull == 'Yes') {
-              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id))->result();
+            if ($farm_bull === 'Yes') {
+              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $bull_tag_no))->result();
               $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
               $this->db->where('id', $canister_data[0]->id);
               $zapak = $this->db->update('tbl_canister', $data_update);
