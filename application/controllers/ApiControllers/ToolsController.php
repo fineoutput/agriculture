@@ -611,19 +611,19 @@ class ToolsController extends CI_Controller
     //====================================================== EXPERT ADVICE ================================================//
     public function expert_advice()
     {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $latitude = $this->input->post('latitude');
-                $longitude = $this->input->post('longitude');
-                $radius = $this->input->post('radius');
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        // $this->load->helper(array('form', 'url'));
+        // $this->load->library('form_validation');
+        // $this->load->helper('security');
+        // if ($this->input->post()) {
+        //     $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
+        //     if ($this->form_validation->run() == true) {
+        //         $latitude = $this->input->post('latitude');
+        //         $longitude = $this->input->post('longitude');
+        //         $radius = $this->input->post('radius');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
@@ -631,8 +631,8 @@ class ToolsController extends CI_Controller
                     $hi_data = [];
                     $pn_data = [];
                     foreach ($DoctorData as $doctor) {
-                        if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
-                            $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                        // if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                        //     $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
                             // echo $km;
                             // echo "<br>";
                             // if ($km <= $radius) {
@@ -691,7 +691,7 @@ class ToolsController extends CI_Controller
                                 'image' => $image
                             );
                             // }
-                        }
+                        // }
                         $data = array(
                             'en' => $en_data,
                             'hi' => $hi_data,
@@ -711,20 +711,20 @@ class ToolsController extends CI_Controller
                     );
                     echo json_encode($res);
                 }
-            } else {
-                $res = array(
-                    'message' => validation_errors(),
-                    'status' => 201
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Please Insert Data',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
+        //     } else {
+        //         $res = array(
+        //             'message' => validation_errors(),
+        //             'status' => 201
+        //         );
+        //         echo json_encode($res);
+        //     }
+        // } else {
+        //     $res = array(
+        //         'message' => 'Please Insert Data',
+        //         'status' => 201
+        //     );
+        //     echo json_encode($res);
+        // }
     }
     //====================================================== EXPERT ADVICE ================================================//
     public function request_doctor()
