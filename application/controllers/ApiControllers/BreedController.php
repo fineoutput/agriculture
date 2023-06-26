@@ -273,8 +273,8 @@ class BreedController extends CI_Controller
               $this->db->where('id', $canister_data[0]->id);
               $zapak = $this->db->update('tbl_canister', $data_update);
             } else {
-              $bull_data = $this->db->get_where('tbl_my_animal', array('id' => $semen_bull_id))->result();
-              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $bull_data[0]->tag_no))->result();
+              // $bull_data = $this->db->get_where('tbl_my_animal', array('id' => $semen_bull_id))->result();
+              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id->tag_no))->result();
               if (!empty($canister_data)) {
                 $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
                 $this->db->where('id', $canister_data[0]->id);
