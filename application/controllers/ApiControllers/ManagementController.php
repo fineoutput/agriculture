@@ -61,11 +61,13 @@ class ManagementController extends CI_Controller
             if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
               if ($update_inventory == "Yes" && $d->values->type == 'feed' &&  $d->column != 'feed') {
                 $this->db->select_sum($d->column);
+                $this->db->from('tbl_stock_handling');
                 $this->db->where('farmer_id', $farmer_data[0]->id);
                 $query = $this->db->get();
-                if ($query->row()->$d->column >= $d->values->qty) {
+                $column = $d->column;
+                if ($query->row()->$column < $d->values->qty) {
                   $res = array(
-                    'message' => $d->column+'available inventory is '+$query->row()->$d->column,
+                    'message' => $d->column . ' available inventory is ' . $query->row()->$column,
                     'status' => 201
                   );
                   echo json_encode($res);
