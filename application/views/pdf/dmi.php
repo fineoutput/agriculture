@@ -1,35 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Dairy Muneem Dmi Calculation</title>
+    <title>Dairy Muneem Dmi Calculator</title>
     <meta charset="utf-8">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-
-   
     <div class="container mt-5">
         <div class="row">
-            
             <table class="table table-bordered">
                 <style>
                     table {
                         width: 750px;
                         border-collapse: collapse;
                         margin: 0px  auto 50px  auto;
-                        
                     }
-
                     th {
                         background: #3498db;
                         color: white;
                         font-weight: bold;
                     }
-
                     td,
                     th {
                         padding: 10px;
@@ -37,7 +29,6 @@
                         text-align: left;
                         font-size: 18px;
                     }
-
                     .labels tr td {
                         background-color: #20b9aa;
                         font-weight: bold;
@@ -46,11 +37,9 @@
                     .two{
                         color: #20b9aa;
                     }
-
                     .label tr td label {
                         display: block;
                     }
-
                     [data-toggle="toggle"] {
                         display: none;
                     }
@@ -60,12 +49,10 @@
                     .four{
                         color:#507186;
                     }
-                   
                 </style>
                 <table>
                     <thead>
                     </thead>
-                   
                         <!-- =========================================================================== -->
                     <tbody>
                         <tr>
@@ -73,21 +60,18 @@
                                 <img src="<? echo base_url()?>/assets/logo2.png">
                                 <h5>Agristar Animal Solution Private Limited</h5>
                                 <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
-                            
                             </td>
                             <td  colspan="2" style="border-left:none">
                             <h6>Contact:</h6>
                                 <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
                                 <h6>Email:</h6>
                                 <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
-
                             </td> 
                         </tr>
                         <tr>
-                            <td colspan="5" class="text-center"><h3><span class="two">D</span><span class="three">mi</span> <span class="two">C</span><span class="four">alculation</span></h3></td>
+                            <td colspan="5" class="text-center"><h3><span class="two">D</span><span class="three">mi</span> <span class="two">C</span><span class="four">alculator</span></h3></td>
                         </tr>
                         <tr>
-                          
                         </tr>
                     </tbody>
                     <tbody class="labels">
@@ -171,8 +155,6 @@
                         </tr>
                     </tbody>
 </body>
-
 </html>
 </body>
-
 </html>
