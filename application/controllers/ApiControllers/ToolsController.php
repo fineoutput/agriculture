@@ -360,24 +360,27 @@ class ToolsController extends CI_Controller
                     } else {
                         $percentage = ($snf - (0.21 * $fat) - 0.66) * 4;
                     }
-                    $cow = [];
-                    $buffalo = [];
-                        $cow = array(
-                            'lactose' =>  round($snf?$snf:$percentage * 0.55, 3),
-                            'solid' =>  round($snf?$snf:$percentage * 0.083, 3),
-                            'protein' => round($snf?$snf:$percentage * 0.367, 3),
-                        );
-                        $buffalo = array(
-                            'lactose' => round($snf?$snf:$percentage* 0.45, 3),
-                            'solid' =>   round($snf?$snf:$percentage* 0.076, 3),
-                            'protein' =>  round($snf?$snf:$percentage * 0.475, 3),
-                        );
-                    
+                    // $cow = [];
+                    // $buffalo = [];
+                    // $cow = array(
+                    //     'lactose' =>  round($snf ? $snf : $percentage * 0.55, 3),
+                    //     'solid' =>  round($snf ? $snf : $percentage * 0.083, 3),
+                    //     'protein' => round($snf ? $snf : $percentage * 0.367, 3),
+                    // );
+                    // $buffalo = array(
+                    //     'lactose' => round($snf ? $snf : $percentage * 0.45, 3),
+                    //     'solid' =>   round($snf ? $snf : $percentage * 0.076, 3),
+                    //     'protein' =>  round($snf ? $snf : $percentage * 0.475, 3),
+                    // );
+                    $lsp = [
+                        ['Solid',  round($snf ? $snf : $percentage * 0.55, 3), round($snf ? $snf : $percentage * 0.45, 3)],
+                        ['Protein', round($snf ? $snf : $percentage * 0.083, 3), round($snf ? $snf : $percentage * 0.076, 3)],
+                        ['Lactose',  round($snf ? $snf : $percentage * 0.367, 3),  round($snf ? $snf : $percentage * 0.475, 3)],
+                    ];
                     $data = [];
                     $data = array(
                         'percentage' => $percentage,
-                        'cow' =>  $cow,
-                        'buffalo' =>  $buffalo,
+                        'lsp' =>  $lsp,
                     );
                     //------- update service record -----------
                     $service_data = $this->db->get_where('tbl_service_records')->result();
