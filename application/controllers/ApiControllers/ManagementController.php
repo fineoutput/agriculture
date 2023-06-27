@@ -52,28 +52,28 @@ class ManagementController extends CI_Controller
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         // print_r($data);
-        log_message('error', json_encode($data));
+        // log_message('error', json_encode($data));
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $entry_id = bin2hex(random_bytes(5));
-          //------ start check inventory ------
-          // foreach ($data as $d) {
-          //   if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
-          //     if ($update_inventory == "Yes" && $d->values->type == 'feed' &&  $d->column != 'feed') {
-          //       $this->db->select_sum($d->column);
-          //       $this->db->where('farmer_id', $farmer_data[0]->id);
-          //       $query = $this->db->get();
-          //       if ($query->row()->$d->column >= $d->values->qty) {
-          //         $res = array(
-          //           'message' => $d->column+'available inventory is '+$query->row()->$d->column,
-          //           'status' => 201
-          //         );
-          //         echo json_encode($res);
-          //         exit();
-          //       }
-          //     }
-          //   }
-          // }
+          // ------ start check inventory ------
+          foreach ($data as $d) {
+            if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
+              if ($update_inventory == "Yes" && $d->values->type == 'feed' &&  $d->column != 'feed') {
+                $this->db->select_sum($d->column);
+                $this->db->where('farmer_id', $farmer_data[0]->id);
+                $query = $this->db->get();
+                if ($query->row()->$d->column >= $d->values->qty) {
+                  $res = array(
+                    'message' => $d->column+'available inventory is '+$query->row()->$d->column,
+                    'status' => 201
+                  );
+                  echo json_encode($res);
+                  exit();
+                }
+              }
+            }
+          }
           //------ end check inventory ------
           foreach ($data as $d) {
             if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
