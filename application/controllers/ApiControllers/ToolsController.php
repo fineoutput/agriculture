@@ -360,21 +360,19 @@ class ToolsController extends CI_Controller
                     } else {
                         $percentage = ($snf - (0.21 * $fat) - 0.66) * 4;
                     }
-                    if (!empty($snf)) {
+                    $cow = [];
+                    $buffalo = [];
                         $cow = array(
-                            'lactose' => $snf * 0.55,
-                            'solid' =>  $snf * 0.083,
-                            'protein' => $snf * 0.367,
+                            'lactose' =>  round($snf?$snf:$percentage * 0.55, 3),
+                            'solid' =>  round($snf?$snf:$percentage * 0.083, 3),
+                            'protein' => round($snf?$snf:$percentage * 0.367, 3),
                         );
                         $buffalo = array(
-                            'lactose' => $snf * 0.45,
-                            'solid' =>  $snf * 0.076,
-                            'protein' => $snf * 0.475,
+                            'lactose' => round($snf?$snf:$percentage* 0.45, 3),
+                            'solid' =>   round($snf?$snf:$percentage* 0.076, 3),
+                            'protein' =>  round($snf?$snf:$percentage * 0.475, 3),
                         );
-                    } else {
-                        $cow = [];
-                        $buffalo = [];
-                    }
+                    } 
                     $data = [];
                     $data = array(
                         'percentage' => $percentage,
