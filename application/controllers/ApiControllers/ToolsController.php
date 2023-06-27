@@ -372,7 +372,7 @@ class ToolsController extends CI_Controller
                             'solid' =>   round($snf?$snf:$percentage* 0.076, 3),
                             'protein' =>  round($snf?$snf:$percentage * 0.475, 3),
                         );
-                    } 
+                    
                     $data = [];
                     $data = array(
                         'percentage' => $percentage,
