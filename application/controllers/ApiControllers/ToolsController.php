@@ -373,9 +373,9 @@ class ToolsController extends CI_Controller
                     //     'protein' =>  round($snf ? $snf : $percentage * 0.475, 3),
                     // );
                     $lsp = [
-                        ['Solid',  round($snf ? $snf : $percentage * 0.55, 3), round($snf ? $snf : $percentage * 0.45, 3)],
-                        ['Protein', round($snf ? $snf : $percentage * 0.083, 3), round($snf ? $snf : $percentage * 0.076, 3)],
-                        ['Lactose',  round($snf ? $snf : $percentage * 0.367, 3),  round($snf ? $snf : $percentage * 0.475, 3)],
+                        ['Solid',  round($type == 'SNF' ? $snf : $percentage * 0.55, 3), round($type == 'SNF'  ? $snf : $percentage * 0.45, 3)],
+                        ['Protein', round($type == 'SNF'  ? $snf : $percentage * 0.083, 3), round($type == 'SNF' ? $snf : $percentage * 0.076, 3)],
+                        ['Lactose',  round($type == 'SNF'  ? $snf : $percentage * 0.367, 3),  round($type == 'SNF'  ? $snf : $percentage * 0.475, 3)],
                     ];
                     $data = [];
                     $data = array(
