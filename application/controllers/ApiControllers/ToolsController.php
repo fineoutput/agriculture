@@ -356,9 +356,9 @@ class ToolsController extends CI_Controller
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     if ($type == 'CLR') {
-                        $percentage = ($clr / 4) + (0.21 * $fat) + 0.66;
+                        $percentage = round(($clr / 4) + (0.21 * $fat) + 0.66, 2);
                     } else {
-                        $percentage = ($snf - (0.21 * $fat) - 0.66) * 4;
+                        $percentage = round(($snf - (0.21 * $fat) - 0.66) * 4, 2);
                     }
                     // $cow = [];
                     // $buffalo = [];
@@ -373,9 +373,9 @@ class ToolsController extends CI_Controller
                     //     'protein' =>  round($snf ? $snf : $percentage * 0.475, 3),
                     // );
                     $lsp = [
-                        ['Solid',  round($type == 'SNF' ? $snf : $percentage * 0.55, 3), round($type == 'SNF'  ? $snf : $percentage * 0.45, 3)],
-                        ['Protein', round($type == 'SNF'  ? $snf : $percentage * 0.083, 3), round($type == 'SNF' ? $snf : $percentage * 0.076, 3)],
-                        ['Lactose',  round($type == 'SNF'  ? $snf : $percentage * 0.367, 3),  round($type == 'SNF'  ? $snf : $percentage * 0.475, 3)],
+                        ['Solid',  round(($type == 'SNF' ? $snf : $percentage) * 0.55, 3), round(($type == 'SNF'  ? $snf : $percentage) * 0.45, 3)],
+                        ['Protein', round(($type == 'SNF'  ? $snf : $percentage) * 0.083, 3), round(($type == 'SNF'  ? $snf : $percentage) * 0.076, 3)],
+                        ['Lactose',  round(($type == 'SNF'  ? $snf : $percentage) * 0.367, 3),  round(($type == 'SNF'  ? $snf : $percentage) * 0.475, 3)],
                     ];
                     $data = [];
                     $data = array(
