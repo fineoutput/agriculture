@@ -112,7 +112,7 @@ class ToolsController extends CI_Controller
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
             $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
-           if ($this->form_validation->run() == true) {
+            if ($this->form_validation->run() == true) {
                 $number_of_cows = $this->input->post('number_of_cows');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
@@ -335,6 +335,85 @@ class ToolsController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //====================================================== SNF CALCULATOR================================================//
+    public function snf_calculator()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('snf', 'snf', 'xss_clean|trim');
+            $this->form_validation->set_rules('clr', 'clr', 'xss_clean|trim');
+            $this->form_validation->set_rules('fat', 'fat', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $type = $this->input->post('type');
+                $snf = $this->input->post('snf');
+                $clr = $this->input->post('clr');
+                $fat = $this->input->post('fat');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    if ($type == 'CLR') {
+                        $percentage = ($clr / 4) + (0.21 * $fat) + 0.66;
+                    } else {
+                        $percentage = ($snf - (0.21 * $fat) - 0.66) * 4;
+                    }
+                    if (!empty($snf)) {
+                        $cow = array(
+                            'lactose' => $snf * 0.55,
+                            'solid' =>  $snf * 0.083,
+                            'protein' => $snf * 0.367,
+                        );
+                        $buffalo = array(
+                            'lactose' => $snf * 0.45,
+                            'solid' =>  $snf * 0.076,
+                            'protein' => $snf * 0.475,
+                        );
+                    } else {
+                        $cow = [];
+                        $buffalo = [];
+                    }
+                    $data = [];
+                    $data = array(
+                        'percentage' => $percentage,
+                        'cow' =>  $cow,
+                        'buffalo' =>  $buffalo,
+                    );
+                    //------- update service record -----------
+                    $service_data = $this->db->get_where('tbl_service_records')->result();
+                    $data_update = array('snf_calculator' => $service_data[0]->snf_calculator + 1);
+                    $this->db->where('id', $service_data[0]->id);
+                    $zapak = $this->db->update('tbl_service_records', $data_update);
+                    $res = array(
+                        'message' => "Success!",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //====================================================== AllProducts ================================================//
     public function AllProducts()
     {
@@ -381,8 +460,8 @@ class ToolsController extends CI_Controller
                         }
                     } else {
                         if (empty($search)) {
-                            $count = $this->db->get_where('tbl_products', array('is_active' => 1,'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
-                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1,'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id));
+                            $count = $this->db->get_where('tbl_products', array('is_active' => 1, 'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id))->num_rows();
+                            $ProData = $this->db->limit($limit, $start)->get_where('tbl_products', array('is_active' => 1, 'is_approved' => 1, 'is_admin' => 0, 'added_by' => $vendor_id));
                         } else {
                             $this->db->select('*');
                             $this->db->from('tbl_products');
@@ -624,93 +703,93 @@ class ToolsController extends CI_Controller
         //         $latitude = $this->input->post('latitude');
         //         $longitude = $this->input->post('longitude');
         //         $radius = $this->input->post('radius');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-                if (!empty($farmer_data)) {
-                    $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
-                    $en_data = [];
-                    $hi_data = [];
-                    $pn_data = [];
-                    foreach ($DoctorData as $doctor) {
-                        // if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
-                        //     $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
-                            // echo $km;
-                            // echo "<br>";
-                            // if ($km <= $radius) {
-                            if (!empty($doctor->image)) {
-                                $image = base_url() . $doctor->image;
-                            } else {
-                                $image = '';
-                            }
-                            $state_data = $this->db->get_where('all_states', array('id' =>  $doctor->state))->result();
-                            $en_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'experience' => $doctor->experience,
-                                'fees' => $doctor->fees,
-                                'expertise' => $doctor->expertise,
-                                'qualification' => $doctor->qualification,
-                                'district' => $doctor->district,
-                                'city' => $doctor->city,
-                                'state' => $state_data ? $state_data[0]->state_name : '',
-                                'image' => $image
-                            );
-                            $hi_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->hi_name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'experience' => $doctor->experience,
-                                'fees' => $doctor->fees,
-                                'expertise' => $doctor->expertise,
-                                'qualification' => $doctor->qualification,
-                                'district' => $doctor->hi_district,
-                                'city' => $doctor->hi_city,
-                                'state' => $state_data ? $state_data[0]->state_name : '',
-                                'image' => $image
-                            );
-                            $pn_data[] = array(
-                                'id' => $doctor->id,
-                                'name' => $doctor->pn_name,
-                                'email' => $doctor->email,
-                                'degree' => $doctor->degree,
-                                'phone' => $doctor->phone,
-                                'type' => $doctor->type,
-                                'experience' => $doctor->experience,
-                                'fees' => $doctor->fees,
-                                'expertise' => $doctor->expertise,
-                                'qualification' => $doctor->qualification,
-                                'district' => $doctor->pn_district,
-                                'city' => $doctor->pn_city,
-                                'state' => $state_data ? $state_data[0]->state_name : '',
-                                'image' => $image
-                            );
-                            // }
-                        // }
-                        $data = array(
-                            'en' => $en_data,
-                            'hi' => $hi_data,
-                            'pn' => $pn_data,
-                        );
-                    }
-                    $res = array(
-                        'message' => "Success",
-                        'status' => 200,
-                        'data' => $data
-                    );
-                    echo json_encode($res);
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
+            $en_data = [];
+            $hi_data = [];
+            $pn_data = [];
+            foreach ($DoctorData as $doctor) {
+                // if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                //     $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                // echo $km;
+                // echo "<br>";
+                // if ($km <= $radius) {
+                if (!empty($doctor->image)) {
+                    $image = base_url() . $doctor->image;
                 } else {
-                    $res = array(
-                        'message' => 'Permission Denied!',
-                        'status' => 201
-                    );
-                    echo json_encode($res);
+                    $image = '';
                 }
+                $state_data = $this->db->get_where('all_states', array('id' =>  $doctor->state))->result();
+                $en_data[] = array(
+                    'id' => $doctor->id,
+                    'name' => $doctor->name,
+                    'email' => $doctor->email,
+                    'degree' => $doctor->degree,
+                    'phone' => $doctor->phone,
+                    'type' => $doctor->type,
+                    'experience' => $doctor->experience,
+                    'fees' => $doctor->fees,
+                    'expertise' => $doctor->expertise,
+                    'qualification' => $doctor->qualification,
+                    'district' => $doctor->district,
+                    'city' => $doctor->city,
+                    'state' => $state_data ? $state_data[0]->state_name : '',
+                    'image' => $image
+                );
+                $hi_data[] = array(
+                    'id' => $doctor->id,
+                    'name' => $doctor->hi_name,
+                    'email' => $doctor->email,
+                    'degree' => $doctor->degree,
+                    'phone' => $doctor->phone,
+                    'type' => $doctor->type,
+                    'experience' => $doctor->experience,
+                    'fees' => $doctor->fees,
+                    'expertise' => $doctor->expertise,
+                    'qualification' => $doctor->qualification,
+                    'district' => $doctor->hi_district,
+                    'city' => $doctor->hi_city,
+                    'state' => $state_data ? $state_data[0]->state_name : '',
+                    'image' => $image
+                );
+                $pn_data[] = array(
+                    'id' => $doctor->id,
+                    'name' => $doctor->pn_name,
+                    'email' => $doctor->email,
+                    'degree' => $doctor->degree,
+                    'phone' => $doctor->phone,
+                    'type' => $doctor->type,
+                    'experience' => $doctor->experience,
+                    'fees' => $doctor->fees,
+                    'expertise' => $doctor->expertise,
+                    'qualification' => $doctor->qualification,
+                    'district' => $doctor->pn_district,
+                    'city' => $doctor->pn_city,
+                    'state' => $state_data ? $state_data[0]->state_name : '',
+                    'image' => $image
+                );
+                // }
+                // }
+                $data = array(
+                    'en' => $en_data,
+                    'hi' => $hi_data,
+                    'pn' => $pn_data,
+                );
+            }
+            $res = array(
+                'message' => "Success",
+                'status' => 200,
+                'data' => $data
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
         //     } else {
         //         $res = array(
         //             'message' => validation_errors(),
@@ -1055,13 +1134,13 @@ class ToolsController extends CI_Controller
                     $data2 = array(
                         'req_id' => $order_id,
                         'doctor_id' => $order_data->doctor_id,
-                        'cr' =>  $order_data->fees-$amt,
+                        'cr' =>  $order_data->fees - $amt,
                         'date' => $cur_date
                     );
                     $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
                     //------ update doctor account ------
                     $data_update = array(
-                        'account' => $docData[0]->account + $order_data->fees-$amt,
+                        'account' => $docData[0]->account + $order_data->fees - $amt,
                     );
                     $this->db->where('id', $order_data->doctor_id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
@@ -1072,7 +1151,7 @@ class ToolsController extends CI_Controller
                     //success notification code
                     $url = 'https://fcm.googleapis.com/fcm/send';
                     $title = "New Request";
-                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . ($order_data->fees-$amt);
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . ($order_data->fees - $amt);
                     $msg2 = array(
                         'title' => $title,
                         'body' => $message,
@@ -1284,25 +1363,25 @@ class ToolsController extends CI_Controller
         return $binString;
     }
     public function payment_failed()
-	{
-		$encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
-		date_default_timezone_set("Asia/Calcutta");
-		$cur_date = date("Y-m-d H:i:s");
-		error_reporting(0);
-		$workingKey = WORKING_KEY;			//Working Key should be provided here.
-		$rcvdString = $this->decrypt($encResponse, $workingKey);		//Crypto Decryption used as per the specified working key.
-		$order_status = "";
-		$decryptValues = explode('&', $rcvdString);
-		$dataSize = sizeof($decryptValues);
-		for ($i = 0; $i < $dataSize; $i++) {
-			$information = explode('=', $decryptValues[$i]);
-			if ($i == 3)	$order_status = $information[1];
-		}
-		$data_insert = array(
-			'body' => json_encode($decryptValues),
-			'date' => $cur_date
-		);
-		$last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
-	}
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;            //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+    }
 }
   //====================================================== END TOOLSCONTROLLER================================================//
