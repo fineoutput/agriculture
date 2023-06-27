@@ -51,7 +51,7 @@ class ManagementController extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
-        print_r($data);die();
+        print_r($data);
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $entry_id = bin2hex(random_bytes(5));
