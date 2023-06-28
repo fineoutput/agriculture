@@ -1411,7 +1411,7 @@ class VendorController extends CI_Controller
                         'email' => $email,
                         'latitude' => $latitude,
                         'longitude' => $longitude,
-                        'image' => $image
+                        'image' => $image ? $image : $vendor_data[0]->image,
                     );
                     $this->db->where('id', $vendor_data[0]->id);
                     $zapak = $this->db->update('tbl_vendor', $data_update);
