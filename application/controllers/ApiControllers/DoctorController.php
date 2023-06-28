@@ -310,7 +310,7 @@ class DoctorController extends CI_Controller
                         'pincode' => $pincode,
                         'aadhar_no' => $aadhar_no,
                         'expertise' => $expertise,
-                        'image' => $image ? $image : $doctor_data[0]->image,
+                        'image' => $image ,
                     );
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
