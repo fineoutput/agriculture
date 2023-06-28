@@ -1231,7 +1231,7 @@ class VendorController extends CI_Controller
                 'district' => $vendor_data[0]->district,
                 'city' => $vendor_data[0]->city,
                 'state' => $state,
-                'state_id' => $doctor_data[0]->state,
+                'state_id' => $vendor_data[0]->state,
                 'pincode' => $vendor_data[0]->pincode,
                 'commission' => $vendor_data[0]->comission,
                 'gst_no' => $vendor_data[0]->gst_no,
