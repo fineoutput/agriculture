@@ -245,6 +245,7 @@ class DoctorController extends CI_Controller
             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
             $this->form_validation->set_rules('doc_type', 'doc_type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('qualification', 'qualification', 'required|xss_clean|trim');
             $this->form_validation->set_rules('experience', 'experience', 'xss_clean|trim');
             $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
             $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
@@ -260,6 +261,7 @@ class DoctorController extends CI_Controller
                 $pincode = $this->input->post('pincode');
                 $aadhar_no = $this->input->post('aadhar_no');
                 $expertise = $this->input->post('expertise');
+                $qualification = $this->input->post('qualification');
                 $this->load->library('upload');
                 $image = '';
                 $img1 = 'image';
@@ -306,6 +308,7 @@ class DoctorController extends CI_Controller
                         'city' => $city,
                         'state' => $state,
                         'type' => $dt,
+                        'qualification' => $qualification,
                         'experience' => $experience,
                         'pincode' => $pincode,
                         'aadhar_no' => $aadhar_no,
