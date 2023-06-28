@@ -267,16 +267,19 @@ class BreedController extends CI_Controller
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
           //------ update semen --------
           if ($update_bull_semen == 'Yes') {
-            $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id))->result();
-            $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
-            $this->db->where('id', $canister_data[0]->id);
-            $zapak = $this->db->update('tbl_canister', $data_update);
-          } else {
-            $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $bull_tag_no))->result();
-            if (!empty($canister_data)) {
+            if ($farm_bull === 'Yes') {
+              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $bull_tag_no))->result();
               $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
               $this->db->where('id', $canister_data[0]->id);
               $zapak = $this->db->update('tbl_canister', $data_update);
+            } else {
+              // $bull_data = $this->db->get_where('tbl_my_animal', array('id' => $semen_bull_id))->result();
+              $canister_data = $this->db->get_where('tbl_canister', array('farmer_id' => $farmer_data[0]->id, 'id' => $semen_bull_id))->result();
+              if (!empty($canister_data)) {
+                $data_update = array('no_of_units' => $canister_data[0]->no_of_units - 1,);
+                $this->db->where('id', $canister_data[0]->id);
+                $zapak = $this->db->update('tbl_canister', $data_update);
+              }
             }
           }
           $res = array(
@@ -339,6 +342,13 @@ class BreedController extends CI_Controller
         } else {
           $group = '';
         }
+        if ($breed->farm_bull == 'Yes') {
+          $bull_data = $this->db->get_where('tbl_my_animal', array( 'tag_no' => $breed->tag_no))->result();
+          $bull_name=$bull_data?$bull_data[0]->animal_name:'';
+        } else {
+          $bull_data = $this->db->get_where('tbl_canister', array( 'id' => $breed->semen_bull_id))->result();
+          $bull_name=$bull_data?$bull_data[0]->bull_name:'';
+        }
         $newdate = new DateTime($breed->date);
         $data[] = array(
           's_no' => $i,
@@ -350,7 +360,7 @@ class BreedController extends CI_Controller
           'date_of_ai' => $breed->date_of_ai,
           'farm_bull' => $breed->farm_bull,
           'bull_tag_no' => $breed->bull_tag_no,
-          'bull_name' => $breed->bull_name,
+          'bull_name' => $bull_name,
           'expenses' => $breed->expenses,
           'vet_name' => $breed->vet_name,
           'is_pregnant' => $breed->is_pregnant,

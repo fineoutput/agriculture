@@ -51,9 +51,32 @@ class ManagementController extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        // print_r($data);
+        // log_message('error', json_encode($data));
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $entry_id = bin2hex(random_bytes(5));
+          // ------ start check inventory ------
+          foreach ($data as $d) {
+            if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
+              if ($update_inventory == "Yes" && $d->values->type == 'feed' &&  $d->column != 'feed') {
+                $this->db->select_sum($d->column);
+                $this->db->from('tbl_stock_handling');
+                $this->db->where('farmer_id', $farmer_data[0]->id);
+                $query = $this->db->get();
+                $column = $d->column;
+                if ($query->row()->$column < $d->values->qty) {
+                  $res = array(
+                    'message' => $d->column . ' available inventory is ' . $query->row()->$column,
+                    'status' => 201
+                  );
+                  echo json_encode($res);
+                  exit();
+                }
+              }
+            }
+          }
+          //------ end check inventory ------
           foreach ($data as $d) {
             if (!empty($d->values->qty) && !empty($d->values->price) && !empty($d->values->amount)) {
               $data = array(
@@ -74,7 +97,8 @@ class ManagementController extends CI_Controller
                 $data = array(
                   'farmer_id' => $farmer_data[0]->id,
                   $d->column => -$d->values->qty,
-                  'date' => $cur_date
+                  'date' => $cur_date,
+                  'is_txn' => 1
                 );
                 $last_id = $this->base_model->insert_table("tbl_stock_handling", $data, 1);
               }
@@ -144,7 +168,7 @@ class ManagementController extends CI_Controller
         foreach ($daily_data as $daily) {
           $newdate = new DateTime($daily->date);
           $data[] = array(
-            'record_date' =>date('d-m-Y', strtotime($daily->record_date)),
+            'record_date' => date('d-m-Y', strtotime($daily->record_date)),
             'name' => $daily->name,
             'qty' => $daily->qty,
             'price' => $daily->price,
@@ -1164,7 +1188,8 @@ class ManagementController extends CI_Controller
       );
       echo json_encode($res);
     }
-  } //==================================view_stokes =========================================//
+  }
+  //==================================view_stokes =========================================//
   public function view_stocks()
   {
     $headers = apache_request_headers();
@@ -1217,6 +1242,106 @@ class ManagementController extends CI_Controller
       $this->db->from('tbl_stock_handling');
       $this->db->where('farmer_id', $farmer_data[0]->id);
       $this->db->order_by('id', 'desc');
+      $this->db->where('is_txn', 0);
+      $this->db->limit($limit, $start);
+      $stock_data = $this->db->get();
+      $pages = round($count / $limit);
+      $pagination = $this->CreatePagination($page_index, $pages);
+      $data = [];
+      $i = 1;
+      foreach ($stock_data->result() as $stock) {
+        $newdate = new DateTime($stock->date);
+        $data[] = array(
+          'stock_date' => $stock->stock_date,
+          'green_forage' => $stock->green_forage,
+          'dry_fodder' => $stock->dry_fodder,
+          'silage' => $stock->silage,
+          'cake' => $stock->cake,
+          'grains' => $stock->grains,
+          'bioproducts' => $stock->bioproducts,
+          'churi' => $stock->churi,
+          'oil_seeds' => $stock->oil_seeds,
+          'minerals' => $stock->minerals,
+          'bypass_fat' => $stock->bypass_fat,
+          'toxins' => $stock->toxins,
+          'buffer' => $stock->buffer,
+          'yeast' => $stock->yeast,
+          'calcium' => $stock->calcium,
+          'date' => $newdate->format('d/m/Y')
+        );
+        $i++;
+      }
+      $res = array(
+        'message' => "Success!",
+        'status' => 200,
+        'data' => $data,
+        'summary' => $summary,
+        'pagination' => $pagination,
+        'last' => $pages,
+      );
+      echo json_encode($res);
+    } else {
+      $res = array(
+        'message' => 'Permission Denied!',
+        'status' => 201
+      );
+      echo json_encode($res);
+    }
+  }
+  //==================================view_stokes =========================================//
+  public function view_stocks_txn()
+  {
+    $headers = apache_request_headers();
+    $authentication = $headers['Authentication'];
+    $page_index = $headers['Index'];
+    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+    if (!empty($farmer_data)) {
+      $count = $this->db->get_where('tbl_stock_handling', array('farmer_id' => $farmer_data[0]->id))->num_rows();
+      $summary = [];
+      $this->db->select_sum('green_forage');
+      $this->db->select_sum('dry_fodder');
+      $this->db->select_sum('silage');
+      $this->db->select_sum('cake');
+      $this->db->select_sum('grains');
+      $this->db->select_sum('bioproducts');
+      $this->db->select_sum('churi');
+      $this->db->select_sum('oil_seeds');
+      $this->db->select_sum('minerals');
+      $this->db->select_sum('bypass_fat');
+      $this->db->select_sum('toxins');
+      $this->db->select_sum('buffer');
+      $this->db->select_sum('yeast');
+      $this->db->select_sum('calcium');
+      $this->db->from('tbl_stock_handling');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $query = $this->db->get();
+      $summary = array(
+        'green_forage' => $query->row()->green_forage,
+        'dry_fodder' => $query->row()->dry_fodder,
+        'silage' => $query->row()->silage,
+        'cake' => $query->row()->cake,
+        'grains' => $query->row()->grains,
+        'bioproducts' => $query->row()->bioproducts,
+        'churi' => $query->row()->churi,
+        'oil_seeds' => $query->row()->oil_seeds,
+        'minerals' => $query->row()->minerals,
+        'bypass_fat' => $query->row()->bypass_fat,
+        'toxins' => $query->row()->toxins,
+        'buffer' => $query->row()->buffer,
+        'yeast' => $query->row()->yeast,
+        'calcium' => $query->row()->calcium,
+      );
+      $limit = 20;
+      if (!empty($page_index)) {
+        $start = ($page_index - 1) * $limit;
+      } else {
+        $start = 0;
+      }
+      $this->db->select('*');
+      $this->db->from('tbl_stock_handling');
+      $this->db->where('farmer_id', $farmer_data[0]->id);
+      $this->db->order_by('id', 'desc');
+      $this->db->where('is_txn', 1);
       $this->db->limit($limit, $start);
       $stock_data = $this->db->get();
       $pages = round($count / $limit);
@@ -1926,7 +2051,6 @@ class ManagementController extends CI_Controller
               'date' => $cur_date
             );
             $last_id = $this->base_model->insert_table("tbl_farmer_notification", $data_insert, 1);
-            
           }
         } else if (($seven_month <= $cur_date) && ($seven_month >= $calving_date)) {
           //--- check for 7 months dry state ----
