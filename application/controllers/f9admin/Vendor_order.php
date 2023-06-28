@@ -45,7 +45,27 @@ class Vendor_order extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 2); //accepted orders
             $this->db->where('is_admin', 0); //vendor orders
-            $data['order1_data'] = $this->db->get();
+            $order1_data = $this->db->get();
+            $count=0;
+            foreach ($order1_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['order1_data']=$order1_data; 
+
+
+
+
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -66,7 +86,24 @@ class Vendor_order extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 3); //dispatched_orders
             $this->db->where('is_admin', 0); //vendor orders
-            $data['order1_data'] = $this->db->get();
+          
+            $order1_data = $this->db->get();
+            $count=0;
+            foreach ($order1_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['order1_data']=$order1_data; 
             $data['heading'] = "Dispatched";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -87,7 +124,24 @@ class Vendor_order extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 4); //delivered orders
             $this->db->where('is_admin', 0); //vendor orders
-            $data['order1_data'] = $this->db->get();
+           
+            $order1_data = $this->db->get();
+            $count=0;
+            foreach ($order1_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['order1_data']=$order1_data; 
             $data['heading'] = "Completed";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -108,7 +162,24 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $this->db->where('order_status > ', 4); //cancelled orders
             $this->db->where('is_admin', 0); //vendor orders
-            $data['order1_data'] = $this->db->get();
+            
+            $order1_data = $this->db->get();
+            $count=0;
+            foreach ($order1_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['order1_data']=$order1_data; 
             $data['heading'] = "Rejected/Cancelled";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
@@ -128,7 +199,24 @@ class Vendor_order extends CI_finecontrol
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 6); //rejected orders
             $this->db->where('is_admin', 0); //vendor orders
-            $data['order1_data'] = $this->db->get();
+            
+            $order1_data = $this->db->get();
+            $count=0;
+            foreach ($order1_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['order1_data']=$order1_data; 
             $data['heading'] = "Rejected";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);

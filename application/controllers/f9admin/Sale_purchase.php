@@ -156,7 +156,7 @@ class Sale_purchase extends CI_finecontrol
                 $zapak = $this->db->update('tbl_sale_purchase', $data_update);
 
                 if ($zapak != 0) {
-                    redirect("dcadmin/sale_purchase/view_salepurchase", "refresh");
+                    redirect($_SERVER['HTTP_REFERER']);
                 } else {
                     echo "Error";
                     exit;

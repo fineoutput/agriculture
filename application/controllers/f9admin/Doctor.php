@@ -71,7 +71,30 @@ class Doctor extends CI_finecontrol
             $this->db->from('tbl_doctor_req');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-            $data['request_data'] = $this->db->get();
+           
+            $request_data = $this->db->get();
+            $count=0;
+            foreach ($request_data->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('doctor_id	',$datas->doctor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count=$count+$datas->fees-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
+
+
+            $data['request_data']=$request_data; 
+
+
+
+
+
+
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/doctor/view_doctor_req');
             $this->load->view('admin/common/footer_view');
