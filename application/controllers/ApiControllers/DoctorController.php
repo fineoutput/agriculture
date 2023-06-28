@@ -237,12 +237,79 @@ class DoctorController extends CI_Controller
         if ($this->input->post()) {
             $headers = apache_request_headers();
             $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('expertise', 'expertise', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('email', 'email', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('doc_type', 'doc_type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('experience', 'experience', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('expertise', 'expertise', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $email = $this->input->post('email');
+                $district = $this->input->post('district');
+                $city = $this->input->post('city');
+                $state = $this->input->post('state');
+                $doc_type = $this->input->post('doc_type');
+                $experience = $this->input->post('experience');
+                $pincode = $this->input->post('pincode');
+                $aadhar_no = $this->input->post('aadhar_no');
                 $expertise = $this->input->post('expertise');
+                $this->load->library('upload');
+                $image = '';
+                $img1 = 'image';
+                if (!empty($_FILES['image'])) {
+                    $file_check = ($_FILES['image']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/doctor/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "image" . date("YmdHis");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1)) {
+                            $upload_error = $this->upload->display_errors();
+                            $respone['status'] = false;
+                            $respone['message'] = $upload_error;
+                            echo json_encode($respone);
+                            die();
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image = "assets/uploads/aadhar/" . $file_info['file_name'];
+                        }
+                    }
+                }
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
-                    $data_update = array('expertise' => $expertise,);
+                    if ($doc_type == 1) {
+                        $dt = "Vet";
+                    } else if ($doc_type == 2) {
+                        $dt = "Livestock Assistant";
+                    } else {
+                        $dt = "Private Practitioner";
+                    }
+                    $data_update = array(
+                        'name' => $name,
+                        'email' => $email,
+                        'district' => $district,
+                        'city' => $city,
+                        'state' => $state,
+                        'type' => $dt,
+                        'experience' => $experience,
+                        'pincode' => $pincode,
+                        'aadhar_no' => $aadhar_no,
+                        'expertise' => $expertise,
+                        'image' => $image ? $image : $doctor_data[0]->image,
+                    );
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
                     $res = array(
