@@ -243,7 +243,7 @@ class DoctorController extends CI_Controller
             $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
             $this->form_validation->set_rules('doc_type', 'doc_type', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('experience', 'experience', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('experience', 'experience', 'xss_clean|trim');
             $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
             $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
             $this->form_validation->set_rules('expertise', 'expertise', 'xss_clean|trim');

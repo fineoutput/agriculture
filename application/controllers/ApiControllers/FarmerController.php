@@ -749,13 +749,13 @@ class FarmerController extends CI_Controller
                         $data2 = array(
                             'req_id' => $order_id,
                             'vendor_id' => $order1_data[0]->vendor_id,
-                            'cr' => $amt,
+                            'cr' =>  $order1_data[0]->total_amount - $amt,
                             'date' => $cur_date
                         );
                         $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
                         //------ update vendor account ------
                         $data_update = array(
-                            'account' => $vendor_data[0]->account + $amt,
+                            'account' => $vendor_data[0]->account + $order1_data[0]->total_amount - $amt,
                         );
                         $this->db->where('id', $order1_data[0]->vendor_id);
                         $zapak = $this->db->update('tbl_vendor', $data_update);
