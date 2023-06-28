@@ -14,8 +14,16 @@
             <div class="col-lg-12">
                 <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/doctor/add_doctor" role="button" style="margin-bottom:12px;"> Add Doctor</a> -->
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading" style="display:flex;justify-content: space-between;">
                         <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> View Farmer To Doctor Requests</h3>
+                        <h4>Total Admin Earning:
+                            <?
+
+                            echo "₹".$count;
+                            ?>
+                        </h4>
+
+
                     </div>
                     <div class="panel panel-default">
                         <? if (!empty($this->session->flashdata('smessage'))) { ?>
@@ -46,6 +54,7 @@
                                             <th>Reason</th>
                                             <th>Description</th>
                                             <th>Fees</th>
+                                            <th>Admin Earning </th>
                                             <th>Images</th>
                                             <th>Status</th>
                                         </tr>
@@ -76,7 +85,19 @@
                                                 </td>
                                                 <td><?php echo $data->reason ?></td>
                                                 <td><?php echo $data->description ?></td>
-                                                <td><?php echo $data->fees ? '₹'.$data->fees : '₹0'?></td>
+                                                <td><?php echo $data->fees ? '₹' . $data->fees : '₹0' ?></td>
+                                                <td>
+                                                    <?
+                                                    $this->db->select('*');
+                                                    $this->db->from('tbl_payment_txn');
+                                                    $this->db->where('req_id', $data->id);
+                                                    $this->db->where('doctor_id	', $data->doctor_id);
+                                                    $dsa_ptx = $this->db->get()->row();
+                                                    if (!empty($dsa_ptx->cr)) {
+                                                        echo '₹' . ($data->fees - $dsa_ptx->cr);
+                                                    }
+                                                    ?>
+                                                </td>
                                                 <td>
                                                     <?php if ($data->image1 != "") {  ?>
                                                         <a href="<?php echo base_url() . $data->image1 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image1" height=50 width=80 src="<?php echo base_url() . $data->image1 ?>"></a>

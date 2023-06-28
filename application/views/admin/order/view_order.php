@@ -13,9 +13,18 @@
       <div class="col-lg-12">
         <!-- <a class="btn custom_btn" href="<?php echo base_url() ?>dcadmin/order/Add_order" role="button" style="margin-bottom:12px;"></a> -->
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
-          </div>
+          
+          <div class="panel-heading" style="display:flex;justify-content: space-between;">
+          <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
+                        <h4>Total Admin Earning:
+                            <?
+
+                            echo "₹".$count;
+                            ?>
+                        </h4>
+
+
+                    </div>
           <div class="panel panel-default">
             <?php if (!empty($this->session->flashdata('smessage'))) { ?>
               <div class="alert alert-success alert-dismissible">
@@ -43,6 +52,7 @@
                       <th>Amount</th>
                       <th>Charges</th>
                       <th>Sub Total</th>
+                      <th>Admin Earning</th>
                       <th>Date</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -63,6 +73,18 @@
                         <td><?php echo "₹" . $data->total_amount ?></td>
                         <td><?php echo "₹" . $data->charges ?></td>
                         <td><?php echo "₹" . $data->final_amount ?></td>
+                        <td>
+                                                    <?
+                                                    $this->db->select('*');
+                                                    $this->db->from('tbl_payment_txn');
+                                                    $this->db->where('req_id', $data->id);
+                                                    $this->db->where('vendor_id', $data->vendor_id);
+                                                    $dsa_ptx = $this->db->get()->row();
+                                                    if (!empty($dsa_ptx->cr)) {
+                                                        echo '₹' . ($data->total_amount - $dsa_ptx->cr);
+                                                    }
+                                                    ?>
+                                                </td>
                         <td>
                           <?
                           $newdate = new DateTime($data->date);

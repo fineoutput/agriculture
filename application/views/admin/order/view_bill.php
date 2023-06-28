@@ -31,6 +31,8 @@
             <br><br><b>Email:</b><br>
             info@dairymuneem.com <br>dairymuneem@gmail.com<br></span>
         </div>
+        <?php
+          if (!empty($order1_data->is_admin==0)) {?>
         <div class="col-sm-6 billing_content"><span class="font-weight-bold ">Vendor Details:</span><br>
           <!-- code here -->
           <?php
@@ -80,6 +82,9 @@
           }
           ?>
         </div>
+        <?
+          }
+        ?>
       </div>
       <br>
       <div class="row">
