@@ -54,6 +54,6 @@ class CI_Messages
     ));
     $response = curl_exec($curl);
     curl_close($curl);
-    echo $response;die();
+    // echo $response;die();
     }
 }
