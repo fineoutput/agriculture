@@ -213,8 +213,8 @@ class FeedController extends CI_Controller
         );
         $data['result'] = $data1;
         $message = $this->load->view('pdf/dmi', $data, TRUE);
-        print_r($message);
-        die();
+        // print_r($message);
+        // die();
         $res = array(
             'message' => "Success!",
             'status' => 200,
