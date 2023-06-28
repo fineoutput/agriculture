@@ -198,6 +198,7 @@ class DoctorController extends CI_Controller
                 'district' => $doctor_data[0]->district,
                 'city' => $doctor_data[0]->city,
                 'state' => $state,
+                'state_id' => $doctor_data[0]->state,
                 'phone' => $doctor_data[0]->phone,
                 'email' => $doctor_data[0]->email,
                 'type' => $doctor_data[0]->type,
