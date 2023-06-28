@@ -40,7 +40,7 @@ class CI_Messages
       $message = urlencode($msg);
       $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'http://api.msg91.com/api/sendhttp.php?authkey='.SMSAUTH.'&mobile=91'.$phone.'&message='.$message.'&sender='.SMSID.'&DLT_TE_ID='.$dlt.'',
+      CURLOPT_URL => 'http://api.msg91.com/api/sendhttp.php?authkey='.SMSAUTH.'&mobiles=91'.$phone.'&message='.$message.'&sender='.SMSID.'&DLT_TE_ID='.$dlt.'',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
@@ -54,6 +54,6 @@ class CI_Messages
     ));
     $response = curl_exec($curl);
     curl_close($curl);
-    // echo $response;die();
+    echo $response;die();
     }
 }
