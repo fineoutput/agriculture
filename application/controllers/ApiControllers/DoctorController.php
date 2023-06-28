@@ -285,7 +285,7 @@ class DoctorController extends CI_Controller
                             die();
                         } else {
                             $file_info = $this->upload->data();
-                            $image = "assets/uploads/aadhar/" . $file_info['file_name'];
+                            $image = "assets/uploads/doctor/" . $file_info['file_name'];
                         }
                     }
                 }
