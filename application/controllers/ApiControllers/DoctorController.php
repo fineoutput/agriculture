@@ -201,6 +201,7 @@ class DoctorController extends CI_Controller
                 'phone' => $doctor_data[0]->phone,
                 'email' => $doctor_data[0]->email,
                 'type' => $doctor_data[0]->type,
+                'pincode' => $doctor_data[0]->pincode,
                 'degree' => $doctor_data[0]->degree,
                 'experience' => $doctor_data[0]->experience,
                 'qualification' => $doctor_data[0]->qualification,
