@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Dairy Muneem Animal Requirements</title>
     <meta charset="utf-8">
@@ -8,9 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-    
     <div class="container mt-2">
         <div class="row">
             <table class="table table-bordered">
@@ -20,13 +17,11 @@
                         border-collapse: collapse;
                         margin: 50px auto;
                     }
-
                     th {
                         background: #3498db;
                         color: white;
                         font-weight: bold;
                     }
-
                     td,
                     th {
                         padding: 10px;
@@ -34,72 +29,66 @@
                         text-align: left;
                         font-size: 18px;
                     }
-
                     .labels tr td {
                         background-color: #20b9aa;
                         font-weight: bold;
                         color: #fff;
                     }
-                    .two{
+                    .two {
                         color: #20b9aa;
                     }
-
                     .label tr td label {
                         display: block;
                     }
-
                     [data-toggle="toggle"] {
                         display: none;
                     }
-                
-                    .three{
-                        color:#3c5772;
+                    .three {
+                        color: #3c5772;
                     }
-                    .four{
-                        color:#507186;
+                    .four {
+                        color: #507186;
                     }
-                    .info{
-                        background-color:#0dcaf0;
+                    .info {
+                        background-color: #0dcaf0;
                     }
-                    .info2{
-                        color:#3498db;
+                    .info2 {
+                        color: #3498db;
                     }
-                    .success{
-                        color:#198754;
+                    .success {
+                        color: #198754;
                     }
-                    .primary{
-                        color:#0d6efd;
+                    .primary {
+                        color: #0d6efd;
                     }
-                    .warning{
-                        color:#ffc107;
+                    .warning {
+                        color: #ffc107;
                     }
                 </style>
                 <table>
                     <thead>
                     </thead>
-                
-                        <!-- =========================================================================== -->
-                        <tbody>
+                    <!-- =========================================================================== -->
+                    <tbody>
                         <tr>
-                            <td colspan="3"  style="border-right:none">
-                                <img src="<? echo base_url()?>/assets/logo2.png">
+                            <td colspan="3" style="border-right:none">
+                                <img src="<? echo base_url() ?>/assets/logo2.png">
                                 <h5>Agristar Animal Solution Private Limited</h5>
                                 <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
-                            
                             </td>
-                            <td  colspan="2" style="border-left:none">
-                            <h6>Contact:</h6>
+                            <td colspan="2" style="border-left:none">
+                                <h6>Contact:</h6>
                                 <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
                                 <h6>Email:</h6>
                                 <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
-
-                            </td> 
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="text-center"><h3><span class="two">The </span><span class="three">Nutrition System For</span> <span class="two">Dairy</span><span class="four"> Cattle</span></h3></td>
+                            <td colspan="5" class="text-center">
+                                <h3><span class="two">The </span><span class="three">Nutrition System For</span> <span class="two">Dairy</span><span class="four"> Cattle</span></h3>
+                            </td>
                         </tr>
                         <tr>
-                          
                         </tr>
                     </tbody>
                     <tbody class="labels">
@@ -112,51 +101,51 @@
                     <tbody class="hide">
                         <tr>
                             <td>Genetic Group:</td>
-                            <td  class="two"><?= $input['group'] ?></td>
+                            <td class="two"><?= $input['group'] ?></td>
                             <td>Body Weight Variation</td>
-                            <td  class="two"><?= $input['weight_variation'] ?> Kg/cow/day</td>
+                            <td class="two"><?= $input['weight_variation'] ?> Kg/cow/day</td>
                         </tr>
                         <tr>
                             <td>Feeding system</td>
-                            <td  class="two"><?= $input['feeding_system'] ?></td>
+                            <td class="two"><?= $input['feeding_system'] ?></td>
                             <td>BCS</td>
-                            <td  class="two"><?= $input['bcs'] ?> (1 to 5)</td>
+                            <td class="two"><?= $input['bcs'] ?> (1 to 5)</td>
                         </tr>
                         <tr>
                             <td>Body Weight (BW)</td>
-                            <td  class="two"><?= $input['weight'] ?> Kg/cow/day</td>
+                            <td class="two"><?= $input['weight'] ?> Kg/cow/day</td>
                             <td>Days Of Gestation</td>
-                            <td  class="two"><?= $input['gestation_days'] ?> days</td>
+                            <td class="two"><?= $input['gestation_days'] ?> days</td>
                         </tr>
                         <tr>
                             <td>Milk Production</td>
-                            <td  class="two"><?= $input['milk_production'] ?> Kg/cow/day</td>
+                            <td class="two"><?= $input['milk_production'] ?> Kg/cow/day</td>
                             <td>Air Temperature</td>
-                            <td  class="two"><?= $input['temp'] ?> C</td>
+                            <td class="two"><?= $input['temp'] ?> C</td>
                         </tr>
                         <tr>
                             <td>Days In Milk</td>
-                            <td  class="two"><?= $input['days_milk'] ?> days</td>
+                            <td class="two"><?= $input['days_milk'] ?> days</td>
                             <td>Air Humidity</td>
-                            <td  class="two"><?= $input['humidity'] ?> %</td>
+                            <td class="two"><?= $input['humidity'] ?> %</td>
                         </tr>
                         <tr>
                             <td>Milk Fat</td>
-                            <td  class="two"><?= $input['milk_fat'] ?> %</td>
+                            <td class="two"><?= $input['milk_fat'] ?> %</td>
                             <td>Temperature-Humidity Index (THI)</td>
-                            <td  class="two"><?= $input['thi'] ?></td>
+                            <td class="two"><?= $input['thi'] ?></td>
                         </tr>
                         <tr>
                             <td>Milk Protein</td>
-                            <td  class="two"><?= $input['milk_protein'] ?> %</td>
+                            <td class="two"><?= $input['milk_protein'] ?> %</td>
                             <td>Fat 4% Corrected Milk</td>
-                            <td  class="two"><?= $input['fat_4'] ?> Kg/cow/day</td>
+                            <td class="two"><?= $input['fat_4'] ?> Kg/cow/day</td>
                         </tr>
                         <tr>
                             <td>Milk Lactose</td>
-                            <td  class="two"><?= $input['milk_lactose'] ?> %</td>
+                            <td class="two"><?= $input['milk_lactose'] ?> %</td>
                             <td></td>
-                            <td  class="two"></td>
+                            <td class="two"></td>
                         </tr>
                     </tbody>
                     <!-- =========================================================================== -->
@@ -316,7 +305,7 @@
                         </tr>
                         <tr>
                             <td>K Diet:</td>
-                            <td class="success" ><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F58')->getFormattedValue() ?> % DM</td>
+                            <td class="success"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F58')->getFormattedValue() ?> % DM</td>
                             <td>Mn Diet</td>
                             <td class="success"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('I58')->getFormattedValue() ?> mg/kg DM</td>
                         </tr>
@@ -383,19 +372,19 @@
                             <td>Vitamin A Diet</td>
                             <td class="primary"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F69')->getFormattedValue() ?> IU/kg DM</td>
                             <td>peNDF Diet:</td>
-                            <td  class="primary">≥21% DM</td>
+                            <td class="primary">≥21% DM</td>
                         </tr>
                         <tr>
                             <td>Vitamin D Diet</td>
-                            <td  class="primary"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F70')->getFormattedValue() ?> IU/kg DM</td>
+                            <td class="primary"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F70')->getFormattedValue() ?> IU/kg DM</td>
                             <td>Fat Acid Diet:</td>
-                            <td  class="primary">≥6% DM</td>
+                            <td class="primary">≥6% DM</td>
                         </tr>
                         <tr>
                             <td>Vitamin E Diet</td>
-                            <td  class="primary"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F71')->getFormattedValue() ?> IU/kg DM</td>
+                            <td class="primary"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F71')->getFormattedValue() ?> IU/kg DM</td>
                             <td></td>
-                            <td  class="primary"></td>
+                            <td class="primary"></td>
                         </tr>
                     <tbody class="labels">
                         <td colspan="6" style="background-color: #ffc107;">
@@ -412,9 +401,10 @@
                         </tr>
                     </tbody>
                 </table>
+            </table>
+        </div>
+    </div>
 </body>
-
 </html>
 </body>
-
 </html>

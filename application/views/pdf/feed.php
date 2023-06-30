@@ -10,7 +10,7 @@
 </head>
 
 <body>
-   
+
     <div class="container mt-5">
         <div class="row">
             <table class="table table-bordered">
@@ -40,7 +40,8 @@
                         font-weight: bold;
                         color: #fff;
                     }
-                    .two{
+
+                    .two {
                         color: #20b9aa;
                     }
 
@@ -51,22 +52,27 @@
                     [data-toggle="toggle"] {
                         display: none;
                     }
-                    .info{
-                        color:#20b9aa;
+
+                    .info {
+                        color: #20b9aa;
                     }
-                    .success{
+
+                    .success {
                         background-color: #198754;
-                        color:white;
+                        color: white;
                     }
-                    .success1{
+
+                    .success1 {
                         color: #198754;
                     }
-                    .primary{
+
+                    .primary {
                         background-color: #0d6efd;
-                        color:white;
+                        color: white;
                     }
-                    .primary1{
-                        color:#0d6efd;
+
+                    .primary1 {
+                        color: #0d6efd;
                     }
                 </style>
                 <table>
@@ -75,25 +81,27 @@
                     <!-- =========================================================================== -->
                     <tbody>
                         <tr>
-                            <td colspan="3"  style="border-right:none">
-                                <img src="<? echo base_url()?>/assets/logo2.png">
+                            <td colspan="3" style="border-right:none">
+                                <img src="<? echo base_url() ?>/assets/logo2.png">
                                 <h5>Agristar Animal Solution Private Limited</h5>
                                 <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
-                            
+
                             </td>
-                            <td  colspan="2" style="border-left:none">
-                            <h6>Contact:</h6>
+                            <td colspan="2" style="border-left:none">
+                                <h6>Contact:</h6>
                                 <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
                                 <h6>Email:</h6>
                                 <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
 
-                            </td> 
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="text-center"><h3><span class="two">F</span><span class="three">eed </span> <span class="two">C</span><span class="four">alculation</span></h3></td>
+                            <td colspan="5" class="text-center">
+                                <h3><span class="two">F</span><span class="three">eed </span> <span class="two">C</span><span class="four">alculation</span></h3>
+                            </td>
                         </tr>
                         <tr>
-                          
+
                         </tr>
                     </tbody>
                     <tbody class="labels">

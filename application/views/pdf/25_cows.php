@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>25 Cows Excel</title>
     <meta charset="utf-8">
@@ -8,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
     <style>
         table {
@@ -16,13 +14,11 @@
             border-collapse: collapse;
             margin: 50px auto;
         }
-
         th {
             background: #3498db;
             color: white;
             font-weight: bold;
         }
-
         td,
         th {
             padding: 10px;
@@ -30,90 +26,71 @@
             text-align: left;
             font-size: 18px;
         }
-
         .labels tr td {
             background-color: #20b9aa;
             font-weight: bold;
             color: #fff;
         }
-
         .two {
             color: #20b9aa;
         }
-
         .C_label {
             background-color: #2cc16a;
             font-weight: bold;
             color: #fff;
         }
-
         .label tr td label {
             display: block;
         }
-
         [data-toggle="toggle"] {
             display: none;
         }
-
         .tr1 {
             color: #20b9aa;
         }
-
         .secondary {
             background-color: #6c757d;
             color: white;
         }
-
         .secondary1 {
             color: #6c757d;
         }
-
         .primary {
             background-color: #0d6efd;
             color: white;
         }
-
         .primary1 {
             color: #0d6efd;
         }
-
         .success {
             background-color: #198754;
             color: white;
         }
-
         .success1 {
             color: #198754;
         }
-
         .warning {
             background-color: #ffc107;
             color: white;
         }
-
         .warning1 {
             color: #ffc107;
         }
-
         .info {
             background-color: #0dcaf0;
             color: white;
         }
-
         .info1 {
             color: #0dcaf0;
         }
-
         .dark {
             background-color: #212529;
             color: white;
         }
-
         .dark1 {
             color: #212529;
         }
     </style>
-
     <div class="container">
         <div class="row">
             <table class="table table-bordered">
@@ -126,7 +103,6 @@
                                 <img src="<? echo base_url() ?>/assets/logo2.png">
                                 <h5>Agristar Animal Solution Private Limited</h5>
                                 <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
-
                             </td>
                             <td colspan="1" style="border-left:none">
                                 <h6>Contact:</h6>
@@ -137,13 +113,11 @@
                         </tr>
                         <tr>
                             <td colspan="7" class="text-center">
-
                                 <h3><span class="two">A</span><span class="three">NIMAL </span> <span class="two">R</span><span class="four">EQUIREMENTS</span></h3>
                                 <h5>Input (Cows) : <?= $number_of_cows ?></h5>
                             </td>
                         </tr>
                         <tr>
-
                         </tr>
                     </tbody>
                     <tbody class="labels">
@@ -1688,9 +1662,10 @@
                         </tr>
                     </tbody>
                 </table>
+            </table>
+        </div>
+    </div>
 </body>
-
 </html>
 </body>
-
 </html>

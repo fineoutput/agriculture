@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Feed Protien Energy Ratio</title>
     <meta charset="utf-8">
@@ -8,9 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-
     <div class="container mt-2">
         <div class="row">
             <table class="table table-bordered">
@@ -20,13 +17,11 @@
                         border-collapse: collapse;
                         margin: 50px auto;
                     }
-
                     th {
                         background: #3498db;
                         color: white;
                         font-weight: bold;
                     }
-
                     td,
                     th {
                         padding: 10px;
@@ -34,46 +29,35 @@
                         text-align: left;
                         font-size: 18px;
                     }
-
                     .labels tr td {
                         background-color: #20b9aa;
                         font-weight: bold;
                         color: #fff;
                     }
-
                     .two {
                         color: #20b9aa;
                     }
-
                     .label tr td label {
                         display: block;
                     }
-
                     [data-toggle="toggle"] {
                         display: none;
                     }
-
                     .three {
                         color: #3c5772;
                     }
-
                     .four {
                         color: #507186;
                     }
-
                     .info {
                         background-color: #0dcaf0;
                     }
-
                     .info2 {
                         color: #3498db;
-
                     }
-
                     .info3 {
                         <?php
                         if ($objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() < 173 || $objPHPExcel->setActiveSheetIndex(6)->getCell('G16')->getFormattedValue() > 193) {
-
                         ?>color: red;
                         <?php
                         } else {
@@ -82,35 +66,27 @@
                         }
                         ?>
                     }
-
                     .success {
                         color: #198754;
                     }
-
                     .primary {
                         color: #0d6efd;
                     }
-
                     .warning {
                         color: #ffc107;
                     }
-
                     .ht {
                         margin-left: 30px;
-
                     }
                 </style>
                 <table>
                     <thead>
                     </thead>
-
                     <!-- =========================================================================== -->
                     <tbody>
                         <tr>
                             <td colspan="3" style="border-right:none">
                                 <img src="<? echo base_url() ?>/assets/logo2.png">
-
-
                             </td>
                             <td colspan="2" style="border-left:none">
                                 <p><b>Date</b>
@@ -125,8 +101,6 @@
                                 <p>
                                 <p><b>Cow</b><span class="ht">MILKING</span>
                                 <p>
-
-
                             </td>
                         </tr>
                         <tr>
@@ -135,13 +109,9 @@
                             </td>
                         </tr>
                         <tr>
-
                         </tr>
                     </tbody>
-
-
                     <tbody class="labels">
-
                         <tr>
                             <td colspan="2" style="background-color: #3498db;">
                                 <label>Cow Characteristics </label>
@@ -160,7 +130,6 @@
                             <td>Intake</td>
                         </tr>
                         <tr>
-
                             <td>Pregnancy (mth)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('C16')->getFormattedValue() ?></td>
                             <td>Metabolisable Energy (MJ/d)</td>
@@ -218,148 +187,64 @@
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H24')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Composition of the ration</th>
-                            <th colspan="3">Milk income less feed cost (MIFC)</th>
+                            <th colspan="5">Milk income less feed cost (MIFC)</th>
                         </tr>
                         <tr>
-                            <td><b>Ration ingredients</b></td>
-                            <td><b>Fresh feed intake (kg/d)</b></td>
-                            <td colspan="2">Milk return (your currency/kg)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
+                            <td colspan="2">Milk Return (Rs./kg)</td>
+                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
                         </tr>
-
-                    <?
-                    for($i=16;$i<=28;$i++){
+                        <tr>
+                            <td colspan="2">Milk Return (Rs./d)</td>
+                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H30')->getFormattedValue() ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Feed Cost (Rs./d) </td>
+                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H31')->getFormattedValue() ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">MIFC ROI(Rs./d)</td>
+                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H32')->getFormattedValue() ?></td>
+                        </tr>
+                        <tr>
+                            <th colspan="5">Composition of the ration</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><b>Ration ingredients</b></td>
+                            <td colspan="5"><b>Fresh feed intake (kg/d)</b></td>
+                        </tr>
+                        <? $a=28; for ($i = 28; $i <= 53; $i++) {
+                            if ($objPHPExcel->setActiveSheetIndex(6)->getCell('D' . $i)->getFormattedValue() !== '0') {
+                                $a++;
                         ?>
-                        <tr>
-                            <!-- <td><b>Ration ingredients</b></td>
-                            <td><b>Fresh feed intake (kg/d)</b></td>
-                            <td colspan="2">Milk return (your currency/kg)</td> -->
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
-                        </tr>
-                        <?
-                    }
-                    ?>
-
-                    <!-- <tbody>
-                        <tr>
-                            <td>Maize grain</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D28')->getFormattedValue() ?></td>
-                            <td colspan="2">Milk return (your currency/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H30')->getFormattedValue() ?></td>
-
-                        </tr>
-                    </tbody>
                     <tbody>
                         <tr>
-                            <td>Cotton cake</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D29')->getFormattedValue() ?></td>
-                            <td colspan="2">Feed cost (your currency/d) </td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H31')->getFormattedValue() ?></td>
+                            <td colspan="2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('B' . $i)->getFormattedValue() ?></td>
+                            <td class="info2"  colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D' . $i)->getFormattedValue() ?></td>
                         </tr>
-                        <tr>
-                            <td>Makka khal</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D30')->getFormattedValue() ?></td>
-                            <td colspan="2">MIFC (your currency/d)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H32')->getFormattedValue() ?></td>
-                        </tr>
-                        <tr>
-                            <td>Musturd doc</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D31')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-                        </tr>
-                        <tr>
-                            <td>Chana churi/ soya chilka</td>
-                            <td class="info2"> <?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D32')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Wheat bran</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D33')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Mung churi</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D34')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Molasses</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D35')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Musturd cake</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D36')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Wheat straw</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D38')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Silage maize</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D39')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>bypass fat</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D40')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Chana churi/ soya chilka</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D41')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Green fodder(maize)</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D42')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td>Dorb</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D43')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-
-                            <td colspan="5"></td>
-                        </tr>
-                        <tr>
-                            <td>Total intake per head:</td>
-                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D45')->getFormattedValue() ?></td>
-                            <td colspan="3"></td>
-
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="text-center">If you have any question please contact your technician
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
-                        </tr> -->
-
-
-
-
+                    </tbody>
+            <? }
+                        } ?>
+            <tbody>
+                
+                <tr>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" >Total intake per head:</td>
+                    <td colspan="5" class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D58')->getFormattedValue() ?></td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-center">If you have any question please contact your technician
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
+                </tr>
                 </table>
+            </table>
+        </div>
+    </div>
 </body>
-
 </html>
 </body>
-
 </html>

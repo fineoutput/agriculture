@@ -15,7 +15,7 @@
                     table {
                         width: 750px;
                         border-collapse: collapse;
-                        margin: 0px  auto 50px  auto;
+                        margin: 0px auto 50px auto;
                     }
                     th {
                         background: #3498db;
@@ -34,7 +34,7 @@
                         font-weight: bold;
                         color: #fff;
                     }
-                    .two{
+                    .two {
                         color: #20b9aa;
                     }
                     .label tr td label {
@@ -43,33 +43,35 @@
                     [data-toggle="toggle"] {
                         display: none;
                     }
-                    .three{
-                        color:#3c5772;
+                    .three {
+                        color: #3c5772;
                     }
-                    .four{
-                        color:#507186;
+                    .four {
+                        color: #507186;
                     }
                 </style>
                 <table>
                     <thead>
                     </thead>
-                        <!-- =========================================================================== -->
+                    <!-- =========================================================================== -->
                     <tbody>
                         <tr>
-                            <td colspan="3"  style="border-right:none">
-                                <img src="<? echo base_url()?>/assets/logo2.png">
+                            <td colspan="3" style="border-right:none">
+                                <img src="<? echo base_url() ?>/assets/logo2.png">
                                 <h5>Agristar Animal Solution Private Limited</h5>
                                 <h6>Dream City, Suratgarh, Ganganagar, Rajasthan, 335804</h6>
                             </td>
-                            <td  colspan="2" style="border-left:none">
-                            <h6>Contact:</h6>
+                            <td colspan="2" style="border-left:none">
+                                <h6>Contact:</h6>
                                 <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
                                 <h6>Email:</h6>
                                 <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
-                            </td> 
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="text-center"><h3><span class="two">D</span><span class="three">mi</span> <span class="two">C</span><span class="four">alculator</span></h3></td>
+                            <td colspan="5" class="text-center">
+                                <h3><span class="two">D</span><span class="three">mi</span> <span class="two">C</span><span class="four">alculator</span></h3>
+                            </td>
                         </tr>
                         <tr>
                         </tr>
@@ -154,6 +156,10 @@
                             <td colspan="2"><?= $result['silage'] ?></td>
                         </tr>
                     </tbody>
+                </table>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
 </body>

@@ -538,60 +538,47 @@ class FeedController extends CI_Controller
     //====================================================== Check my Feed ================================================//
     public function check_my_feed()
     {
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        $this->load->helper('security');
-        if ($this->input->post()) {
-            $headers = apache_request_headers();
-            $authentication = $headers['Authentication'];
-            $this->form_validation->set_rules('lactation', 'feed lactation', 'required|xss_clean|trim');
-            // $this->form_validation->set_rules('feed_percentage', 'feed percentage', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('live_weight', 'live weight', 'xss_clean|trim');
-            $this->form_validation->set_rules('pregnancy', 'pregnancy', 'xss_clean|trim');
-            $this->form_validation->set_rules('milk_yield_volume', 'milk yield volume', 'xss_clean|trim');
-            $this->form_validation->set_rules('milk_yield_fat', 'milk yield fat', 'xss_clean|trim');
-            $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'xss_clean|trim');
-            $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'xss_clean|trim');
-            $this->form_validation->set_rules('milk_return', 'milk return', 'xss_clean|trim');
-
-            $this->form_validation->set_rules('material', 'material', 'required|xss_clean|trim');
-            if ($this->form_validation->run() == true) {
-                $lactation = $this->input->post('lactation');
-                // $feed_percentage = $this->input->post('feed_percentage');
-                $live_weight = $this->input->post('live_weight');
-                $pregnancy = $this->input->post('pregnancy');
-                $milk_yield_volume = $this->input->post('milk_yield_volume');
-                $milk_yield_fat = $this->input->post('milk_yield_fat');
-                $milk_yield_protein = $this->input->post('milk_yield_protein');
-                $live_weight_gain = $this->input->post('live_weight_gain');
-                $milk_return = $this->input->post('milk_return');
-                $material = json_decode($this->input->post('material[]'));
-               
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-                if (!empty($farmer_data)) {
-                   // $lactation = "Early lactation";
-                    // $feed_percentage = $this->input->post('feed_percentage');
-                    // $live_weight =600;
-                    // $pregnancy = 0;
-                    // $milk_yield_volume = 25;
-                    // $milk_yield_fat = 3.5;
-                    // $milk_yield_protein = 3;
-                    // $live_weight_gain =10;
-                    // $maize_gain = 5;
-                    // $cotton_cake = 2.5;
-                    // $makka_khal = 0;
-                    // $musturd_doc = 2;
-                    // $chana_churi = 2;
-                    // $wheat_bran = 0.5;
-                    // $mung_churi = 0.5;
-                    // $molasses = 0.05;
-                    // $musturd_cake = 0.05;
-                    // $wheat_straw = 3;
-                    // $silage_maize = 15;
-                    // $bypass_fat = 0.2;
-                    // $green_fodder = 0.03;
-                    // $dorb = 0;
-                    // $milk_return = 40;
+        // $this->load->helper(array('form', 'url'));
+        // $this->load->library('form_validation');
+        // $this->load->helper('security');
+        // if ($this->input->post()) {
+        //     $headers = apache_request_headers();
+        //     $authentication = $headers['Authentication'];
+        //     $this->form_validation->set_rules('lactation', 'feed lactation', 'required|xss_clean|trim');
+        //     // $this->form_validation->set_rules('feed_percentage', 'feed percentage', 'required|xss_clean|trim');
+        //     $this->form_validation->set_rules('live_weight', 'live weight', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('pregnancy', 'pregnancy', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_volume', 'milk yield volume', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_fat', 'milk yield fat', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('milk_return', 'milk return', 'xss_clean|trim');
+        //     $this->form_validation->set_rules('material', 'material', 'xss_clean|trim');
+        //     if ($this->form_validation->run() == true) {
+        //         $lactation = $this->input->post('lactation');
+        //         // $feed_percentage = $this->input->post('feed_percentage');
+        //         $live_weight = $this->input->post('live_weight');
+        //         $pregnancy = $this->input->post('pregnancy');
+        //         $milk_yield_volume = $this->input->post('milk_yield_volume');
+        //         $milk_yield_fat = $this->input->post('milk_yield_fat');
+        //         $milk_yield_protein = $this->input->post('milk_yield_protein');
+        //         $live_weight_gain = $this->input->post('live_weight_gain');
+        //         $milk_return = $this->input->post('milk_return');
+                // $material = json_decode($this->input->post('material'));
+                // print_r($material);die();
+                $arr = "[{\"label\":\"CHANA CHURI\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GREEN FODDER (MAIZE)\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"SILAGE MAIZE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"COTTON CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"COTTON SEED\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MUSTARD CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"RICE POLISH\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"DORB\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"SOYA DOC\",\"value\":true,\"fresh\":\"58\",\"price\":\"3\"},{\"label\":\"MUSTARD DOC\",\"value\":true,\"fresh\":\"56\",\"price\":\"7\"},{\"label\":\"WHEAT\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GUAR KORMA\",\"value\":true,\"fresh\":\"25\",\"price\":\"5\"},{\"label\":\"MAIZE GRAIN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"CATTLE FEED\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"WHEAT BRAN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"WHEAT STRAW\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MOLASSES\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MUNG CHURI\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MAKKA KHAL\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GREEN FODDER (BARSEEM)\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GROUNDNUT CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"BARLEY\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"RICE BROKEN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"UREA\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MINERAL MIXTURE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"BY PASS FAT\",\"value\":false,\"fresh\":\"\",\"price\":\"\"}]";
+                $material = json_decode($arr);
+                // $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                // if (!empty($farmer_data)) {
+                    $lactation = "Early lactation";
+                    $feed_percentage = $this->input->post('feed_percentage');
+                    $live_weight =600;
+                    $pregnancy = 0;
+                    $milk_yield_volume = 25;
+                    $milk_yield_fat = 3.5;
+                    $milk_yield_protein = 3;
+                    $live_weight_gain =10;
+                    $milk_return = 40;
                     $input = array(
                         'lactation' => $lactation,
                         // 'feed_percentage' => $feed_percentage,
@@ -606,7 +593,7 @@ class FeedController extends CI_Controller
                         // 'ca' => $ca,
                         // 'pa' => $pa,
                     );
-                   $data['input'] = $input;
+                    $data['input'] = $input;
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/check_my_feed.xlsm';
                     $inputFileName2 = 'assets/excel/check_my_feed.xlsm';
@@ -626,20 +613,19 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C8', $milk_yield_protein);
                     $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C9', $live_weight_gain);
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
-
-                    $i=4;$p=7;
-                    foreach($material as $mat){
-                        if($mat->value==true){
-                        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D'.$i, $mat->fresh);
-                        $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C'.$p, $mat->price);
-                    }else{
-                        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D'.$i,0);
-                        $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C'.$p, 0);
+                    $i = 4;
+                    $p = 7;
+                    foreach ($material as $mat) {
+                        if ($mat->value == true) {
+                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
+                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, $mat->price);
+                        } else {
+                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, 0);
+                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, 0);
+                        }
+                        $i++;
+                        $p++;
                     }
-                    $i++;
-                    $p++;
-                }
-                    
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D19', $ca);
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
                     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
@@ -654,11 +640,11 @@ class FeedController extends CI_Controller
                         die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
-                   $data['farmername']=$farmer_data[0]->name;
-                    // $data['farmername'] = 'Nitesh';
+                    // $data['farmername'] = $farmer_data[0]->name;
+                    $data['farmername'] = 'Nitesh';
                     $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
-                    // print_r($message);
-                    // die();
+                    print_r($message);
+                    die();
                     //------- update service record -----------
                     $service_data = $this->db->get_where('tbl_service_records')->result();
                     $data_update = array('animal_req' => $service_data[0]->animal_req + 1);
@@ -670,27 +656,27 @@ class FeedController extends CI_Controller
                         'data' => $message
                     );
                     echo json_encode($res);
-                } else {
-                    $res = array(
-                        'message' => 'Permission Denied!',
-                        'status' => 201
-                    );
-                    echo json_encode($res);
-               }
-            } else {
-                $res = array(
-                    'message' => validation_errors(),
-                    'status' => 201
-                );
-                echo json_encode($res);
-            }
-        } else {
-            $res = array(
-                'message' => 'Please Insert Data',
-                'status' => 201
-            );
-            echo json_encode($res);
-        }
+        //         } else {
+        //             $res = array(
+        //                 'message' => 'Permission Denied!',
+        //                 'status' => 201
+        //             );
+        //             echo json_encode($res);
+        //         }
+        //     } else {
+        //         $res = array(
+        //             'message' => validation_errors(),
+        //             'status' => 201
+        //         );
+        //         echo json_encode($res);
+        //     }
+        // } else {
+        //     $res = array(
+        //         'message' => 'Please Insert Data',
+        //         'status' => 201
+        //     );
+        //     echo json_encode($res);
+        // }
     }
     //====================================================== DAIRY MART ================================================//
     public function dairy_mart()
