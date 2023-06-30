@@ -225,7 +225,6 @@
             <? }
                         } ?>
             <tbody>
-                
                 <tr>
                     <td colspan="5"></td>
                 </tr>
@@ -234,7 +233,7 @@
                     <td colspan="5" class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D58')->getFormattedValue() ?></td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="text-center">If you have any question please contact your technician
+                    <td colspan="5" class="text-center">If you have any question please contact for help
                     </td>
                 </tr>
                 <tr>
