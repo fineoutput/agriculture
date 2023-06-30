@@ -57,6 +57,8 @@ class CI_Login
                 'gst' => $receive['gst_no'],
                 'aadhar_no' => $receive['aadhar_no'],
                 'pan_no' => $receive['pan_no'],
+                'latitude' => $receive['latitude'],
+                'longitude' => $receive['longitude'],
                 'ip' => $ip,
                 'date' => $cur_date
             );
@@ -133,7 +135,7 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'प्रिय किसान, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। विभिन्न सुविधाओं के लिए डेयरी मुनीम ऐप का इस्तेमाल करें । व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            $msg = 'प्रिय किसान, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। विभिन्न सुविधाओं के लिए डेयरी मुनीम ऐप का इस्तेमाल करें। व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
                             $dlt = F_DLT;
                             $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
                             $respone['status'] = 200;
@@ -169,8 +171,8 @@ class CI_Login
                                 'is_approved' => 0,
                                 'is_expert' => 0,
                                 'account' => 0,
-                                'latitude' => 26.9029328,
-                                'longitude' => 75.7380032,
+                                'latitude' => '',
+                                'longitude' => '',
                                 'date' => $cur_date
                             );
                             $last_id2 = $this->CI->base_model->insert_table("tbl_doctor", $data_insert, 1);
@@ -180,7 +182,7 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'आदरणीय  डॉक्टर जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी ।व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            $msg = 'आदरणीय  डॉक्टर जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी।व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
                             $dlt = D_DLT;
                             $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
                             $respone['status'] = 200;
@@ -207,8 +209,8 @@ class CI_Login
                                 'auth' => $auth,
                                 'is_approved' => 0,
                                 'is_active' => 1,
-                                'latitude' => 26.9029328,
-                                'longitude' => 75.7380032,
+                                'latitude' => $temp_data[0]->latitude,
+                                'longitude' => $temp_data[0]->longitude,
                                 'date' => $cur_date
                             );
                             $last_id2 = $this->CI->base_model->insert_table("tbl_vendor", $data_insert, 1);
@@ -217,7 +219,7 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'प्रिय  दुकानदार जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी । उसके बाद आप अपने उत्पादों को बेचने के लिए डाल सकते हैं । व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            $msg = 'प्रिय  दुकानदार जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी। उसके बाद आप अपने उत्पादों को बेचने के लिए डाल सकते हैं । व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
                             $dlt = V_DLT;
                             $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
                             $respone['status'] = 200;

@@ -1362,6 +1362,7 @@ class VendorController extends CI_Controller
                 $email = $this->input->post('email');
                 $latitude = $this->input->post('latitude');
                 $longitude = $this->input->post('longitude');
+                $this->load->library('upload');
                 $image = '';
                 $img1 = 'image';
                 if (!empty($_FILES['image'])) {

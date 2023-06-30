@@ -44,7 +44,7 @@
                                            <th>Image</th>
                                            <th>Image Hindi</th>
                                            <th>Image Punjabi</th>
-                                         
+                                           <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -57,15 +57,11 @@
                                                                     $this->db->from('tbl_category_images');
                                                                     $this->db->where('id',$cid);
                                                                     $dsa_sub= $this->db->get()->row();
-
                                                                     if(!empty($dsa_sub)){
                                                                         echo $dsa_sub->name;
                                                                     }else{
                                                                         echo "No Category Found";
                                                                     }
-                                                                   
-
-
                                                 ?> </td>
                                                 <td><?php echo $data->name; ?> </td>
                                                 <td>
@@ -89,15 +85,12 @@
                                                         Sorry No image Found
                                                     <?php } ?>
                                                 </td>
-                                                
                                                 <td>
                                                     <div class="btn-group" id="btns<?php echo $i ?>">
                                                         <div class="btn-group">
                                                             <a  class="btn btn-primary" href="<?php echo base_url() ?>dcadmin/Subcategory_images/update_subcategoryimages/<?php echo base64_encode($data->id) ?>">Edit</a>
-
                                                         </div>
                                                     </div>
-
                                                 </td>
                                             </tr>
                                         <?php $i++;

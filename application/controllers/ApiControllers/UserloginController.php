@@ -11,7 +11,14 @@ class UserloginController extends CI_Controller
         $this->load->model("admin/base_model");
         $this->load->library('user_agent');
         $this->load->library('custom/Login');
-        // $this->load->library('custom/Forms');
+        $this->load->library('custom/Messages');
+    }
+    public function msgtest()
+    {
+        //--- send welcome msg ---------
+        $msg = 'आदरणीय  डॉक्टर जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी ।व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+        $dlt = D_DLT;
+        $sendmsg = $this->messages->sendSmsMsg91('8387039990', $msg, $dlt);
     }
     //======================================USER LOGIN API CONTROLLER START========================//
     //======================================= USER REGISTER PROCESS===================================//
@@ -39,6 +46,8 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('gst_no', 'gst_no', 'xss_clean|trim');
             $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'xss_clean|trim');
             $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
+            $this->form_validation->set_rules('latitude', 'latitude', 'xss_clean|trim');
+            $this->form_validation->set_rules('longitude', 'longitude', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $village = $this->input->post('village');
@@ -58,6 +67,8 @@ class UserloginController extends CI_Controller
                 $aadhar_no = $this->input->post('aadhar_no');
                 $pan_no = $this->input->post('pan_no');
                 $type = $this->input->post('type');
+                $latitude = $this->input->post('latitude');
+                $longitude = $this->input->post('longitude');
                 $this->load->library('upload');
                 $image = '';
                 $img1 = 'image';
@@ -108,6 +119,8 @@ class UserloginController extends CI_Controller
                     'aadhar_no' => $aadhar_no,
                     'pan_no' => $pan_no,
                     'type' => $type,
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
                 );
                 //-------------- register user  with otp ------------
                 $Register = $this->login->RegisterWithOtp($send);
@@ -163,7 +176,7 @@ class UserloginController extends CI_Controller
                 $phone = $this->input->post('phone');
                 $type = $this->input->post('type');
                 //------ user login send otp ----------
-                $Login = $this->login->LoginWithOtp($phone,$type);
+                $Login = $this->login->LoginWithOtp($phone, $type);
                 echo $Login;
             } else {
                 $respone['status'] = false;
@@ -233,7 +246,6 @@ class UserloginController extends CI_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
-   
     //======================================== USER LOGOUT ========================================================
     public function logout()
     {
