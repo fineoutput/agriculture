@@ -227,7 +227,21 @@
                             <td colspan="2">Milk return (your currency/kg)</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
                         </tr>
-                    <tbody>
+
+                    <?
+                    for($i=16;$i<=28;$i++){
+                        ?>
+                        <tr>
+                            <!-- <td><b>Ration ingredients</b></td>
+                            <td><b>Fresh feed intake (kg/d)</b></td>
+                            <td colspan="2">Milk return (your currency/kg)</td> -->
+                            <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
+                        </tr>
+                        <?
+                    }
+                    ?>
+
+                    <!-- <tbody>
                         <tr>
                             <td>Maize grain</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D28')->getFormattedValue() ?></td>
@@ -256,7 +270,7 @@
                         </tr>
                         <tr>
                             <td>Chana churi/ soya chilka</td>
-                            <td class="info2" <?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D32')->getFormattedValue() ?></td>
+                            <td class="info2"> <?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D32')->getFormattedValue() ?></td>
                             <td colspan="3"></td>
 
                         </tr>
@@ -337,7 +351,7 @@
                         </tr>
                         <tr>
                             <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
-                        </tr>
+                        </tr> -->
 
 
 

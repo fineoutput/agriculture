@@ -552,21 +552,9 @@ class FeedController extends CI_Controller
             $this->form_validation->set_rules('milk_yield_fat', 'milk yield fat', 'xss_clean|trim');
             $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'xss_clean|trim');
             $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'xss_clean|trim');
-            $this->form_validation->set_rules('maize_gain', 'maize gain', 'xss_clean|trim');
-            $this->form_validation->set_rules('cotton_cake', 'cotton cake', 'xss_clean|trim');
-            $this->form_validation->set_rules('makka_khal', 'makka khal', 'xss_clean|trim');
-            $this->form_validation->set_rules('musturd_doc', 'musturd doc', 'xss_clean|trim');
-            $this->form_validation->set_rules('chana_churi', 'chana churi', 'xss_clean|trim');
-            $this->form_validation->set_rules('wheat_bran', 'wheat bran', 'xss_clean|trim');
-            $this->form_validation->set_rules('mung_churi', 'mung churi', 'xss_clean|trim');
-            $this->form_validation->set_rules('molasses', 'molasses', 'xss_clean|trim');
-            $this->form_validation->set_rules('musturd_cake', 'musturd cake', 'xss_clean|trim');
-            $this->form_validation->set_rules('wheat_straw', 'wheat straw', 'xss_clean|trim');
-            $this->form_validation->set_rules('silage_maize', 'silage maize', 'xss_clean|trim');
-            $this->form_validation->set_rules('bypass_fat', 'bypass fat', 'xss_clean|trim');
-            $this->form_validation->set_rules('green_fodder', 'green fodder', 'xss_clean|trim');
-            $this->form_validation->set_rules('dorb', 'dorb', 'xss_clean|trim');
             $this->form_validation->set_rules('milk_return', 'milk return', 'xss_clean|trim');
+
+            $this->form_validation->set_rules('material', 'material', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $lactation = $this->input->post('lactation');
                 // $feed_percentage = $this->input->post('feed_percentage');
@@ -576,21 +564,9 @@ class FeedController extends CI_Controller
                 $milk_yield_fat = $this->input->post('milk_yield_fat');
                 $milk_yield_protein = $this->input->post('milk_yield_protein');
                 $live_weight_gain = $this->input->post('live_weight_gain');
-                $maize_gain = $this->input->post('maize_gain');
-                $cotton_cake = $this->input->post('cotton_cake');
-                $makka_khal = $this->input->post('makka_khal');
-                $musturd_doc = $this->input->post('musturd_doc');
-                $chana_churi = $this->input->post('chana_churi');
-                $wheat_bran = $this->input->post('wheat_bran');
-                $mung_churi = $this->input->post('mung_churi');
-                $molasses = $this->input->post('molasses');
-                $musturd_cake = $this->input->post('musturd_cake');
-                $wheat_straw = $this->input->post('wheat_straw');
-                $silage_maize = $this->input->post('silage_maize');
-                $bypass_fat = $this->input->post('bypass_fat');
-                $green_fodder = $this->input->post('green_fodder');
-                $dorb = $this->input->post('dorb');
                 $milk_return = $this->input->post('milk_return');
+                $material = json_decode($this->input->post('material[]'));
+               
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                    // $lactation = "Early lactation";
@@ -625,21 +601,8 @@ class FeedController extends CI_Controller
                         'milk_yield_fat' => $milk_yield_fat,
                         'milk_yield_protein' => $milk_yield_protein,
                         'live_weight_gain' => $live_weight_gain,
-                        'maize_gain' => $maize_gain,
-                        'cotton_cake' => $cotton_cake,
-                        'makka_khal' => $makka_khal,
-                        'musturd_doc' => $musturd_doc,
-                        'chana_churi' => $chana_churi,
-                        'wheat_bran' => $wheat_bran,
-                        'mung_churi' => $mung_churi,
-                        'molasses' => $molasses,
-                        'musturd_cake' => $musturd_cake,
-                        'wheat_straw' => $wheat_straw,
-                        'silage_maize' => $silage_maize,
-                        'bypass_fat' => $bypass_fat,
-                        'green_fodder' => $green_fodder,
-                        'dorb' => $dorb,
                         'milk_return' => $milk_return,
+                        'material' => $material,
                         // 'ca' => $ca,
                         // 'pa' => $pa,
                     );
@@ -662,21 +625,21 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C7', $milk_yield_fat);
                     $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C8', $milk_yield_protein);
                     $objPHPExcel1->setActiveSheetIndex(1)->setCellValue('C9', $live_weight_gain);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D4', $maize_gain);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D5', $cotton_cake);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D6', $makka_khal);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D7', $musturd_doc);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D8', $chana_churi);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D9', $wheat_bran);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D10', $mung_churi);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D11', $molasses);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D12', $musturd_cake);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D14', $wheat_straw);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D15', $silage_maize);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D16', $bypass_fat);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D18', $green_fodder);
-                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D19', $dorb);
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
+
+                    $i=4;$p=7;
+                    foreach($material as $mat){
+                        if($mat->value==true){
+                        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D'.$i, $mat->fresh);
+                        $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C'.$p, $mat->price);
+                    }else{
+                        $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D'.$i,0);
+                        $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C'.$p, 0);
+                    }
+                    $i++;
+                    $p++;
+                }
+                    
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D19', $ca);
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
                     $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel1, 'Excel2007');
