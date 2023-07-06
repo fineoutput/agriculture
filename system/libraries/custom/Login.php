@@ -135,9 +135,38 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'प्रिय किसान, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। विभिन्न सुविधाओं के लिए डेयरी मुनीम ऐप का इस्तेमाल करें। व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
-                            $dlt = F_DLT;
-                            $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            // $msg = 'प्रिय किसान, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। विभिन्न सुविधाओं के लिए डेयरी मुनीम ऐप का इस्तेमाल करें। व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            // $dlt = F_DLT;
+                            // $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            //--- send welcome msg ---------
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => 'https://control.msg91.com/api/v5/flow/',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                CURLOPT_POSTFIELDS => '
+                                {
+                                "template_id": "649e7ef5d6fc055fd16f92a2",
+                                "sender": "514279",
+                                "short_url": "0",
+                                "mobiles": "' . $temp_data[0]->phone . '"
+                                }
+                                ',
+                                CURLOPT_HTTPHEADER => array(
+                                    'accept: application/json',
+                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'content-type: application/json',
+                                    'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
+                                ),
+                            ));
+                            $response = curl_exec($curl);
+                            curl_close($curl);
+                            // echo $response;
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
@@ -182,9 +211,37 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'आदरणीय  डॉक्टर जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी।व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
-                            $dlt = D_DLT;
-                            $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            // $msg = 'आदरणीय  डॉक्टर जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी।व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            // $dlt = D_DLT;
+                            // $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            //--- send welcome msg ---------
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => 'https://control.msg91.com/api/v5/flow/',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                CURLOPT_POSTFIELDS => '
+                                {
+                                "template_id": "649e7f1bd6fc0504df28fcc3",
+                                "sender": "514279",
+                                "short_url": "0",
+                                "mobiles": "' . $temp_data[0]->phone . '"
+                                }
+                                ',
+                                CURLOPT_HTTPHEADER => array(
+                                    'accept: application/json',
+                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'content-type: application/json',
+                                    'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
+                                ),
+                            ));
+                            $response = curl_exec($curl);
+                            curl_close($curl);
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
@@ -219,9 +276,37 @@ class CI_Login
                                 'auth' => $auth,
                             );
                             //--- send welcome msg ---------
-                            $msg = 'प्रिय  दुकानदार जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी। उसके बाद आप अपने उत्पादों को बेचने के लिए डाल सकते हैं । व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
-                            $dlt = V_DLT;
-                            $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            // $msg = 'प्रिय  दुकानदार जी, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। कुछ देर में आप की आईडी एक्टिव हो जाएगी। उसके बाद आप अपने उत्पादों को बेचने के लिए डाल सकते हैं । व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';
+                            // $dlt = V_DLT;
+                            // $sendmsg = $this->CI->messages->sendSmsMsg91($temp_data[0]->phone, $msg, $dlt);
+                            //--- send welcome msg ---------
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => 'https://control.msg91.com/api/v5/flow/',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                CURLOPT_POSTFIELDS => '
+                                {
+                                "template_id": "649e7f76d6fc056e32336712",
+                                "sender": "514279",
+                                "short_url": "0",
+                                "mobiles": "' . $temp_data[0]->phone . '"
+                                }
+                                ',
+                                CURLOPT_HTTPHEADER => array(
+                                    'accept: application/json',
+                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'content-type: application/json',
+                                    'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
+                                ),
+                            ));
+                            $response = curl_exec($curl);
+                            curl_close($curl);
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
