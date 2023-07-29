@@ -50,9 +50,6 @@
                         color: #507186;
                     }
                 </style>
-                <table>
-                    <thead>
-                    </thead>
                     <!-- =========================================================================== -->
                     <tbody>
                         <tr>
@@ -156,7 +153,6 @@
                             <td colspan="2"><?= $result['silage'] ?></td>
                         </tr>
                     </tbody>
-                </table>
             </table>
         </div>
     </div>
