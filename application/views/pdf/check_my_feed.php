@@ -191,19 +191,19 @@
                         </tr>
                         <tr>
                             <td colspan="2">Milk Return (Rs./kg)</td>
-                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
+                            <td class="info2" colspan="5">₹<?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H29')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td colspan="2">Milk Return (Rs./d)</td>
-                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H30')->getFormattedValue() ?></td>
+                            <td class="info2" colspan="5">₹<?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H30')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td colspan="2">Feed Cost (Rs./d) </td>
-                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H31')->getFormattedValue() ?></td>
+                            <td class="info2" colspan="5">₹<?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H31')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <td colspan="2">MIFC ROI(Rs./d)</td>
-                            <td class="info2" colspan="5"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H32')->getFormattedValue() ?></td>
+                            <td class="info2" colspan="5">₹<?= $objPHPExcel->setActiveSheetIndex(6)->getCell('H32')->getFormattedValue() ?></td>
                         </tr>
                         <tr>
                             <th colspan="5">Composition of the ration</th>
@@ -232,13 +232,13 @@
                     <td colspan="2" >Total intake per head:</td>
                     <td colspan="5" class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D58')->getFormattedValue() ?></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td colspan="5" class="text-center">If you have any question please contact for help
                     </td>
                 </tr>
                 <tr>
                     <td colspan="5" class="text-center"><b>Vipin Sharma</b><span class="m-2">7297963456</span></td>
-                </tr>
+                </tr> -->
                 </table>
             </table>
         </div>
