@@ -73,7 +73,7 @@ class HomeController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             $group_data = $this->db->get_where('tbl_group', array('is_active' => 1, 'farmer_id' => $farmer_data[0]->id))->result();
-            $total = $this->db->get_where('tbl_my_animal', array('is_active' => 1, 'farmer_id' => $farmer_data[0]->id))->count_all_results();
+            $total = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id))->num_rows();
             $data = [];
             $i = 1;
             foreach ($group_data as $a) {
