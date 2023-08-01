@@ -77,10 +77,12 @@ class HomeController extends CI_Controller
             $data = [];
             $i = 1;
             foreach ($group_data as $a) {
+                $animal_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id,'assign_to_group'=>$a->id))->num_rows();
                 $data[] = array(
                     's_no' => $i,
                     'value' => $a->id,
                     'label' => $a->name,
+                    'animal_count' => $animal_count,
                 );
                 $i++;
             }
@@ -1105,6 +1107,5 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
-    
 }
   //======================================================END HOMECONTROLLER================================================//
