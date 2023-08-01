@@ -805,5 +805,99 @@ class FeedController extends CI_Controller
         );
         echo json_encode($res);
     }
+    //====================================================== buyFeed ================================================//
+    public function buyFeed()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            $data = [];
+            $plan_data = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1, 'farmer_id' => $farmer_data[0]->id))->result();
+            if (empty($plan_data)) {
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date = date("Y-m-d H:i:s");
+                $txn_id = mt_rand(999999, 999999999999);
+                $data = array(
+                    'farmer_id' => $farmer_data[0]->id,
+                    'price' => FEED_AMOUNT,
+                    'payment_status' => 0,
+                    'txn_id' => $txn_id,
+                    'date' => $cur_date
+                );
+                $req_id = $this->base_model->insert_table("tbl_check_my_feed_buy", $data, 1);
+                $success = base_url() . 'ApiControllers/HomeController/plan_payment_success';
+                $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
+                $post = array(
+                    'txn_id' => '',
+                    'merchant_id' => MERCHAND_ID,
+                    'order_id' => $txn_id,
+                    'amount' => FEED_AMOUNT,
+                    'currency' => "INR",
+                    'redirect_url' => $success,
+                    'cancel_url' => $fail,
+                    'billing_name' => $farmer_data[0]->name,
+                    'billing_address' => $farmer_data[0]->village,
+                    'billing_city' => $farmer_data[0]->city,
+                    'billing_state' => $farmer_data[0]->state,
+                    'billing_zip' => $farmer_data[0]->pincode,
+                    'billing_country' => 'India',
+                    'billing_tel' => $farmer_data[0]->phone,
+                    'billing_email' => '',
+                    'merchant_param1' => 'Feed Payment',
+                );
+                $merchant_data = '';
+                $working_key = WORKING_KEY; //Shared by CCAVENUES
+                $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                foreach ($post as $key => $value) {
+                    $merchant_data .= $key . '=' . $value . '&';
+                }
+                $length = strlen(md5($working_key));
+                $binString = "";
+                $count = 0;
+                while ($count < $length) {
+                    $subString = substr(md5($working_key), $count, 2);
+                    $packedString = pack("H*", $subString);
+                    if ($count == 0) {
+                        $binString = $packedString;
+                    } else {
+                        $binString .= $packedString;
+                    }
+                    $count += 2;
+                }
+                $key = $binString;
+                $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                $encrypted_data = bin2hex($openMode);
+                $send = array(
+                    'order_id' => $req_id,
+                    'access_code' => $access_code,
+                    'redirect_url' => $success,
+                    'cancel_url' => $fail,
+                    'enc_val' => $encrypted_data,
+                    'plain' => $merchant_data,
+                    'merchant_param1' => 'Feed Payment',
+                );
+                $res = array(
+                    'message' => "Success!",
+                    'status' => 200,
+                    'data' => $send,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Some error occurred!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //====================================================== END FEEDCONTROLLER================================================//
