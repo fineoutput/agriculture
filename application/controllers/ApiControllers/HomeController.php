@@ -563,7 +563,7 @@ class HomeController extends CI_Controller
             } else {
                 $feedBuy = 0;
             }
-            $feedAmount=100;
+            $feedAmount=FEED_AMOUNT;
             $data =  array(
                 'slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
                 'notification_count' => $count_farmer, 'CartCount' => $CartCount,'feedBuy'=>$feedBuy,'feedAmount'=>$feedAmount
@@ -809,6 +809,40 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    public function VerifyFeedPayment($order_id)
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            $req_data = $this->db->get_where('tbl_check_my_feed_buy', array('id' => $order_id, 'farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            if (!empty($req_data)) {
+                $send = array(
+                    'order_id' => $req_data[0]->id,
+                    'amount' => $req_data[0]->price,
+                );
+                $res = array(
+                    'message' => "success",
+                    'status' => 200,
+                    'data' => $send,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Please Check Manually!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     public function encrypt($plainText, $key)
     {
         $key = $this->hextobin(md5($key));
@@ -1022,5 +1056,6 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    
 }
   //======================================================END HOMECONTROLLER================================================//
