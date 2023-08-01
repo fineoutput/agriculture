@@ -557,9 +557,16 @@ class HomeController extends CI_Controller
             $this->db->from('tbl_farmer_notification');
             $this->db->where('farmer_id', $farmer_data[0]->id);
             $count_farmer = $this->db->count_all_results();
+            $feedcheck = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1))->result();
+            if (!empty($feedcheck)) {
+                $feedBuy = 1;
+            } else {
+                $feedBuy = 0;
+            }
+            $feedAmount=100;
             $data =  array(
                 'slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
-                'notification_count' => $count_farmer, 'CartCount' => $CartCount
+                'notification_count' => $count_farmer, 'CartCount' => $CartCount,'feedBuy'=>$feedBuy,'feedAmount'=>$feedAmount
             );
             $res = array(
                 'message' => "Success!",
