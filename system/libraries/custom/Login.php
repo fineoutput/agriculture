@@ -268,13 +268,13 @@ class CI_Login
                             <b>Experience</b> - ' . $temp_data[0]->experience . '<br/>
                             <b>Pincode</b> - ' . $temp_data[0]->pincode . '<br/>
                               ';
-                            $this->load->library('email', $config);
-                            $this->email->set_newline("");
-                            $this->email->from(EMAIL); // change it to yours
-                            $this->email->to(TO, 'Dairy Muneem'); // change it to yours
-                            $this->email->subject('New registration request received from a doctor');
-                            $this->email->message($message2);
-                            if ($this->email->send()) {
+                            $this->CI->load->library('email', $config);
+                            $this->CI->email->set_newline("");
+                            $this->CI->email->from(EMAIL); // change it to yours
+                            $this->CI->email->to(TO, 'Dairy Muneem'); // change it to yours
+                            $this->CI->email->subject('New registration request received from a doctor');
+                            $this->CI->email->message($message2);
+                            if ($this->CI->email->send()) {
                             } else {
                             }
                             $respone['status'] = 200;
@@ -370,12 +370,12 @@ class CI_Login
                             <b>Experience</b> - ' . $temp_data[0]->experience . '<br/>
                             <b>Pincode</b> - ' . $temp_data[0]->pincode . '<br/>
                               ';
-                            $this->load->library('email', $config);
-                            $this->email->set_newline("");
-                            $this->email->from(EMAIL); // change it to yours
-                            $this->email->to(TO, 'Dairy Muneem'); // change it to yours
-                            $this->email->subject('New registration request received from a vendor');
-                            $this->email->message($message2);
+                            $this->CI->load->library('email', $config);
+                            $this->CI->email->set_newline("");
+                            $this->CI->email->from(EMAIL); // change it to yours
+                            $this->CI->email->to(TO, 'Dairy Muneem'); // change it to yours
+                            $this->CI->email->subject('New registration request received from a vendor');
+                            $this->CI->email->message($message2);
                             if ($this->email->send()) {
                             } else {
                             }
