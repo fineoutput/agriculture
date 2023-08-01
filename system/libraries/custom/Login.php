@@ -258,7 +258,7 @@ class CI_Login
                             You have received new registration request from a doctor and below are the details<br/><br/>
                             <b>Doctor ID</b> - ' . $last_id2 . '<br/>
                             <b>Doctor Name</b> - ' . $temp_data[0]->name . '<br/>
-                            <b>district</b> - ' . $temp_data[0]->district . '<br/>
+                            <b>District</b> - ' . $temp_data[0]->district . '<br/>
                             <b>City</b> - ' . $temp_data[0]->city . '<br/>
                             <b>State</b> - ' . $temp_data[0]->state . '<br/>
                             <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
@@ -360,7 +360,7 @@ class CI_Login
                             <b>Vendor Name</b> - ' . $temp_data[0]->name . '<br/>
                             <b>Shop Name</b> - ' . $temp_data[0]->shop_name . '<br/>
                             <b>Address</b> - ' . $temp_data[0]->address . '<br/>
-                            <b>district</b> - ' . $temp_data[0]->district . '<br/>
+                            <b>District</b> - ' . $temp_data[0]->district . '<br/>
                             <b>City</b> - ' . $temp_data[0]->city . '<br/>
                             <b>State</b> - ' . $temp_data[0]->state . '<br/>
                             <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
