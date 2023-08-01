@@ -518,6 +518,35 @@ class ManagementController extends CI_Controller
             'remarks' => $remarks
           );
           $last_id = $this->base_model->insert_table("tbl_sale_purchase", $data, 1);
+          //--- send email to admin -----------------
+          $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => SMTP_HOST,
+            'smtp_port' => SMTP_PORT,
+            'smtp_user' => USER_NAME, // change it to yours
+            'smtp_pass' => PASSWORD, // change it to yours
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1',
+            'wordwrap' => true
+          );
+          $message2 = '
+            Hello Admin<br/><br/>
+            You have received new sale/purchase request from a farmer and below are the details<br/><br/>
+            <b>Farmer ID</b> - ' . $farmer_data[0]->id . '<br/>
+            <b>Farmer Name</b> - ' . $farmer_data[0]->name . '<br/>
+            <b>Sale/Purchase ID</b> - ' . $last_id . '<br/>
+            <b>Type</b> - ' . $information_type . '<br/>
+            <b>Expected Price</b> - ' . $expected_price . '<br/>
+              ';
+          $this->load->library('email', $config);
+          $this->email->set_newline("");
+          $this->email->from(EMAIL); // change it to yours
+          $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+          $this->email->subject('New sale/purchase request received from a farmer');
+          $this->email->message($message2);
+          if ($this->email->send()) {
+          } else {
+          }
           $res = array(
             'message' => "Record Successfully Inserted!",
             'status' => 200,

@@ -242,6 +242,41 @@ class CI_Login
                             ));
                             $response = curl_exec($curl);
                             curl_close($curl);
+                            //--- send email to admin -----------------
+                            $config = array(
+                                'protocol' => 'smtp',
+                                'smtp_host' => SMTP_HOST,
+                                'smtp_port' => SMTP_PORT,
+                                'smtp_user' => USER_NAME, // change it to yours
+                                'smtp_pass' => PASSWORD, // change it to yours
+                                'mailtype' => 'html',
+                                'charset' => 'iso-8859-1',
+                                'wordwrap' => true
+                            );
+                            $message2 = '
+                            Hello Admin<br/><br/>
+                            You have received new registration request from a doctor and below are the details<br/><br/>
+                            <b>Doctor ID</b> - ' . $last_id2 . '<br/>
+                            <b>Doctor Name</b> - ' . $temp_data[0]->name . '<br/>
+                            <b>district</b> - ' . $temp_data[0]->district . '<br/>
+                            <b>City</b> - ' . $temp_data[0]->city . '<br/>
+                            <b>State</b> - ' . $temp_data[0]->state . '<br/>
+                            <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
+                            <b>Email</b> - ' . $temp_data[0]->email . '<br/>
+                            <b>Type</b> - ' . $temp_data[0]->type . '<br/>
+                            <b>Degree</b> - ' . $temp_data[0]->degree . '<br/>
+                            <b>Experience</b> - ' . $temp_data[0]->experience . '<br/>
+                            <b>Pincode</b> - ' . $temp_data[0]->pincode . '<br/>
+                              ';
+                            $this->load->library('email', $config);
+                            $this->email->set_newline("");
+                            $this->email->from(EMAIL); // change it to yours
+                            $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                            $this->email->subject('New registration request received from a doctor');
+                            $this->email->message($message2);
+                            if ($this->email->send()) {
+                            } else {
+                            }
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;
@@ -307,6 +342,43 @@ class CI_Login
                             ));
                             $response = curl_exec($curl);
                             curl_close($curl);
+                            //--- send email to admin -----------------
+                            $config = array(
+                                'protocol' => 'smtp',
+                                'smtp_host' => SMTP_HOST,
+                                'smtp_port' => SMTP_PORT,
+                                'smtp_user' => USER_NAME, // change it to yours
+                                'smtp_pass' => PASSWORD, // change it to yours
+                                'mailtype' => 'html',
+                                'charset' => 'iso-8859-1',
+                                'wordwrap' => true
+                            );
+                            $message2 = '
+                            Hello Admin<br/><br/>
+                            You have received new registration request from a vendor and below are the details<br/><br/>
+                            <b>Vendor ID</b> - ' . $last_id2 . '<br/>
+                            <b>Vendor Name</b> - ' . $temp_data[0]->name . '<br/>
+                            <b>Shop Name</b> - ' . $temp_data[0]->shop_name . '<br/>
+                            <b>Address</b> - ' . $temp_data[0]->address . '<br/>
+                            <b>district</b> - ' . $temp_data[0]->district . '<br/>
+                            <b>City</b> - ' . $temp_data[0]->city . '<br/>
+                            <b>State</b> - ' . $temp_data[0]->state . '<br/>
+                            <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
+                            <b>Email</b> - ' . $temp_data[0]->email . '<br/>
+                            <b>Type</b> - ' . $temp_data[0]->type . '<br/>
+                            <b>Degree</b> - ' . $temp_data[0]->degree . '<br/>
+                            <b>Experience</b> - ' . $temp_data[0]->experience . '<br/>
+                            <b>Pincode</b> - ' . $temp_data[0]->pincode . '<br/>
+                              ';
+                            $this->load->library('email', $config);
+                            $this->email->set_newline("");
+                            $this->email->from(EMAIL); // change it to yours
+                            $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                            $this->email->subject('New registration request received from a vendor');
+                            $this->email->message($message2);
+                            if ($this->email->send()) {
+                            } else {
+                            }
                             $respone['status'] = 200;
                             $respone['message'] = 'Successfully Registered!';
                             $respone['data'] = $data;

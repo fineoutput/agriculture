@@ -760,7 +760,7 @@ class FarmerController extends CI_Controller
                         $this->db->where('id', $order1_data[0]->vendor_id);
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
-                    //------ send notification to doctor -----
+                    //------ send notification to vendor -----
                     if (!empty($vendor_data[0]->fcm_token)) {
                         // echo $user_device_tokens->device_token;
                         //success notification code
@@ -801,6 +801,33 @@ class FarmerController extends CI_Controller
                             'date' => $cur_date
                         );
                         $last_id = $this->base_model->insert_table("tbl_vendor_notification", $data_insert, 1);
+                    }
+                } else {
+                    //--- send email to admin -----------------
+                    $config = array(
+                        'protocol' => 'smtp',
+                        'smtp_host' => SMTP_HOST,
+                        'smtp_port' => SMTP_PORT,
+                        'smtp_user' => USER_NAME, // change it to yours
+                        'smtp_pass' => PASSWORD, // change it to yours
+                        'mailtype' => 'html',
+                        'charset' => 'iso-8859-1',
+                        'wordwrap' => true
+                    );
+                    $message2 = '
+                        Hello Admin<br/><br/>
+                        You have received new Order and below are the details<br/><br/>
+                        <b>Order ID</b> - ' . $order_id . '<br/>
+                        <b>Amount</b> - ₹' . $order1_data[0]->final_amount . '<br/>
+                          ';
+                    $this->load->library('email', $config);
+                    $this->email->set_newline("");
+                    $this->email->from(EMAIL); // change it to yours
+                    $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                    $this->email->subject('New Order received');
+                    $this->email->message($message2);
+                    if ($this->email->send()) {
+                    } else {
                     }
                 }
                 echo 'Success';

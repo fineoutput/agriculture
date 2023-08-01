@@ -579,6 +579,35 @@ class DoctorController extends CI_Controller
                             'date' => $cur_date
                         );
                         $last_id = $this->base_model->insert_table("tbl_payments_req", $data_insert, 1);
+                        //--- send email to admin -----------------
+                        $config = array(
+                            'protocol' => 'smtp',
+                            'smtp_host' => SMTP_HOST,
+                            'smtp_port' => SMTP_PORT,
+                            'smtp_user' => USER_NAME, // change it to yours
+                            'smtp_pass' => PASSWORD, // change it to yours
+                            'mailtype' => 'html',
+                            'charset' => 'iso-8859-1',
+                            'wordwrap' => true
+                        );
+                        $message2 = '
+                            Hello Admin<br/><br/>
+                            You have received new payment request from a doctor and below are the details<br/><br/>
+                            <b>Doctor ID</b> - ' . $doctor_data[0]->id . '<br/>
+                            <b>Doctor Name</b> - ' . $doctor_data[0]->name . '<br/>
+                            <b>Request ID</b> - ' . $last_id . '<br/>
+                            <b>Available Balance</b> - ₹' . $doctor_data[0]->account . '<br/>
+                            <b>Requested Amount</b> - ₹' . $amount . '<br/>
+                              ';
+                        $this->load->library('email', $config);
+                        $this->email->set_newline("");
+                        $this->email->from(EMAIL); // change it to yours
+                        $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                        $this->email->subject('New payment request received from a doctor');
+                        $this->email->message($message2);
+                        if ($this->email->send()) {
+                        } else {
+                        }
                         $res = array(
                             'message' => "Success",
                             'status' => 200,
