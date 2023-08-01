@@ -775,6 +775,55 @@ class HomeController extends CI_Controller
             echo 'Aborted';
         }
     }
+    public function feed_payment_success()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        log_message('error', $encResponse);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $txn_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        // echo $order_status;die();
+        if ($order_status === "Success") {
+            $this->db->select('*');
+            $this->db->from('tbl_check_my_feed_buy');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $txn_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $order_id = $order_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_check_my_feed_buy', $data_update);
+                echo 'Success';
+                exit;
+            }
+        } else if ($order_status === "Failure") {
+            echo 'Failure';
+            exit;
+        } else {
+            echo 'Aborted';
+        }
+    }
     public function VerifyPlanPayment($order_id)
     {
         $headers = apache_request_headers();

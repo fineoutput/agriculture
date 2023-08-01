@@ -826,7 +826,7 @@ class FeedController extends CI_Controller
                     'date' => $cur_date
                 );
                 $req_id = $this->base_model->insert_table("tbl_check_my_feed_buy", $data, 1);
-                $success = base_url() . 'ApiControllers/HomeController/plan_payment_success';
+                $success = base_url() . 'ApiControllers/HomeController/feed_payment_success';
                 $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
                 $post = array(
                     'txn_id' => '',
