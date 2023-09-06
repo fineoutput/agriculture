@@ -48,6 +48,7 @@ class UserloginController extends CI_Controller
             $this->form_validation->set_rules('pan_no', 'pan_no', 'xss_clean|trim');
             $this->form_validation->set_rules('latitude', 'latitude', 'xss_clean|trim');
             $this->form_validation->set_rules('longitude', 'longitude', 'xss_clean|trim');
+            $this->form_validation->set_rules('no_animals', 'no_animals', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $village = $this->input->post('village');
@@ -69,6 +70,7 @@ class UserloginController extends CI_Controller
                 $type = $this->input->post('type');
                 $latitude = $this->input->post('latitude');
                 $longitude = $this->input->post('longitude');
+                $no_animals = $this->input->post('no_animals');
                 $this->load->library('upload');
                 $image = '';
                 $img1 = 'image';
@@ -121,6 +123,7 @@ class UserloginController extends CI_Controller
                     'type' => $type,
                     'latitude' => $latitude,
                     'longitude' => $longitude,
+                    'no_animals' => $no_animals,
                 );
                 //-------------- register user  with otp ------------
                 $Register = $this->login->RegisterWithOtp($send);

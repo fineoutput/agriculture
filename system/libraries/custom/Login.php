@@ -59,6 +59,7 @@ class CI_Login
                 'pan_no' => $receive['pan_no'],
                 'latitude' => $receive['latitude'],
                 'longitude' => $receive['longitude'],
+                'no_animals' => $receive['no_animals'],
                 'ip' => $ip,
                 'date' => $cur_date
             );
@@ -124,6 +125,7 @@ class CI_Login
                                 'state' => $temp_data[0]->state,
                                 'pincode' => $temp_data[0]->pincode,
                                 'phone' => $temp_data[0]->phone,
+                                'no_animals' => $temp_data[0]->no_animals,
                                 'auth' => $auth,
                                 'ip' => $ip,
                                 'is_active' => 1,
