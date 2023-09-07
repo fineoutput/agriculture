@@ -43,6 +43,7 @@
                       <th>District </th>
                       <th>City</th>
                       <th>Pincode</th>
+                      <th>No. of Animals</th>
                       <th>Phone</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -80,6 +81,7 @@
                             ?></td>
                         </td>
                         <td><?php echo $data->pincode ?></td>
+                        <td><?php echo $data->no_animals ?></td>
                         <td><?php echo $data->phone ?></td>
                         <td><?php if ($data->is_active == 1) { ?>
                             <p class="label bg-green">Unblocked</p>
