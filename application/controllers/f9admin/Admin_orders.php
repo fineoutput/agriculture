@@ -175,8 +175,8 @@ class Admin_orders extends CI_finecontrol
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
-                    $this->session->set_flashdata('emessage', $upload_error);
-                    exit;
+                    $this->session->set_flashdata('emessage', 'Sorry error occurred');
+                    redirect($_SERVER['HTTP_REFERER']);
                 }
             }
             if ($t == "dispatched") {
@@ -190,8 +190,9 @@ class Admin_orders extends CI_finecontrol
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
-                    $this->session->set_flashdata('emessage', $upload_error);
-                    exit;
+                    $this->session->set_flashdata('emessage', 'Sorry error occurred');
+                    redirect($_SERVER['HTTP_REFERER']);
+
                 }
             }
             if ($t == "completed") {
@@ -205,8 +206,8 @@ class Admin_orders extends CI_finecontrol
                     $this->session->set_flashdata('smessage', 'Status updated successfully');
                     redirect($_SERVER['HTTP_REFERER']);
                 } else {
-                    $this->session->set_flashdata('emessage', $upload_error);
-                    exit;
+                    $this->session->set_flashdata('emessage', 'Sorry error occurred');
+                    redirect($_SERVER['HTTP_REFERER']);
                 }
             }
             if ($t == "reject") {

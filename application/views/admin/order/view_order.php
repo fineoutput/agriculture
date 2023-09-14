@@ -16,12 +16,12 @@
           
           <div class="panel-heading" style="display:flex;justify-content: space-between;">
           <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
-                        <h4>Total Admin Earning:
+                        <!-- <h4>Total Admin Earning:
                             <?
-
+$count=0;
                             echo "₹".$count;
                             ?>
-                        </h4>
+                        </h4> -->
 
 
                     </div>
