@@ -32,58 +32,56 @@
             info@dairymuneem.com <br>dairymuneem@gmail.com<br></span>
         </div>
         <?php
-          if (!empty($order1_data->is_admin==0)) {?>
-        <div class="col-sm-6 billing_content"><span class="font-weight-bold ">Vendor Details:</span><br>
-          <!-- code here -->
-          <?php
-          if (!empty($order1_data->vendor_id)) {
-            $this->db->select('*');
-            $this->db->from('tbl_vendor');
-            $this->db->where('id', $order1_data->vendor_id);
-            $vendor_data = $this->db->get()->row();
-            if (!empty($vendor_data)) {
-              $vendor_name = $vendor_data->name;
-              $vendor_company = $vendor_data->shop_name;
-              $vendor_phone = $vendor_data->phone;
-              $vendor_address = $vendor_data->address;
-              $vendor_email = $vendor_data->email;
-              $vendor_gstin = $vendor_data->gst_no;
+        if (!empty($order1_data->is_admin == 0)) { ?>
+          <div class="col-sm-6 billing_content"><span class="font-weight-bold ">Vendor Details:</span><br>
+            <!-- code here -->
+            <?php
+            if (!empty($order1_data->vendor_id)) {
+              $this->db->select('*');
+              $this->db->from('tbl_vendor');
+              $this->db->where('id', $order1_data->vendor_id);
+              $vendor_data = $this->db->get()->row();
+              if (!empty($vendor_data)) {
+                $vendor_name = $vendor_data->name;
+                $vendor_company = $vendor_data->shop_name;
+                $vendor_phone = $vendor_data->phone;
+                $vendor_address = $vendor_data->address;
+                $vendor_email = $vendor_data->email;
+                $vendor_gstin = $vendor_data->gst_no;
+              } else {
+                $vendor_name = "Owner";
+                $vendor_company = "Dairy Muneem";
+                $vendor_phone = "";
+                $vendor_address = "Jaipur";
+                $vendor_email = "";
+                $vendor_gstin = "";
+              }
             } else {
-              $vendor_name = "Owner";
-              $vendor_company = "Dairy Muneem";
+              $vendor_name = "";
+              $vendor_company = "";
               $vendor_phone = "";
-              $vendor_address = "Jaipur";
+              $vendor_address = "";
               $vendor_email = "";
               $vendor_gstin = "";
             }
-          } else {
-            $vendor_name = "";
-            $vendor_company = "";
-            $vendor_phone = "";
-            $vendor_address = "";
-            $vendor_email = "";
-            $vendor_gstin = "";
-          }
-          ?>
-          Name: <?= $vendor_name; ?><br>
-          Company Name: <?= $vendor_company; ?>
-          <br>Contact: <?= $vendor_phone; ?><br>
-          Email: <?= $vendor_email; ?><br>
-          GST: <?= $vendor_gstin; ?><br>
-          <?php
-          if (!empty($order1_data)) {
-
-            $name = $order1_data->name;
-            $address = $order1_data->address;
-            $phone = $order1_data->phone;
-            $pincode = $order1_data->pincode;
-            $state = $order1_data->state;
-            $city = $order1_data->city;
-          }
-          ?>
-        </div>
+            ?>
+            Name: <?= $vendor_name; ?><br>
+            Company Name: <?= $vendor_company; ?>
+            <br>Contact: <?= $vendor_phone; ?><br>
+            Email: <?= $vendor_email; ?><br>
+            GST: <?= $vendor_gstin; ?><br>
+          </div>
         <?
-          }
+        }
+        if (!empty($order1_data)) {
+
+          $name = $order1_data->name;
+          $address = $order1_data->address;
+          $phone = $order1_data->phone;
+          $pincode = $order1_data->pincode;
+          $state = $order1_data->state;
+          $city = $order1_data->city;
+        }
         ?>
       </div>
       <br>
@@ -111,7 +109,11 @@
                     echo "no phone number";
                   }
                   ?> <br>
-          Pincode: <?php echo $pincode; ?><br>
+          Pincode: <?php if (!empty($pincode)) {
+                      echo $pincode;
+                    } else {
+                      echo "no pincode";
+                    }  ?><br>
           City: <?php
                 if (!empty($city)) {
                   echo $city;
@@ -120,7 +122,11 @@
                 }
                 ?> <br>
           State:
-          <?php echo $state; ?><br>
+          <?php if (!empty($state)) {
+            echo $state;
+          } else {
+            echo "no state";
+          } ?><br>
 
         </div>
       </div>
@@ -129,7 +135,7 @@
           Invoice No: &nbsp; <?php if (!empty($order1_data)) {
                                 $num = (int)$order1_data->invoice_no;
                                 //  $num_length = strlen((string)$num);
-                                echo  "DM-".$invoice_no = sprintf("%06d", $num);
+                                echo  "DM-" . $invoice_no = sprintf("%06d", $num);
                               } ?><br>
           Invoice Year: &nbsp; <?php if (!empty($order1_data)) {
                                   echo $order1_data->invoice_year;
@@ -183,19 +189,19 @@
                     <td><?php echo $data->qty; ?></td>
                     <td><?php echo "₹" . $data->selling_price_wo_gst; ?></td>
                     <td><?php echo "₹" . $data->total_amount; ?> </td>
-                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                    <?php if (!empty($state) && $state == "Rajasthan [RJ]") { ?>
                       <td><span> <?php $half = $data->gst / 2;
                                   echo $half . "%"; ?> </span> <br> <span> <?php $half = $data->gst / 2;
                                                                             echo $half . "%"; ?> </span></td>
                     <?php } else { ?>
                       <td><?php echo $data->gst . "%"; ?></td>
                     <?php } ?>
-                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                    <?php if (!empty($state) && $state == "Rajasthan [RJ]") { ?>
                       <td><span> CGST </span> <br> <span> SGST </span></td>
                     <?php } else { ?>
                       <td>IGST</td>
                     <?php } ?>
-                    <?php if ($state == "Rajasthan [RJ]") { ?>
+                    <?php if (!empty($state) && $state == "Rajasthan [RJ]") { ?>
                       <td>
                         <span> <?php
                                 $total_gst = $data->selling_price * $data->gst / 100;
