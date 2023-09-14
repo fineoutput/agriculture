@@ -101,7 +101,7 @@
                     <tbody class="hide">
                         <tr>
                             <td>Genetic Group:</td>
-                            <td class="two"><?= $input['group']=='Bos taurus'?'Cow':'Buffalos' ?></td>
+                            <td class="two"><?= $input['group']=='Bos taurus'?'Cow':'Buffalo' ?></td>
                             <td>Body Weight Variation</td>
                             <td class="two"><?= $input['weight_variation'] ?> Kg/cow/day</td>
                         </tr>
