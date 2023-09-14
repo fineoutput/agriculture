@@ -339,7 +339,7 @@ class FeedController extends CI_Controller
                         'RUDP' => round($rudp, 2),
                         'ADF' => round($adf, 2),
                         'NDF' => round($ndf, 2),
-                        'NEL' => round($nel, 2),
+                        'NEL' =>  round((0.0245 * $tdn - 0.12 * 0.454), 2),
                         'ENDF' => round($endf, 2),
                     );
                     $dmb =  array(
