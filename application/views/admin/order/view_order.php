@@ -1,7 +1,7 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-    All  <?= $heading ?> Orders
+      All <?= $heading ?> Orders
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -13,18 +13,19 @@
       <div class="col-lg-12">
         <!-- <a class="btn custom_btn" href="<?php echo base_url() ?>dcadmin/order/Add_order" role="button" style="margin-bottom:12px;"></a> -->
         <div class="panel panel-default">
-          
+
           <div class="panel-heading" style="display:flex;justify-content: space-between;">
-          <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
-                        <!-- <h4>Total Admin Earning:
-                            <?
-$count=0;
-                            echo "₹".$count;
-                            ?>
-                        </h4> -->
+            <h3 class="panel-title"> View All <?= $heading ?> Orders</h3>
+            <? if (!empty($count)) { ?>
+              <h4>Total Admin Earning:
+                <?
+                echo "₹" . $count;
+                ?>
+              </h4>
+            <? } ?>
 
 
-                    </div>
+          </div>
           <div class="panel panel-default">
             <?php if (!empty($this->session->flashdata('smessage'))) { ?>
               <div class="alert alert-success alert-dismissible">
@@ -74,17 +75,17 @@ $count=0;
                         <td><?php echo "₹" . $data->charges ?></td>
                         <td><?php echo "₹" . $data->final_amount ?></td>
                         <td>
-                                                    <?
-                                                    $this->db->select('*');
-                                                    $this->db->from('tbl_payment_txn');
-                                                    $this->db->where('req_id', $data->id);
-                                                    $this->db->where('vendor_id', $data->vendor_id);
-                                                    $dsa_ptx = $this->db->get()->row();
-                                                    if (!empty($dsa_ptx->cr)) {
-                                                        echo '₹' . ($data->total_amount - $dsa_ptx->cr);
-                                                    }
-                                                    ?>
-                                                </td>
+                          <?
+                          $this->db->select('*');
+                          $this->db->from('tbl_payment_txn');
+                          $this->db->where('req_id', $data->id);
+                          $this->db->where('vendor_id', $data->vendor_id);
+                          $dsa_ptx = $this->db->get()->row();
+                          if (!empty($dsa_ptx->cr)) {
+                            echo '₹' . ($data->total_amount - $dsa_ptx->cr);
+                          }
+                          ?>
+                        </td>
                         <td>
                           <?
                           $newdate = new DateTime($data->date);

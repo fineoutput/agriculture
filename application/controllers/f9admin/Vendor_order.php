@@ -25,6 +25,19 @@ class Vendor_order extends CI_finecontrol
             $this->db->where('order_status', 1); //new orders
             $this->db->where('is_admin', 0); //vendor orders
             $data['order1_data'] = $this->db->get();
+            $count=0;
+            foreach ($data['order1_data']->result() as $datas) {
+                $this->db->select('*');
+                $this->db->from('tbl_payment_txn');
+                $this->db->where('req_id',$datas->id);
+                $this->db->where('vendor_id	',$datas->vendor_id);
+                $dsa_ptx= $this->db->get()->row();
+               if(!empty($dsa_ptx->cr)){
+                $count+=$datas->total_amount-$dsa_ptx->cr;
+               }
+
+            }
+            $data['count']=$count;
             $data['heading'] = "New";
             $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
