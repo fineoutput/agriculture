@@ -559,8 +559,8 @@ class HomeController extends CI_Controller
             $this->db->from('tbl_farmer_notification');
             $this->db->where('farmer_id', $farmer_data[0]->id);
             $count_farmer = $this->db->count_all_results();
-            $feedcheck = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1))->result();
-            if (!empty($feedcheck)) {
+            $feedCheck = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1,'farmer_id'=>$farmer_data[0]->id))->row();
+            if (!empty($feedCheck)) {
                 $feedBuy = 1;
             } else {
                 $feedBuy = 0;
