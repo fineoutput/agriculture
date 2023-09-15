@@ -1274,6 +1274,7 @@ class VendorController extends CI_Controller
                 'bank_phone' => $vendor_data[0]->bank_phone,
                 'bank_ac' => $vendor_data[0]->bank_ac,
                 'ifsc' => $vendor_data[0]->ifsc,
+                'upi' => $vendor_data[0]->upi,
                 'latitude' => $vendor_data[0]->latitude,
                 'longitude' => $vendor_data[0]->longitude,
             );
@@ -1304,11 +1305,13 @@ class VendorController extends CI_Controller
             $this->form_validation->set_rules('bank_phone', 'bank_phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('bank_ac', 'bank_ac', 'required|xss_clean|trim');
             $this->form_validation->set_rules('ifsc', 'ifsc', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('upi', 'upi', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $bank_name = $this->input->post('bank_name');
                 $bank_phone = $this->input->post('bank_phone');
                 $bank_ac = $this->input->post('bank_ac');
                 $ifsc = $this->input->post('ifsc');
+                $upi = $this->input->post('upi');
                 $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($vendor_data)) {
                     date_default_timezone_set("Asia/Calcutta");
@@ -1318,6 +1321,7 @@ class VendorController extends CI_Controller
                         'bank_phone' => $bank_phone,
                         'bank_ac' => $bank_ac,
                         'ifsc' => $ifsc,
+                        'upi' => $upi,
                     );
                     $this->db->where('id', $vendor_data[0]->id);
                     $zapak = $this->db->update('tbl_vendor', $data_update);
