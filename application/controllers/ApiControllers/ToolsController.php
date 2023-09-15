@@ -630,7 +630,8 @@ class ToolsController extends CI_Controller
                                     'id' => $doctor->id,
                                     'name' => $doctor->name,
                                     'email' => $doctor->email,
-                                    'degree' => $doctor->degree,
+                                    'qualification' => $doctor->qualification,
+                                    'expertise' => $doctor->expertise,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image
@@ -639,7 +640,8 @@ class ToolsController extends CI_Controller
                                     'id' => $doctor->id,
                                     'name' => $doctor->hi_name,
                                     'email' => $doctor->email,
-                                    'degree' => $doctor->degree,
+                                    'qualification' => $doctor->qualification,
+                                    'expertise' => $doctor->expertise,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image
@@ -648,7 +650,8 @@ class ToolsController extends CI_Controller
                                     'id' => $doctor->id,
                                     'name' => $doctor->pn_name,
                                     'email' => $doctor->email,
-                                    'degree' => $doctor->degree,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image
