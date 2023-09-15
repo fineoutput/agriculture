@@ -215,6 +215,7 @@ class DoctorController extends CI_Controller
                 'bank_phone' => $doctor_data[0]->bank_phone,
                 'bank_ac' => $doctor_data[0]->bank_ac,
                 'ifsc' => $doctor_data[0]->ifsc,
+                'upi' => $doctor_data[0]->upi,
             );
             $res = array(
                 'message' => "Success!",
@@ -357,11 +358,13 @@ class DoctorController extends CI_Controller
             $this->form_validation->set_rules('bank_phone', 'bank_phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('bank_ac', 'bank_ac', 'required|xss_clean|trim');
             $this->form_validation->set_rules('ifsc', 'ifsc', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('upi', 'upi', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $bank_name = $this->input->post('bank_name');
                 $bank_phone = $this->input->post('bank_phone');
                 $bank_ac = $this->input->post('bank_ac');
                 $ifsc = $this->input->post('ifsc');
+                $upi = $this->input->post('upi');
                 $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
                 if (!empty($doctor_data)) {
                     date_default_timezone_set("Asia/Calcutta");
@@ -371,6 +374,7 @@ class DoctorController extends CI_Controller
                         'bank_phone' => $bank_phone,
                         'bank_ac' => $bank_ac,
                         'ifsc' => $ifsc,
+                        'upi' => $upi,
                     );
                     $this->db->where('id', $doctor_data[0]->id);
                     $zapak = $this->db->update('tbl_doctor', $data_update);
