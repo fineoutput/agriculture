@@ -619,8 +619,8 @@ class ToolsController extends CI_Controller
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
                             // echo $km;
                             // echo "<br>";
-                            // if ($km <= $radius) {
-                            if (true) {
+                            if ($km <= $radius) {
+                            // if (true) {
                                 if (!empty($doctor->image)) {
                                     $image = base_url() . $doctor->image;
                                 } else {
