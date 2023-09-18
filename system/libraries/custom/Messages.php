@@ -31,7 +31,7 @@ class CI_Messages
 "short_url": "1",
 "recipients": [
 {
-"mobiles": "' . $phone . '",
+"mobiles": "91' . $phone . '",
 "VAR1": "' . $otp . '"
 }
 ]
@@ -39,7 +39,7 @@ class CI_Messages
 ',
       CURLOPT_HTTPHEADER => array(
         'accept: application/json',
-        'authkey: 396335ADmdafsq6458f062P1',
+        'authkey: '.SMSAUTH.'',
         'content-type: application/json',
         'Cookie: PHPSESSID=4al34vh1tsa69nuiceksh6me22'
       ),

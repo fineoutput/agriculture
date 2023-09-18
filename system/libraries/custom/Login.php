@@ -155,12 +155,12 @@ class CI_Login
                                 "template_id": "649e7ef5d6fc055fd16f92a2",
                                 "sender": "514279",
                                 "short_url": "0",
-                                "mobiles": "' . $temp_data[0]->phone . '"
+                                "mobiles": "91' . $temp_data[0]->phone . '"
                                 }
                                 ',
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
-                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'authkey: '.SMSAUTH.'',
                                     'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
@@ -232,12 +232,12 @@ class CI_Login
                                 "template_id": "649e7f1bd6fc0504df28fcc3",
                                 "sender": "514279",
                                 "short_url": "0",
-                                "mobiles": "' . $temp_data[0]->phone . '"
+                                "mobiles": "91' . $temp_data[0]->phone . '"
                                 }
                                 ',
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
-                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'authkey: '.SMSAUTH.'',
                                     'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
@@ -333,12 +333,12 @@ class CI_Login
                                 "template_id": "649e7ed3d6fc055f2e5f4f42",
                                 "sender": "514279",
                                 "short_url": "0",
-                                "mobiles": "' . $temp_data[0]->phone . '"
+                                "mobiles": "91' . $temp_data[0]->phone . '"
                                 }
                                 ',
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
-                                    'authkey: 396335ADmdafsq6458f062P1',
+                                    'authkey: '.SMSAUTH.'',
                                     'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
