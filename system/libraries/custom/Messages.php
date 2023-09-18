@@ -39,7 +39,7 @@ class CI_Messages
 ',
       CURLOPT_HTTPHEADER => array(
         'accept: application/json',
-        'authkey: ',
+        'authkey: 396335ADmdafsq6458f062P1',
         'content-type: application/json',
         'Cookie: PHPSESSID=4al34vh1tsa69nuiceksh6me22'
       ),
