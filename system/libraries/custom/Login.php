@@ -78,9 +78,8 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send Register OTP -----------
-                $msg = 'Dear User, Your OTP for Signup on Dairy Muneem is ' . $OTP . ' and is valid for 10 minutes. Please do not share this OTP';
-                $dlt = SIGNUP_DLT;
-                $sendmsg = $this->CI->messages->sendOtpMsg91($receive['phone'], $msg, $OTP, $dlt);
+                $dlt = '645ca6f9d6fc057295695743';
+                $sendmsg = $this->CI->messages->sendOtpMsg91($receive['phone'], $OTP, $dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
@@ -162,6 +161,7 @@ class CI_Login
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
                                     'authkey: 396335ADmdafsq6458f062P1',
+                                    'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
                                 ),
@@ -238,6 +238,7 @@ class CI_Login
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
                                     'authkey: 396335ADmdafsq6458f062P1',
+                                    'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
                                 ),
@@ -329,7 +330,7 @@ class CI_Login
                                 CURLOPT_CUSTOMREQUEST => 'POST',
                                 CURLOPT_POSTFIELDS => '
                                 {
-                                "template_id": "649e7f76d6fc056e32336712",
+                                "template_id": "649e7ed3d6fc055f2e5f4f42",
                                 "sender": "514279",
                                 "short_url": "0",
                                 "mobiles": "' . $temp_data[0]->phone . '"
@@ -338,6 +339,7 @@ class CI_Login
                                 CURLOPT_HTTPHEADER => array(
                                     'accept: application/json',
                                     'authkey: 396335ADmdafsq6458f062P1',
+                                    'charset: UTF-8',
                                     'content-type: application/json',
                                     'Cookie: PHPSESSID=7nsedpqloairsa36o6h6iivst5'
                                 ),
@@ -487,9 +489,8 @@ class CI_Login
             $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
             if (!empty($last_id2)) {
                 //--------------- Send login OTP----- -----
-                $msg = 'Dear User, Your OTP for log in on Dairy Muneem is ' . $OTP . ' and is valid for 10 minutes. Please do not share this OTP';
-                $dlt = LOGIN_DLT;
-                $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $msg, $OTP, $dlt);
+                $dlt = '645ca712d6fc053e3918af93';
+                $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
                 $respone['status'] = 200;
                 $respone['message'] = 'Please enter otp sent to your register mobile number';
                 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
