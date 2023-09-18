@@ -44,6 +44,7 @@
                                                 <th>Vendor Account No</th>
                                                 <th>Vendor Ifsc</th>
                                                 <th>Vendor Bank Phone</th>
+                                                <th>Vendor UPI Number</th>
                                             <? } else { ?>
                                                 <th>Doctor Name</th>
                                                 <th>Doctor Number</th>
@@ -51,6 +52,7 @@
                                                 <th>Doctor Account No</th>
                                                 <th>Doctor Ifsc</th>
                                                 <th>Doctor Bank Phone</th>
+                                                <th>Doctor UPI Number</th>
                                             <? } ?>
                                             <th>Available</th>
                                             <th>Amount</th>
@@ -75,6 +77,7 @@
                                                 <td><?php echo $UData[0]->bank_ac ?> </td>
                                                 <td><?php echo $UData[0]->ifsc ?> </td>
                                                 <td><?php echo $UData[0]->bank_phone ?> </td>
+                                                <td><?php echo $UData[0]->upi ?> </td>
                                                 <td>₹<?php echo $data->available ?></td>
                                                 <td>₹<?php echo $data->amount ?></td>
                                                 <td><?php echo $data->date ?></td>
