@@ -32,7 +32,7 @@ class CI_Messages
 "recipients": [
 {
 "mobiles": "91' . $phone . '",
-"VAR1": "' . $otp . '"
+"var": "' . $otp . '"
 }
 ]
 }
