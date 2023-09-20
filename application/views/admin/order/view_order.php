@@ -69,8 +69,8 @@
                       <tr>
                         <td><?= $i ?></td>
                         <td>#<?= $data->id ?></td>
-                        <td><?= $farmers_data->name ?></td>
-                        <td><?= $farmers_data->phone ?></td>
+                        <td><?= $farmers_data ? $farmers_data->name : 'User not found' ?></td>
+                        <td><?= $farmers_data ? $farmers_data->phone : 'User not found'  ?></td>
                         <td><?php echo "₹" . $data->total_amount ?></td>
                         <td><?php echo "₹" . $data->charges ?></td>
                         <td><?php echo "₹" . $data->final_amount ?></td>
