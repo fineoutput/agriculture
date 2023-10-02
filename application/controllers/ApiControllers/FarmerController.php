@@ -722,7 +722,7 @@ class FarmerController extends CI_Controller
                 'data' => $res,
             );
             echo json_encode($res);
-        //     // redirect($res->data->instrumentResponse->redirectInfo->url);
+            //     // redirect($res->data->instrumentResponse->redirectInfo->url);
         } else {
             // redirect('web/checkout');
         }
@@ -741,14 +741,14 @@ class FarmerController extends CI_Controller
             'date' => $cur_date,
         );
         $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
-        // echo $data;
-        // die();
+        echo $data;
+        die();
         $merchantId = 'PGTESTPAYUAT102';
         $saltKey = 'e777554e-58ca-4847-8f19-72abac9eb6b3';
         $saltIndex = '1';
         if ($body['code'] == 'PAYMENT_SUCCESS') {
             $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/PGTESTPAYUAT102/' . $body['transactionId'] . '';
-            $verifyHeader = hash('sha256', '/pg/v1/status/' . $merchantId . '/' .$body['transactionId'] . $saltKey) . '###' . $saltIndex;
+            $verifyHeader = hash('sha256', '/pg/v1/status/' . $merchantId . '/' . $body['transactionId'] . $saltKey) . '###' . $saltIndex;
             $ch = curl_init();
             // Set the cURL options
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -812,8 +812,7 @@ class FarmerController extends CI_Controller
                     $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
-                    $success = base_url() . 'ApiControllers/FarmerController/payment_success';
-                    $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
+                    $success = base_url() . 'ApiControllers/FarmerController/get_phone_pe_response';
                     if (!empty($CartData)) {
                         foreach ($CartData as $cart) {
                             $is_admin = $cart->is_admin;
@@ -853,59 +852,59 @@ class FarmerController extends CI_Controller
                         $this->db->where('id', $order_id);
                         $this->db->update('tbl_order1', $data_update);
                         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
-                        $post = array(
-                            'transactionId' => $txn_id,
-                            'merchantId' => 'PGTESTPAYUAT139',
-                            'merchantOrderId' => $order_id,
-                            "quantity" => 1,
-                            "validFor" => 600,
+                        $payload = array(
+                            "merchantId" => "PGTESTPAYUAT102",
+                            "merchantTransactionId" => $txn_id,
+                            "merchantUserId" => "MUID123",
                             'amount' => $order1_data[0]->final_amount,
-                            'currency' => "INR",
-                            'redirect_url' => $success,
-                            'cancel_url' => $fail,
-                            'billing_name' => $name,
-                            'billing_address' => $address,
-                            'billing_city' => $city,
-                            'billing_state' => $state_da[0]->state_name,
-                            'billing_zip' => $pincode,
-                            'billing_country' => 'India',
-                            'billing_tel' => $phone,
-                            'billing_email' => '',
-                            'merchant_param1' => 'Order Payment',
+                            "redirectUrl" => $success,
+                            "callbackUrl" => $success,
+                            "mobileNumber" => $phone,
+                            "redirectMode" => "POST",
+                            "param1" => 'Order Payment',
                         );
 
-                        $merchant_data = '';
-                        $working_key = WORKING_KEY; //Shared by CCAVENUES
-                        $access_code = ACCESS_CODE; //Shared by CCAVENUES
-                        foreach ($post as $key => $value) {
-                            $merchant_data .= $key . '=' . $value . '&';
+                        $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
+
+
+                        $json = json_encode($payload);
+                        $payload = json_decode($json);
+                        $payload->paymentInstrument = new stdClass();
+                        $payload->paymentInstrument->type = "PAY_PAGE";
+
+                        $jsonPayload = json_encode($payload);
+                        $encode_jsonPayload = base64_encode($jsonPayload);
+                        $saltKey = 'e777554e-58ca-4847-8f19-72abac9eb6b3';
+                        $saltIndex = '1';
+                        $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . $saltKey) . '###' . $saltIndex;
+                        $request_json = new stdClass();
+                        $request_json->request = $encode_jsonPayload;
+                        // Set up cURL
+                        $ch = curl_init();
+                        // Set the cURL options
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_json));
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                            'Content-Type: application/json',
+                            'X-VERIFY: ' . $verifyHeader,
+                        ]);
+
+                        // Execute the cURL request and store the response
+                        $response = curl_exec($ch);
+
+                        // Check for cURL errors
+                        if (curl_errno($ch)) {
+                            echo 'cURL Error: ' . curl_error($ch);
                         }
-                        $length = strlen(md5($working_key));
-                        $binString = "";
-                        $count = 0;
-                        while ($count < $length) {
-                            $subString = substr(md5($working_key), $count, 2);
-                            $packedString = pack("H*", $subString);
-                            if ($count == 0) {
-                                $binString = $packedString;
-                            } else {
-                                $binString .= $packedString;
-                            }
-                            $count += 2;
-                        }
-                        $key = $binString;
-                        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
-                        $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
-                        $encrypted_data = bin2hex($openMode);
-                        $send = array(
-                            'order_id' => $order_id,
-                            'access_code' => $access_code,
-                            'redirect_url' => $success,
-                            'cancel_url' => $fail,
-                            'enc_val' => $encrypted_data,
-                            'plain' => $merchant_data,
-                            'merchant_param1' => 'Order Payment',
-                        );
+
+                        // Close the cURL session
+                        curl_close($ch);
+
+                        // Print the response
+                        // echo $response;
+                        $send = json_decode($response);
                         $res = array(
                             'message' => "Success!",
                             'status' => 200,
