@@ -674,7 +674,7 @@ class FarmerController extends CI_Controller
             "redirectUrl" => base_url() . 'ApiControllers/FarmerController/get_response',
             "callbackUrl" => base_url() . 'ApiControllers/FarmerController/get_response',
             "mobileNumber" => "9876543210",
-            "redirectMode" => "REDIRECT",
+            "redirectMode" => "POST",
         );
 
         $json = json_encode($payload);
@@ -713,29 +713,72 @@ class FarmerController extends CI_Controller
         curl_close($ch);
 
         // Print the response
-        echo $response;
-        // $res = json_decode($response);
-        // if ($res->code == 'PAYMENT_INITIATED') {
+        // echo $response;
+        $res = json_decode($response);
+        if ($res->code == 'PAYMENT_INITIATED') {
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $res,
+            );
+            echo json_encode($res);
         //     // redirect($res->data->instrumentResponse->redirectInfo->url);
-        // } else {
-        //     // redirect('web/checkout');
-        // }
+        } else {
+            // redirect('web/checkout');
+        }
     }
 
     public function get_response()
     {
+        $body = $_POST;
         // Takes raw data from the request
-        $json = file_get_contents('php://input');
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
         // Converts it into a PHP object
-        $data = json_decode($json);
+        $data = json_encode($body);
         $data_insert = array(
             'body' => $data,
             'date' => $cur_date,
         );
         $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
-       echo  $json;
+        // echo $data;
+        // die();
+        $merchantId = 'PGTESTPAYUAT102';
+        $saltKey = 'e777554e-58ca-4847-8f19-72abac9eb6b3';
+        $saltIndex = '1';
+        if ($body['code'] == 'PAYMENT_SUCCESS') {
+            $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/PGTESTPAYUAT102/' . $body['transactionId'] . '';
+            $verifyHeader = hash('sha256', '/pg/v1/status/' . $merchantId . '/' .$body['transactionId'] . $saltKey) . '###' . $saltIndex;
+            $ch = curl_init();
+            // Set the cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'X-VERIFY: ' . $verifyHeader,
+                'X-MERCHANT-ID: MT4518752444',
+            ]);
+
+            // Execute the cURL request and store the response
+            $response = curl_exec($ch);
+
+            // Check for cURL errors
+            if (curl_errno($ch)) {
+                echo 'cURL Error: ' . curl_error($ch);
+            }
+
+            // Close the cURL session
+            curl_close($ch);
+
+            // Print the response
+            // echo $response;
+            $res = json_decode($response);
+            if ($res->code == 'PAYMENT_SUCCESS') {
+                echo "payment success";
+            } else {
+                // redirect('web/checkout');
+            }
+        }
     }
     //============================================= PhonePeCheckout ============================================//
     public function PhonePeCheckout()
