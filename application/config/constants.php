@@ -103,3 +103,8 @@ define('V_DLT', '1207168795549985688');
 define('MERCHAND_ID', '2298208');
 define('WORKING_KEY', '85B6635B4774DED2F398A2E939894DBA'); //live 
 define('ACCESS_CODE', 'AVVP48KD41AU85PVUA');//live
+// ----phone pe -------------
+define('PHONE_PE_URL', 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay');
+define('PHONE_PE_MERCHANT_ID', 'PGTESTPAYUAT102'); //live 
+define('PHONE_PE_SALT', 'e777554e-58ca-4847-8f19-72abac9eb6b3');//live
+define('PHONE_PE_SALT_INDEX', '1');//live
