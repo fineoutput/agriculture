@@ -861,6 +861,7 @@ class FarmerController extends CI_Controller
                                 'url' => $response->data->instrumentResponse->redirectInfo->url,
                                 'redirect_url' => $success,
                                 'merchant_param1' => $param1,
+                                'order_id' => $order_id,
                             );
                             $res = array(
                                 'message' => "Success!",
