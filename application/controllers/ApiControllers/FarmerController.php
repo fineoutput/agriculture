@@ -856,23 +856,21 @@ class FarmerController extends CI_Controller
                         $param1 = 'Order Payment';
                         $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success, $param1);
                         if ($response->code == 'PAYMENT_SUCCESS') {
+                            $send=array(
+                                'url'=>$response->data->instrumentResponse->redirectInfo->url,
+                                'redirect_url'=>$success,
+                            );
                             $res = array(
                                 'message' => "Success!",
                                 'status' => 200,
-                                'data' => $response,
+                                'data' => $send,
                             );
                         } else {
                             $res = array(
                                 'message' => "Some error occurred!",
                                 'status' => 201,
-                                'data' => [],
                             );
                         }
-                        $res = array(
-                            'message' => "Success!",
-                            'status' => 200,
-                            'data' => $response,
-                        );
                         echo json_encode($res);
                     } else {
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
