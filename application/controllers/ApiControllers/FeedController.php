@@ -967,7 +967,7 @@ class FeedController extends CI_Controller
         $payload = array(
             "merchantId" => PHONE_PE_MERCHANT_ID,
             "merchantTransactionId" => $mr_txn_id,
-            "TransactionId" => $txn_id,
+            "transactionId" => $txn_id,
             "merchantUserId" => "MUID123",
             'amount' => $amount * 100,
             "redirectUrl" => $redirect_url,
