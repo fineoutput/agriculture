@@ -77,7 +77,7 @@ class HomeController extends CI_Controller
             $data = [];
             $i = 1;
             foreach ($group_data as $a) {
-                $animal_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id,'assign_to_group'=>$a->id))->num_rows();
+                $animal_count = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'assign_to_group' => $a->id))->num_rows();
                 $data[] = array(
                     's_no' => $i,
                     'value' => $a->id,
@@ -559,16 +559,16 @@ class HomeController extends CI_Controller
             $this->db->from('tbl_farmer_notification');
             $this->db->where('farmer_id', $farmer_data[0]->id);
             $count_farmer = $this->db->count_all_results();
-            $feedCheck = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1,'farmer_id'=>$farmer_data[0]->id))->row();
+            $feedCheck = $this->db->get_where('tbl_check_my_feed_buy', array('payment_status' => 1, 'farmer_id' => $farmer_data[0]->id))->row();
             if (!empty($feedCheck)) {
                 $feedBuy = 1;
             } else {
                 $feedBuy = 0;
             }
-            $feedAmount=FEED_AMOUNT;
+            $feedAmount = FEED_AMOUNT;
             $data =  array(
                 'slider' => $slider, 'Farmer_slider' => $Famerslider, 'Category_Data' => $CategoryData, 'product_data' => $product_data, 'notification_data' => $farmer_nft,
-                'notification_count' => $count_farmer, 'CartCount' => $CartCount,'feedBuy'=>$feedBuy,'feedAmount'=>$feedAmount
+                'notification_count' => $count_farmer, 'CartCount' => $CartCount, 'feedBuy' => $feedBuy, 'feedAmount' => $feedAmount
             );
             $res = array(
                 'message' => "Success!",
@@ -824,6 +824,47 @@ class HomeController extends CI_Controller
             exit;
         } else {
             echo 'Aborted';
+        }
+    }
+    public function phone_pe_feed_payment_success()
+    {
+        $body = $_POST;
+        // Takes raw data from the request
+        date_default_timezone_set("Asia/Calcutta");
+        $ip = $this->input->ip_address();
+        $cur_date = date("Y-m-d H:i:s");
+        // Converts it into a PHP object
+        $data = json_encode($body);
+        $data_insert = array(
+            'body' => $data,
+            'date' => $cur_date,
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+
+        $response = $this->verify_phone_pe_payment($body);
+        if ($response->code == 'PAYMENT_SUCCESS') {
+            $txn_id = $response->data->merchantTransactionId;
+            $this->db->select('*');
+            $this->db->from('tbl_check_my_feed_buy');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $txn_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $order_id = $order_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($body),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_check_my_feed_buy', $data_update);
+                echo 'Success';
+                exit;
+            }
+        } else {
+            echo $response->code;
         }
     }
     public function VerifyPlanPayment($order_id)
@@ -1105,6 +1146,99 @@ class HomeController extends CI_Controller
                 'status' => 201
             );
             echo json_encode($res);
+        }
+    }
+    // ====================== START PHONE PE INITIATE PAYMENT ==================================
+    public function initiate_phone_pe_payment($txn_id, $amount, $phone, $redirect_url, $param1 = '')
+    {
+        $payload = array(
+            "merchantId" => PHONE_PE_MERCHANT_ID,
+            "merchantTransactionId" => $txn_id,
+            "merchantUserId" => "MUID123",
+            'amount' => $amount * 100,
+            "redirectUrl" => $redirect_url,
+            "callbackUrl" => $redirect_url,
+            "mobileNumber" => $phone,
+            "redirectMode" => "POST",
+            "param1" => $param1,
+        );
+        $url = PHONE_PE_URL;
+        $json = json_encode($payload);
+        $payload = json_decode($json);
+        $payload->paymentInstrument = new stdClass();
+        $payload->paymentInstrument->type = "PAY_PAGE";
+
+        // print_r($payload);die();
+        $jsonPayload = json_encode($payload);
+        $encode_jsonPayload = base64_encode($jsonPayload);
+        $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
+        $request_json = new stdClass();
+        $request_json->request = $encode_jsonPayload;
+        // Set up cURL
+        $ch = curl_init();
+        // Set the cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_json));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'X-VERIFY: ' . $verifyHeader,
+        ]);
+
+        // Execute the cURL request and store the response
+        $response = curl_exec($ch);
+
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            echo 'cURL Error: ' . curl_error($ch);
+        }
+
+        // Close the cURL session
+        curl_close($ch);
+
+        // Print the response
+
+        return json_decode($response);
+    }
+    // ====================== START PHONE PE INITIATE PAYMENT ==================================
+    public function verify_phone_pe_payment($body)
+    {
+
+        if ($body['code'] == 'PAYMENT_SUCCESS') {
+            $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . '';
+            $verifyHeader = hash('sha256', '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
+            $ch = curl_init();
+            // Set the cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'X-VERIFY: ' . $verifyHeader,
+                'X-MERCHANT-ID: ' . PHONE_PE_MERCHANT_ID,
+            ]);
+
+            // Execute the cURL request and store the response
+            $response = curl_exec($ch);
+
+            // Check for cURL errors
+            if (curl_errno($ch)) {
+                echo 'cURL Error: ' . curl_error($ch);
+            }
+
+            // Close the cURL session
+            curl_close($ch);
+
+            // Print the response
+            // echo $response;
+            return json_decode($response);
+            // $res = json_decode($response);
+            // return $res->code;
+            // if ($res->code == 'PAYMENT_SUCCESS') {
+            //    return $res->code;
+            // } else {
+            //     // redirect('web/checkout');
+            // }
         }
     }
 }

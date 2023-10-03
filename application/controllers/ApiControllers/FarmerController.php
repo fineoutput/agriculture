@@ -837,8 +837,7 @@ class FarmerController extends CI_Controller
                                 }
                             }
                         }
-                        $txn_id = bin2hex(random_bytes(18));
-
+                        $txn_id = bin2hex(random_bytes(12));
                         $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
                         $data_update = array(
                             'txn_id' => $txn_id,
@@ -1021,10 +1020,11 @@ class FarmerController extends CI_Controller
 
         $response = $this->verify_phone_pe_payment($body);
         if ($response->code == 'PAYMENT_SUCCESS') {
+            $txn_id = $response->data->merchantTransactionId;
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 0);
-            $this->db->where('txn_id', $response->data->merchantTransactionId);
+            $this->db->where('txn_id', $txn_id);
             $order_data = $this->db->get()->row();
             if (!empty($order_data)) {
                 $order_id = $order_data->id;
