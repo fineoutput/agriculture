@@ -848,67 +848,29 @@ class FarmerController extends CI_Controller
                             'district' => $district,
                             'pincode' => $pincode,
                             'phone' => $phone,
+                            'gateway' => 'Phone Pe',
                         );
                         $this->db->where('id', $order_id);
                         $this->db->update('tbl_order1', $data_update);
                         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
-                        $payload = array(
-                            "merchantId" => "PGTESTPAYUAT102",
-                            "merchantTransactionId" => $txn_id,
-                            "merchantUserId" => "MUID123",
-                            'amount' => $order1_data[0]->final_amount,
-                            "redirectUrl" => $success,
-                            "callbackUrl" => $success,
-                            "mobileNumber" => $phone,
-                            "redirectMode" => "POST",
-                            "param1" => 'Order Payment',
-                        );
-
-                        $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
-
-
-                        $json = json_encode($payload);
-                        $payload = json_decode($json);
-                        $payload->paymentInstrument = new stdClass();
-                        $payload->paymentInstrument->type = "PAY_PAGE";
-
-                        $jsonPayload = json_encode($payload);
-                        $encode_jsonPayload = base64_encode($jsonPayload);
-                        $saltKey = 'e777554e-58ca-4847-8f19-72abac9eb6b3';
-                        $saltIndex = '1';
-                        $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . $saltKey) . '###' . $saltIndex;
-                        $request_json = new stdClass();
-                        $request_json->request = $encode_jsonPayload;
-                        // Set up cURL
-                        $ch = curl_init();
-                        // Set the cURL options
-                        curl_setopt($ch, CURLOPT_URL, $url);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_json));
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                            'Content-Type: application/json',
-                            'X-VERIFY: ' . $verifyHeader,
-                        ]);
-
-                        // Execute the cURL request and store the response
-                        $response = curl_exec($ch);
-
-                        // Check for cURL errors
-                        if (curl_errno($ch)) {
-                            echo 'cURL Error: ' . curl_error($ch);
+                        $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success);
+                        if ($response->code == 'PAYMENT_SUCCESS') {
+                            $res = array(
+                                'message' => "Success!",
+                                'status' => 200,
+                                'data' => $response,
+                            );
+                        } else {
+                            $res = array(
+                                'message' => "Some error occurred!",
+                                'status' => 201,
+                                'data' => [],
+                            );
                         }
-
-                        // Close the cURL session
-                        curl_close($ch);
-
-                        // Print the response
-                        // echo $response;
-                        $send = json_decode($response);
                         $res = array(
                             'message' => "Success!",
                             'status' => 200,
-                            'data' => $send,
+                            'data' => $response,
                         );
                         echo json_encode($res);
                     } else {
@@ -944,6 +906,60 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
+    // ====================== START PHONE PE INITIATE PAYMENT ==================================
+    public function initiate_phone_pe_payment($txn_id, $amount, $phone, $redirect_url)
+    {
+        $payload = array(
+            "merchantId" => PHONE_PE_MERCHANT_ID,
+            "merchantTransactionId" => $txn_id,
+            "merchantUserId" => "MUID123",
+            'amount' => $amount,
+            "redirectUrl" => $redirect_url,
+            "callbackUrl" => $redirect_url,
+            "mobileNumber" => $phone,
+            "redirectMode" => "POST",
+            "param1" => 'Order Payment',
+        );
+
+        $url = PHONE_PE_URL;
+        $json = json_encode($payload);
+        $payload = json_decode($json);
+        $payload->paymentInstrument = new stdClass();
+        $payload->paymentInstrument->type = "PAY_PAGE";
+
+        $jsonPayload = json_encode($payload);
+        $encode_jsonPayload = base64_encode($jsonPayload);
+        $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
+        $request_json = new stdClass();
+        $request_json->request = $encode_jsonPayload;
+        // Set up cURL
+        $ch = curl_init();
+        // Set the cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_json));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'X-VERIFY: ' . $verifyHeader,
+        ]);
+
+        // Execute the cURL request and store the response
+        $response = curl_exec($ch);
+
+        // Check for cURL errors
+        if (curl_errno($ch)) {
+            echo 'cURL Error: ' . curl_error($ch);
+        }
+
+        // Close the cURL session
+        curl_close($ch);
+
+        // Print the response
+        // echo $response;
+        return json_decode($response);
+    }
+    // ====================== END PHONE PE INITIATE PAYMENT ==================================}
     public function payment_success()
     {
         $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
@@ -1531,6 +1547,8 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
+
+
     public function encrypt($plainText, $key)
     {
         $key = $this->hextobin(md5($key));
