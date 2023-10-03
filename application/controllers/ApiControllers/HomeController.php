@@ -638,7 +638,8 @@ class HomeController extends CI_Controller
                             'expiry_date' => $expiry_date,
                             'payment_status' => 0,
                             'txn_id' => $txn_id,
-                            'date' => $cur_date
+                            'date' => $cur_date,
+                            'gateway' => 'CC Avenue',
                         );
                         $req_id = $this->base_model->insert_table("tbl_subscription_buy", $data, 1);
                         $success = base_url() . 'ApiControllers/HomeController/plan_payment_success';
@@ -728,6 +729,98 @@ class HomeController extends CI_Controller
             echo json_encode($res);
         }
     }
+    public function phone_pe_buyPlan()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('plan_id', 'plan_id', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('months', 'months', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $plan_id = $this->input->post('plan_id');
+                $type = $this->input->post('type');
+                $months = $this->input->post('months');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $data = [];
+                    $plan_data = $this->db->get_where('tbl_subscription', array('is_active' => 1, 'id' => $plan_id))->result();
+                    if (!empty($plan_data)) {
+                        date_default_timezone_set("Asia/Calcutta");
+                        $cur_date = date("Y-m-d H:i:s");
+                        $start_date = date("Y-m-d");
+                        $expiry_date = date('Y-m-d', strtotime("+" . $months . " month"));
+                        $txn_id = bin2hex(random_bytes(12));
+                        $data = array(
+                            'farmer_id' => $farmer_data[0]->id,
+                            'plan_id' => $plan_id,
+                            'months' => $months,
+                            'price' => $plan_data[0]->$type,
+                            'animals' => $plan_data[0]->animals,
+                            'doctor_calls' => $plan_data[0]->doctor_calls,
+                            'start_date' => $start_date,
+                            'expiry_date' => $expiry_date,
+                            'payment_status' => 0,
+                            'txn_id' => $txn_id,
+                            'date' => $cur_date,
+                            'gateway' => 'Phone Pe',
+                        );
+                        $req_id = $this->base_model->insert_table("tbl_subscription_buy", $data, 1);
+                        $success = base_url() . 'ApiControllers/HomeController/phone_pe_plan_payment_success';
+                        $param1 = 'Plan Payment';
+                        $response = $this->initiate_phone_pe_payment($txn_id, $plan_data[0]->$type, $farmer_data[0]->phone, $success, $param1);
+                        if ($response->code == 'PAYMENT_INITIATED') {
+                            $send = array(
+                                'url' => $response->data->instrumentResponse->redirectInfo->url,
+                                'redirect_url' => $success,
+                                'merchant_param1' => $param1,
+                                'order_id' => $req_id,
+                            );
+                            $res = array(
+                                'message' => "Success!",
+                                'status' => 200,
+                                'data' => $send,
+                            );
+                            echo json_encode($res);
+                        } else {
+                            $res = array(
+                                'message' => 'Some error occurred!',
+                                'status' => 201
+                            );
+                            echo json_encode($res);
+                        }
+                    } else {
+                        $res = array(
+                            'message' => 'Some error occurred!',
+                            'status' => 201
+                        );
+                        echo json_encode($res);
+                    }
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     public function plan_payment_success()
     {
         $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
@@ -775,6 +868,47 @@ class HomeController extends CI_Controller
             exit;
         } else {
             echo 'Aborted';
+        }
+    }
+    public function phone_pe_plan_payment_success()
+    {
+        $body = $_POST;
+        // Takes raw data from the request
+        date_default_timezone_set("Asia/Calcutta");
+        $ip = $this->input->ip_address();
+        $cur_date = date("Y-m-d H:i:s");
+        // Converts it into a PHP object
+        $data = json_encode($body);
+        $data_insert = array(
+            'body' => $data,
+            'date' => $cur_date,
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+
+        $response = $this->verify_phone_pe_payment($body);
+        if ($response->code == 'PAYMENT_SUCCESS') {
+            $txn_id = $response->data->merchantTransactionId;
+            $this->db->select('*');
+            $this->db->from('tbl_subscription_buy');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $txn_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $order_id = $order_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($body),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_subscription_buy', $data_update);
+                echo 'Success';
+                exit;
+            }
+        } else {
+            echo $response->code;
         }
     }
     public function feed_payment_success()
