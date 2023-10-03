@@ -87,6 +87,8 @@ define('PASSWORD', 'info@fineoutput2019');
 define('EMAIL', 'info@fineoutput.co.in');
 define('SMTP_HOST', 'mail.fineoutput.co.in');
 define('SMTP_PORT', '587');
+define('TO', '');
+define('FEED_AMOUNT', 100);
 //------ order placing charger --------
 define('ADMIN_AMOUNT', 700);
 define('ADMIN_CHARGES', 100);

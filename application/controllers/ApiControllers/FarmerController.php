@@ -812,7 +812,7 @@ class FarmerController extends CI_Controller
                     $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
-                    $success = base_url() . 'ApiControllers/FarmerController/get_phone_pe_response';
+                    $success = base_url() . 'ApiControllers/FarmerController/phone_pe_payment_success';
                     if (!empty($CartData)) {
                         foreach ($CartData as $cart) {
                             $is_admin = $cart->is_admin;
@@ -853,7 +853,8 @@ class FarmerController extends CI_Controller
                         $this->db->where('id', $order_id);
                         $this->db->update('tbl_order1', $data_update);
                         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
-                        $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success);
+                        $param1 = 'Order Payment';
+                        $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success, $param1);
                         if ($response->code == 'PAYMENT_SUCCESS') {
                             $res = array(
                                 'message' => "Success!",
@@ -907,7 +908,7 @@ class FarmerController extends CI_Controller
         }
     }
     // ====================== START PHONE PE INITIATE PAYMENT ==================================
-    public function initiate_phone_pe_payment($txn_id, $amount, $phone, $redirect_url)
+    public function initiate_phone_pe_payment($txn_id, $amount, $phone, $redirect_url, $param1 = '')
     {
         $payload = array(
             "merchantId" => PHONE_PE_MERCHANT_ID,
@@ -918,7 +919,7 @@ class FarmerController extends CI_Controller
             "callbackUrl" => $redirect_url,
             "mobileNumber" => $phone,
             "redirectMode" => "POST",
-            "param1" => 'Order Payment',
+            "param1" => $param1,
         );
 
         $url = PHONE_PE_URL;
@@ -958,6 +959,218 @@ class FarmerController extends CI_Controller
         // Print the response
         // echo $response;
         return json_decode($response);
+    }
+    // ====================== START PHONE PE INITIATE PAYMENT ==================================
+    public function verify_phone_pe_payment($body)
+    {
+
+        if ($body['code'] == 'PAYMENT_SUCCESS') {
+            $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . '';
+            $verifyHeader = hash('sha256', '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
+            $ch = curl_init();
+            // Set the cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'X-VERIFY: ' . $verifyHeader,
+                'X-MERCHANT-ID: ' . PHONE_PE_MERCHANT_ID,
+            ]);
+
+            // Execute the cURL request and store the response
+            $response = curl_exec($ch);
+
+            // Check for cURL errors
+            if (curl_errno($ch)) {
+                echo 'cURL Error: ' . curl_error($ch);
+            }
+
+            // Close the cURL session
+            curl_close($ch);
+
+            // Print the response
+            // echo $response;
+            return json_decode($response);
+            // $res = json_decode($response);
+            // return $res->code;
+            // if ($res->code == 'PAYMENT_SUCCESS') {
+            //    return $res->code;
+            // } else {
+            //     // redirect('web/checkout');
+            // }
+        }
+    }
+    public function phone_pe_payment_success()
+    {
+        $body = $_POST;
+        // Takes raw data from the request
+        date_default_timezone_set("Asia/Calcutta");
+        $ip = $this->input->ip_address();
+        $cur_date = date("Y-m-d H:i:s");
+        // Converts it into a PHP object
+        $data = json_encode($body);
+        $data_insert = array(
+            'body' => $data,
+            'date' => $cur_date,
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+
+        $response = $this->verify_phone_pe_payment($body);
+        if ($response->code == 'PAYMENT_SUCCESS') {
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $response->transactionId);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                $order_id= $order_data->id;
+                //---- start calculate invoice number ----
+                $now = date('y');
+                $next = date('y', strtotime('+1 year'));
+                $order1 = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('payment_status' => 1, 'invoice_year' => $now . '-' . $next))->result();
+                if (empty($order1)) {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = 1;
+                } else {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = $order1[0]->invoice_no + 1;
+                }
+                $data_update = array(
+                    'payment_status' => 1,
+                    'order_status' => 1,
+                    'invoice_year' => $invoice_year,
+                    'invoice_no' => $invoice_no,
+                    'cc_response' => json_encode($body),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_order1', $data_update);
+                $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
+                //------- order2 entry -----------
+                foreach ($order2_data as $cart) {
+                    if ($order1_data[0]->is_admin == 1) {
+                        //---admin products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    } else {
+                        //---vendor products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    }
+                    $ProData = $ProData[0];
+                    $new_inventory = $ProData->inventory - $cart->qty;
+                    //--------- create inventory transaction -------
+                    $inv_txn = array(
+                        'order_id' => $order_id,
+                        'at_time' => $ProData->inventory,
+                        'less_inventory' => $cart->qty,
+                        'updated_inventory' => $new_inventory,
+                        'date' => $cur_date,
+                    );
+                    $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
+                    //------ Update inventory --------------------
+                    $data_update = array('inventory' => $new_inventory,);
+                    $this->db->where('id', $ProData->id);
+                    $zapak = $this->db->update('tbl_products', $data_update);
+                }
+                //--- Delete Cart -----------
+                $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
+                if ($order1_data[0]->is_admin == 0) {
+                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
+                    //------ create amount txn in the table -------------
+                    if (!empty($vendor_data[0]->comission)) {
+                        $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
+                        $data2 = array(
+                            'req_id' => $order_id,
+                            'vendor_id' => $order1_data[0]->vendor_id,
+                            'cr' =>  $order1_data[0]->total_amount - $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update vendor account ------
+                        $data_update = array(
+                            'account' => $vendor_data[0]->account + $order1_data[0]->total_amount - $amt,
+                        );
+                        $this->db->where('id', $order1_data[0]->vendor_id);
+                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                    }
+                    //------ send notification to vendor -----
+                    if (!empty($vendor_data[0]->fcm_token)) {
+                        // echo $user_device_tokens->device_token;
+                        //success notification code
+                        $url = 'https://fcm.googleapis.com/fcm/send';
+                        $title = "New Order";
+                        $message = "New order #" . $order_id . "  received with the  amount of  ₹" . $order1_data[0]->final_amount;
+                        $msg2 = array(
+                            'title' => $title,
+                            'body' => $message,
+                            "sound" => "default"
+                        );
+                        $fields = array(
+                            // 'to'=>"/topics/all",
+                            'to' => $vendor_data[0]->fcm_token,
+                            'notification' => $msg2,
+                            'priority' => 'high'
+                        );
+                        $fields = json_encode($fields);
+                        $headers = array(
+                            'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                            'Content-Type: application/json'
+                        );
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                        $result = curl_exec($ch);
+                        // echo $fields;
+                        // echo $result;
+                        curl_close($ch);
+                        //End success notification code
+                        $data_insert = array(
+                            'vendor_id' => $order1_data[0]->vendor_id,
+                            'name' => $title,
+                            'dsc' => $message,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_vendor_notification", $data_insert, 1);
+                    }
+                } else {
+                    //--- send email to admin -----------------
+                    $config = array(
+                        'protocol' => 'smtp',
+                        'smtp_host' => SMTP_HOST,
+                        'smtp_port' => SMTP_PORT,
+                        'smtp_user' => USER_NAME, // change it to yours
+                        'smtp_pass' => PASSWORD, // change it to yours
+                        'mailtype' => 'html',
+                        'charset' => 'iso-8859-1',
+                        'wordwrap' => true
+                    );
+                    $message2 = '
+                        Hello Admin<br/><br/>
+                        You have received new Order and below are the details<br/><br/>
+                        <b>Order ID</b> - ' . $order_id . '<br/>
+                        <b>Amount</b> - ₹' . $order1_data[0]->final_amount . '<br/>
+                          ';
+                    $this->load->library('email', $config);
+                    $this->email->set_newline("");
+                    $this->email->from(EMAIL); // change it to yours
+                    $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                    $this->email->subject('New Order received');
+                    $this->email->message($message2);
+                    if ($this->email->send()) {
+                    } else {
+                    }
+                }
+                echo 'Success';
+                exit;
+            }
+        } else {
+            echo $response->code;
+        }
     }
     // ====================== END PHONE PE INITIATE PAYMENT ==================================}
     public function payment_success()
