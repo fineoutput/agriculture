@@ -837,7 +837,8 @@ class FarmerController extends CI_Controller
                                 }
                             }
                         }
-                        $txn_id = mt_rand(999999, 999999999999);
+                        $txn_id = bin2hex(random_bytes(18));
+
                         $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
                         $data_update = array(
                             'txn_id' => $txn_id,
@@ -855,10 +856,10 @@ class FarmerController extends CI_Controller
                         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
                         $param1 = 'Order Payment';
                         $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success, $param1);
-                        if ($response->code == 'PAYMENT_SUCCESS') {
-                            $send=array(
-                                'url'=>$response->data->instrumentResponse->redirectInfo->url,
-                                'redirect_url'=>$success,
+                        if ($response->code == 'PAYMENT_INITIATED') {
+                            $send = array(
+                                'url' => $response->data->instrumentResponse->redirectInfo->url,
+                                'redirect_url' => $success,
                             );
                             $res = array(
                                 'message' => "Success!",
@@ -919,13 +920,13 @@ class FarmerController extends CI_Controller
             "redirectMode" => "POST",
             "param1" => $param1,
         );
-
         $url = PHONE_PE_URL;
         $json = json_encode($payload);
         $payload = json_decode($json);
         $payload->paymentInstrument = new stdClass();
         $payload->paymentInstrument->type = "PAY_PAGE";
 
+        // print_r($payload);die();
         $jsonPayload = json_encode($payload);
         $encode_jsonPayload = base64_encode($jsonPayload);
         $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
@@ -955,7 +956,7 @@ class FarmerController extends CI_Controller
         curl_close($ch);
 
         // Print the response
-        // echo $response;
+        
         return json_decode($response);
     }
     // ====================== START PHONE PE INITIATE PAYMENT ==================================
@@ -1021,10 +1022,10 @@ class FarmerController extends CI_Controller
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 0);
-            $this->db->where('txn_id', $response->transactionId);
+            $this->db->where('txn_id', $response->data->merchantTransactionId);
             $order_data = $this->db->get()->row();
             if (!empty($order_data)) {
-                $order_id= $order_data->id;
+                $order_id = $order_data->id;
                 //---- start calculate invoice number ----
                 $now = date('y');
                 $next = date('y', strtotime('+1 year'));
