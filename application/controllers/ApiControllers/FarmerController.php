@@ -915,7 +915,7 @@ class FarmerController extends CI_Controller
             "merchantId" => PHONE_PE_MERCHANT_ID,
             "merchantTransactionId" => $txn_id,
             "merchantUserId" => "MUID123",
-            'amount' => $amount,
+            'amount' => $amount*100,
             "redirectUrl" => $redirect_url,
             "callbackUrl" => $redirect_url,
             "mobileNumber" => $phone,
