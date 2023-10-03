@@ -823,7 +823,8 @@ class FeedController extends CI_Controller
                     'price' => FEED_AMOUNT,
                     'payment_status' => 0,
                     'txn_id' => $txn_id,
-                    'date' => $cur_date
+                    'date' => $cur_date,
+                    'gateway' => 'CC Avenue',
                 );
                 $req_id = $this->base_model->insert_table("tbl_check_my_feed_buy", $data, 1);
                 $success = base_url() . 'ApiControllers/HomeController/feed_payment_success';
@@ -911,18 +912,20 @@ class FeedController extends CI_Controller
             if (empty($plan_data)) {
                 date_default_timezone_set("Asia/Calcutta");
                 $cur_date = date("Y-m-d H:i:s");
-                $txn_id = bin2hex(random_bytes(12));
+                $mr_txn_id = bin2hex(random_bytes(12));
+                $txn_id = mt_rand(999999, 999999999999);
                 $data = array(
                     'farmer_id' => $farmer_data[0]->id,
                     'price' => FEED_AMOUNT,
                     'payment_status' => 0,
                     'txn_id' => $txn_id,
-                    'date' => $cur_date
+                    'date' => $cur_date,
+                    'gateway' => 'Phone Pe',
                 );
                 $req_id = $this->base_model->insert_table("tbl_check_my_feed_buy", $data, 1);
                 $success = base_url() . 'ApiControllers/HomeController/phone_pe_feed_payment_success';
                 $param1 = 'Feed Payment';
-                $response = $this->initiate_phone_pe_payment($txn_id, FEED_AMOUNT, $farmer_data[0]->phone, $success, $param1);
+                $response = $this->initiate_phone_pe_payment($mr_txn_id, FEED_AMOUNT, $farmer_data[0]->phone, $success, $param1, $txn_id);
                 if ($response->code == 'PAYMENT_INITIATED') {
                     $send = array(
                         'url' => $response->data->instrumentResponse->redirectInfo->url,
@@ -959,11 +962,12 @@ class FeedController extends CI_Controller
         }
     }
     // ====================== START PHONE PE INITIATE PAYMENT ==================================
-    public function initiate_phone_pe_payment($txn_id, $amount, $phone, $redirect_url, $param1 = '')
+    public function initiate_phone_pe_payment($mr_txn_id, $amount, $phone, $redirect_url, $param1 = '', $txn_id)
     {
         $payload = array(
             "merchantId" => PHONE_PE_MERCHANT_ID,
-            "merchantTransactionId" => $txn_id,
+            "merchantTransactionId" => $mr_txn_id,
+            "TransactionId" => $txn_id,
             "merchantUserId" => "MUID123",
             'amount' => $amount * 100,
             "redirectUrl" => $redirect_url,

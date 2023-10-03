@@ -567,6 +567,7 @@ class FarmerController extends CI_Controller
                             'district' => $district,
                             'pincode' => $pincode,
                             'phone' => $phone,
+                            'gateway' => 'CC Avenue',
                         );
                         $this->db->where('id', $order_id);
                         $this->db->update('tbl_order1', $data_update);

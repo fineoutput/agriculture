@@ -846,7 +846,7 @@ class HomeController extends CI_Controller
 
         $response = $this->verify_phone_pe_payment($body);
         if ($response->code == 'PAYMENT_SUCCESS') {
-            $txn_id = $response->data->merchantTransactionId;
+            $txn_id = $response->data->TransactionId;
             $this->db->select('*');
             $this->db->from('tbl_check_my_feed_buy');
             $this->db->where('payment_status', 0);
