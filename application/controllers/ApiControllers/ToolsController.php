@@ -1300,7 +1300,7 @@ class ToolsController extends CI_Controller
                     $success = base_url() . 'ApiControllers/ToolsController/phone_pe_doctor_payment_success';
                     $param1 = 'Doctor Payment';
                     $response = $this->initiate_phone_pe_payment($txn_id, $fees, $farmer_data[0]->phone, $success, $param1);
-                    if ($response->code == 'PAYMENT_INITIATED') {
+                    if ($response && $response->code == 'PAYMENT_INITIATED') {
                         $send = array(
                             'url' => $response->data->instrumentResponse->redirectInfo->url,
                             'redirect_url' => $success,

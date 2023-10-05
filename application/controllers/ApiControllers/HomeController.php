@@ -772,7 +772,7 @@ class HomeController extends CI_Controller
                         $success = base_url() . 'ApiControllers/HomeController/phone_pe_plan_payment_success';
                         $param1 = 'Plan Payment';
                         $response = $this->initiate_phone_pe_payment($txn_id, $plan_data[0]->$type, $farmer_data[0]->phone, $success, $param1);
-                        if ($response->code == 'PAYMENT_INITIATED') {
+                        if ($response && $response->code == 'PAYMENT_INITIATED') {
                             $send = array(
                                 'url' => $response->data->instrumentResponse->redirectInfo->url,
                                 'redirect_url' => $success,

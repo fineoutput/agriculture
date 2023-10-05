@@ -925,7 +925,7 @@ class FeedController extends CI_Controller
                 $success = base_url() . 'ApiControllers/HomeController/phone_pe_feed_payment_success';
                 $param1 = 'Feed Payment';
                 $response = $this->initiate_phone_pe_payment($txn_id, FEED_AMOUNT, $farmer_data[0]->phone, $success, $param1);
-                if ($response->code == 'PAYMENT_INITIATED') {
+                if ($response && $response->code == 'PAYMENT_INITIATED') {
                     $send = array(
                         'url' => $response->data->instrumentResponse->redirectInfo->url,
                         'redirect_url' => $success,

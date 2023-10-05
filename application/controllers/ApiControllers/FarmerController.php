@@ -725,6 +725,7 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
             //     // redirect($res->data->instrumentResponse->redirectInfo->url);
         } else {
+            
             // redirect('web/checkout');
         }
     }
@@ -856,7 +857,7 @@ class FarmerController extends CI_Controller
                         $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
                         $param1 = 'Order Payment';
                         $response = $this->initiate_phone_pe_payment($txn_id, $order1_data[0]->final_amount, $phone, $success, $param1);
-                        if ($response->code == 'PAYMENT_INITIATED') {
+                        if ($response && $response->code == 'PAYMENT_INITIATED') {
                             $send = array(
                                 'url' => $response->data->instrumentResponse->redirectInfo->url,
                                 'redirect_url' => $success,
@@ -931,9 +932,11 @@ class FarmerController extends CI_Controller
         // print_r($payload);die();
         $jsonPayload = json_encode($payload);
         $encode_jsonPayload = base64_encode($jsonPayload);
+        log_message('error', 'base64-----'.$encode_jsonPayload);
         $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
         $request_json = new stdClass();
         $request_json->request = $encode_jsonPayload;
+        log_message('error', 'X-VERIFY-----'.$verifyHeader);
         // Set up cURL
         $ch = curl_init();
         // Set the cURL options
