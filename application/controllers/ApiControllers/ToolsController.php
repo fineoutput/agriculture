@@ -1750,7 +1750,6 @@ class ToolsController extends CI_Controller
             "callbackUrl" => $redirect_url,
             "mobileNumber" => $phone,
             "redirectMode" => "POST",
-            "param1" => $param1,
         );
         $url = PHONE_PE_URL;
         $json = json_encode($payload);
