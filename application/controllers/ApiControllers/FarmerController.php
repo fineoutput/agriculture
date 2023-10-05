@@ -960,6 +960,7 @@ class FarmerController extends CI_Controller
         curl_close($ch);
 
         // Print the response
+        log_message('error', 'response-----'.json_decode($response));
         
         return json_decode($response);
     }
