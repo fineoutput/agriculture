@@ -211,7 +211,7 @@ class Products extends CI_finecontrol
                     }
                     if ($last_id != 0) {
                         $this->session->set_flashdata('smessage', 'Data inserted successfully');
-                        redirect("dcadmin/Products/View_products", "refresh");
+                        // redirect("dcadmin/Products/View_products", "refresh");
                     } else {
                         $this->session->set_flashdata('smessage', 'Sorry error occured');
                         redirect($_SERVER['HTTP_REFERER']);
