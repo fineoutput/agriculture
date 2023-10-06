@@ -930,6 +930,7 @@ class FarmerController extends CI_Controller
 
         // print_r($payload);die();
         $jsonPayload = json_encode($payload);
+        log_message('error', 'url-----' . $url);
         log_message('error', 'jsonPayload-----' . $jsonPayload);
         $encode_jsonPayload = base64_encode($jsonPayload);
         log_message('error', 'base64-----' . $encode_jsonPayload);
