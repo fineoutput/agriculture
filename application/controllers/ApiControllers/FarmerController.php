@@ -972,6 +972,7 @@ class FarmerController extends CI_Controller
 
         if ($body['code'] == 'PAYMENT_SUCCESS') {
             $url = PHONE_PE_URL . '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . '';
+            log_message('error', 'verify url-----' . $url);
             $verifyHeader = hash('sha256', '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
             $ch = curl_init();
             // Set the cURL options
