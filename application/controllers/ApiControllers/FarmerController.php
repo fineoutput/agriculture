@@ -1025,7 +1025,7 @@ class FarmerController extends CI_Controller
         $cur_date = date("Y-m-d H:i:s");
 
         $response = $this->verify_phone_pe_payment($body);
-        if ($response->code == 'PAYMENT_SUCCESS') {
+        if ($response && $response->code == 'PAYMENT_SUCCESS') {
             $txn_id = $response->data->merchantTransactionId;
             $this->db->select('*');
             $this->db->from('tbl_order1');
@@ -1176,7 +1176,7 @@ class FarmerController extends CI_Controller
                 exit;
             }
         } else {
-            echo $response->code;
+            log_message('error', 'fail response-----' . json_encode($response));
         }
     }
     // ====================== END PHONE PE INITIATE PAYMENT ==================================}
