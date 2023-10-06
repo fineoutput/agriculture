@@ -230,7 +230,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" >Total intake per head:</td>
-                    <td colspan="5" class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D32')->getFormattedValue() ?></td>
+                    <td colspan="5" class="info2"><?= $objPHPExcel->setActiveSheetIndex(6)->getCell('D57')->getFormattedValue() ?></td>
                 </tr>
                 <!-- <tr>
                     <td colspan="5" class="text-center">If you have any question please contact for help
