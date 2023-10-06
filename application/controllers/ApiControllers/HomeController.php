@@ -1295,7 +1295,7 @@ class HomeController extends CI_Controller
             "mobileNumber" => $phone,
             "redirectMode" => "POST",
         );
-        $url = PHONE_PE_URL;
+        $url = PHONE_PE_URL . '/pg/v1/pay';
         $json = json_encode($payload);
         $payload = json_decode($json);
         $payload->paymentInstrument = new stdClass();
@@ -1339,7 +1339,7 @@ class HomeController extends CI_Controller
     {
 
         if ($body['code'] == 'PAYMENT_SUCCESS') {
-            $url = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . '';
+            $url = PHONE_PE_URL . '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . '';
             $verifyHeader = hash('sha256', '/pg/v1/status/' . PHONE_PE_MERCHANT_ID . '/' . $body['transactionId'] . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
             $ch = curl_init();
             // Set the cURL options
