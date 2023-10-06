@@ -725,7 +725,7 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
             //     // redirect($res->data->instrumentResponse->redirectInfo->url);
         } else {
-            
+
             // redirect('web/checkout');
         }
     }
@@ -916,7 +916,7 @@ class FarmerController extends CI_Controller
             "merchantId" => PHONE_PE_MERCHANT_ID,
             "merchantTransactionId" => $txn_id,
             "merchantUserId" => "MUID123",
-            'amount' => $amount*100,
+            'amount' => $amount * 100,
             "redirectUrl" => $redirect_url,
             "callbackUrl" => $redirect_url,
             "mobileNumber" => $phone,
@@ -930,12 +930,13 @@ class FarmerController extends CI_Controller
 
         // print_r($payload);die();
         $jsonPayload = json_encode($payload);
+        log_message('error', 'jsonPayload-----' . $jsonPayload);
         $encode_jsonPayload = base64_encode($jsonPayload);
-        log_message('error', 'base64-----'.$encode_jsonPayload);
+        log_message('error', 'base64-----' . $encode_jsonPayload);
         $verifyHeader = hash('sha256', $encode_jsonPayload . '/pg/v1/pay' . PHONE_PE_SALT) . '###' . PHONE_PE_SALT_INDEX;
         $request_json = new stdClass();
         $request_json->request = $encode_jsonPayload;
-        log_message('error', 'X-VERIFY-----'.$verifyHeader);
+        log_message('error', 'X-VERIFY-----' . $verifyHeader);
         // Set up cURL
         $ch = curl_init();
         // Set the cURL options
@@ -960,8 +961,8 @@ class FarmerController extends CI_Controller
         curl_close($ch);
 
         // Print the response
-        log_message('error', 'response-----'.json_encode($response));
-        
+        log_message('error', 'response-----' . json_encode($response));
+
         return json_decode($response);
     }
     // ====================== START PHONE PE INITIATE PAYMENT ==================================
