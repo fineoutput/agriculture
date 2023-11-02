@@ -339,21 +339,22 @@ class FeedController extends CI_Controller
                         'RUDP' => round($rudp, 2),
                         'ADF' => round($adf, 2),
                         'NDF' => round($ndf, 2),
-                        'NEL' =>  round((0.0245 * $tdn - 0.12 * 0.454), 2),
+                        'NEL' =>  round(((0.0245 * round($tdn, 2)) - (0.12 * 0.454)), 2),
                         'ENDF' => round($endf, 2),
                     );
+                    $dmb_tdn = $tdn > 0 ? round(($tdn * 12 / 100 + $tdn), 2) : 0;
                     $dmb =  array(
                         'CP' => $cp > 0 ? round(($cp * 12 / 100 + $cp), 2) : 0,
                         'FAT' => $ee > 0 ? round(($ee * 12 / 100 + $ee), 2) : 0,
                         'FIBER' => $cf > 0 ? round(($cf * 12 / 100 + $cf), 2) : 0,
-                        'TDN' => $tdn > 0 ? round(($tdn * 12 / 100 + $tdn), 2) : 0,
+                        'TDN' => $dmb_tdn,
                         'ENERGY' => $me > 0 ? round(($me * 12 / 100 + $me), 2) : 0,
                         'CA' => $ca > 0 ? round(($ca * 12 / 100 + $ca), 2) : 0,
                         'P' => $p > 0 ? round(($p * 12 / 100 + $p), 2) : 0,
                         'RUDP' => $rudp > 0 ? round(($rudp * 12 / 100 + $rudp), 2) : 0,
                         'ADF' => $adf > 0 ? round(($adf * 12 / 100 + $adf), 2) : 0,
                         'NDF' => $ndf > 0 ? round(($ndf * 12 / 100 + $ndf), 2) : 0,
-                        'NEL' => round((0.0245 * $tdn - 0.12), 2),
+                        'NEL' =>  round(((0.0245 * $dmb_tdn) - (0.12 * 0.454)), 2),
                         'ENDF' => $endf > 0 ? round(($endf * 12 / 100 + $endf), 2) : 0,
                     );
                     $data1 = array(
