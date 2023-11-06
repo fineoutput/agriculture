@@ -362,6 +362,10 @@ class FeedController extends CI_Controller
                         'dmb' => $dmb,
                         'row_ton' => round(($value), 2),
                         'row_qtl' => round(($value / 10), 2),
+                        'ProteinData' => $ProteinData,
+                        'EnergyData' => $EnergyData,
+                        'ProductData' => $ProductData,
+                        'MedicineData' => $MedicineData,
                     );
                     $data['result'] = $data1;
                     $message = $this->load->view('pdf/feed', $data, TRUE);

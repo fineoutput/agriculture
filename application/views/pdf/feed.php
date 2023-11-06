@@ -106,6 +106,54 @@
                     </tbody>
                     <tbody class="labels">
                         <tr>
+                            <td colspan="5">Ingredient</td>
+                        </tr>
+                    </tbody>
+                    <tbody class="hide">
+                        <? $prot = json_decode($result['ProteinData']);
+                        foreach ($prot as $prt) {
+                            if (!empty($prt[3])) { ?>
+                                <tr>
+                                    <td><?= $prt[2] ?></td>
+                                    <td class="info"><?= $prt[3] ?></td>
+                                    <td><?= $prt[4] ?></td>
+                                </tr>
+                        <? }
+                        } ?>
+                        <? $Energy = json_decode($result['EnergyData']);
+                        foreach ($Energy as $enr) {
+                            if (!empty($enr[3])) { ?>
+                                <tr>
+                                    <td><?= $enr[2] ?></td>
+                                    <td class="info"><?= $enr[3] ?></td>
+                                    <td><?= $enr[4] ?></td>
+                                </tr>
+                        <? }
+                        } ?>
+                        <? $Product = json_decode($result['ProductData']);
+                        foreach ($Product as $pro) {
+                            if (!empty($pro[3])) { ?>
+                                <tr>
+                                    <td><?= $pro[2] ?></td>
+                                    <td class="info"><?= $pro[3] ?></td>
+                                    <td><?= $pro[4] ?></td>
+                                </tr>
+                        <? }
+                        } ?>
+                        <? $Medicine = json_decode($result['MedicineData']);
+                        foreach ($Medicine as $med) {
+                            if (!empty($med[3])) { ?>
+                                <tr>
+                                    <td><?= $med[2] ?></td>
+                                    <td class="info"><?= $med[3] ?></td>
+                                    <td><?= $med[4] ?></td>
+                                </tr>
+                        <? }
+                        } ?>
+
+                    </tbody>
+                    <tbody class="labels">
+                        <tr>
                             <td colspan="5">Fresh</td>
                         </tr>
                     </tbody>
