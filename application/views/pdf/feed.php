@@ -106,7 +106,7 @@
                     </tbody>
                     <tbody class="primary">
                         <tr>
-                            <td colspan="3">Ingredient</td>
+                            <td colspan="2">Ingredient</td>
                             <td >Cost</td>
                             <td >Ratio</td>
                         </tr>
@@ -116,7 +116,7 @@
                         foreach ($prot as $prt) {
                             if (!empty($prt[3])) { ?>
                                 <tr>
-                                    <td colspan="3"><?= $prt[1] ?></td>
+                                    <td colspan="2"><?= $prt[1] ?></td>
                                     <td  class="info"><?= $prt[2] ?></td>
                                     <td><?= $prt[3] ?></td>
                                 </tr>
@@ -126,7 +126,7 @@
                         foreach ($Energy as $enr) {
                             if (!empty($enr[3])) { ?>
                                 <tr>
-                                    <td colspan="3"><?= $enr[1] ?></td>
+                                    <td colspan="2"><?= $enr[1] ?></td>
                                     <td class="info"><?= $enr[2] ?></td>
                                     <td><?= $enr[3] ?></td>
                                 </tr>
@@ -136,7 +136,7 @@
                         foreach ($Product as $pro) {
                             if (!empty($pro[3])) { ?>
                                 <tr>
-                                    <td colspan="3"><?= $pro[1] ?></td>
+                                    <td colspan="2"><?= $pro[1] ?></td>
                                     <td class="info"><?= $pro[2] ?></td>
                                     <td><?= $pro[3] ?></td>
                                 </tr>
@@ -146,7 +146,7 @@
                         foreach ($Medicine as $med) {
                             if (!empty($med[3])) { ?>
                                 <tr>
-                                    <td colspan="3"><?= $med[1] ?></td>
+                                    <td colspan="2"><?= $med[1] ?></td>
                                     <td class="info"><?= $med[2] ?></td>
                                     <td><?= $med[3] ?></td>
                                 </tr>
