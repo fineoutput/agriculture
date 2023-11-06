@@ -107,8 +107,8 @@
                     <tbody class="primary">
                         <tr>
                             <td colspan="3">Ingredient</td>
-                            <td colspan="3">Cost</td>
-                            <td colspan="3">Ratio</td>
+                            <td >Cost</td>
+                            <td >Ratio</td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
