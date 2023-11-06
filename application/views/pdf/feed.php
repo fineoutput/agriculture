@@ -106,7 +106,9 @@
                     </tbody>
                     <tbody class="labels">
                         <tr>
-                            <td colspan="5">Ingredient</td>
+                            <td colspan="3">Ingredient</td>
+                            <td colspan="3">Cost</td>
+                            <td colspan="3">Ratio</td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
@@ -114,8 +116,8 @@
                         foreach ($prot as $prt) {
                             if (!empty($prt[3])) { ?>
                                 <tr>
-                                    <td><?= $prt[1] ?></td>
-                                    <td class="info"><?= $prt[2] ?></td>
+                                    <td colspan="3"><?= $prt[1] ?></td>
+                                    <td  class="info"><?= $prt[2] ?></td>
                                     <td><?= $prt[3] ?></td>
                                 </tr>
                         <? }
@@ -124,7 +126,7 @@
                         foreach ($Energy as $enr) {
                             if (!empty($enr[3])) { ?>
                                 <tr>
-                                    <td><?= $enr[1] ?></td>
+                                    <td colspan="3"><?= $enr[1] ?></td>
                                     <td class="info"><?= $enr[2] ?></td>
                                     <td><?= $enr[3] ?></td>
                                 </tr>
@@ -134,7 +136,7 @@
                         foreach ($Product as $pro) {
                             if (!empty($pro[3])) { ?>
                                 <tr>
-                                    <td><?= $pro[1] ?></td>
+                                    <td colspan="3"><?= $pro[1] ?></td>
                                     <td class="info"><?= $pro[2] ?></td>
                                     <td><?= $pro[3] ?></td>
                                 </tr>
@@ -144,7 +146,7 @@
                         foreach ($Medicine as $med) {
                             if (!empty($med[3])) { ?>
                                 <tr>
-                                    <td><?= $med[1] ?></td>
+                                    <td colspan="3"><?= $med[1] ?></td>
                                     <td class="info"><?= $med[2] ?></td>
                                     <td><?= $med[3] ?></td>
                                 </tr>
