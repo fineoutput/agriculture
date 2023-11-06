@@ -114,9 +114,9 @@
                         foreach ($prot as $prt) {
                             if (!empty($prt[3])) { ?>
                                 <tr>
-                                    <td><?= $prt[2] ?></td>
-                                    <td class="info"><?= $prt[3] ?></td>
-                                    <td><?= $prt[4] ?></td>
+                                    <td><?= $prt[1] ?></td>
+                                    <td class="info"><?= $prt[2] ?></td>
+                                    <td><?= $prt[3] ?></td>
                                 </tr>
                         <? }
                         } ?>
@@ -124,9 +124,9 @@
                         foreach ($Energy as $enr) {
                             if (!empty($enr[3])) { ?>
                                 <tr>
-                                    <td><?= $enr[2] ?></td>
-                                    <td class="info"><?= $enr[3] ?></td>
-                                    <td><?= $enr[4] ?></td>
+                                    <td><?= $enr[1] ?></td>
+                                    <td class="info"><?= $enr[2] ?></td>
+                                    <td><?= $enr[3] ?></td>
                                 </tr>
                         <? }
                         } ?>
@@ -134,9 +134,9 @@
                         foreach ($Product as $pro) {
                             if (!empty($pro[3])) { ?>
                                 <tr>
-                                    <td><?= $pro[2] ?></td>
-                                    <td class="info"><?= $pro[3] ?></td>
-                                    <td><?= $pro[4] ?></td>
+                                    <td><?= $pro[1] ?></td>
+                                    <td class="info"><?= $pro[2] ?></td>
+                                    <td><?= $pro[3] ?></td>
                                 </tr>
                         <? }
                         } ?>
@@ -144,9 +144,9 @@
                         foreach ($Medicine as $med) {
                             if (!empty($med[3])) { ?>
                                 <tr>
-                                    <td><?= $med[2] ?></td>
-                                    <td class="info"><?= $med[3] ?></td>
-                                    <td><?= $med[4] ?></td>
+                                    <td><?= $med[1] ?></td>
+                                    <td class="info"><?= $med[2] ?></td>
+                                    <td><?= $med[3] ?></td>
                                 </tr>
                         <? }
                         } ?>
