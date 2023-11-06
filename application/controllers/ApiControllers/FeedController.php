@@ -698,6 +698,7 @@ class FeedController extends CI_Controller
                 'description_english' => $API->description_english,
                 'description_hindi' => $API->description_hindi,
                 'description_punjabi' => $API->description_punjabi,
+                'min_qty' => $API->min_qty ? $API->min_qty : 1,
                 'image1' => $API->image1,
                 'image2' => $API->image2,
                 'mrp' => $API->mrp,

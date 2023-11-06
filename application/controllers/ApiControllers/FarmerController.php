@@ -40,15 +40,12 @@ class FarmerController extends CI_Controller
                             if ($ProData[0]->inventory > 0) {
                                 $vendorData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id, 'vendor_id' => $vendor_id, 'is_admin' => $is_admin))->result();
                                 //----- Empty cart if new vendor ----------
-                                if (empty($vendorData)) {
-                                    $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id,));
-                                }
                                 $data = array(
                                     'farmer_id' => $farmer_data[0]->id,
                                     'is_admin' => $is_admin,
                                     'vendor_id' => $vendor_id,
                                     'product_id' => $product_id,
-                                    'qty' => 1,
+                                    'qty' => $ProData[0]->min_qty ? $ProData[0]->min_qty : 1,
                                     'date' => $cur_date
                                 );
                                 $last_id = $this->base_model->insert_table("tbl_cart", $data, 1);
@@ -149,6 +146,8 @@ class FarmerController extends CI_Controller
                                 'name' => $ProData->name_english,
                                 'description' => $ProData->description_english,
                                 'image' => $image,
+                                'min_qty' => $ProData->min_qty ? $ProData->min_qty : 1,
+
                                 // 'mrp' => $ProData->mrp,
                                 'selling_price' => $ProData->selling_price * $cart->qty,
                                 // 'suffix' => $ProData->suffix,
@@ -167,6 +166,8 @@ class FarmerController extends CI_Controller
                                 // 'mrp' => $ProData->mrp,
                                 'selling_price' => $ProData->selling_price * $cart->qty,
                                 // 'suffix' => $ProData->suffix,
+                                'min_qty' => $ProData->min_qty ? $ProData->min_qty : 1,
+
                                 'stock' => $stock,
                                 'vendor_id' => $ProData->added_by,
                                 'is_admin' => $cart->is_admin,
@@ -179,6 +180,8 @@ class FarmerController extends CI_Controller
                                 'name' => $ProData->name_punjabi,
                                 'description' => $ProData->description_punjabi,
                                 'image' => $image,
+                                'min_qty' => $ProData->min_qty ? $ProData->min_qty : 1,
+
                                 // 'mrp' => $ProData->mrp,
                                 'selling_price' => $ProData->selling_price * $cart->qty,
                                 // 'suffix' => $ProData->suffix,
@@ -249,6 +252,16 @@ class FarmerController extends CI_Controller
                         if (!empty($ProData)) {
                             //----- Check Inventory  --------
                             if ($ProData[0]->inventory >= $qty) {
+                                //---- check mini qty ---
+                                if ($ProData[0]->min_qty && $qty < $ProData[0]->min_qty) {
+                                    $res = array(
+                                        'message' => "Minimum Quantity should be " . $ProData[0]->min_qty,
+                                        'status' => 201,
+                                        'data' => []
+                                    );
+                                    echo json_encode($res);
+                                    return;
+                                }
                                 $data_update = array('qty' => $qty,);
                                 $this->db->where('product_id', $product_id);
                                 $this->db->where('farmer_id', $farmer_data[0]->id);
@@ -412,6 +425,16 @@ class FarmerController extends CI_Controller
                             echo json_encode($res);
                             die();
                         }
+                        //---- check mini qty ---
+                        if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
+                            $res = array(
+                                'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
+                                'status' => 201,
+                                'data' => []
+                            );
+                            echo json_encode($res);
+                            return;
+                        }
                         $charges = $cart->qty * VENDOR_CHARGES;
                         $total += $ProData->selling_price * $cart->qty;
                     } else {
@@ -553,6 +576,16 @@ class FarmerController extends CI_Controller
                                     );
                                     echo json_encode($res);
                                     die();
+                                }
+                                //---- check mini qty ---
+                                if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
+                                    $res = array(
+                                        'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
+                                        'status' => 201,
+                                        'data' => []
+                                    );
+                                    echo json_encode($res);
+                                    return;
                                 }
                             }
                         }

@@ -136,6 +136,12 @@
                       </td>
                     </tr>
                     <tr>
+                      <td> <strong>Minimum Qty</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <input type="text" name="min_qty" class="form-control" onkeypress="return isNumberKey(event)" placeholder="" required value="<?= $products->min_qty ?>" id="min_qty" />
+                      </td>
+                    </tr>
+                    <tr>
                       <td> <strong>Offer</strong> </strong> </td>
                       <td>
                         <input type="text" name="offer" class="form-control" placeholder="" required value="<? echo $products->offer;?>" />

@@ -102,6 +102,7 @@ class Products extends CI_finecontrol
                 $this->form_validation->set_rules('inventory', 'inventory', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('suffix', 'suffix', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('tranding_products', 'Tranding products', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('min_qty', 'min_qty', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('offer', 'Offer', 'xss_clean|trim');
                 if ($this->form_validation->run() == TRUE) {
                     $name_english = $this->input->post('name_english');
@@ -117,6 +118,7 @@ class Products extends CI_finecontrol
                     $selling_price_wo_gst = $this->input->post('selling_price_wo_gst');
                     $inventory = $this->input->post('inventory');
                     $suffix = $this->input->post('suffix');
+                    $min_qty = $this->input->post('min_qty');
                     $tranding_products = $this->input->post('tranding_products');
                     $offer = $this->input->post('offer');
                     $ip = $this->input->ip_address();
@@ -168,6 +170,7 @@ class Products extends CI_finecontrol
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'gst' => $gst,
+                            'min_qty' => $min_qty,
                             'gst_price' => $gst_price,
                             'selling_price_wo_gst' => $selling_price_wo_gst,
                             'inventory' => $inventory,
@@ -200,6 +203,7 @@ class Products extends CI_finecontrol
                             'selling_price' => $selling_price,
                             'gst' => $gst,
                             'gst_price' => $gst_price,
+                            'min_qty' => $min_qty,
                             'selling_price_wo_gst' => $selling_price_wo_gst,
                             'inventory' => $inventory,
                             'suffix' => $suffix,

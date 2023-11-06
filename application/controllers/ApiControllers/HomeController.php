@@ -500,6 +500,7 @@ class HomeController extends CI_Controller
                         'description' => $pro->description_english,
                         'image' => $image,
                         'mrp' => $pro->mrp,
+                        'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                         'selling_price' => $pro->selling_price,
                         'suffix' => $pro->suffix,
                         'stock' => $stock,
