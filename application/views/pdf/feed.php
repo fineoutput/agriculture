@@ -104,7 +104,7 @@
 
                         </tr>
                     </tbody>
-                    <tbody class="labels">
+                    <tbody class="primary">
                         <tr>
                             <td colspan="3">Ingredient</td>
                             <td colspan="3">Cost</td>
