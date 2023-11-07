@@ -1393,10 +1393,12 @@ class HomeController extends CI_Controller
         $this->email->set_newline("");
         $this->email->from(EMAIL); // change it to yours
         $this->email->to('office.fineoutput@gmail.com', 'Dairy Muneem'); // change it to yours
-        $this->email->subject('New payment request received from a vendor');
+        $this->email->subject('This is test email');
         $this->email->message($message2);
         if ($this->email->send()) {
+            echo 'Email sent.';
         } else {
+            print_r($this->email->print_debugger());
         }
     }
 }
