@@ -1375,5 +1375,29 @@ class HomeController extends CI_Controller
             // }
         }
     }
+    public function check_mail()
+    {
+        //--- send email to admin -----------------
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => SMTP_HOST,
+            'smtp_port' => SMTP_PORT,
+            'smtp_user' => USER_NAME, // change it to yours
+            'smtp_pass' => PASSWORD, // change it to yours
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1',
+            'wordwrap' => true
+        );
+        $message2 = 'Hello Admin';
+        $this->load->library('email', $config);
+        $this->email->set_newline("");
+        $this->email->from(EMAIL); // change it to yours
+        $this->email->to('office.fineoutput@gmail.com', 'Dairy Muneem'); // change it to yours
+        $this->email->subject('New payment request received from a vendor');
+        $this->email->message($message2);
+        if ($this->email->send()) {
+        } else {
+        }
+    }
 }
   //======================================================END HOMECONTROLLER================================================//
