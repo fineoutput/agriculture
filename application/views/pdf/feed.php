@@ -112,7 +112,9 @@
                         </tr>
                     </tbody>
                     <tbody class="hide">
-                        <? $prot = json_decode($result['ProteinData']);
+                        <?
+                        $ration = 0;
+                        $prot = json_decode($result['ProteinData']);
                         foreach ($prot as $prt) {
                             if (!empty($prt[3])) { ?>
                                 <tr>
@@ -120,7 +122,9 @@
                                     <td class="info"><?= $prt[2] ?></td>
                                     <td><?= $prt[3] ?></td>
                                 </tr>
-                        <? }
+                        <?
+                                $ration += $prt[3];
+                            }
                         } ?>
                         <? $Energy = json_decode($result['EnergyData']);
                         foreach ($Energy as $enr) {
@@ -130,7 +134,9 @@
                                     <td class="info"><?= $enr[2] ?></td>
                                     <td><?= $enr[3] ?></td>
                                 </tr>
-                        <? }
+                        <?
+                                $ration += $enr[3];
+                            }
                         } ?>
                         <? $Product = json_decode($result['ProductData']);
                         foreach ($Product as $pro) {
@@ -140,7 +146,9 @@
                                     <td class="info"><?= $pro[2] ?></td>
                                     <td><?= $pro[3] ?></td>
                                 </tr>
-                        <? }
+                        <?
+                                $ration += $pro[3];
+                            }
                         } ?>
                         <? $Medicine = json_decode($result['MedicineData']);
                         foreach ($Medicine as $med) {
@@ -150,9 +158,18 @@
                                     <td class="info"><?= $med[2] ?></td>
                                     <td><?= $med[3] ?></td>
                                 </tr>
-                        <? }
+                        <?
+                                $ration += $med[3];
+                            }
                         } ?>
 
+                    </tbody>
+                    <tbody class="primary">
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td><?=$ration?></td>
+                        </tr>
                     </tbody>
                     <tbody class="labels">
                         <!-- <tr>
@@ -226,7 +243,7 @@
                             <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
                     </tbody>
-                   
+
                     <tbody class="primary">
                         <tr>
                             <td colspan="5">Raw Cost</td>
