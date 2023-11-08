@@ -107,8 +107,8 @@
                     <tbody class="primary">
                         <tr>
                             <td colspan="2">Ingredient</td>
-                            <td >Cost</td>
-                            <td >Ratio</td>
+                            <td>Cost</td>
+                            <td>Ratio</td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
@@ -117,7 +117,7 @@
                             if (!empty($prt[3])) { ?>
                                 <tr>
                                     <td colspan="2"><?= $prt[1] ?></td>
-                                    <td  class="info"><?= $prt[2] ?></td>
+                                    <td class="info"><?= $prt[2] ?></td>
                                     <td><?= $prt[3] ?></td>
                                 </tr>
                         <? }
@@ -155,54 +155,83 @@
 
                     </tbody>
                     <tbody class="labels">
-                        <tr>
+                        <!-- <tr>
                             <td colspan="5">Fresh</td>
+                        </tr> -->
+                        <tr>
+                            <td colspan="2">Value</td>
+                            <td>Fresh</td>
+                            <td>DMB</td>
                         </tr>
                     </tbody>
                     <tbody class="hide">
                         <tr>
                             <td>CP</td>
                             <td class="info"><?= $result['fresh']['CP'] ?></td>
+                            <td class="success1"><?= $result['dmb']['CP'] ?></td>
+                        </tr>
+                        <tr>
                             <td>FAT</td>
                             <td class="info"><?= $result['fresh']['FAT'] ?></td>
+                            <td class="success1"><?= $result['dmb']['FAT'] ?></td>
                         </tr>
                         <tr>
                             <td>FIBER</td>
                             <td class="info"><?= $result['fresh']['FIBER'] ?></td>
+                            <td class="success1"><?= $result['dmb']['FIBER'] ?></td>
+                        </tr>
+                        <tr>
                             <td>TDN</td>
                             <td class="info"><?= $result['fresh']['TDN'] ?></td>
+                            <td class="success1"><?= $result['dmb']['TDN'] ?></td>
                         </tr>
                         <tr>
                             <td>ENERGY</td>
                             <td class="info"><?= $result['fresh']['ENERGY'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ENERGY'] ?></td>
+                        </tr>
+                        <tr>
                             <td>CA</td>
                             <td class="info"><?= $result['fresh']['CA'] ?></td>
+                            <td class="success1"><?= $result['dmb']['CA'] ?></td>
                         </tr>
                         <tr>
                             <td>P</td>
                             <td class="info"><?= $result['fresh']['P'] ?></td>
+                            <td class="success1"><?= $result['dmb']['P'] ?></td>
+                        </tr>
+                        <tr>
                             <td>RUDP</td>
                             <td class="info"><?= $result['fresh']['RUDP'] ?></td>
+                            <td class="success1"><?= $result['dmb']['RUDP'] ?></td>
                         </tr>
                         <tr>
                             <td>ADF</td>
                             <td class="info"><?= $result['fresh']['ADF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ADF'] ?></td>
+                        </tr>
+                        <tr>
                             <td>NDF</td>
                             <td class="info"><?= $result['fresh']['NDF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['NDF'] ?></td>
                         </tr>
                         <tr>
                             <td>NEL</td>
                             <td class="info"><?= $result['fresh']['NEL'] ?></td>
+                            <td class="success1"><?= $result['dmb']['NEL'] ?></td>
+                        </tr>
+                        <tr>
                             <td>ENDF</td>
                             <td class="info"><?= $result['fresh']['ENDF'] ?></td>
+                            <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
                     </tbody>
-                    <tbody class="success">
+                    <!-- <tbody class="success">
                         <tr>
                             <td colspan="5">DMB</td>
                         </tr>
-                    </tbody>
-                    <tbody class="hide">
+                    </tbody> -->
+                    <!-- <tbody class="hide">
                         <tr>
                             <td>CP</td>
                             <td class="success1"><?= $result['dmb']['CP'] ?></td>
@@ -239,7 +268,7 @@
                             <td>ENDF</td>
                             <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
-                    </tbody>
+                    </tbody> -->
                     <tbody class="primary">
                         <tr>
                             <td colspan="5">Raw Cost</td>
