@@ -164,7 +164,7 @@
                         } ?>
 
                     </tbody>
-                    <tbody class="primary">
+                    <tbody class="hide">
                         <tr>
                             <td colspan="2"></td>
                             <td></td>
