@@ -226,49 +226,7 @@
                             <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
                     </tbody>
-                    <!-- <tbody class="success">
-                        <tr>
-                            <td colspan="5">DMB</td>
-                        </tr>
-                    </tbody> -->
-                    <!-- <tbody class="hide">
-                        <tr>
-                            <td>CP</td>
-                            <td class="success1"><?= $result['dmb']['CP'] ?></td>
-                            <td>FAT</td>
-                            <td class="success1"><?= $result['dmb']['FAT'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>FIBER</td>
-                            <td class="success1"><?= $result['dmb']['FIBER'] ?></td>
-                            <td>TDN</td>
-                            <td class="success1"><?= $result['dmb']['TDN'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>ENERGY</td>
-                            <td class="success1"><?= $result['dmb']['ENERGY'] ?></td>
-                            <td>CA</td>
-                            <td class="success1"><?= $result['dmb']['CA'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>P</td>
-                            <td class="success1"><?= $result['dmb']['P'] ?></td>
-                            <td>RUDP</td>
-                            <td class="success1"><?= $result['dmb']['RUDP'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>ADF</td>
-                            <td class="success1"><?= $result['dmb']['ADF'] ?></td>
-                            <td>NDF</td>
-                            <td class="success1"><?= $result['dmb']['NDF'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>NEL</td>
-                            <td class="success1"><?= $result['dmb']['NEL'] ?></td>
-                            <td>ENDF</td>
-                            <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
-                        </tr>
-                    </tbody> -->
+                   
                     <tbody class="primary">
                         <tr>
                             <td colspan="5">Raw Cost</td>
