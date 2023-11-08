@@ -166,62 +166,62 @@
                     </tbody>
                     <tbody class="hide">
                         <tr>
-                            <td>CP</td>
+                            <td colspan="2">CP</td>
                             <td class="info"><?= $result['fresh']['CP'] ?></td>
                             <td class="success1"><?= $result['dmb']['CP'] ?></td>
                         </tr>
                         <tr>
-                            <td>FAT</td>
+                            <td colspan="2">FAT</td>
                             <td class="info"><?= $result['fresh']['FAT'] ?></td>
                             <td class="success1"><?= $result['dmb']['FAT'] ?></td>
                         </tr>
                         <tr>
-                            <td>FIBER</td>
+                            <td colspan="2">FIBER</td>
                             <td class="info"><?= $result['fresh']['FIBER'] ?></td>
                             <td class="success1"><?= $result['dmb']['FIBER'] ?></td>
                         </tr>
                         <tr>
-                            <td>TDN</td>
+                            <td colspan="2">TDN</td>
                             <td class="info"><?= $result['fresh']['TDN'] ?></td>
                             <td class="success1"><?= $result['dmb']['TDN'] ?></td>
                         </tr>
                         <tr>
-                            <td>ENERGY</td>
+                            <td colspan="2">ENERGY</td>
                             <td class="info"><?= $result['fresh']['ENERGY'] ?></td>
                             <td class="success1"><?= $result['dmb']['ENERGY'] ?></td>
                         </tr>
                         <tr>
-                            <td>CA</td>
+                            <td colspan="2">CA</td>
                             <td class="info"><?= $result['fresh']['CA'] ?></td>
                             <td class="success1"><?= $result['dmb']['CA'] ?></td>
                         </tr>
                         <tr>
-                            <td>P</td>
+                            <td colspan="2">P</td>
                             <td class="info"><?= $result['fresh']['P'] ?></td>
                             <td class="success1"><?= $result['dmb']['P'] ?></td>
                         </tr>
                         <tr>
-                            <td>RUDP</td>
+                            <td colspan="2">RUDP</td>
                             <td class="info"><?= $result['fresh']['RUDP'] ?></td>
                             <td class="success1"><?= $result['dmb']['RUDP'] ?></td>
                         </tr>
                         <tr>
-                            <td>ADF</td>
+                            <td colspan="2">ADF</td>
                             <td class="info"><?= $result['fresh']['ADF'] ?></td>
                             <td class="success1"><?= $result['dmb']['ADF'] ?></td>
                         </tr>
                         <tr>
-                            <td>NDF</td>
+                            <td colspan="2">NDF</td>
                             <td class="info"><?= $result['fresh']['NDF'] ?></td>
                             <td class="success1"><?= $result['dmb']['NDF'] ?></td>
                         </tr>
                         <tr>
-                            <td>NEL</td>
+                            <td colspan="2">NEL</td>
                             <td class="info"><?= $result['fresh']['NEL'] ?></td>
                             <td class="success1"><?= $result['dmb']['NEL'] ?></td>
                         </tr>
                         <tr>
-                            <td>ENDF</td>
+                            <td colspan="2">ENDF</td>
                             <td class="info"><?= $result['fresh']['ENDF'] ?></td>
                             <td class="success1"><?= $result['dmb']['ENDF'] ?></td>
                         </tr>
