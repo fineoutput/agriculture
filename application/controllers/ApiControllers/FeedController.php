@@ -27,7 +27,7 @@ class FeedController extends CI_Controller
                 $type = $this->input->post('type');
                 $grith = $this->input->post('grith');
                 $length = $this->input->post('length');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     if ($type == 'Inches') {
                         $weight = ($grith * $grith * $length) / 660 + 0.5;
@@ -39,6 +39,20 @@ class FeedController extends CI_Controller
                     $data_update = array('weight_calculator' => $service_data[0]->weight_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $addedby = $this->session->userdata('admin_id');
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'weight_calculator',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -85,7 +99,7 @@ class FeedController extends CI_Controller
                 $feed_percentage = $this->input->post('feed_percentage');
                 $milk_yield = $this->input->post('milk_yield');
                 $weight = $this->input->post('weight');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $dry_matter_intake = 33 / 100 * $milk_yield + 2 / 100 * $weight;
                     $feed = $feed_percentage / 100 * $dry_matter_intake;
@@ -143,6 +157,20 @@ class FeedController extends CI_Controller
                     $data_update = array('dmi_calculator' => $service_data[0]->dmi_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $addedby = $this->session->userdata('admin_id');
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'dmi_calculator',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -240,7 +268,7 @@ class FeedController extends CI_Controller
                 $EnergyData = $this->input->post('EnergyData');
                 $ProductData = $this->input->post('ProductData');
                 $MedicineData = $this->input->post('MedicineData');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $send = [];
                     $cp = 0;
@@ -381,6 +409,19 @@ class FeedController extends CI_Controller
                     $data_update = array('feed_calculator' => $service_data[0]->feed_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'feed_calculator',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -449,7 +490,7 @@ class FeedController extends CI_Controller
                 $humidity = $this->input->post('humidity');
                 $thi = $this->input->post('thi');
                 $fat_4 = $this->input->post('fat_4');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $input = array(
                         'group' => $group,
@@ -512,6 +553,19 @@ class FeedController extends CI_Controller
                     $data_update = array('animal_req' => $service_data[0]->animal_req + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'animal_req',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -574,7 +628,7 @@ class FeedController extends CI_Controller
                 // die();
                 // $arr = "[{\"label\":\"CHANA CHURI\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GREEN FODDER (MAIZE)\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"SILAGE MAIZE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"COTTON CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"COTTON SEED\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MUSTARD CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"RICE POLISH\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"DORB\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"SOYA DOC\",\"value\":true,\"fresh\":\"58\",\"price\":\"3\"},{\"label\":\"MUSTARD DOC\",\"value\":true,\"fresh\":\"56\",\"price\":\"7\"},{\"label\":\"WHEAT\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GUAR KORMA\",\"value\":true,\"fresh\":\"25\",\"price\":\"5\"},{\"label\":\"MAIZE GRAIN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"CATTLE FEED\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"WHEAT BRAN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"WHEAT STRAW\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MOLASSES\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MUNG CHURI\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MAKKA KHAL\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GREEN FODDER (BARSEEM)\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"GROUNDNUT CAKE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"BARLEY\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"RICE BROKEN\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"UREA\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"MINERAL MIXTURE\",\"value\":false,\"fresh\":\"\",\"price\":\"\"},{\"label\":\"BY PASS FAT\",\"value\":false,\"fresh\":\"\",\"price\":\"\"}]";
                 // $material = json_decode($arr);
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     // $lactation = "Early lactation";
                     // $feed_percentage = $this->input->post('feed_percentage');
@@ -653,9 +707,22 @@ class FeedController extends CI_Controller
                     // die();
                     //------- update service record -----------
                     $service_data = $this->db->get_where('tbl_service_records')->result();
-                    $data_update = array('animal_req' => $service_data[0]->animal_req + 1);
+                    $data_update = array('check_my_feed' => $service_data[0]->check_my_feed + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'check_my_feed',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,

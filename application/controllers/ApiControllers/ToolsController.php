@@ -56,7 +56,7 @@ class ToolsController extends CI_Controller
                 $breadth = $this->input->post('breadth');
                 $height = $this->input->post('height');
                 $number_of_pits = $this->input->post('number_of_pits');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $data = [];
                     $silage_qty_required = round(($number_of_cows * $feeding * $total_feeding_days), 2);
@@ -74,6 +74,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('silage_making' => $service_data[0]->silage_making + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                     //---- create txn ------
+                     $ip = $this->input->ip_address();
+                     date_default_timezone_set("Asia/Calcutta");
+                     $cur_date = date("Y-m-d H:i:s");
+                     $only_date = date("Y-m-d");
+                     $data_insert = array(
+                         'farmer_id' => $farmer_data->id,
+                         'service' => 'silage_making',
+                         'ip' => $ip,
+                         'date' => $cur_date,
+                         'only_date' => $only_date,
+                     );
+                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -114,7 +127,7 @@ class ToolsController extends CI_Controller
             $this->form_validation->set_rules('number_of_cows', 'number_of_cows', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $number_of_cows = $this->input->post('number_of_cows');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $data = [];
                     $data['number_of_cows'] = $number_of_cows;
@@ -148,6 +161,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('pro_req' => $service_data[0]->pro_req + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                     //---- create txn ------
+                     $ip = $this->input->ip_address();
+                     date_default_timezone_set("Asia/Calcutta");
+                     $cur_date = date("Y-m-d H:i:s");
+                     $only_date = date("Y-m-d");
+                     $data_insert = array(
+                         'farmer_id' => $farmer_data->id,
+                         'service' => 'pro_req',
+                         'ip' => $ip,
+                         'date' => $cur_date,
+                         'only_date' => $only_date,
+                     );
+                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -286,7 +312,7 @@ class ToolsController extends CI_Controller
             $this->form_validation->set_rules('breeding_date', 'breeding_date', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $breeding_date = $this->input->post('breeding_date');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     $date = strtotime($breeding_date);
                     $cycle1 = strtotime("+21 day", $date);
@@ -307,6 +333,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('preg_calculator' => $service_data[0]->preg_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                     //---- create txn ------
+                     $ip = $this->input->ip_address();
+                     date_default_timezone_set("Asia/Calcutta");
+                     $cur_date = date("Y-m-d H:i:s");
+                     $only_date = date("Y-m-d");
+                     $data_insert = array(
+                         'farmer_id' => $farmer_data->id,
+                         'service' => 'preg_calculator',
+                         'ip' => $ip,
+                         'date' => $cur_date,
+                         'only_date' => $only_date,
+                     );
+                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -353,7 +392,7 @@ class ToolsController extends CI_Controller
                 $snf = $this->input->post('snf');
                 $clr = $this->input->post('clr');
                 $fat = $this->input->post('fat');
-                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
                 if (!empty($farmer_data)) {
                     if ($type == 'CLR') {
                         $percentage = round(($clr / 4) + (0.21 * $fat) + 0.66, 2);
@@ -387,6 +426,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('snf_calculator' => $service_data[0]->snf_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
+                     //---- create txn ------
+                     $ip = $this->input->ip_address();
+                     date_default_timezone_set("Asia/Calcutta");
+                     $cur_date = date("Y-m-d H:i:s");
+                     $only_date = date("Y-m-d");
+                     $data_insert = array(
+                         'farmer_id' => $farmer_data->id,
+                         'service' => 'snf_calculator',
+                         'ip' => $ip,
+                         'date' => $cur_date,
+                         'only_date' => $only_date,
+                     );
+                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
