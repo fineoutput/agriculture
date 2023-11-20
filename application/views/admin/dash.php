@@ -280,7 +280,7 @@
                 <span class="info-box-icon bg-black"><i class="fa fa-cube"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Doctors Earning</span>
-                  <span class="info-box-number"><?= '₹' . $doctors_earning ?></span>
+                  <span class="info-box-number"><?= '₹' . ($total_d_orders - $doctors_earning) ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
@@ -289,7 +289,7 @@
                 <span class="info-box-icon bg-blue"><i class="fa fa-cube"></i></span>
                 <div class="info-box-content">
                   <span class="info-box-text">Vendor Earning</span>
-                  <span class="info-box-number"><?= '₹' . $vendor_earning ?></span>
+                  <span class="info-box-number"><?= '₹' . ($total_v_orders - $vendor_earning) ?></span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->

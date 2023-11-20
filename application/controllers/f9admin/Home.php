@@ -118,6 +118,19 @@ class Home extends CI_finecontrol
             $query = $this->db->get();
             $data['total_earning'] = $query->row()->final_amount;
 
+            $this->db->select_sum('final_amount');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 1);
+            $this->db->where('is_admin', 0);
+            $query = $this->db->get();
+            $data['total_v_orders'] = $query->row()->final_amount;
+
+            $this->db->select_sum('fees');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('payment_status', 1);
+            $query = $this->db->get();
+            $data['total_d_orders'] = $query->row()->fees;
+
 
             $this->db->select_sum('cr');
             $this->db->from('tbl_payment_txn');
