@@ -56,7 +56,7 @@
                     ?>
                       <tr>
                         <td><?php echo $i ?> </td>
-                        <td><?php echo $farmer ? $farmer->name : '' ?></td>
+                        <td><?php echo $farmer ? $farmer->name .'-'.$farmer->phone: '' ?></td>
                         <td>₹<?php echo $data->price ?></td>
                         <td>
                           <?

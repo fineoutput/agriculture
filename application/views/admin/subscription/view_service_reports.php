@@ -1,12 +1,12 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-    Subscribed Data
+     <?=$heading?> Report
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> All Subscribed Data</a></li>
-      <li class="active">View Subscribed Data</li>
+      <li><a href="<?php echo base_url() ?>dcadmin/home"><i class="fa fa-dashboard"></i> <?=$heading?> Report</a></li>
+      <li class="active">View <?=$heading?> Report</li>
     </ol>
   </section>
   <section class="content">
@@ -15,7 +15,7 @@
         <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/subscription/add_subscription" role="button" style="margin-bottom:12px;"> Add subscription </a> -->
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View Subscribed Data</h3>
+            <h3 class="panel-title"><i class="fa fa-money fa-fw"></i>View <?=$heading?> Report</h3>
           </div>
           <div class="panel panel-default">
 
@@ -42,39 +42,26 @@
                     <tr>
                       <th>#</th>
                       <th>Farmer</th>
-                      <th>Plan</th>
-                      <th>Months</th>
-                      <th>Price</th>
-                      <th>Animals</th>
-                      <th>Consumed Animals</th>
-                      <th>Doctor Calls</th>
-                      <th>Start Date</th>
-                      <th>Expiry Date</th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php $i = 1;
-                    foreach ($subscription_data->result() as $data) { 
+                    foreach ($service_data as $data) {
                       $this->db->select('*');
                       $this->db->from('tbl_farmers');
-                      $this->db->where('id',$data->farmer_id);
-                      $farmer= $this->db->get()->row();
-                      $this->db->select('*');
-                      $this->db->from('tbl_subscription');
-                      $this->db->where('id',$data->plan_id);
-                      $plan= $this->db->get()->row();
-                      ?>
+                      $this->db->where('id', $data->farmer_id);
+                      $farmer = $this->db->get()->row();
+                    ?>
                       <tr>
                         <td><?php echo $i ?> </td>
-                        <td><?php echo $farmer?$farmer->name.'-'.$farmer->phone:'' ?></td>
-                        <td><?php echo $plan?$plan->service_name:'' ?></td>
-                        <td><?php echo $data->months ?></td>
-                        <td>₹<?php echo $data->price ?></td>
-                        <td><?php echo $data->animals ?></td>
-                        <td><?php echo $data->used_animal ?></td>
-                        <td><?php echo $data->doctor_calls ?></td>
-                        <td><?php echo $data->start_date	 ?></td>
-                        <td><?php echo $data->expiry_date	 ?></td>
+                        <td><?php echo $farmer ? $farmer->name .'-'.$farmer->phone: '' ?></td>
+                        <td>
+                          <?
+                          $newdate = new DateTime($data->date);
+                          echo $newdate->format('F j, Y, g:i a');   #d-m-Y  // March 10, 2001, 5:16 pm
+                          ?>
+                        </td>
                       </tr>
                     <?php $i++;
                     } ?>
