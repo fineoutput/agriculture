@@ -70,8 +70,30 @@ class Home extends CI_finecontrol
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
             $this->db->where('is_admin', 1);
+            $this->db->where('order_status', 2); //accepted orders
+            $data['accepted_orders'] = $this->db->count_all_results();
+
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 1);
+            $this->db->where('is_admin', 1);
             $this->db->where('order_status', 3); //dispatched orders
             $data['dispatched_orders'] = $this->db->count_all_results();
+
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 1);
+            $this->db->where('is_admin', 1);
+            $this->db->where('order_status', 4); //delivered orders
+            $data['delivered_orders'] = $this->db->count_all_results();
+
+
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 1);
+            $this->db->where('is_admin', 1);
+            $this->db->where('order_status', 4); //delivered orders
+            $data['delivered_orders'] = $this->db->count_all_results();
 
             $this->db->select_sum('final_amount');
             $this->db->from('tbl_order1');
@@ -128,6 +150,12 @@ class Home extends CI_finecontrol
             $this->db->where('payment_status', 1);
             $querysb = $this->db->get();
             $data['subscriptions_purchased'] = $querysb->row()->price;
+
+            $this->db->select_sum('price');
+            $this->db->from('tbl_check_my_feed_buy');
+            $this->db->where('payment_status', 1);
+            $querysb2 = $this->db->get();
+            $data['check_my_feed'] = $querysb2->row()->price;
 
            
 

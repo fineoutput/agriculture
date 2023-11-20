@@ -313,4 +313,46 @@ class Subscription extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
+    public function View_subscribed_data()
+    {
+
+        if (!empty($this->session->userdata('admin_data'))) {
+
+
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $this->db->select('*');
+            $this->db->from('tbl_subscription_buy');
+            $this->db->where('payment_status',1);
+            $data['subscription_data'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/subscription/view_subscribed');
+            $this->load->view('admin/common/footer_view');
+        } else {
+
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    public function view_check_feed()
+    {
+
+        if (!empty($this->session->userdata('admin_data'))) {
+
+
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $this->db->select('*');
+            $this->db->from('tbl_subscription_buy');
+            $this->db->where('payment_status',1);
+            $data['subscription_data'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/subscription/view_check_feed');
+            $this->load->view('admin/common/footer_view');
+        } else {
+
+            redirect("login/admin_login", "refresh");
+        }
+    }
 }
