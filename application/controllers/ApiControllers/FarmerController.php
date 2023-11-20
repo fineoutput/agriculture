@@ -1564,7 +1564,7 @@ class FarmerController extends CI_Controller
                         $data2 = array(
                             'req_id' => $order1_id,
                             'vendor_id' => $vendor_id,
-                            'cr' => $amt,
+                            'cr' => $total-$amt,
                             'date' => $cur_date
                         );
                         $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
