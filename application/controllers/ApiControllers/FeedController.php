@@ -700,7 +700,7 @@ class FeedController extends CI_Controller
                         die('Error loading file "' . pathinfo($inputFileName2, PATHINFO_BASENAME) . '": ' . $e->getMessage());
                     }
                     $data['objPHPExcel'] = $objPHPExcel;
-                    $data['farmername'] = $farmer_data[0]->name;
+                    $data['farmername'] = $farmer_data->name;
                     // $data['farmername'] = 'Nitesh';
                     $message = $this->load->view('pdf/check_my_feed', $data, TRUE);
                     // print_r($message);
