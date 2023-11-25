@@ -25,16 +25,19 @@ class Home extends CI_finecontrol
             $data['farmer'] = $b;
             $this->db->select('*');
             $this->db->from('tbl_vendor');
+            $this->db->where('is_approved', 1);
             $c = $this->db->count_all_results();
             $data['vendor'] = $c;
             $this->db->select('*');
             $this->db->from('tbl_doctor');
+            $this->db->where('is_approved', 1);
             $this->db->where('is_expert', 1);
             $expert = $this->db->count_all_results();
             $data['expert'] = $expert;
             $this->db->select('*');
             $this->db->from('tbl_doctor');
-            $this->db->where('is_expert', 1);
+            $this->db->where('is_approved', 1);
+            $this->db->where('is_expert', 0);
             $normal = $this->db->count_all_results();
             $data['normal'] = $normal;
             $this->db->select('*');
@@ -45,6 +48,7 @@ class Home extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_products');
             $this->db->where('is_admin', 0);
+            $this->db->where('is_approved', 1);
             $vendor_product = $this->db->count_all_results();
             $data['vendor_product'] = $vendor_product;
             $this->db->select('*');
