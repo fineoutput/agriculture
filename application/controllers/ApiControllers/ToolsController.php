@@ -659,12 +659,10 @@ class ToolsController extends CI_Controller
             $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
             $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
             $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('expert_id', 'expert_id', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $latitude = $this->input->post('latitude');
                 $longitude = $this->input->post('longitude');
                 $radius = $this->input->post('radius');
-                $expert_id = $this->input->post('expert_id');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 0))->result();
@@ -673,51 +671,47 @@ class ToolsController extends CI_Controller
                     $pn_data = [];
                     foreach ($DoctorData as $doctor) {
                         if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
-                            $expert_category = json_decode($doctor->expert_category);
-                            if (is_array($expert_category)) {
-                                if (in_array($expert_id, $expert_category)) {
-                                    $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
-                                    // echo $km;
-                                    // echo "<br>";
-                                    if ($km <= $radius) {
-                                        // if (true) {
-                                        if (!empty($doctor->image)) {
-                                            $image = base_url() . $doctor->image;
-                                        } else {
-                                            $image = '';
-                                        }
-                                        $en_data[] = array(
-                                            'id' => $doctor->id,
-                                            'name' => $doctor->name,
-                                            'email' => $doctor->email,
-                                            'qualification' => $doctor->qualification,
-                                            'expertise' => $doctor->expertise,
-                                            'phone' => $doctor->phone,
-                                            'type' => $doctor->type,
-                                            'image' => $image
-                                        );
-                                        $hi_data[] = array(
-                                            'id' => $doctor->id,
-                                            'name' => $doctor->hi_name,
-                                            'email' => $doctor->email,
-                                            'qualification' => $doctor->qualification,
-                                            'expertise' => $doctor->expertise,
-                                            'phone' => $doctor->phone,
-                                            'type' => $doctor->type,
-                                            'image' => $image
-                                        );
-                                        $pn_data[] = array(
-                                            'id' => $doctor->id,
-                                            'name' => $doctor->pn_name,
-                                            'email' => $doctor->email,
-                                            'expertise' => $doctor->expertise,
-                                            'qualification' => $doctor->qualification,
-                                            'phone' => $doctor->phone,
-                                            'type' => $doctor->type,
-                                            'image' => $image
-                                        );
-                                    }
+
+                            $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                            // echo $km;
+                            // echo "<br>";
+                            if ($km <= $radius) {
+                                // if (true) {
+                                if (!empty($doctor->image)) {
+                                    $image = base_url() . $doctor->image;
+                                } else {
+                                    $image = '';
                                 }
+                                $en_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->name,
+                                    'email' => $doctor->email,
+                                    'qualification' => $doctor->qualification,
+                                    'expertise' => $doctor->expertise,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
+                                $hi_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->hi_name,
+                                    'email' => $doctor->email,
+                                    'qualification' => $doctor->qualification,
+                                    'expertise' => $doctor->expertise,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
+                                $pn_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->pn_name,
+                                    'email' => $doctor->email,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'image' => $image
+                                );
                             }
                         }
                         $data = array(
@@ -759,118 +753,126 @@ class ToolsController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        // $this->load->helper(array('form', 'url'));
-        // $this->load->library('form_validation');
-        // $this->load->helper('security');
-        // if ($this->input->post()) {
-        //     $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
-        //     $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
-        //     $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
-        //     if ($this->form_validation->run() == true) {
-        //         $latitude = $this->input->post('latitude');
-        //         $longitude = $this->input->post('longitude');
-        //         $radius = $this->input->post('radius');
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-        if (!empty($farmer_data)) {
-            $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
-            $en_data = [];
-            $hi_data = [];
-            $pn_data = [];
-            foreach ($DoctorData as $doctor) {
-                // if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
-                //     $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
-                // echo $km;
-                // echo "<br>";
-                // if ($km <= $radius) {
-                if (!empty($doctor->image)) {
-                    $image = base_url() . $doctor->image;
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            //     $this->form_validation->set_rules('latitude', 'latitude', 'required|xss_clean|trim');
+            //     $this->form_validation->set_rules('longitude', 'longitude', 'required|xss_clean|trim');
+            //     $this->form_validation->set_rules('radius', 'radius', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('expert_id', 'expert_id', 'required|xss_clean|trim');
+
+            if ($this->form_validation->run() == true) {
+                //         $latitude = $this->input->post('latitude');
+                //         $longitude = $this->input->post('longitude');
+                //         $radius = $this->input->post('radius');
+                $expert_id = $this->input->post('expert_id');
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
+                    $en_data = [];
+                    $hi_data = [];
+                    $pn_data = [];
+                    foreach ($DoctorData as $doctor) {
+                        $expert_category = json_decode($doctor->expert_category);
+                        if (is_array($expert_category)) {
+                            if (in_array($expert_id, $expert_category)) {
+                                // if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                                //     $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
+                                // echo $km;
+                                // echo "<br>";
+                                // if ($km <= $radius) {
+                                if (!empty($doctor->image)) {
+                                    $image = base_url() . $doctor->image;
+                                } else {
+                                    $image = '';
+                                }
+                                $state_data = $this->db->get_where('all_states', array('id' =>  $doctor->state))->result();
+                                $en_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'experience' => $doctor->experience,
+                                    'fees' => $doctor->fees,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
+                                    'district' => $doctor->district,
+                                    'city' => $doctor->city,
+                                    'state' => $state_data ? $state_data[0]->state_name : '',
+                                    'image' => $image
+                                );
+                                $hi_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->hi_name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'experience' => $doctor->experience,
+                                    'fees' => $doctor->fees,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
+                                    'district' => $doctor->hi_district,
+                                    'city' => $doctor->hi_city,
+                                    'state' => $state_data ? $state_data[0]->state_name : '',
+                                    'image' => $image
+                                );
+                                $pn_data[] = array(
+                                    'id' => $doctor->id,
+                                    'name' => $doctor->pn_name,
+                                    'email' => $doctor->email,
+                                    'degree' => $doctor->degree,
+                                    'phone' => $doctor->phone,
+                                    'type' => $doctor->type,
+                                    'experience' => $doctor->experience,
+                                    'fees' => $doctor->fees,
+                                    'expertise' => $doctor->expertise,
+                                    'qualification' => $doctor->qualification,
+                                    'district' => $doctor->pn_district,
+                                    'city' => $doctor->pn_city,
+                                    'state' => $state_data ? $state_data[0]->state_name : '',
+                                    'image' => $image
+                                );
+                                // }
+                                // }
+                                $data = array(
+                                    'en' => $en_data,
+                                    'hi' => $hi_data,
+                                    'pn' => $pn_data,
+                                );
+                            }
+                        }
+                    }
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                        'data' => $data
+                    );
+                    echo json_encode($res);
                 } else {
-                    $image = '';
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
                 }
-                $state_data = $this->db->get_where('all_states', array('id' =>  $doctor->state))->result();
-                $en_data[] = array(
-                    'id' => $doctor->id,
-                    'name' => $doctor->name,
-                    'email' => $doctor->email,
-                    'degree' => $doctor->degree,
-                    'phone' => $doctor->phone,
-                    'type' => $doctor->type,
-                    'experience' => $doctor->experience,
-                    'fees' => $doctor->fees,
-                    'expertise' => $doctor->expertise,
-                    'qualification' => $doctor->qualification,
-                    'district' => $doctor->district,
-                    'city' => $doctor->city,
-                    'state' => $state_data ? $state_data[0]->state_name : '',
-                    'image' => $image
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
                 );
-                $hi_data[] = array(
-                    'id' => $doctor->id,
-                    'name' => $doctor->hi_name,
-                    'email' => $doctor->email,
-                    'degree' => $doctor->degree,
-                    'phone' => $doctor->phone,
-                    'type' => $doctor->type,
-                    'experience' => $doctor->experience,
-                    'fees' => $doctor->fees,
-                    'expertise' => $doctor->expertise,
-                    'qualification' => $doctor->qualification,
-                    'district' => $doctor->hi_district,
-                    'city' => $doctor->hi_city,
-                    'state' => $state_data ? $state_data[0]->state_name : '',
-                    'image' => $image
-                );
-                $pn_data[] = array(
-                    'id' => $doctor->id,
-                    'name' => $doctor->pn_name,
-                    'email' => $doctor->email,
-                    'degree' => $doctor->degree,
-                    'phone' => $doctor->phone,
-                    'type' => $doctor->type,
-                    'experience' => $doctor->experience,
-                    'fees' => $doctor->fees,
-                    'expertise' => $doctor->expertise,
-                    'qualification' => $doctor->qualification,
-                    'district' => $doctor->pn_district,
-                    'city' => $doctor->pn_city,
-                    'state' => $state_data ? $state_data[0]->state_name : '',
-                    'image' => $image
-                );
-                // }
-                // }
-                $data = array(
-                    'en' => $en_data,
-                    'hi' => $hi_data,
-                    'pn' => $pn_data,
-                );
+                echo json_encode($res);
             }
-            $res = array(
-                'message' => "Success",
-                'status' => 200,
-                'data' => $data
-            );
-            echo json_encode($res);
         } else {
             $res = array(
-                'message' => 'Permission Denied!',
+                'message' => 'Please Insert Data',
                 'status' => 201
             );
             echo json_encode($res);
         }
-        //     } else {
-        //         $res = array(
-        //             'message' => validation_errors(),
-        //             'status' => 201
-        //         );
-        //         echo json_encode($res);
-        //     }
-        // } else {
-        //     $res = array(
-        //         'message' => 'Please Insert Data',
-        //         'status' => 201
-        //     );
-        //     echo json_encode($res);
-        // }
     }
     //====================================================== EXPERT ADVICE ================================================//
     public function request_doctor()
