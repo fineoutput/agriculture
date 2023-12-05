@@ -242,6 +242,7 @@ class BreedController extends CI_Controller
         $ip = $this->input->ip_address();
         date_default_timezone_set("Asia/Calcutta");
         $cur_date = date("Y-m-d H:i:s");
+        $only_date = date("Y-m-d");
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
@@ -262,7 +263,8 @@ class BreedController extends CI_Controller
             'semen_bull_id' => $semen_bull_id,
             'is_pregnant' => $is_pregnant,
             'pregnancy_test_date' => $pregnancy_test_date,
-            'date' => $cur_date
+            'date' => $cur_date,
+            'only_date' => $only_date,
           );
           $last_id = $this->base_model->insert_table("tbl_breeding_record", $data, 1);
           //------ update semen --------

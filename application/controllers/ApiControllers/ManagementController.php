@@ -1055,6 +1055,16 @@ class ManagementController extends CI_Controller
           $animal_expenses = $medical_exp + $doc_exp;
           $sub_profit = $profit + $milk_income;
           $sub_expense = $expense + $feed_exp + $animal_expenses;
+          //------ breeding_expense ---------
+          $this->db->select_sum('expenses');
+          $this->db->from('tbl_breeding_record');
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          if (!empty($From) && !empty($To)) {
+            $this->db->where('only_date >=', $From);
+            $this->db->where('only_date <=', $To);
+          }
+          $br_data = $this->db->get();
+          $br_expense = $br_data->row()->expenses ? $br_data->row()->expenses : 0;
           $data = array(
             'sale' => $sale,
             'purchase' => $purchase,
@@ -1062,6 +1072,8 @@ class ManagementController extends CI_Controller
             'feed_expenses' => $feed_exp,
             'milk_income' => $milk_income,
             'animal_expenses' => $animal_expenses + $prg_care,
+            'breeding_expense' => $br_expense,
+
           );
           $res = array(
             'message' => "Success",
