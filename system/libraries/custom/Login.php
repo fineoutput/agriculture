@@ -200,6 +200,7 @@ class CI_Login
                                 'image' => $temp_data[0]->image,
                                 'expert_category' => $temp_data[0]->expert_category,
                                 'auth' => $auth,
+                                'gst_no' => $temp_data[0]->gst,
                                 'is_active' => 1,
                                 'is_approved' => 0,
                                 'is_expert' => 0,
