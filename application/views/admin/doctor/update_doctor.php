@@ -1,7 +1,9 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-     Update Doctor
+      Update Doctor
     </h1>
     <ol class="breadcrumb">
       <!-- <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -74,16 +76,35 @@
                     <!-- *****************************************type radio button***************************************************** -->
                     <tr>
                       <td> <strong>Type</strong> <span style="color:red;">*</span></strong> </td>
-                      <td><input type="radio" id="Red" name="type" <?=$doctor->type=='Vet'?'checked':''?>  value="Vet">
+                      <td><input type="radio" id="Red" name="type" <?= $doctor->type == 'Vet' ? 'checked' : '' ?> value="Vet">
                         <label for="Red">Vet</label>
                         <br>
-                        <input type="radio" id="Green" name="type" <?=$doctor->type=='Assistant'?'checked':''?> value="Assistant">
+                        <input type="radio" id="Green" name="type" <?= $doctor->type == 'Assistant' ? 'checked' : '' ?> value="Assistant">
                         <label for="Green">Livestock Assistant</label>
                         <br>
-                        <input type="radio" id="Yellow" name="type" <?=$doctor->type=='Private Practitioner'?'checked':''?>  value="Private Practitioner">
+                        <input type="radio" id="Yellow" name="type" <?= $doctor->type == 'Private Practitioner' ? 'checked' : '' ?> value="Private Practitioner">
                         <label for="Yellow">Private Practitioner
                         </label>
                       </td>
+                    </tr>
+                    <tr>
+                      <td> <strong>Expertise Category</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <select class="selectpicker form-control" multiple data-live-search="true" name="expert_category[]" required>
+                          <? foreach ($expert_data as $value) {
+                          ?>
+                            <option value="<?= $value->id; ?>" <?php
+                                                                $expert_category = json_decode($doctor->expert_category);
+                                                                if (is_array($expert_category)) {
+                                                                  foreach ($expert_category as $vv) {
+                                                                    if ($vv == $value->id) {
+                                                                      echo "selected";
+                                                                    }
+                                                                  }
+                                                                } ?>><?= $value->name ?></option>
+                          <?
+                          } ?>
+                        </select>
                     </tr>
                     <!-- ********************************************************************************************************************* -->
                     <tr>
@@ -180,7 +201,11 @@
   </section>
 </div>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
-<link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
+<link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />3
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script type="text/javascript">
+  $('select').selectpicker();
+</script>
 <!-- ----------------------------------  vet radio button function ------------------------------------------- -->
 <script>
   function change(x) {

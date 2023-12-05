@@ -71,24 +71,23 @@ class Doctor extends CI_finecontrol
             $this->db->from('tbl_doctor_req');
             $this->db->where('payment_status', 1);
             $this->db->order_by('id', 'desc');
-           
+
             $request_data = $this->db->get();
-            $count=0;
+            $count = 0;
             foreach ($request_data->result() as $datas) {
                 $this->db->select('*');
                 $this->db->from('tbl_payment_txn');
-                $this->db->where('req_id',$datas->id);
-                $this->db->where('doctor_id	',$datas->doctor_id);
-                $dsa_ptx= $this->db->get()->row();
-               if(!empty($dsa_ptx->cr)){
-                $count=$count+$datas->fees-$dsa_ptx->cr;
-               }
-
+                $this->db->where('req_id', $datas->id);
+                $this->db->where('doctor_id	', $datas->doctor_id);
+                $dsa_ptx = $this->db->get()->row();
+                if (!empty($dsa_ptx->cr)) {
+                    $count = $count + $datas->fees - $dsa_ptx->cr;
+                }
             }
-            $data['count']=$count;
+            $data['count'] = $count;
 
 
-            $data['request_data']=$request_data; 
+            $data['request_data'] = $request_data;
 
 
 
@@ -240,6 +239,8 @@ class Doctor extends CI_finecontrol
             $this->db->from('all_states');
             //$this->db->where('id',$usr);
             $data['state_data'] = $this->db->get();
+            $data['expert_data'] = $this->db->get_where('tbl_expertise_category', array('is_active' => 1,))->result();
+
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/doctor/update_doctor');
             $this->load->view('admin/common/footer_view');
@@ -278,6 +279,7 @@ class Doctor extends CI_finecontrol
                 if ($this->form_validation->run() == TRUE) {
                     $set_commission = $this->input->post('set_commission');
                     $fees = $this->input->post('fees');
+
                     $id = base64_decode($idd);
                     $data['id'] = $idd;
                     $ip = $this->input->ip_address();
@@ -392,6 +394,8 @@ class Doctor extends CI_finecontrol
                 $this->form_validation->set_rules('pn_city', 'pn_city', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
                 $this->form_validation->set_rules('aadhar_no', 'aadhar_no', 'required|xss_clean|trim');
+                $this->form_validation->set_rules('expert_category[]', 'expert_category', 'required|xss_clean');
+
                 if ($this->form_validation->run() == TRUE) {
                     $name = $this->input->post('name');
                     $hi_name = $this->input->post('hi_name');
@@ -409,47 +413,48 @@ class Doctor extends CI_finecontrol
                     $pn_city = $this->input->post('pn_city');
                     $pincode = $this->input->post('pincode');
                     $aadhar_no = $this->input->post('aadhar_no');
+                    $expert_category = $this->input->post('expert_category');
                     $id = base64_decode($y);
                     $data['id'] = $y;
                     $ip = $this->input->ip_address();
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
                     $addedby = $this->session->userdata('admin_id');
-                     //--------------image-----------------------------------
-                     $this->load->library('upload');
-                     $image = "";
-                     $img1 = 'image';
-                     $file_check = ($_FILES['image']['error']);
-                     if ($file_check != 4) {
-                         $image_upload_folder = FCPATH . "assets/uploads/doctor/";
-                         if (!file_exists($image_upload_folder)) {
-                             mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-                         }
-                         $new_file_name = "doctor" . date("YmdHis");
-                         $this->upload_config = array(
-                             'upload_path'   => $image_upload_folder,
-                             'file_name' => $new_file_name,
-                             'allowed_types' => 'jpg|jpeg|png',
-                             'max_size'      => 25000
-                         );
-                         $this->upload->initialize($this->upload_config);
-                         if (!$this->upload->do_upload($img1)) {
-                             $upload_error = $this->upload->display_errors();
-                             // echo json_encode($upload_error);
-                             echo $upload_error;
-                         } else {
-                             $file_info = $this->upload->data();
-                             $image = "assets/uploads/doctor/" . $file_info['file_name'];
-                             $file_info['new_name'] = $image;
-                             // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-                             $nnnn = $file_info['file_name'];
-                             // echo json_encode($file_info);
-                         }
-                     }
-                     $vendor_data = $this->db->get_where('tbl_doctor', array('id' => $id,))->result();
-                     if (empty($image)) {
-                         $image = $vendor_data[0]->image;
-                     }
+                    //--------------image-----------------------------------
+                    $this->load->library('upload');
+                    $image = "";
+                    $img1 = 'image';
+                    $file_check = ($_FILES['image']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/doctor/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "doctor" . date("YmdHis");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1)) {
+                            $upload_error = $this->upload->display_errors();
+                            // echo json_encode($upload_error);
+                            echo $upload_error;
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image = "assets/uploads/doctor/" . $file_info['file_name'];
+                            $file_info['new_name'] = $image;
+                            // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+                            $nnnn = $file_info['file_name'];
+                            // echo json_encode($file_info);
+                        }
+                    }
+                    $vendor_data = $this->db->get_where('tbl_doctor', array('id' => $id,))->result();
+                    if (empty($image)) {
+                        $image = $vendor_data[0]->image;
+                    }
                     $data_update = array(
                         'name' => $name,
                         'hi_name' => $hi_name,
@@ -467,6 +472,7 @@ class Doctor extends CI_finecontrol
                         'pn_city' => $pn_city,
                         'pincode' => $pincode,
                         'aadhar_no' => $aadhar_no,
+                        'expert_category' => json_encode($expert_category),
                         'image' => $image,
                     );
                     $this->db->where('id', $id);

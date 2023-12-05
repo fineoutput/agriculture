@@ -38,6 +38,7 @@
                     <tr>
                       <th>#</th>
                       <th>Name </th>
+                      <th>Expertise Catagories </th>
                       <th>Email</th>
                       <th>Image</th>
                       <th>Aadhar No</th>
@@ -65,6 +66,15 @@
                       <tr>
                         <td><?php echo $i ?> </td>
                         <td><?php echo $data->name ?></td>
+                        <td><? $expert_category = json_decode($data->expert_category);
+                            if (is_array($expert_category)) {
+                              foreach ($expert_category as $vv) {
+                                $expert_data = $this->db->get_where('tbl_expertise_category', array('id' => $vv,))->row();
+                                if (!empty($expert_data)) {
+                                  echo $expert_data->name . ',';
+                                }
+                              }
+                            } ?></td>
                         <td><?php echo $data->email ?></td>
                         <td>
                           <?php if ($data->image != "") {  ?>
@@ -100,7 +110,7 @@
                         <td><?php echo $data->city ?></td>
                         <td><?php echo $data->pincode ?></td>
                         <td><?php echo $data->phone ?></td>
-                        <td><?php echo $data->account ? '₹'.$data->account : '₹0'?></td>
+                        <td><?php echo $data->account ? '₹' . $data->account : '₹0' ?></td>
                         <td><?php if ($data->is_expert == 1) { ?>
                             <p class="label bg-green">Expert</p>
                           <?php } else { ?>
@@ -201,31 +211,31 @@
       buttons: [{
           extend: 'copyHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18] //number of columns, excluding # column
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] //number of columns, excluding # column
           }
         },
         {
           extend: 'csvHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18]
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
           }
         },
         {
           extend: 'excelHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18 ]
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
           }
         },
         {
           extend: 'pdfHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18]
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
           }
         },
         {
           extend: 'print',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18]
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
           }
         },
       ]

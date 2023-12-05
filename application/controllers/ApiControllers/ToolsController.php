@@ -74,19 +74,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('silage_making' => $service_data[0]->silage_making + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
-                     //---- create txn ------
-                     $ip = $this->input->ip_address();
-                     date_default_timezone_set("Asia/Calcutta");
-                     $cur_date = date("Y-m-d H:i:s");
-                     $only_date = date("Y-m-d");
-                     $data_insert = array(
-                         'farmer_id' => $farmer_data->id,
-                         'service' => 'silage_making',
-                         'ip' => $ip,
-                         'date' => $cur_date,
-                         'only_date' => $only_date,
-                     );
-                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'silage_making',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -161,19 +161,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('pro_req' => $service_data[0]->pro_req + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
-                     //---- create txn ------
-                     $ip = $this->input->ip_address();
-                     date_default_timezone_set("Asia/Calcutta");
-                     $cur_date = date("Y-m-d H:i:s");
-                     $only_date = date("Y-m-d");
-                     $data_insert = array(
-                         'farmer_id' => $farmer_data->id,
-                         'service' => 'pro_req',
-                         'ip' => $ip,
-                         'date' => $cur_date,
-                         'only_date' => $only_date,
-                     );
-                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'pro_req',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -333,19 +333,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('preg_calculator' => $service_data[0]->preg_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
-                     //---- create txn ------
-                     $ip = $this->input->ip_address();
-                     date_default_timezone_set("Asia/Calcutta");
-                     $cur_date = date("Y-m-d H:i:s");
-                     $only_date = date("Y-m-d");
-                     $data_insert = array(
-                         'farmer_id' => $farmer_data->id,
-                         'service' => 'preg_calculator',
-                         'ip' => $ip,
-                         'date' => $cur_date,
-                         'only_date' => $only_date,
-                     );
-                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'preg_calculator',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -426,19 +426,19 @@ class ToolsController extends CI_Controller
                     $data_update = array('snf_calculator' => $service_data[0]->snf_calculator + 1);
                     $this->db->where('id', $service_data[0]->id);
                     $zapak = $this->db->update('tbl_service_records', $data_update);
-                     //---- create txn ------
-                     $ip = $this->input->ip_address();
-                     date_default_timezone_set("Asia/Calcutta");
-                     $cur_date = date("Y-m-d H:i:s");
-                     $only_date = date("Y-m-d");
-                     $data_insert = array(
-                         'farmer_id' => $farmer_data->id,
-                         'service' => 'snf_calculator',
-                         'ip' => $ip,
-                         'date' => $cur_date,
-                         'only_date' => $only_date,
-                     );
-                     $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
+                    //---- create txn ------
+                    $ip = $this->input->ip_address();
+                    date_default_timezone_set("Asia/Calcutta");
+                    $cur_date = date("Y-m-d H:i:s");
+                    $only_date = date("Y-m-d");
+                    $data_insert = array(
+                        'farmer_id' => $farmer_data->id,
+                        'service' => 'snf_calculator',
+                        'ip' => $ip,
+                        'date' => $cur_date,
+                        'only_date' => $only_date,
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_service_records_txn", $data_insert, 1);
                     $res = array(
                         'message' => "Success!",
                         'status' => 200,
@@ -1883,6 +1883,50 @@ class ToolsController extends CI_Controller
             // } else {
             //     // redirect('web/checkout');
             // }
+        }
+    }
+    //=======================================================HomeData===============================================//
+    public function expertCategory()
+    {
+        $headers = $this->input->request_headers();
+        if (array_key_exists("Lang", $headers)) {
+            $language = $headers['Lang'];
+        } else {
+            $language = 'en';
+        }
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+        if (!empty($farmer_data)) {
+            //---- Categoryslider data -------
+            $CategorySlider_data = $this->db->get_where('tbl_expertise_category', array('is_active' => 1))->result();
+            $CategoryData = [];
+            foreach ($CategorySlider_data as $category) {
+                if ($language == 'en') {
+                    $cat_image =  $category->image ? base_url() . $category->image : '';
+                } elseif ($language == 'hi') {
+                    $cat_image =  $category->image_hindi ? base_url() . $category->image_hindi : '';
+                } else {
+                    $cat_image =  $category->image_punjabi ? base_url() . $category->image_punjabi : '';
+                    '';
+                }
+                $CategoryData[] = array(
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'image' => $cat_image,
+                );
+            }
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $CategoryData
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
         }
     }
 }
