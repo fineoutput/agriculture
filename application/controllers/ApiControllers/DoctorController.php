@@ -1079,5 +1079,25 @@ class DoctorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //========================================= get_group ===================================//
+    public function get_expert_categories()
+    {
+        $group_data = $this->db->get_where('tbl_expertise_category', array('is_active' => 1))->result();
+        $data = [];
+        $i = 1;
+        foreach ($group_data as $a) {
+            $data[] = array(
+                'value' => $a->id,
+                'label' => $a->name,
+            );
+            $i++;
+        }
+        $res = array(
+            'message' => "Success",
+            'status' => 200,
+            'data' => $data,
+        );
+        echo json_encode($res);
+    }
 }
   //=========================================END DoctorController======================================//
