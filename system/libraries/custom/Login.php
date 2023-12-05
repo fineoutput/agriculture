@@ -60,6 +60,7 @@ class CI_Login
                 'latitude' => $receive['latitude'],
                 'longitude' => $receive['longitude'],
                 'no_animals' => $receive['no_animals'],
+                'expert_category' => $receive['expert_category'],
                 'ip' => $ip,
                 'date' => $cur_date
             );
@@ -197,6 +198,7 @@ class CI_Login
                                 // 'qualification' => $temp_data[0]->qualification,
                                 'aadhar_no' => $temp_data[0]->aadhar_no,
                                 'image' => $temp_data[0]->image,
+                                'expert_category' => $temp_data[0]->expert_category,
                                 'auth' => $auth,
                                 'is_active' => 1,
                                 'is_approved' => 0,
