@@ -13,6 +13,7 @@
 html,
 body {
   min-height: 100%;
+  
 }
 .layout-boxed html,
 .layout-boxed body {
@@ -1638,9 +1639,9 @@ a:focus {
 .info-box-text {
   display: block;
   font-size: 14px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
 }
 .info-box-text {
   text-transform: uppercase;
@@ -4069,3 +4070,5 @@ label{
 }
 
 /* font-family: 'Roboto', sans-serif; font-family: 'Roboto Slab', serif; */
+
+
