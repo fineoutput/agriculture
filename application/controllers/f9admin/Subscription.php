@@ -343,7 +343,7 @@ class Subscription extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
 
             $this->db->select('*');
-            $this->db->from('tbl_subscription_buy');
+            $this->db->from('tbl_check_my_feed_buy');
             $this->db->where('payment_status',1);
             $data['subscription_data'] = $this->db->get();
 
