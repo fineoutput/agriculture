@@ -151,19 +151,32 @@ class Home extends CI_finecontrol
             $data['vendor_earning'] = $queryv->row()->cr;
 
 
-            $this->db->select_sum('dr');
-            $this->db->from('tbl_payment_txn');
-            $this->db->where('admin_id !=', 'NULL');
-            $this->db->where('doctor_id	 !=', 'NULL');
-            $querydq = $this->db->get();
-            $data['total_payments_processed_to_doctor'] = $querydq->row()->dr;
+            // $this->db->select_sum('dr');
+            // $this->db->from('tbl_payment_txn');
+            // $this->db->where('admin_id !=', 'NULL');
+            // $this->db->where('doctor_id	 !=', 'NULL');
+            // $querydq = $this->db->get();
+            // $data['total_payments_processed_to_doctor'] = $querydq->row()->dr;
 
-            $this->db->select_sum('dr');
-            $this->db->from('tbl_payment_txn');
-            $this->db->where('admin_id !=', 'NULL');
+            // $this->db->select_sum('dr');
+            // $this->db->from('tbl_payment_txn');
+            // $this->db->where('admin_id !=', 'NULL');
+            // $this->db->where('vendor_id	 !=', 'NULL');
+            // $queryvq = $this->db->get();
+            // $data['total_payments_processed_to_vendor'] = $queryvq->row()->dr;
+            $this->db->select_sum('amount');
+            $this->db->from('tbl_payments_req');
+            $this->db->where('doctor_id	 !=', 'NULL');
+            $this->db->where('status', 1);
+            $querydq = $this->db->get();
+            $data['total_payments_processed_to_doctor'] = $querydq->row()->amount;
+
+            $this->db->select_sum('amount');
+            $this->db->from('tbl_payments_req');
             $this->db->where('vendor_id	 !=', 'NULL');
+            $this->db->where('status', 1);
             $queryvq = $this->db->get();
-            $data['total_payments_processed_to_vendor'] = $queryvq->row()->dr;
+            $data['total_payments_processed_to_vendor'] = $queryvq->row()->amount;
 
 
             $this->db->select('*');
