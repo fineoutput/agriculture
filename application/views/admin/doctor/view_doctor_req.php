@@ -19,7 +19,7 @@
                         <h4>Total Admin Earning:
                             <?
 
-                            echo "₹".$count;
+                            echo "₹" . $count;
                             ?>
                         </h4>
 
@@ -73,8 +73,8 @@
                                         ?>
                                             <tr>
                                                 <td><?php echo $i ?> </td>
-                                                <td><?php echo $farmer_data->name ?></td>
-                                                <td><?php echo $farmer_data->phone ?></td>
+                                                <td><?php echo $farmer_data ? $farmer_data->name : 'Farmer not found' ?></td>
+                                                <td><?php echo $farmer_data ? $farmer_data->phone : 'Farmer not found' ?></td>
                                                 <td><?php echo $doctor_data->name ?></td>
                                                 <td><?php echo $doctor_data->phone ?></td>
                                                 <td><?php if ($data->is_expert == 1) { ?>
