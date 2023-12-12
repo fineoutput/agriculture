@@ -333,7 +333,7 @@ class CI_Login
                                 CURLOPT_CUSTOMREQUEST => 'POST',
                                 CURLOPT_POSTFIELDS => '
                                 {
-                                "template_id": "649e7ed3d6fc055f2e5f4f42",
+                                "template_id": "649e7f76d6fc056e32336712",
                                 "sender": "514279",
                                 "short_url": "0",
                                 "mobiles": "91' . $temp_data[0]->phone . '"
