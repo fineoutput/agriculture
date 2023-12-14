@@ -481,7 +481,7 @@ class CI_Login
             }
             //--------------- Insert data into otp table -----
             $OTP = random_int(100000, 999999);
-            if ($phone == '0000000000') {
+            if ($phone == '0000000000'|| $phone == '7777777777'|| $phone == '5555555555') {
                 $OTP = 123456;
             }
             $data_insert2 = array(
