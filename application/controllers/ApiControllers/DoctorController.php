@@ -1099,5 +1099,36 @@ class DoctorController extends CI_Controller
         );
         echo json_encode($res);
     }
+    //------------------------------deleteAccount ---------------
+    public function deleteAccount()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->row();
+        if (!empty($doctor_data)) {
+            $data_update = array('is_active' => 0);
+            $this->db->where('id', $doctor_data->id);
+            $zapak = $this->db->update('tbl_doctor', $data_update);
+            if (!empty($zapak)) {
+                $res = array(
+                    'message' => "Account successfully deleted!",
+                    'status' => 200,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Some error occurred!!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
 }
   //=========================================END DoctorController======================================//

@@ -114,7 +114,7 @@ class VendorController extends CI_Controller
                         'farmer_phone' => $order->phone,
                         'farmer_address' => $order->address,
                         'farmer_city' => $order->city,
-                        'farmer_state' => $order->state,  
+                        'farmer_state' => $order->state,
                         'farmer_district' => $order->district,
                         'farmer_pincode' => $order->pincode,
                         'charges' => $order->charges,
@@ -832,7 +832,7 @@ class VendorController extends CI_Controller
                         $this->load->library('email', $config);
                         $this->email->set_newline("");
                         $this->email->from(EMAIL); // change it to yours
-                        $this->email->to(TO,'Dairy Muneem'); // change it to yours
+                        $this->email->to(TO, 'Dairy Muneem'); // change it to yours
                         $this->email->subject('New payment request received from a vendor');
                         $this->email->message($message2);
                         if ($this->email->send()) {
@@ -1483,6 +1483,37 @@ class VendorController extends CI_Controller
         } else {
             $res = array(
                 'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
+    //------------------------------deleteAccount ---------------
+    public function deleteAccount()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $vendor_data = $this->db->get_where('tbl_vendor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->row();
+        if (!empty($vendor_data)) {
+            $data_update = array('is_active' => 0);
+            $this->db->where('id', $vendor_data->id);
+            $zapak = $this->db->update('tbl_vendor', $data_update);
+            if (!empty($zapak)) {
+                $res = array(
+                    'message' => "Account successfully deleted!",
+                    'status' => 200,
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'message' => 'Some error occurred!!',
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
                 'status' => 201
             );
             echo json_encode($res);
