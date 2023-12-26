@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Feed Protien Energy Ratio</title>
+    <title>Feed Protein Energy Ratio</title>
     <meta charset="utf-8">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -96,7 +96,7 @@
                                     ?>
                                     <span class="ht"><? echo $cur_date; ?></span>
                                 </p>
-                                <p><b>Technician </b><span class="ht">VIPIN SHARMA </span></p>
+                                <!-- <p><b>Technician </b><span class="ht">VIPIN SHARMA </span></p> -->
                                 <p><b>Farmer</b><span class="ht"><?= $farmername; ?></span>
                                 <p>
                                 <p><b>Cow</b><span class="ht">MILKING</span>
@@ -105,7 +105,7 @@
                         </tr>
                         <tr>
                             <td colspan="5" class="text-center">
-                                <h3><span class="two">Feed</span><span class="three"> Protien </span> <span class="two">Energy </span><span class="four">Ratio</span></h3>
+                                <h3><span class="two">Feed</span><span class="three"> Protein </span> <span class="two">Energy </span><span class="four">Ratio</span></h3>
                             </td>
                         </tr>
                         <tr>
