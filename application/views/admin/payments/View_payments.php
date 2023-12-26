@@ -64,20 +64,21 @@
                                         <?php $i = 1;
                                         foreach ($Payments_data->result() as $data) {
                                             if ($title == 'Vendor') {
-                                                $UData = $this->db->get_where('tbl_vendor', array('id' => $data->vendor_id))->result();
+                                                $UData = $this->db->get_where('tbl_vendor', array('id' => $data->vendor_id))->row();
                                             } else {
-                                                $UData = $this->db->get_where('tbl_doctor', array('id' => $data->doctor_id))->result();
+                                                $UData = $this->db->get_where('tbl_doctor', array('id' => $data->doctor_id))->row();
                                             }
+
                                         ?>
                                             <tr>
                                                 <td><?php echo $i ?> </td>
-                                                <td><?php echo $UData[0]->name ?> </td>
-                                                <td><?php echo $UData[0]->phone ?> </td>
-                                                <td><?php echo $UData[0]->bank_name ?> </td>
-                                                <td><?php echo $UData[0]->bank_ac ?> </td>
-                                                <td><?php echo $UData[0]->ifsc ?> </td>
-                                                <td><?php echo $UData[0]->bank_phone ?> </td>
-                                                <td><?php echo $UData[0]->upi ?> </td>
+                                                <td><?php echo $UData ? $UData->name : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->phone : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->bank_name : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->bank_ac : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->ifsc : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->bank_phone : '' ?> </td>
+                                                <td><?php echo $UData ? $UData->upi : '' ?> </td>
                                                 <td>₹<?php echo $data->available ?></td>
                                                 <td>₹<?php echo $data->amount ?></td>
                                                 <td><?php echo $data->date ?></td>
@@ -131,65 +132,65 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
 <script type="text/javascript">
-  // buttons: [
-  //     'copy', 'csv', 'excel', 'pdf', 'print'
-  // ]
-  $(document).ready(function() {
-    $('#dataTable').DataTable({
-      responsive: true,
-      "bStateSave": true,
-      "fnStateSave": function(oSettings, oData) {
-        localStorage.setItem('offersDataTables', JSON.stringify(oData));
-      },
-      "fnStateLoad": function(oSettings) {
-        return JSON.parse(localStorage.getItem('offersDataTables'));
-      },
-      dom: 'Bfrtip',
-      buttons: [{
-          extend: 'copyHtml5',
-          exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10] //number of columns, excluding # column
-          }
-        },
-        {
-          extend: 'csvHtml5',
-          exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-          }
-        },
-        {
-          extend: 'excelHtml5',
-          exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-          }
-        },
-        {
-          extend: 'pdfHtml5',
-          exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-          }
-        },
-        {
-          extend: 'print',
-          exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,9,10]
-          }
-        },
-      ]
+    // buttons: [
+    //     'copy', 'csv', 'excel', 'pdf', 'print'
+    // ]
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            responsive: true,
+            "bStateSave": true,
+            "fnStateSave": function(oSettings, oData) {
+                localStorage.setItem('offersDataTables', JSON.stringify(oData));
+            },
+            "fnStateLoad": function(oSettings) {
+                return JSON.parse(localStorage.getItem('offersDataTables'));
+            },
+            dom: 'Bfrtip',
+            buttons: [{
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] //number of columns, excluding # column
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    }
+                },
+            ]
+        });
+        $(document.body).on('click', '.dCnf', function() {
+            var i = $(this).attr("mydata");
+            console.log(i);
+            $("#btns" + i).hide();
+            $("#cnfbox" + i).show();
+        });
+        $(document.body).on('click', '.cans', function() {
+            var i = $(this).attr("mydatas");
+            console.log(i);
+            $("#btns" + i).show();
+            $("#cnfbox" + i).hide();
+        })
     });
-    $(document.body).on('click', '.dCnf', function() {
-      var i = $(this).attr("mydata");
-      console.log(i);
-      $("#btns" + i).hide();
-      $("#cnfbox" + i).show();
-    });
-    $(document.body).on('click', '.cans', function() {
-      var i = $(this).attr("mydatas");
-      console.log(i);
-      $("#btns" + i).show();
-      $("#cnfbox" + i).hide();
-    })
-  });
 </script>
 <!-- <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/rs.js"></script>	  -->
