@@ -29,7 +29,7 @@
           <span class="seller_details">Agristar Animal Solution Private Limited <br>
             Dream City, Suratgarh, Ganganagar, Rajasthan, 335804<br>India
             <br><br><b>Email:</b><br>
-            info@dairymuneem.com <br>dairymuneem@gmail.com<br></span>
+            info@dairymuneem.in <br>dairymuneem@gmail.com<br></span>
         </div>
         <?php
         if (!empty($order1_data->is_admin == 0)) { ?>

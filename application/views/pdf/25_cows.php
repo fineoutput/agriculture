@@ -108,7 +108,9 @@
                                 <h6>Contact:</h6>
                                 <p style="font-size:15px"> Call & Whatsapp- 7891029090</p>
                                 <h6>Email:</h6>
-                                <p style="font-size:15px">info@dairymuneem.com, dairymuneem@gmail.com</p>
+                                <p style="font-size:15px">info@dairymuneem.in, dairymuneem@gmail.com</p>
+                                <h6>Website:</h6>
+                                <p style="font-size:15px">www.dairymuneem.com/</p>
                             </td>
                         </tr>
                         <tr>

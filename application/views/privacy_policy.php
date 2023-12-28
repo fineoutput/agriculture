@@ -239,7 +239,7 @@
                         <li class="marginTop"><span style="text-decoration:underline">Objection to Processing</span>
                             <ol style="list-style:dot" class="marginTop">
                                 <li>You have the right to object to the processing of your personal information based on grounds specific to your situation if such processing is for direct marketing or is for a purpose based on a legitimate interest or public interest. If you object to processing based on legitimate or public interests, we will no longer process your personal information for these purposes unless we can demonstrate compelling legitimate grounds for such processing or where the processing is otherwise required for the establishment, exercise or defence of legal claims.</li>
-                                <li>Where your personal information is processed for direct marketing purposes, you may, at any time ask us to cease processing your data for these direct marketing purposes by sending an e-mail to<!-- --> <a href="mailto:info@dairymuneem.com"> <span style="color:blue;text-decoration:underline">info@dairymuneem.com</span> </a>.</li>
+                                <li>Where your personal information is processed for direct marketing purposes, you may, at any time ask us to cease processing your data for these direct marketing purposes by sending an e-mail to<!-- --> <a href="mailto:info@dairymuneem.in"> <span style="color:blue;text-decoration:underline">info@dairymuneem.in</span> </a>.</li>
                             </ol>
                         </li>
                         <li class="marginTop"><span style="text-decoration:underline">Lodging Complaints:</span>
