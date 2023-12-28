@@ -536,7 +536,7 @@ class ManagementController extends CI_Controller
             <b>Farmer Name</b> - ' . $farmer_data[0]->name . '<br/>
             <b>Sale/Purchase ID</b> - ' . $last_id . '<br/>
             <b>Type</b> - ' . $information_type . '<br/>
-            <b>Expected Price</b> - ' . $expected_price . '<br/>
+            <b>Expected Price</b> - Rs.' . $expected_price . '<br/>
               ';
           $this->load->library('email', $config);
           $this->email->set_newline("");

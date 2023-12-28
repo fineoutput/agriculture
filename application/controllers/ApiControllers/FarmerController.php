@@ -1194,7 +1194,7 @@ class FarmerController extends CI_Controller
                         Hello Admin<br/><br/>
                         You have received new Order and below are the details<br/><br/>
                         <b>Order ID</b> - ' . $order_id . '<br/>
-                        <b>Amount</b> - ₹' . $order1_data[0]->final_amount . '<br/>
+                        <b>Amount</b> - Rs.' . $order1_data[0]->final_amount . '<br/>
                           ';
                     $this->load->library('email', $config);
                     $this->email->set_newline("");
@@ -1372,7 +1372,7 @@ class FarmerController extends CI_Controller
                         Hello Admin<br/><br/>
                         You have received new Order and below are the details<br/><br/>
                         <b>Order ID</b> - ' . $order_id . '<br/>
-                        <b>Amount</b> - ₹' . $order1_data[0]->final_amount . '<br/>
+                        <b>Amount</b> - Rs.' . $order1_data[0]->final_amount . '<br/>
                           ';
                     $this->load->library('email', $config);
                     $this->email->set_newline("");

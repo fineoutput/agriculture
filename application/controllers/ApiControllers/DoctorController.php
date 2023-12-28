@@ -600,8 +600,8 @@ class DoctorController extends CI_Controller
                             <b>Doctor ID</b> - ' . $doctor_data[0]->id . '<br/>
                             <b>Doctor Name</b> - ' . $doctor_data[0]->name . '<br/>
                             <b>Request ID</b> - ' . $last_id . '<br/>
-                            <b>Available Balance</b> - ₹' . $doctor_data[0]->account . '<br/>
-                            <b>Requested Amount</b> - ₹' . $amount . '<br/>
+                            <b>Available Balance</b> - Rs.' . $doctor_data[0]->account . '<br/>
+                            <b>Requested Amount</b> - Rs.' . $amount . '<br/>
                               ';
                         $this->load->library('email', $config);
                         $this->email->set_newline("");
