@@ -1379,7 +1379,7 @@ class HomeController extends CI_Controller
     {
         //--- send email to admin -----------------
         $config = array(
-            'protocol' => 'smtp',
+            'protocol' => 'SMTP',
             'smtp_host' => SMTP_HOST,
             'smtp_port' => SMTP_PORT,
             'smtp_user' => USER_NAME, // change it to yours
