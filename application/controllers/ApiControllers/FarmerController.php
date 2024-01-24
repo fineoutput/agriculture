@@ -1564,7 +1564,7 @@ class FarmerController extends CI_Controller
                         $data2 = array(
                             'req_id' => $order1_id,
                             'vendor_id' => $vendor_id,
-                            'cr' => $total-$amt,
+                            'cr' => $total - $amt,
                             'date' => $cur_date
                         );
                         $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
@@ -1840,6 +1840,295 @@ class FarmerController extends CI_Controller
             $count += 2;
         }
         return $binString;
+    }
+    public function ccAvenueWebhook()
+    {
+        $encResponse = $this->input->post('encResp'); //This is the response sent by the CCAvenue Server
+        log_message('error', $encResponse);
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        error_reporting(0);
+        $workingKey = WORKING_KEY;        //Working Key should be provided here.
+        $rcvdString = $this->decrypt($encResponse, $workingKey);        //Crypto Decryption used as per the specified working key.
+        $order_status = "";
+        $order_id = "";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+        for ($i = 0; $i < $dataSize; $i++) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 3)    $order_status = $information[1];
+            if ($i == 0) $order_id = $information[1];
+        }
+        $data_insert = array(
+            'body' => json_encode($decryptValues),
+            'date' => $cur_date
+        );
+        $last_id = $this->base_model->insert_table("tbl_ccavenue_response", $data_insert, 1);
+        // echo $order_status;die();
+        if ($order_status === "Success") {
+            //============ START PRODUCT SUCCESS ============
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where('payment_status', 0);
+            $this->db->where('id', $order_id);
+            $order_data = $this->db->get()->row();
+            if (!empty($order_data)) {
+                //---- start calculate invoice number ----
+                $now = date('y');
+                $next = date('y', strtotime('+1 year'));
+                $order1 = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('payment_status' => 1, 'invoice_year' => $now . '-' . $next))->result();
+                if (empty($order1)) {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = 1;
+                } else {
+                    $invoice_year = $now . '-' . $next;
+                    $invoice_no = $order1[0]->invoice_no + 1;
+                }
+                $data_update = array(
+                    'payment_status' => 1,
+                    'order_status' => 1,
+                    'invoice_year' => $invoice_year,
+                    'invoice_no' => $invoice_no,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_order1', $data_update);
+                $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
+                //------- order2 entry -----------
+                foreach ($order2_data as $cart) {
+                    if ($order1_data[0]->is_admin == 1) {
+                        //---admin products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    } else {
+                        //---vendor products ----
+                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                    }
+                    $ProData = $ProData[0];
+                    $new_inventory = $ProData->inventory - $cart->qty;
+                    //--------- create inventory transaction -------
+                    $inv_txn = array(
+                        'order_id' => $order_id,
+                        'at_time' => $ProData->inventory,
+                        'less_inventory' => $cart->qty,
+                        'updated_inventory' => $new_inventory,
+                        'date' => $cur_date,
+                    );
+                    $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
+                    //------ Update inventory --------------------
+                    $data_update = array('inventory' => $new_inventory,);
+                    $this->db->where('id', $ProData->id);
+                    $zapak = $this->db->update('tbl_products', $data_update);
+                }
+                //--- Delete Cart -----------
+                $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
+                if ($order1_data[0]->is_admin == 0) {
+                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
+                    //------ create amount txn in the table -------------
+                    if (!empty($vendor_data[0]->comission)) {
+                        $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
+                        $data2 = array(
+                            'req_id' => $order_id,
+                            'vendor_id' => $order1_data[0]->vendor_id,
+                            'cr' =>  $order1_data[0]->total_amount - $amt,
+                            'date' => $cur_date
+                        );
+                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                        //------ update vendor account ------
+                        $data_update = array(
+                            'account' => $vendor_data[0]->account + $order1_data[0]->total_amount - $amt,
+                        );
+                        $this->db->where('id', $order1_data[0]->vendor_id);
+                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                    }
+                    //------ send notification to vendor -----
+                    if (!empty($vendor_data[0]->fcm_token)) {
+                        // echo $user_device_tokens->device_token;
+                        //success notification code
+                        $url = 'https://fcm.googleapis.com/fcm/send';
+                        $title = "New Order";
+                        $message = "New order #" . $order_id . "  received with the  amount of  ₹" . $order1_data[0]->final_amount;
+                        $msg2 = array(
+                            'title' => $title,
+                            'body' => $message,
+                            "sound" => "default"
+                        );
+                        $fields = array(
+                            // 'to'=>"/topics/all",
+                            'to' => $vendor_data[0]->fcm_token,
+                            'notification' => $msg2,
+                            'priority' => 'high'
+                        );
+                        $fields = json_encode($fields);
+                        $headers = array(
+                            'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                            'Content-Type: application/json'
+                        );
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                        $result = curl_exec($ch);
+                        // echo $fields;
+                        // echo $result;
+                        curl_close($ch);
+                        //End success notification code
+                        $data_insert = array(
+                            'vendor_id' => $order1_data[0]->vendor_id,
+                            'name' => $title,
+                            'dsc' => $message,
+                            'date' => $cur_date
+                        );
+                        $last_id = $this->base_model->insert_table("tbl_vendor_notification", $data_insert, 1);
+                    }
+                } else {
+                    //--- send email to admin -----------------
+                    $config = array(
+                        'protocol' => 'SMTP',
+                        'smtp_host' => SMTP_HOST,
+                        'smtp_port' => SMTP_PORT,
+                        'smtp_user' => USER_NAME, // change it to yours
+                        'smtp_pass' => PASSWORD, // change it to yours
+                        'mailtype' => 'html',
+                        'charset' => 'iso-8859-1',
+                        'wordwrap' => true
+                    );
+                    $message2 = '
+                         Hello Admin<br/><br/>
+                         You have received new Order and below are the details<br/><br/>
+                         <b>Order ID</b> - ' . $order_id . '<br/>
+                         <b>Amount</b> - Rs.' . $order1_data[0]->final_amount . '<br/>
+                           ';
+                    $this->load->library('email', $config);
+                    $this->email->set_newline("");
+                    $this->email->from(EMAIL); // change it to yours
+                    $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                    $this->email->subject('New Order received');
+                    $this->email->message($message2);
+                    if ($this->email->send()) {
+                    } else {
+                    }
+                }
+            }
+            //============ END PRODUCT SUCCESS ============
+            //============ START SUBCRIPTION SUCCESS ============
+            $this->db->select('*');
+            $this->db->from('tbl_subscription_buy');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $order_id);
+            $subcription_data = $this->db->get()->row();
+            if (!empty($subcription_data)) {
+                $order_id = $subcription_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_subscription_buy', $data_update);
+                echo 'Success';
+                exit;
+            }
+            //============ END SUBCRIPTION SUCCESS ============
+            //============ START FEED PAYMENT SUCCESS ============
+            $this->db->select('*');
+            $this->db->from('tbl_check_my_feed_buy');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $order_id);
+            $feed_data = $this->db->get()->row();
+            if (!empty($feed_data)) {
+                $order_id = $feed_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_check_my_feed_buy', $data_update);
+                echo 'Success';
+                exit;
+            }
+            //============ END FEED PAYMENT SUCCESS ============
+            //============ START DOCTOR PAYMENT SUCCESS ============
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('payment_status', 0);
+            $this->db->where('txn_id', $order_id);
+            $doc_data = $this->db->get()->row();
+            if (!empty($doc_data)) {
+                $order_id = $doc_data->id;
+                $data_update = array(
+                    'payment_status' => 1,
+                    'cc_response' => json_encode($decryptValues),
+                );
+                $this->db->where('id', $order_id);
+                $this->db->update('tbl_doctor_req', $data_update);
+                $docData = $this->db->get_where('tbl_doctor', array('id' => $doc_data->doctor_id,))->result();
+                //------ create amount txn in the table -------------
+                if (!empty($docData[0]->commission)) {
+                    $amt = $doc_data->fees * $docData[0]->commission / 100;
+                    $data2 = array(
+                        'req_id' => $order_id,
+                        'doctor_id' => $doc_data->doctor_id,
+                        'cr' =>  $doc_data->fees - $amt,
+                        'date' => $cur_date
+                    );
+                    $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                    //------ update doctor account ------
+                    $data_update = array(
+                        'account' => $docData[0]->account + $doc_data->fees - $amt,
+                    );
+                    $this->db->where('id', $doc_data->doctor_id);
+                    $zapak = $this->db->update('tbl_doctor', $data_update);
+                }
+                //------ send notification to doctor -----
+                if (!empty($docData[0]->fcm_token)) {
+                    // echo $user_device_tokens->device_token;
+                    //success notification code
+                    $url = 'https://fcm.googleapis.com/fcm/send';
+                    $title = "New Request";
+                    $message = "New request #" . $order_id . "  received with the  amount of  ₹" . ($doc_data->fees - $amt);
+                    $msg2 = array(
+                        'title' => $title,
+                        'body' => $message,
+                        "sound" => "default"
+                    );
+                    $fields = array(
+                        // 'to'=>"/topics/all",
+                        'to' => $docData[0]->fcm_token,
+                        'notification' => $msg2,
+                        'priority' => 'high'
+                    );
+                    $fields = json_encode($fields);
+                    $headers = array(
+                        'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                        'Content-Type: application/json'
+                    );
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                    $result = curl_exec($ch);
+                    // echo $fields;
+                    // echo $result;
+                    curl_close($ch);
+                    //End success notification code
+                    $data_insert = array(
+                        'doctor_id' => $doc_data->doctor_id,
+                        'name' => $title,
+                        'dsc' => $message,
+                        'date' => $cur_date
+                    );
+                    $last_id = $this->base_model->insert_table("tbl_doctor_notification", $data_insert, 1);
+                }
+                echo 'Success';
+                exit;
+            }
+            //============ END DOCTOR PAYMENT SUCCESS ============
+        }
     }
 }
   //=========================================END FarmerController======================================//
