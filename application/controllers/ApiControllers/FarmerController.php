@@ -1205,6 +1205,10 @@ class FarmerController extends CI_Controller
                     if ($this->email->send()) {
                     } else {
                     }
+                    $order1_data = $order1_data[0];
+                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data->user_id))->row();
+                    //---------- send whatsapp order msg to admin -----
+                    $this->send_whatsapp_msg_admin($order1_data, $user_data);
                 }
                 echo 'Success';
                 exit;
@@ -1383,6 +1387,10 @@ class FarmerController extends CI_Controller
                     if ($this->email->send()) {
                     } else {
                     }
+                    $order1_data = $order1_data[0];
+                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data->user_id))->row();
+                    //---------- send whatsapp order msg to admin -----
+                    $this->send_whatsapp_msg_admin($order1_data, $user_data);
                 }
                 echo 'Success';
                 exit;
@@ -1575,6 +1583,11 @@ class FarmerController extends CI_Controller
                         $this->db->where('id', $vendor_id);
                         $zapak = $this->db->update('tbl_vendor', $data_update);
                     }
+                } else {
+                    $order1_data = $this->db->get_where('tbl_order1', array('id' => $order1_id))->row();
+                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data->user_id))->row();
+                    //---------- send whatsapp order msg to admin -----
+                    $this->send_whatsapp_msg_admin($order1_data, $user_data);
                 }
                 $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
                 $send = array(
@@ -2011,6 +2024,10 @@ class FarmerController extends CI_Controller
                     if ($this->email->send()) {
                     } else {
                     }
+                    $order1_data = $order1_data[0];
+                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data->user_id))->row();
+                    //---------- send whatsapp order msg to admin -----
+                    $this->send_whatsapp_msg_admin($order1_data, $user_data);
                 }
             }
             //============ END PRODUCT SUCCESS ============
@@ -2130,5 +2147,41 @@ class FarmerController extends CI_Controller
             //============ END DOCTOR PAYMENT SUCCESS ============
         }
     }
+
+    //======================== START ORDER WHATSAPP MESSAGE TO ADMIN  ==========================
+    public function send_whatsapp_msg_admin($orderData, $user_data)
+    {
+
+        $userName = $user_data->name;
+        $payment_type = $orderData->paymnet_type == 1 ? 'Cash On Delivery' : "Online Paymnet";
+        $other_details = "NA";
+        $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $orderData->id))->result();
+        $products_details = '';
+        foreach ($order2_data as $order2) {
+            $products_details = $products_details . '&product name=' . $$order2->product_name_en .  '*'   .  $order2->qty;
+        }
+        //---- sending whatspp msg to admin -------
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://whatsapp.fineoutput.com/send_order_message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => 'phone=' . WHATSAPP_NUMBER . '&order_id=' . $orderData->id . '&amount=' . $orderData->final_amount . '&date=' . $orderData->date . '&method=' . $payment_type . '&products=' . $products_details . '&customer_name=' . $userName . '&others=' . $other_details .  '',
+            CURLOPT_HTTPHEADER => array(
+                'token:' . TOKEN . '',
+                'Content-Type:application/x-www-form-urlencoded',
+                'Cookie:ci_session=e40e757b02bc2d8fb6f5bf9c5b7bb2ea74c897e8'
+            ),
+        ));
+        $respons = curl_exec($curl);
+        curl_close($curl);
+        return true;
+    }
+    //======================== END BOOKING WHATSAPP MESSAGE TO ADMIN ==========================
 }
   //=========================================END FarmerController======================================//
