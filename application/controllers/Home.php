@@ -9,7 +9,58 @@ class Home extends CI_Controller
 	}
 	public function index()
 	{
-		$this->load->view('index');
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/index');
+		$this->load->view('frontend/common/footer');
+	}
+	public function farmer()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/farmer');
+		$this->load->view('frontend/common/footer');
+	}
+	public function about()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/about');
+		$this->load->view('frontend/common/footer');
+	}
+	public function vendor()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/vendor');
+		$this->load->view('frontend/common/footer');
+	}
+	public function doctor()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/doctor');
+		$this->load->view('frontend/common/footer');
+	}
+	public function gallery()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/gallery');
+		$this->load->view('frontend/common/footer');
+	}
+
+	public function contact()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/contact');
+		$this->load->view('frontend/common/footer');
+	}
+	public function terms_and_conditions()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/terms_and_conditions');
+		$this->load->view('frontend/common/footer');
+	}
+	public function refund_cancelation_policy()
+	{
+		$this->load->view('frontend/common/header');
+		$this->load->view('frontend/refund-cancelation-policy');
+		$this->load->view('frontend/common/footer');
 	}
 	public function error404()
 	{
