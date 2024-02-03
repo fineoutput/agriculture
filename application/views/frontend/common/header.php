@@ -217,7 +217,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="<?=base_url()?>Home/gallery">Gallery</a></li>
-                                            <li><a href="<?=base_url()?>Home/contact">Contact</a></li>
+                                            <!-- <li><a href="<?=base_url()?>Home/contact">Contact</a></li> -->
                                         </ul>
                                     </nav>
                                 </div>

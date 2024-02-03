@@ -118,7 +118,7 @@
                                     <div class="bd-about__experience text-center"><span class="number counter">10</span><span class="plus">+</span>
                                         <p>Years experience</p>
                                     </div>
-                                </div><a class="bd-theme__btn-1" href="<?=base_url()?>Home/contact">get in touch</a>
+                                </div><a class="bd-theme__btn-1" href="#">get in touch</a>
                             </div>
                         </div>
                     </div>
