@@ -444,7 +444,7 @@ class HomeController extends CI_Controller
             $CategoryData = [];
             foreach ($CategorySlider_data as $category) {
                 $subCategoryData = [];
-                $subCategoryDatas = $this->db->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
+                $subCategoryDatas = $this->db->order_by('seq', 'asc')->get_where('tbl_subcategory_images', array('is_active' => 1, 'category_id' => $category->id))->result();
                 foreach ($subCategoryDatas as $subcategory) {
                     if ($language == 'en') {
                         $cat_image =  $category->image ? base_url() . $category->image : '';
