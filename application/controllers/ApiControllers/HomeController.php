@@ -509,7 +509,7 @@ class HomeController extends CI_Controller
                         'is_admin' => $pro->is_admin,
                         'offer' => $pro->offer,
                     );
-                } elseif ($language == 'en') {
+                } elseif ($language == 'hi') {
                     $product_data[] = array(
                         'pro_id' => $pro->id,
                         'name' => $pro->name_hindi,
