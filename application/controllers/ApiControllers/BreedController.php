@@ -458,25 +458,25 @@ class BreedController extends CI_Controller
             if ($animal_type == 'Milking') {
               date_default_timezone_set("Asia/Calcutta");
               $today = date("Y-m-d");
-              $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
-              if (!empty($Subscribed)) {
-                if ($Subscribed[0]->animals == $Subscribed[0]->used_animal) {
-                  $res = array(
-                    'message' => 'Your milking animal registering limit is reached for current subscription plan!',
-                    'status' => 201
-                  );
-                  echo json_encode($res);
-                  die();
-                }
-              } else {
-                $res = array(
-                  'message' => 'Please buy a subscription plan for registering a milking animal!',
-                  'status' => 201
-                );
-                echo json_encode($res);
-                die();
-              }
-            }
+            //   $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
+            //   if (!empty($Subscribed)) {
+            //     if ($Subscribed[0]->animals == $Subscribed[0]->used_animal) {
+            //       $res = array(
+            //         'message' => 'Your milking animal registering limit is reached for current subscription plan!',
+            //         'status' => 201
+            //       );
+            //       echo json_encode($res);
+            //       die();
+            //     }
+            //   } else {
+            //     $res = array(
+            //       'message' => 'Please buy a subscription plan for registering a milking animal!',
+            //       'status' => 201
+            //     );
+            //     echo json_encode($res);
+            //     die();
+            //   }
+            // }
             $data = array(
               'farmer_id' => $farmer_data[0]->id,
               'animal_type' => $animal_type,
@@ -508,11 +508,11 @@ class BreedController extends CI_Controller
             );
             $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
             //--- update subscription table----
-            if (!empty($Subscribed)) {
-              $data_update = array('used_animal' => $Subscribed[0]->used_animal + 1,);
-              $this->db->where('id', $Subscribed[0]->id);
-              $zapak = $this->db->update('tbl_subscription_buy', $data_update);
-            }
+            // if (!empty($Subscribed)) {
+            //   $data_update = array('used_animal' => $Subscribed[0]->used_animal + 1,);
+            //   $this->db->where('id', $Subscribed[0]->id);
+            //   $zapak = $this->db->update('tbl_subscription_buy', $data_update);
+            // }
             $res = array(
               'message' => "Animal Successfully Registered!",
               'status' => 200,
