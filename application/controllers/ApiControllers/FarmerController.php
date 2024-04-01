@@ -2242,7 +2242,7 @@ class FarmerController extends CI_Controller
             $this->form_validation->set_rules('village', 'village', 'required|xss_clean|trim');
             //$this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $name = $this->input->post('name');
                 $district = $this->input->post('district');
@@ -2290,8 +2290,8 @@ class FarmerController extends CI_Controller
                         'city' => $city,
                         'village' => $village,
                         'state' => $state,
-                        'pincode' => $pincode,
-                        'gst_no' => $gst_no,
+                       //'pincode' => $pincode,
+                        //'gst_no' => $gst_no,
                         'image' => $image ? $image : $farmer_data[0]->image,
                         
                     );
