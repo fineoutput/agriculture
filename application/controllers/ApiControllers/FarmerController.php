@@ -2290,7 +2290,6 @@ class FarmerController extends CI_Controller
                         'city' => $city,
                         'village' => $village,
                         'state' => $state,
-                        'phone' => $phone,
                         'pincode' => $pincode,
                         'gst_no' => $gst_no,
                         'image' => $image ? $image : $farmer_data[0]->image,
