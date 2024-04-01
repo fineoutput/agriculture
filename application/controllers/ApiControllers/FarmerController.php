@@ -2226,6 +2226,75 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //======================== get farmer date ==========================
+    public function UpdateProfile()
+    {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        if ($this->input->post()) {
+            $headers = apache_request_headers();
+            $authentication = $headers['Authentication'];
+            $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('village', 'village', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('pincode', 'pincode', 'required|xss_clean|trim');
+            if ($this->form_validation->run() == true) {
+                $name = $this->input->post('name');
+                $district = $this->input->post('district');
+                $city = $this->input->post('city');
+                $village = $this->input->post('village');
+                $state = $this->input->post('state');
+                $phone = $this->input->post('phone');
+                $pincode = $this->input->post('pincode');
+                $gst_no = $this->input->post('gst_no');
+
+
+                $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,  'auth' => $authentication))->result();
+                if (!empty($farmer_data)) {
+                    $data_update = array(
+                        'name' => $name,
+                        'district' => $district,
+                        'city' => $city,
+                        'village' => $village,
+                        'state' => $state,
+                        'phone' => $phone,
+                        'pincode' => $pincode,
+                        'gst_no' => $gst_no,
+                        
+                    );
+                    $this->db->where('id', $farmer_data[0]->id);
+                    $zapak = $this->db->update('tbl_farmers', $data_update);
+                    $res = array(
+                        'message' => "Success",
+                        'status' => 200,
+                    );
+                    echo json_encode($res);
+                } else {
+                    $res = array(
+                        'message' => 'Permission Denied!',
+                        'status' => 201
+                    );
+                    echo json_encode($res);
+                }
+            } else {
+                $res = array(
+                    'message' => validation_errors(),
+                    'status' => 201
+                );
+                echo json_encode($res);
+            }
+        } else {
+            $res = array(
+                'message' => 'Please Insert Data',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //======================== END BOOKING WHATSAPP MESSAGE TO ADMIN ==========================
 }
   //=========================================END FarmerController======================================//
