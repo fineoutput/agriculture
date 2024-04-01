@@ -2190,11 +2190,11 @@ class FarmerController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            // if (!empty($farmer_data[0]->image)) {
-            //     $image = base_url() . $farmer_data[0]->image;
-            // } else {
-            //     $image = '';
-            // }
+            if (!empty($farmer_data[0]->image)) {
+                $image = base_url() . $farmer_data[0]->image;
+            } else {
+                $image = '';
+            }
             // // $state_data = $this->db->get_where('all_states', array('id' => $farmer_data[0]->state,))->result();
             // if (!empty($state_data)) {
             //     $state = $state_data[0]->state_name;
@@ -2209,6 +2209,7 @@ class FarmerController extends CI_Controller
                 'state_id' => $farmer_data[0]->village,
                 'phone' => $farmer_data[0]->phone,
                 'pincode' => $farmer_data[0]->pincode,
+                'image' => $image,
                 'no_animals'=> $farmer_data[0]->no_animals,
                 'gst_no'=> $farmer_data[0]->gst_no,
             );
@@ -2226,7 +2227,7 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
-    //======================== get farmer date ==========================
+    //======================== update farmer profile ==========================
     public function UpdateProfile()
     {
         $this->load->helper(array('form', 'url'));
@@ -2251,8 +2252,36 @@ class FarmerController extends CI_Controller
                 $phone = $this->input->post('phone');
                 $pincode = $this->input->post('pincode');
                 $gst_no = $this->input->post('gst_no');
-
-
+                $this->load->library('upload');
+                $image = '';
+                $img1 = 'image';
+                if (!empty($_FILES['image'])) {
+                    $file_check = ($_FILES['image']['error']);
+                    if ($file_check != 4) {
+                        $image_upload_folder = FCPATH . "assets/uploads/doctor/";
+                        if (!file_exists($image_upload_folder)) {
+                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                        }
+                        $new_file_name = "image" . date("YmdHis");
+                        $this->upload_config = array(
+                            'upload_path'   => $image_upload_folder,
+                            'file_name' => $new_file_name,
+                            'allowed_types' => 'jpg|jpeg|png',
+                            'max_size'      => 25000
+                        );
+                        $this->upload->initialize($this->upload_config);
+                        if (!$this->upload->do_upload($img1)) {
+                            $upload_error = $this->upload->display_errors();
+                            $respone['status'] = false;
+                            $respone['message'] = $upload_error;
+                            echo json_encode($respone);
+                            die();
+                        } else {
+                            $file_info = $this->upload->data();
+                            $image = "assets/uploads/doctor/" . $file_info['file_name'];
+                        }
+                    }
+                }
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,  'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
                     $data_update = array(
@@ -2264,6 +2293,7 @@ class FarmerController extends CI_Controller
                         'phone' => $phone,
                         'pincode' => $pincode,
                         'gst_no' => $gst_no,
+                        'image' => $image ? $image : $farmer_data[0]->image,
                         
                     );
                     $this->db->where('id', $farmer_data[0]->id);
