@@ -2182,6 +2182,50 @@ class FarmerController extends CI_Controller
         curl_close($curl);
         return true;
     }
+     //======================== get farmer date ==========================
+     public function GetProfile()
+    {
+        $headers = apache_request_headers();
+        $authentication = $headers['Authentication'];
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        //----- Verify Auth --------
+        if (!empty($farmer_data)) {
+            // if (!empty($farmer_data[0]->image)) {
+            //     $image = base_url() . $farmer_data[0]->image;
+            // } else {
+            //     $image = '';
+            // }
+            // // $state_data = $this->db->get_where('all_states', array('id' => $farmer_data[0]->state,))->result();
+            // if (!empty($state_data)) {
+            //     $state = $state_data[0]->state_name;
+            // } else {
+            //     $state = '';
+            // }
+            $data = array(
+                'name' => $farmer_data[0]->name,
+                'district' => $farmer_data[0]->district,
+                'city' => $farmer_data[0]->city,
+                'state' => $farmer_data[0]->state,
+                'state_id' => $farmer_data[0]->village,
+                'phone' => $farmer_data[0]->phone,
+                'pincode' => $farmer_data[0]->pincode,
+                'no_animals'=> $farmer_data[0]->no_animals,
+                'gst_no'=> $farmer_data[0]->gst_no,
+            );
+            $res = array(
+                'message' => "Success!",
+                'status' => 200,
+                'data' => $data,
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'message' => 'Permission Denied!',
+                'status' => 201
+            );
+            echo json_encode($res);
+        }
+    }
     //======================== END BOOKING WHATSAPP MESSAGE TO ADMIN ==========================
 }
   //=========================================END FarmerController======================================//
