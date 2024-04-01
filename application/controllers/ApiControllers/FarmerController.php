@@ -2187,7 +2187,7 @@ class FarmerController extends CI_Controller
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
             // if (!empty($farmer_data[0]->image)) {
