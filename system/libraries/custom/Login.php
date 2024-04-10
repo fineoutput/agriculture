@@ -523,12 +523,7 @@ class CI_Login
                         return json_encode($respone);
                     }
                 }else{
-                    $respone['status'] = false;
-                    $respone['message'] = 'User Not Found! Please Register First';
-                   $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
-                   return json_encode($respone);
-                   die();
-
+                    $massage = "user not found register first";
                 }
                 } else {
                     $respone['status'] = 201;
@@ -544,6 +539,13 @@ class CI_Login
             $respone['status'] = 201;
             $respone['message'] = 'Invalid OTP!';
             return json_encode($respone);
+        }
+        if($massage){
+            $respone['status'] = false;
+                    $respone['message'] = 'User Not Found! Please Register First';
+                   $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
+                   return json_encode($respone);
+                   die();
         }
     }
     //============================= USER OTP LOGOUT ==========================================
