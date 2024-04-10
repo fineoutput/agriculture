@@ -130,7 +130,7 @@ class UserloginController extends CI_Controller
                     'expert_category' => $expert_category,
                 );
                 //-------------- register user  with otp ------------
-                $Register = $this->login->RegisterWithOtp($send);
+                $Register = $this->login->RegisterOtpVerify($send);
                 echo $Register;
             } else {
                 $respone['status'] = false;
@@ -178,12 +178,12 @@ class UserloginController extends CI_Controller
         $this->load->helper('security');
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
-            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
+           // $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $phone = $this->input->post('phone');
-                $type = $this->input->post('type');
+               // $type = $this->input->post('type');
                 //------ user login send otp ----------
-                $Login = $this->login->LoginWithOtp($phone, $type);
+                $Login = $this->login->LoginWithOtp($phone);
                 echo $Login;
             } else {
                 $respone['status'] = false;
@@ -205,11 +205,13 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('otp', 'otp', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $phone = $this->input->post('phone');
                 $otp = $this->input->post('otp');
+                $type = $this->input->post('type');
                 //-------------- register otp verify ------------
-                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp);
+                $LoginVerify = $this->login->LoginOtpVerify($phone, $otp ,$type);
                 echo $LoginVerify;
             } else {
                 $respone['status'] = false;
