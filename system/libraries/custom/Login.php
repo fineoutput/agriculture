@@ -419,10 +419,13 @@ class CI_Login
                         $respone['status'] = false;
                         if ($call_type == 'farmer') {
                             $respone['message'] = 'This number is not registered as a farmer!';
+                            $respone['is_login'] = 0;
                         } else if ($call_type == 'doctor') {
                             $respone['message'] = 'This number is not registered as a doctor!';
+                            $respone['is_login'] = 0;
                         } else {
                             $respone['message'] = 'This number is not registered as a vendor!';
+                            $respone['is_login'] = 0;
                         }
                         $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
                         return json_encode($respone);
