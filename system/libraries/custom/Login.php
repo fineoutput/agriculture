@@ -416,7 +416,7 @@ class CI_Login
                    if (!empty($type)) { 
 
                     if ($call_type != $type) {
-                        $respone['status'] = false;
+                        $respone['status'] = 200;
                         if ($call_type == 'farmer') {
                             $respone['message'] = 'This number is not registered as a farmer!';
                             $respone['is_login'] = 0;
