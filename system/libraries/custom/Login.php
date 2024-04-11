@@ -419,13 +419,23 @@ class CI_Login
                         $respone['status'] = 200;
                         if ($call_type == 'farmer') {
                             $respone['message'] = 'This number is not registered as a farmer!';
-                            $respone['is_login'] = 0;
+                            $respone['data'] = array(
+                                'phone' => $phone,
+                                'is_login' => 0,
+                            );
+                           
                         } else if ($call_type == 'doctor') {
                             $respone['message'] = 'This number is not registered as a doctor!';
-                            $respone['is_login'] = 0;
+                            $respone['data'] = array(
+                                'phone' => $phone,
+                                'is_login' => 0,
+                            );
                         } else {
                             $respone['message'] = 'This number is not registered as a vendor!';
-                            $respone['is_login'] = 0;
+                            $respone['data'] = array(
+                                'phone' => $phone,
+                                'is_login' => 0,
+                            );
                         }
                         $this->CI->session->set_flashdata('emessage', 'Some error occurred!');
                         return json_encode($respone);
@@ -497,6 +507,7 @@ class CI_Login
                                     'image' => $user_data[0]->image ? base_url() . $user_data[0]->image : '',
                                     'auth' => $user_data[0]->auth,
                                     'is_expert' => $user_data[0]->is_expert,
+                                    'is_login' =>1,
                                 );
                             }
                             if ($type == 'vendor') {
@@ -504,16 +515,17 @@ class CI_Login
                                     'name' => $user_data[0]->name,
                                     'image' => $user_data[0]->image ? base_url() . $user_data[0]->image : '',
                                     'auth' => $user_data[0]->auth,
+                                    'is_login' =>1,
                                 );
                             } else {
                                 $data = array(
                                     'name' => $user_data[0]->name,
                                     'auth' => $user_data[0]->auth,
+                                    'is_login' =>1,
                                 );
                             }
                             $respone['status'] = 200;
                             $respone['message'] = 'Login Successfully';
-                            $respone['is_login'] = 1;
                             $respone['data'] = $data;
                             return json_encode($respone);
                         } else {
@@ -529,8 +541,10 @@ class CI_Login
                 }else{
                     $respone['status'] = 200;
                     $respone['message'] = 'User Not Found! Please Register First';
-                    $respone['is_login'] = 0;
-                    $respone['data'] = $phone;
+                    $respone['data'] = array(
+                        'phone' => $phone,
+                        'is_login' => 0,
+                    );
                    return json_encode($respone);
 
                 }
