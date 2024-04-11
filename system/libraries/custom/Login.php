@@ -510,6 +510,7 @@ class CI_Login
                             }
                             $respone['status'] = 200;
                             $respone['message'] = 'Login Successfully';
+                            $respone['is_login'] = 1;
                             $respone['data'] = $data;
                             return json_encode($respone);
                         } else {
@@ -523,8 +524,10 @@ class CI_Login
                         return json_encode($respone);
                     }
                 }else{
-                    $respone['status'] = false;
+                    $respone['status'] = 200;
                     $respone['message'] = 'User Not Found! Please Register First';
+                    $respone['is_login'] = 0;
+                    $respone['data'] = $phone;
                    return json_encode($respone);
 
                 }
