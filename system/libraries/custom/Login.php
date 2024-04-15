@@ -928,7 +928,7 @@ class CI_Login
                             $this->CI->email->to(TO, 'Dairy Muneem'); // change it to yours
                             $this->CI->email->subject('New registration request received from a vendor');
                             $this->CI->email->message($message2);
-                            if ($this->email->send()) {
+                            if ($this->CI->email->send()) {
                             } else {
                             }
                             $respone['status'] = 200;
