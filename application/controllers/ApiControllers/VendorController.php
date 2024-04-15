@@ -1488,6 +1488,184 @@ class VendorController extends CI_Controller
             echo json_encode($res);
         }
     }
+    //----------------------vendor add slider------------------------
+    public function vendor_store_slider()
+    {
+        $headers = apache_request_headers();
+        $authentication = isset($headers['Authentication']) ? $headers['Authentication'] : null;
+        if (!$authentication) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication header not found';
+            echo json_encode($response);
+            return;
+        }
+
+        $vendor_data = $this->db->get_where('tbl_vendor', array('auth' => $authentication))->row();
+
+        if (empty($vendor_data)) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication tocken not found';
+            echo json_encode($response);
+            return;
+        }
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        $this->load->helper('security');
+        $id =  $this->input->post('id');
+
+        $this->load->library('upload');
+        $image = "";
+        $img1 = 'image';
+        //------------------------------------image1 insert-----------------------------------------
+        $file_check = ($_FILES['image']['error']);
+
+        if ($file_check != 4) {
+            $image_upload_folder = FCPATH . "assets/uploads/slider/";
+            if (!file_exists($image_upload_folder)) {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+            }
+            $new_file_name = "vendor" . date("YmdHis");
+            $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' => 'jpg|jpeg|png',
+                'max_size'      => 25000
+            );
+            $this->upload->initialize($this->upload_config);
+            if (!$this->upload->do_upload($img1)) {
+                $upload_error = $this->upload->display_errors();
+                $respone['status'] = false;
+                $respone['message'] = $upload_error;
+                echo json_encode($respone);
+                die();
+            } else {
+                $file_info = $this->upload->data();
+                $image = "assets/uploads/slider/" . $file_info['file_name'];
+            }
+        }
+
+        $ip = $this->input->ip_address();
+        date_default_timezone_set("Asia/Calcutta");
+        $cur_date = date("Y-m-d H:i:s");
+        $vendor_id = $vendor_data->id;
+
+        $data_insert = array(
+            'image1' => $image,
+            'vendor_id' => $vendor_id,
+            'ip' => $ip,
+            'is_active' => 1,
+            'date' => $cur_date
+        );
+        if (!empty($id)) {
+            $image_path_query = $this->db->select('image1')
+                ->from('tbl_sliders_vender')
+                ->where('id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
+                ->row();
+
+            $image_path = $image_path_query->image1;
+            if ($image_path) {
+                $full_image_path = FCPATH . $image_path; // Get the full path of the image
+                if (file_exists($full_image_path)) {
+                    unlink($full_image_path); // Delete the image file
+                }
+            }
+            // Update data
+            $last_id =  $this->base_model->update_table("tbl_sliders_vender", $data_insert, array('vendor_id' => $vendor_data->id));
+            $message = "Slider successfully updated";
+        } else {
+            // Insert data
+            $last_id = $this->base_model->insert_table("tbl_sliders_vender", $data_insert, 1);
+            $message = "Slider successfully added";
+        }
+        if (!empty($last_id)) {
+            $res = array(
+                'message' => $message,
+                'status' => 200,
+            );
+            echo json_encode($res);
+        }
+    }
+    public function view_vendor_sliders()
+    {
+        $headers = apache_request_headers();
+        $authentication = isset($headers['Authentication']) ? $headers['Authentication'] : null;
+        if (!$authentication) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication header not found';
+            echo json_encode($response);
+            return;
+        }
+        $farmer_data = $this->db->get_where('tbl_farmers', array('auth' => $authentication))->row();
+        if (empty($farmer_data)) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication tocken not found';
+            echo json_encode($response);
+            return;
+        }
+        $sliders = $this->db->select('*')
+            ->from('tbl_sliders_vender')
+            ->where('is_active', 1)
+            ->get()
+            ->result();
+        if (!empty($sliders)) {
+            $res = array(
+                'status' => 200,
+                'data' => $sliders
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'status' => false,
+                'data' => "no data found"
+            );
+            echo json_encode($res);
+        }
+    }
+    public function delete_vendor_sliders()
+    {
+        $headers = apache_request_headers();
+        $authentication = isset($headers['Authentication']) ? $headers['Authentication'] : null;
+        if (!$authentication) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication header not found';
+            echo json_encode($response);
+            return;
+        }
+        $vendor_data = $this->db->get_where('tbl_vendor', array('auth' => $authentication))->row();
+        if (empty($vendor_data)) {
+            $response['status'] = false;
+            $response['message'] = 'Authentication tocken not found';
+            echo json_encode($response);
+            return;
+        }
+        $image_path_query = $this->db->select('image1')
+            ->from('tbl_sliders_vender')
+            ->where('id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
+            ->row();
+
+        $image_path = $image_path_query->image1;
+        if ($image_path) {
+            $full_image_path = FCPATH . $image_path; // Get the full path of the image
+            if (file_exists($full_image_path)) {
+                unlink($full_image_path); // Delete the image file
+            }
+        }
+        $vendors = $this->db->delete('tbl_sliders_vender', array('vendor_id' => $vendor_data->id));
+        if (!empty($vendors)) {
+            $res = array(
+                'status' => 200,
+                'data' => "slider deleted successfully"
+            );
+            echo json_encode($res);
+        } else {
+            $res = array(
+                'status' => false,
+                'data' => "no slider found"
+            );
+            echo json_encode($res);
+        }
+    }
+
     //------------------------------deleteAccount ---------------
     public function deleteAccount()
     {
