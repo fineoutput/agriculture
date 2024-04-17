@@ -1615,7 +1615,11 @@ class VendorController extends CI_Controller
                 } else {
                     $image = '';
                 }
-                $slider[] = $image;
+                $date = $slide->date;
+                $slider[] = [
+                    'date' => $date,
+                    'image' => $image
+                ];
             }
             $res = array(
                 'status' => 200,
