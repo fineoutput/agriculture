@@ -1511,6 +1511,7 @@ class VendorController extends CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->helper('security');
+        
         $id =  $this->input->post('id');
 
         $this->load->library('upload');
@@ -1559,7 +1560,7 @@ class VendorController extends CI_Controller
         if (!empty($id)) {
             $image_path_query = $this->db->select('image1')
                 ->from('tbl_sliders_vender')
-                ->where('id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
+                ->where('vendor_id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
                 ->row();
 
             $image_path = $image_path_query->image1;
