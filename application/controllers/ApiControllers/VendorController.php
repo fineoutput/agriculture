@@ -1608,9 +1608,18 @@ class VendorController extends CI_Controller
             ->get()
             ->result();
         if (!empty($sliders)) {
+            $slider = [];
+            foreach ($sliders as $slide) {
+                if (!empty($slide->image1)) {
+                    $image = base_url() . $slide->image1;
+                } else {
+                    $image = '';
+                }
+                $slider[] = $image;
+            }
             $res = array(
                 'status' => 200,
-                'data' => $sliders
+                'data' => $slider
             );
             echo json_encode($res);
         } else {
