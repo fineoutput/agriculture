@@ -1682,6 +1682,7 @@ class VendorController extends CI_Controller
             return;
         }
         $vendor_data = $this->db->get_where('tbl_vendor', array('auth' => $authentication))->row();
+        
         if (empty($vendor_data)) {
             $response['status'] = false;
             $response['message'] = 'Authentication tocken not found';
@@ -1690,9 +1691,9 @@ class VendorController extends CI_Controller
         }
         $image_path_query = $this->db->select('image1')
             ->from('tbl_sliders_vender')
-            ->where('id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
-            ->row();
-
+            ->where('vendor_id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
+            ->get();
+      if(!empty($image_path_query->image1)){
         $image_path = $image_path_query->image1;
         if ($image_path) {
             $full_image_path = FCPATH . $image_path; // Get the full path of the image
@@ -1700,8 +1701,10 @@ class VendorController extends CI_Controller
                 unlink($full_image_path); // Delete the image file
             }
         }
+    } 
+    $vendor_check =  $this->db->get_where('tbl_sliders_vender', array('vendor_id' => $vendor_data->id))->row();
         $vendors = $this->db->delete('tbl_sliders_vender', array('vendor_id' => $vendor_data->id));
-        if (!empty($vendors)) {
+        if (!empty($vendor_check)) {
             $res = array(
                 'status' => 200,
                 'data' => "slider deleted successfully"
