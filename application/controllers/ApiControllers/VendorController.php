@@ -1511,7 +1511,7 @@ class VendorController extends CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->helper('security');
-        
+
         $id =  $this->input->post('id');
 
         $this->load->library('upload');
@@ -1598,42 +1598,77 @@ class VendorController extends CI_Controller
             return;
         }
         $farmer_data = $this->db->get_where('tbl_farmers', array('auth' => $authentication))->row();
-        if (empty($farmer_data)) {
+        $vendor_data = $this->db->get_where('tbl_vendor', array('auth' => $authentication))->row();
+        if (!empty($farmer_data)) {
+            $sliders = $this->db->select('*')
+                ->from('tbl_sliders_vender')
+                ->where('is_active', 1)
+                ->get()
+                ->result();
+            if (!empty($sliders)) {
+                $slider = [];
+                foreach ($sliders as $slide) {
+                    if (!empty($slide->image1)) {
+                        $image = base_url() . $slide->image1;
+                    } else {
+                        $image = '';
+                    }
+                    $date = $slide->date;
+                    $slider[] = [
+                        'date' => $date,
+                        'image' => $image
+                    ];
+                }
+                $res = array(
+                    'status' => 200,
+                    'data' => $slider
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'status' => false,
+                    'data' => "no data found"
+                );
+                echo json_encode($res);
+            }
+        } elseif (!empty($vendor_data)) {
+            $sliders = $this->db->select('*')
+                ->from('tbl_sliders_vender')
+                ->where('is_active', 1)
+                ->where('vendor_id', $vendor_data->id)
+                ->get()
+                ->result();
+            if (!empty($sliders)) {
+                $slider = [];
+                foreach ($sliders as $slide) {
+                    if (!empty($slide->image1)) {
+                        $image = base_url() . $slide->image1;
+                    } else {
+                        $image = '';
+                    }
+                    $date = $slide->date;
+                    $slider[] = [
+                        'date' => $date,
+                        'image' => $image
+                    ];
+                }
+                $res = array(
+                    'status' => 200,
+                    'data' => $slider
+                );
+                echo json_encode($res);
+            } else {
+                $res = array(
+                    'status' => false,
+                    'data' => "no data found"
+                );
+                echo json_encode($res);
+            }
+        } else {
             $response['status'] = false;
             $response['message'] = 'Authentication tocken not found';
             echo json_encode($response);
             return;
-        }
-        $sliders = $this->db->select('*')
-            ->from('tbl_sliders_vender')
-            ->where('is_active', 1)
-            ->get()
-            ->result();
-        if (!empty($sliders)) {
-            $slider = [];
-            foreach ($sliders as $slide) {
-                if (!empty($slide->image1)) {
-                    $image = base_url() . $slide->image1;
-                } else {
-                    $image = '';
-                }
-                $date = $slide->date;
-                $slider[] = [
-                    'date' => $date,
-                    'image' => $image
-                ];
-            }
-            $res = array(
-                'status' => 200,
-                'data' => $slider
-            );
-            echo json_encode($res);
-        } else {
-            $res = array(
-                'status' => false,
-                'data' => "no data found"
-            );
-            echo json_encode($res);
         }
     }
     public function delete_vendor_sliders()
