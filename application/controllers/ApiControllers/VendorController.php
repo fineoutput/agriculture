@@ -1542,6 +1542,7 @@ class VendorController extends CI_Controller
             } else {
                 $file_info = $this->upload->data();
                 $image = "assets/uploads/slider/" . $file_info['file_name'];
+                $image_size = $file_info['file_size']; // Get the file size
             }
         }
 
@@ -1554,13 +1555,14 @@ class VendorController extends CI_Controller
             'image1' => $image,
             'vendor_id' => $vendor_id,
             'ip' => $ip,
+            'image_size' => $image_size,
             'is_active' => 1,
             'date' => $cur_date
         );
         if (!empty($id)) {
             $image_path_query = $this->db->select('image1')
                 ->from('tbl_sliders_vender')
-                ->where('vendor_id', $vendor_data->id) // Assuming $id contains the ID of the record you want to
+                ->where('id', $id) // Assuming $id contains the ID of the record you want to
                 ->get() // Execute the query
                 ->row();
 
@@ -1646,10 +1648,15 @@ class VendorController extends CI_Controller
                     } else {
                         $image = '';
                     }
+                    $id = $slide->id;
                     $date = $slide->date;
+                    $image_size = $slide->image_size;
+
                     $slider[] = [
+                        'id' => $id,
                         'date' => $date,
-                        'image' => $image
+                        'image' => $image,
+                        'image_size' => $image_size
                     ];
                 }
                 $res = array(
@@ -1671,7 +1678,7 @@ class VendorController extends CI_Controller
             return;
         }
     }
-    public function delete_vendor_sliders()
+    public function delete_vendor_sliders($id)
     {
         $headers = apache_request_headers();
         $authentication = isset($headers['Authentication']) ? $headers['Authentication'] : null;
@@ -1682,7 +1689,7 @@ class VendorController extends CI_Controller
             return;
         }
         $vendor_data = $this->db->get_where('tbl_vendor', array('auth' => $authentication))->row();
-        
+
         if (empty($vendor_data)) {
             $response['status'] = false;
             $response['message'] = 'Authentication tocken not found';
@@ -1691,19 +1698,19 @@ class VendorController extends CI_Controller
         }
         $image_path_query = $this->db->select('image1')
             ->from('tbl_sliders_vender')
-            ->where('vendor_id', $vendor_data->id) // Assuming $id contains the ID of the record you want to delete
+            ->where('id', $id) // Assuming $id contains the ID of the record you want to delete
             ->get();
-      if(!empty($image_path_query->image1)){
-        $image_path = $image_path_query->image1;
-        if ($image_path) {
-            $full_image_path = FCPATH . $image_path; // Get the full path of the image
-            if (file_exists($full_image_path)) {
-                unlink($full_image_path); // Delete the image file
+        if (!empty($image_path_query->image1)) {
+            $image_path = $image_path_query->image1;
+            if ($image_path) {
+                $full_image_path = FCPATH . $image_path; // Get the full path of the image
+                if (file_exists($full_image_path)) {
+                    unlink($full_image_path); // Delete the image file
+                }
             }
         }
-    } 
-    $vendor_check =  $this->db->get_where('tbl_sliders_vender', array('vendor_id' => $vendor_data->id))->row();
-        $vendors = $this->db->delete('tbl_sliders_vender', array('vendor_id' => $vendor_data->id));
+        $vendor_check =  $this->db->get_where('tbl_sliders_vender', array('id' => $id))->row();
+        $vendors = $this->db->delete('tbl_sliders_vender', array('id' => $id));
         if (!empty($vendor_check)) {
             $res = array(
                 'status' => 200,
