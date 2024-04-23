@@ -57,6 +57,7 @@
                                             <th>Admin Earning </th>
                                             <th>Images</th>
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -121,6 +122,9 @@
                                                         <p class="label bg-green">Completed</p>
                                                     <?php    }   ?>
                                                 </td>
+                                                <td><a href="<?php echo base_url() ?>dcadmin/Doctor/view_pdf/<?php echo base64_encode($data->id) ?>" style="background-color: green; color: white; padding: 5px;">Pdf</a></td>
+
+
                                             </tr>
                                         <?php $i++;
                                         } ?>

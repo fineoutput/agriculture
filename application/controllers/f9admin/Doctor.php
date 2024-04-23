@@ -62,6 +62,29 @@ class Doctor extends CI_finecontrol
             redirect("login/admin_login", "refresh");
         }
     }
+    public function view_pdf($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+
+            $id=base64_decode($idd);
+        
+            $this->db->select('*');
+            $this->db->from('tbl_doctor_req');
+            $this->db->where('payment_status', 1);
+            $this->db->where('id', $id);
+            $this->db->order_by('id', 'desc');
+
+            $request_data = $this->db->get()->row();
+
+            $data['data'] = $request_data;
+
+
+            $this->load->view('admin/doctor/view_pdf', $data);
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
     //****************************view Doctor Function**************************************
     public function doctor_request()
     {
