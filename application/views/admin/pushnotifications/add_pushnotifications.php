@@ -38,8 +38,8 @@
                       <td> <strong>Select App</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
                         <select name="App" class="form-control" required>
-                          <option value="vendor">1</option>
-                          <option value="farmer">2</option>
+                          <option value="1">Vendor</option>
+                          <option value="2">Farmer</option>
                         </select>
                       </td>
                     </tr>
