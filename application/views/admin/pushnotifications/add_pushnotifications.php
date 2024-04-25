@@ -16,24 +16,33 @@
             <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Send New Push Notification</h3>
           </div>
           <?php if (!empty($this->session->flashdata('smessage'))) {  ?>
-          <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <?php echo $this->session->flashdata('smessage');  ?>
-          </div>
+            <div class="alert alert-success alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-check"></i> Alert!</h4>
+              <?php echo $this->session->flashdata('smessage');  ?>
+            </div>
           <?php }
-if (!empty($this->session->flashdata('emessage'))) {  ?>
-          <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-            <?php echo $this->session->flashdata('emessage');  ?>
-          </div>
+          if (!empty($this->session->flashdata('emessage'))) {  ?>
+            <div class="alert alert-danger alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+              <?php echo $this->session->flashdata('emessage');  ?>
+            </div>
           <?php }  ?>
           <div class="panel-body">
             <div class="col-lg-10">
               <form action=" <?php echo base_url()  ?>dcadmin/Pushnotifications/add_pushnotifications_data/<?php echo base64_encode(1);  ?>" method="POST" id="slide_frm" enctype="multipart/form-data">
                 <div class="table-responsive">
                   <table class="table table-hover">
+                    <tr>
+                      <td> <strong>Select App</strong> <span style="color:red;">*</span></strong> </td>
+                      <td>
+                        <select name="App" class="form-control" required>
+                          <option value="vendor">1</option>
+                          <option value="farmer">2</option>
+                        </select>
+                      </td>
+                    </tr>
                     <tr>
                       <td> <strong>Title</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="text" name="title" class="form-control" placeholder="" required value="" /> </td>

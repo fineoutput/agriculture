@@ -49,10 +49,12 @@ class Pushnotifications extends CI_finecontrol
             $this->load->helper('security');
             if ($this->input->post()) {
                 $this->form_validation->set_rules('title', 'title', 'required');
+                $this->form_validation->set_rules('App', 'App', 'required');
                 $this->form_validation->set_rules('content', 'content', 'trim');
                 if ($this->form_validation->run() == true) {
                     $title = $this->input->post('title');
                     $content = $this->input->post('content');
+                    $App = $this->input->post('App');
                     $ip = $this->input->ip_address();
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
@@ -92,6 +94,11 @@ class Pushnotifications extends CI_finecontrol
                             'date' => $cur_date
                         );
                         $last_id = $this->base_model->insert_table("tbl_pushnotifications", $data_insert, 1);
+                        if ($App == 1) {
+                            $to = "/topics/DairyMuneemVendor";
+                        } else {
+                            $to = "/topics/DairyMuneemFarmer";
+                        }
                         if ($last_id != 0) {
                             // ----sent push notification to user---------
                             $url = 'https://fcm.googleapis.com/fcm/send';
@@ -102,7 +109,7 @@ class Pushnotifications extends CI_finecontrol
                                 "sound" => "default"
                             );
                             $fields = array(
-                                'to' => "/topics/DairyMuneemFarmer",
+                                'to' => $to,
                                 'notification' => $msg2,
                                 'priority' => 'high'
                             );
