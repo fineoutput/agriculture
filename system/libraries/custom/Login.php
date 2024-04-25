@@ -23,23 +23,7 @@ class CI_Login
 
         $type = '';
                    $farmerCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $receive['phone']))->result();
-                   if (!empty($farmerCheck)) {
-                       $type = "farmer";
-                       $userCheck = $farmerCheck;
-                   } else {
-                       $doctorCheck = $this->CI->db->get_where('tbl_doctor', array('phone' => $receive['phone']))->result();
-                       if (!empty($doctorCheck)) {
-                           $type = "doctor";
-                           $userCheck = $doctorCheck;
-                       } else {
-                           $vendorCheck = $this->CI->db->get_where('tbl_vendor', array('phone' =>$receive['phone']))->result();
-                           if (!empty($vendorCheck)) {
-                               $type = "vendor";
-                               $userCheck = $vendorCheck;
-                           }
-                       }
-                   }
-                   if(empty($type)){
+                   if(empty($farmerCheck)){
              
                         if ($receive['type'] == 'farmer') {
                             $auth = bin2hex(random_bytes(18)); //--- generate auth ---

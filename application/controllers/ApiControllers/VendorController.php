@@ -1604,7 +1604,7 @@ class VendorController extends CI_Controller
         if (!empty($farmer_data)) {
             $sliders = $this->db->select('*')
                 ->from('tbl_sliders_vender')
-                ->where('is_active', 1)
+                ->where('is_active', 2)
                 ->get()
                 ->result();
             if (!empty($sliders)) {
@@ -1636,7 +1636,6 @@ class VendorController extends CI_Controller
         } elseif (!empty($vendor_data)) {
             $sliders = $this->db->select('*')
                 ->from('tbl_sliders_vender')
-                ->where('is_active', 1)
                 ->where('vendor_id', $vendor_data->id)
                 ->get()
                 ->result();

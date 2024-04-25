@@ -198,4 +198,60 @@ class Vendor_slider extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
+      //****************************vendor slider request Function**************************************
+      public function view_vendorslider_req()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $this->db->select('*');
+            $this->db->from('tbl_sliders_vender');
+            $data['vendorslider_data'] = $this->db->get();
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/vendor_slider/view_req_vendorslider');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    public function updatevendorslider_req($idd, $t)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            // echo SITE_NAME;
+            // echo $this->session->userdata('image');
+            // echo $this->session->userdata('position');
+            // exit;
+            $id = base64_decode($idd);
+            if ($t == "active") {
+                $data_update = array(
+                    'is_active' => 2
+                );
+                $this->db->where('id', $id);
+                $zapak = $this->db->update('tbl_sliders_vender', $data_update);
+                if ($zapak != 0) {
+                    redirect("dcadmin/vendor_slider/view_vendorslider_req", "refresh");
+                } else {
+                    echo "Error";
+                    exit;
+                }
+            }
+            if ($t == "inactive") {
+                $data_update = array(
+                    'is_active' => 1
+                );
+                $this->db->where('id', $id);
+                $zapak = $this->db->update('tbl_sliders_vender', $data_update);
+                if ($zapak != 0) {
+                    redirect("dcadmin/vendor_slider/view_vendorslider_req", "refresh");
+
+                } else {
+                    $data['e'] = "Error Occured";
+                    // exit;
+                    $this->load->view('errors/error500admin', $data);
+                }
+            }
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
 }

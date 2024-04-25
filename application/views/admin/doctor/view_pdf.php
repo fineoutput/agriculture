@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML to PDF</title>
+    <title><?php echo SITE_NAME ?> | Admin <?php if (isset($headerTitle)) {
+                                            echo "- " . $headerTitle;
+                                          } ?></title>
     <!-- Include html2pdf library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <!-- Include Bootstrap CSS -->
@@ -13,11 +15,8 @@
 <div id="content" class="container">
     <div class="logo" style="text-align: center; margin-top:20px">
         <!-- Set base URL dynamically using JavaScript -->
-        <img id="logoImage" src="" alt="" width="160px" height="100px">
+        <img id="logoImage" src="<?php echo base_url()?>/assets/dairy-1.png" alt="" width="160px" height="100px">
     </div>
-    <!-- Button to trigger PDF generation -->
-    <button onclick="generatePDF()" style="float: right;">Download PDF</button>
-
     <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div class="col-md-6">
@@ -107,34 +106,12 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Script to generate PDF -->
 <script>
-// Define the base URL dynamically using JavaScript
-var baseUrl = '<?php echo base_url(); ?>';
-
-// Set the image sources using the base URL
-document.getElementById('logoImage').src = baseUrl + 'assets/dairy-1.png';
-document.getElementById('image').src = baseUrl + 'assets/dairy-1.png';
-
-// Function to generate PDF
-function generatePDF() {
-    // Define options for PDF generation
-    const options = {
-        filename: 'document.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-
-    // Call html2pdf to convert HTML to PDF
-    html2pdf().from(document.getElementById('content')).set(options).toPdf().get('pdf').then(function(pdf) {
-        // Trigger download of PDF
-        pdf.save();
-    }).catch(function(error) {
-        // Log any errors to the console
-        console.error('Error generating PDF:', error);
-    });
-}
+  window.onload = function() {
+    window.print();
+  };
 </script>
 
 <!-- Include Popper.js and Bootstrap JS -->
