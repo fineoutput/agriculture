@@ -39,6 +39,7 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>App</th>
                       <th>Title</th>
                       <th>Image</th>
                       <th>Content</th>
@@ -49,6 +50,13 @@
                     foreach ($pushnotifications_data->result() as $data) { ?>
                       <tr>
                         <td><?php echo $i ?> </td>
+                        <?php
+                        if($data->App ==1 ){
+                          $App = "Vendor";
+                        }else{
+                          $App = "Farmer";
+                        } ?>
+                        <td><?php echo $App ?> </td>
                         <td><?php echo $data->title ?></td>
                         <td>
                           <?php if ($data->image != "") { ?>

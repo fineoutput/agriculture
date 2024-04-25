@@ -87,6 +87,7 @@ class Pushnotifications extends CI_finecontrol
                         }
                         $data_insert = array(
                             'title' => $title,
+                            'App' => $App,
                             'image' => $nnnn0,
                             'content' => $content,
                             'ip' => $ip,
