@@ -37,6 +37,7 @@
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>Vendor name</th>
                       <th>Image</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -47,6 +48,13 @@
                     foreach ($vendorslider_data->result() as $data) { ?>
                       <tr>
                         <td><?php echo $i ?> </td>
+                        <?php 
+                         $this->db->select('*');
+                         $this->db->from('tbl_vendor');
+                         $this->db->where('id',$data->vendor_id);
+                         $vandor = $this->db->get()->row();
+                        ?>
+                        <td><?php echo $vandor->name ?> </td>
                         <td>
                           <?php if ($data->image1 != "") {  ?>
                             <img id="slide_img_path" height="70" width="120" src="<?php echo base_url() . $data->image1 ?>" onclick="openFullImage(this.src)">
