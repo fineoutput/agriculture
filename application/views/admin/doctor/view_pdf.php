@@ -36,81 +36,52 @@
             <br><br><br>
             <div class="row">
                 <div class="container">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>S no.</th>
-                                <th>TItle</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $i = 1;
+                    <div class="row">
+                        <?php $i = 1;
 
-                            $this->db->select('*');
-                            $this->db->from('tbl_farmers');
-                            $this->db->where('id', $data->farmer_id);
-                            $farmer_data = $this->db->get()->row();
-                            $this->db->select('*');
-                            $this->db->from('tbl_doctor');
-                            $this->db->where('id', $data->doctor_id);
-                            $doctor_data = $this->db->get()->row();
-                            ?>
-                            <tr>
-                                <td>1</td>
-                                <td><b>Farmer Name</b></td>
-                                <td><?php echo $farmer_data->name  ?></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><b>Farmer number</b></td>
-                                <td><?php echo $farmer_data->phone  ?></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><b>Doctor Name</b></td>
-                                <td><?php echo $doctor_data->name  ?></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><b>Doctor Number</b></td>
-                                <td><?php echo $doctor_data->phone  ?></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><b>Reason</b></td>
-                                <td><?php echo $data->reason  ?></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td><b>Fees</b></td>
-                                <td><?php echo $data->fees  ?></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td><b>Description</b></td>
-                                <td><?php echo $data->description  ?></td>
-                            </tr>
-                        </tbody>
-                    </table><br><br>
+                        $this->db->select('*');
+                        $this->db->from('tbl_farmers');
+                        $this->db->where('id', $data->farmer_id);
+                        $farmer_data = $this->db->get()->row();
+                        $this->db->select('*');
+                        $this->db->from('tbl_doctor');
+                        $this->db->where('id', $data->doctor_id);
+                        $doctor_data = $this->db->get()->row();
+                        ?>
+                        <div class="col-sm-6"><span class="font-weight-bold "></span><br>
+                            <span class="seller_details"><b>Farmer Name: </b><?php echo $farmer_data->name  ?> <br>
+                                <b>Farmer Number: </b> <?php echo $farmer_data->phone  ?> <br>
+                        </div>
+                        <div class="col-sm-6" style="text-align: right;"><span class="font-weight-bold "></span><br>
+                            <span class="seller_details">
+                                <b>Doctor Name: </b><?php echo $doctor_data->name  ?> <br><b>Doctor Number: </b><?php echo $doctor_data->phone  ?><br><b>Fees: </b><?php echo $data->fees  ?></span>
+                        </div>
+                    </div><br><br>
+                    <h6>Query</h6>
+                    <div class="col-sm-6" style="max-width: 300px; border: 1px solid #000; padding: 10px;">
+                        <span class="font-weight-bold"></span>
+                        <span class="seller_details"><b>Reason: </b><?php echo $data->reason  ?><br>
+                            <b>Description: </b><?php echo $data->description  ?><br>
+                    </div>
+
                     <div class="images" style="text-align: center;">
-                    <h5>Images</h5><br>
+                        <h5>Images</h5><br>
                         <?php if ($data->image1 != "") {  ?>
                             <a href="<?php echo base_url() . $data->image1 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image1" height=150 width=150 src="<?php echo base_url() . $data->image1 ?>"></a>
-                        <?php }  ?>&nbsp;&nbsp;
-                        <?php if ($data->image2 != "") {  ?>
-                            <a href="<?php echo base_url() . $data->image2 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image2" height=150 width=150 src="<?php echo base_url() . $data->image2 ?>"></a>
-                        <?php }  ?>&nbsp;&nbsp;
-                        <?php if ($data->image3 != "") {  ?>
-                            <a href="<?php echo base_url() . $data->image3 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=150 width=150 src="<?php echo base_url() . $data->image3 ?>"></a>
-                        <?php }  ?>&nbsp;&nbsp;
-                        <?php if ($data->image4 != "") {  ?>
-                            <a href="<?php echo base_url() . $data->image4 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=150 width=150 src="<?php echo base_url() . $data->image4 ?>"></a>
-                        <?php }  ?>&nbsp;&nbsp;
-                        <?php if ($data->image5 != "") {  ?>
-                            <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=150 width=150 src="<?php echo base_url() . $data->image5 ?>"></a>
-                        <?php }  ?>
-                        </div><br><br><br><br>
+                            <?php }  ?>&nbsp;&nbsp;
+                            <?php if ($data->image2 != "") {  ?>
+                                <a href="<?php echo base_url() . $data->image2 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image2" height=150 width=150 src="<?php echo base_url() . $data->image2 ?>"></a>
+                                <?php }  ?>&nbsp;&nbsp;
+                                <?php if ($data->image3 != "") {  ?>
+                                    <a href="<?php echo base_url() . $data->image3 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image3" height=150 width=150 src="<?php echo base_url() . $data->image3 ?>"></a>
+                                    <?php }  ?>&nbsp;&nbsp;
+                                    <?php if ($data->image4 != "") {  ?>
+                                        <a href="<?php echo base_url() . $data->image4 ?>" target="_blank" rel="noopener noreferrer"> <img style="border:solid #008000 1px;padding: 5px;" id="image4" height=150 width=150 src="<?php echo base_url() . $data->image4 ?>"></a>
+                                        <?php }  ?>&nbsp;&nbsp;
+                                        <?php if ($data->image5 != "") {  ?>
+                                            <a href="<?php echo base_url() . $data->image5 ?>" target="_blank" rel="noopener noreferrer"><img style="border:solid #008000 1px;padding: 5px;" id="image5" height=150 width=150 src="<?php echo base_url() . $data->image5 ?>"></a>
+                                        <?php }  ?>
+                    </div><br><br><br><br>
                 </div>
             </div>
 
