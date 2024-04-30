@@ -495,6 +495,7 @@ class FarmerController extends CI_Controller
                     'total' => $total,
                     'charges' => $charges,
                     'final' => $total + $charges,
+                    'is_cod' => $farmer_data[0]->cod,
                 );
                 $res = array(
                     'message' => "Success!",

@@ -46,6 +46,7 @@
                       <th>No. of Animals</th>
                       <th>Phone</th>
                       <th>Status</th>
+                      <th>COD</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -88,6 +89,9 @@
                           <?php } else { ?>
                             <p class="label bg-yellow">Blocked</p>
                           <?php    }   ?>
+                        </td>
+                        <td>
+                          <input type="checkbox" class="mycheckbox" id="myCheckbox" data-id="<?php echo $data->id ?>"  name="checkbox" <?php echo ($data->cod == 1) ? 'checked' : ''; ?>>
                         </td>
                         <td>
                           <div class="btn-group" id="btns<?php echo $i ?>">
@@ -158,7 +162,7 @@
       buttons: [{
           extend: 'copyHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8,] //number of columns, excluding # column
+            columns: [1, 2, 3, 4, 5, 6, 7, 8, ] //number of columns, excluding # column
           }
         },
         {
@@ -200,4 +204,41 @@
       $("#cnfbox" + i).hide();
     })
   });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Check if the checkbox exists and bind the change event
+        if ($('.mycheckbox').length) {
+            $('.mycheckbox').on('change', function(){
+                // Check if the checkbox is checked
+                var isChecked = $(this).prop('checked');
+
+                // Get the value of data-id attribute
+                var userId = $(this).data('id'); 
+
+                alert('successfully update');
+
+                // Your AJAX call
+                var data = {
+                    userId: userId,
+                    isChecked: isChecked
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<?php echo base_url('dcadmin/Farmers/store_cod_data'); ?>',
+                    data: data,
+                    success: function(response){
+                        console.log(response); // Handle the response from the server
+                    },
+                    error: function(xhr, status, error){
+                        console.error(xhr.responseText); // Log any errors
+                    }
+                });
+            });
+        } else {
+            console.error('Checkbox element not found.');
+        }
+    });
 </script>

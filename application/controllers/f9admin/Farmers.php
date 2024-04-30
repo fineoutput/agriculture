@@ -394,20 +394,20 @@ class Farmers extends CI_finecontrol
 
                 $start_date = $para['start_date'];
                 $end_date = $para['end_date'];
-              
+
 
                 $this->db->select('DISTINCT(entry_id)');
                 $this->db->from('tbl_daily_records');
-              
-                $this->db->where('record_date BETWEEN "'. date('Y-m-d', strtotime($start_date)). '" and "'. date('Y-m-d', strtotime($end_date)).'"');
+
+                $this->db->where('record_date BETWEEN "' . date('Y-m-d', strtotime($start_date)) . '" and "' . date('Y-m-d', strtotime($end_date)) . '"');
 
 
-             
+
                 $this->db->where('farmer_id', $id);
                 $this->db->where('entry_id !=', 0);
 
-              
-              $data['data_daily_records'] = $this->db->get();
+
+                $data['data_daily_records'] = $this->db->get();
             } else {
                 $this->db->select('DISTINCT(entry_id)');
                 $this->db->from('tbl_daily_records');
@@ -566,6 +566,34 @@ class Farmers extends CI_finecontrol
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
+        }
+    }
+
+    //----------------------------- cod store--------------
+
+    public function store_cod_data()
+    {
+        // Check if it's an AJAX request
+        if ($this->input->is_ajax_request()) {
+
+
+            $user_id =  $this->input->post('userId');
+            $is_chacked = $this->input->post('isChecked');
+
+            if ($is_chacked == "false") {
+                $data_update = array(
+                    'cod' => 0,
+                );
+            } else {
+                $data_update = array(
+                    'cod' => 1,
+                );
+            }
+            $this->db->where('id', $user_id);
+            $zapak = $this->db->update('tbl_farmers', $data_update);
+        } else {
+            // If it's not an AJAX request, show an error or redirect
+            show_error('Invalid request', 400);
         }
     }
 }
