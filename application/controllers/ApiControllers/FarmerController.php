@@ -551,117 +551,331 @@ class FarmerController extends CI_Controller
                     $district = $this->input->post('district');
                     $pincode = $this->input->post('pincode');
                     $phone = $this->input->post('phone');
+                    $cod = $this->input->post('cod');
                     $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
                     $success = base_url() . 'ApiControllers/FarmerController/payment_success';
                     $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
                     if (!empty($CartData)) {
-                        foreach ($CartData as $cart) {
-                            $is_admin = $cart->is_admin;
-                            if ($cart->is_admin == 1) {
-                                //---admin products ----
-                                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
-                            } else {
-                                //---vendor products ----
-                                $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
-                            }
-                            $ProData = $ProData[0];
-                            $vendor_id =  $ProData->added_by;
-                            if (!empty($ProData)) {
-                                //----- Check Inventory  --------
-                                if ($ProData->inventory < $cart->qty) {
-                                    $res = array(
-                                        'message' => $ProData->name . ' is out of stock. Please remove this from cart!',
-                                        'status' => 201
-                                    );
-                                    echo json_encode($res);
-                                    die();
+                        if ($cod == 0) {
+                            foreach ($CartData as $cart) {
+                                $is_admin = $cart->is_admin;
+                                if ($cart->is_admin == 1) {
+                                    //---admin products ----
+                                    $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                } else {
+                                    //---vendor products ----
+                                    $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
                                 }
-                                //---- check mini qty ---
-                                if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
-                                    $res = array(
-                                        'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
-                                        'status' => 201,
-                                        'data' => []
-                                    );
-                                    echo json_encode($res);
-                                    return;
+                                $ProData = $ProData[0];
+                                $vendor_id =  $ProData->added_by;
+                                if (!empty($ProData)) {
+                                    //----- Check Inventory  --------
+                                    if ($ProData->inventory < $cart->qty) {
+                                        $res = array(
+                                            'message' => $ProData->name . ' is out of stock. Please remove this from cart!',
+                                            'status' => 201
+                                        );
+                                        echo json_encode($res);
+                                        die();
+                                    }
+                                    //---- check mini qty ---
+                                    if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
+                                        $res = array(
+                                            'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
+                                            'status' => 201,
+                                            'data' => []
+                                        );
+                                        echo json_encode($res);
+                                        return;
+                                    }
                                 }
                             }
-                        }
-                        $txn_id = mt_rand(999999, 999999999999);
-                        $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
-                        $data_update = array(
-                            'txn_id' => $txn_id,
-                            'name' => $name,
-                            'address' => $address,
-                            'city' => $city,
-                            'state' => $state_da[0]->state_name,
-                            'district' => $district,
-                            'pincode' => $pincode,
-                            'phone' => $phone,
-                            'gateway' => 'CC Avenue',
-                        );
-                        $this->db->where('id', $order_id);
-                        $this->db->update('tbl_order1', $data_update);
-                        $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
-                        $post = array(
-                            'txn_id' => $txn_id,
-                            'merchant_id' => MERCHAND_ID,
-                            'order_id' => $order_id,
-                            'amount' => $order1_data[0]->final_amount,
-                            'currency' => "INR",
-                            'redirect_url' => $success,
-                            'cancel_url' => $fail,
-                            'billing_name' => $name,
-                            'billing_address' => $address,
-                            'billing_city' => $city,
-                            'billing_state' => $state_da[0]->state_name,
-                            'billing_zip' => $pincode,
-                            'billing_country' => 'India',
-                            'billing_tel' => $phone,
-                            'billing_email' => '',
-                            'merchant_param1' => 'Order Payment',
-                        );
-                        $merchant_data = '';
-                        $working_key = WORKING_KEY; //Shared by CCAVENUES
-                        $access_code = ACCESS_CODE; //Shared by CCAVENUES
-                        foreach ($post as $key => $value) {
-                            $merchant_data .= $key . '=' . $value . '&';
-                        }
-                        $length = strlen(md5($working_key));
-                        $binString = "";
-                        $count = 0;
-                        while ($count < $length) {
-                            $subString = substr(md5($working_key), $count, 2);
-                            $packedString = pack("H*", $subString);
-                            if ($count == 0) {
-                                $binString = $packedString;
-                            } else {
-                                $binString .= $packedString;
+                            $txn_id = mt_rand(999999, 999999999999);
+                            $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
+                            $data_update = array(
+                                'txn_id' => $txn_id,
+                                'name' => $name,
+                                'address' => $address,
+                                'city' => $city,
+                                'state' => $state_da[0]->state_name,
+                                'district' => $district,
+                                'pincode' => $pincode,
+                                'phone' => $phone,
+                                'gateway' => 'CC Avenue',
+                            );
+                            $this->db->where('id', $order_id);
+                            $this->db->update('tbl_order1', $data_update);
+                            $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                            $post = array(
+                                'txn_id' => $txn_id,
+                                'merchant_id' => MERCHAND_ID,
+                                'order_id' => $order_id,
+                                'amount' => $order1_data[0]->final_amount,
+                                'currency' => "INR",
+                                'redirect_url' => $success,
+                                'cancel_url' => $fail,
+                                'billing_name' => $name,
+                                'billing_address' => $address,
+                                'billing_city' => $city,
+                                'billing_state' => $state_da[0]->state_name,
+                                'billing_zip' => $pincode,
+                                'billing_country' => 'India',
+                                'billing_tel' => $phone,
+                                'billing_email' => '',
+                                'merchant_param1' => 'Order Payment',
+                            );
+                            $merchant_data = '';
+                            $working_key = WORKING_KEY; //Shared by CCAVENUES
+                            $access_code = ACCESS_CODE; //Shared by CCAVENUES
+                            foreach ($post as $key => $value) {
+                                $merchant_data .= $key . '=' . $value . '&';
                             }
-                            $count += 2;
+                            $length = strlen(md5($working_key));
+                            $binString = "";
+                            $count = 0;
+                            while ($count < $length) {
+                                $subString = substr(md5($working_key), $count, 2);
+                                $packedString = pack("H*", $subString);
+                                if ($count == 0) {
+                                    $binString = $packedString;
+                                } else {
+                                    $binString .= $packedString;
+                                }
+                                $count += 2;
+                            }
+                            $key = $binString;
+                            $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
+                            $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
+                            $encrypted_data = bin2hex($openMode);
+                            $send = array(
+                                'order_id' => $order_id,
+                                'access_code' => $access_code,
+                                'redirect_url' => $success,
+                                'cancel_url' => $fail,
+                                'enc_val' => $encrypted_data,
+                                'plain' => $merchant_data,
+                                'merchant_param1' => 'Order Payment',
+                            );
+                            $res = array(
+                                'message' => "Success!",
+                                'status' => 200,
+                                'data' => $send,
+                            );
+                            echo json_encode($res);
+                        } else {
+
+                            foreach ($CartData as $cart) {
+                                if ($cart->is_admin == 1) {
+                                   
+                                    //---admin products ----
+                                    $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                } else {
+                                    
+                                    //---vendor products ----
+                                    $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                }
+                                $ProData = $ProData[0];
+                                $vendor_id =  $ProData->added_by;
+                                if (!empty($ProData)) {
+                                    
+                                    //----- Check Inventory  --------
+                                    if ($ProData->inventory < $cart->qty) {
+                                      
+                                        $res = array(
+                                            'message' => $ProData->name . ' is out of stock. Please remove this from cart!',
+                                            'status' => 201
+                                        );
+                                        echo json_encode($res);
+                                        die();
+                                    }
+                                    //---- check mini qty ---
+                                    if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
+                                        
+                                        $res = array(
+                                            'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
+                                            'status' => 201,
+                                            'data' => []
+                                        );
+                                        echo json_encode($res);
+                                        return;
+                                    }
+                                }
+                            }
+                            $state_da = $this->db->get_where('all_states', array('id' => $state))->result();
+                            $data_update = array(
+                                'name' => $name,
+                                'address' => $address,
+                                'city' => $city,
+                                'state' => $state_da[0]->state_name,
+                                'district' => $district,
+                                'pincode' => $pincode,
+                                'phone' => $phone,
+                            );
+                            
+                            $this->db->where('id', $order_id);
+                            $this->db->update('tbl_order1', $data_update);
+                            $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                            $this->db->select('*');
+                            $this->db->from('tbl_order1');
+                            $this->db->where('payment_status', 0);
+                            $this->db->where('id', $order_id);
+                            $order_data = $this->db->get()->row();
+                            
+                            if (!empty($order_data)) {
+                               
+                                //---- start calculate invoice number ----
+                                $now = date('y');
+                                $next = date('y', strtotime('+1 year'));
+                                $order1 = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('payment_status' => 1, 'invoice_year' => $now . '-' . $next))->result();
+                                
+                                if (empty($order1)) {
+                                    $invoice_year = $now . '-' . $next;
+                                    $invoice_no = 1;
+                                } else {
+                                    $invoice_year = $now . '-' . $next;
+                                    $invoice_no = $order1[0]->invoice_no + 1;
+                                }
+                                $data_update = array(
+                                    'payment_status' => 1,
+                                    'order_status' => 1,
+                                    'invoice_year' => $invoice_year,
+                                    'invoice_no' => $invoice_no,
+                                );
+                                $this->db->where('id', $order_id);
+                                $this->db->update('tbl_order1', $data_update);
+                                $order1_data = $this->db->get_where('tbl_order1', array('id' => $order_id))->result();
+                                $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $order_id))->result();
+                               
+                                
+                                //------- order2 entry -----------
+                                foreach ($order2_data as $cart) {
+                                    if ($order1_data[0]->is_admin == 1) {
+                                       
+                                        //---admin products ----
+                                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                    } else {
+                                        //---vendor products ----
+                                        $ProData = $this->db->get_where('tbl_products', array('is_active' => 1, 'id' => $cart->product_id))->result();
+                                    }
+                                    $ProData = $ProData[0];
+                                    $new_inventory = $ProData->inventory - $cart->qty;
+                                    //--------- create inventory transaction -------
+                                    $inv_txn = array(
+                                        'order_id' => $order_id,
+                                        'at_time' => $ProData->inventory,
+                                        'less_inventory' => $cart->qty,
+                                        'updated_inventory' => $new_inventory,
+                                        'date' => $cur_date,
+                                    );
+                                    $idd = $this->base_model->insert_table("tbl_inventory_txn", $inv_txn, 1);
+                                    //------ Update inventory --------------------
+                                    $data_update = array('inventory' => $new_inventory,);
+                                    $this->db->where('id', $ProData->id);
+                                    $zapak = $this->db->update('tbl_products', $data_update);
+                                }
+                                //--- Delete Cart -----------
+                                $this->db->delete('tbl_cart', array('farmer_id' => $order1_data[0]->farmer_id));
+                                if ($order1_data[0]->is_admin == 0) {
+                                    $vendor_data = $this->db->get_where('tbl_vendor', array('id' => $order1_data[0]->vendor_id))->result();
+                                    //------ create amount txn in the table -------------
+                                    if (!empty($vendor_data[0]->comission)) {
+                                        $amt = $order1_data[0]->total_amount * $vendor_data[0]->comission / 100;
+                                        $data2 = array(
+                                            'req_id' => $order_id,
+                                            'vendor_id' => $order1_data[0]->vendor_id,
+                                            'cr' =>  $order1_data[0]->total_amount - $amt,
+                                            'date' => $cur_date
+                                        );
+                                        $last_id2 = $this->base_model->insert_table("tbl_payment_txn", $data2, 1);
+                                        //------ update vendor account ------
+                                        $data_update = array(
+                                            'account' => $vendor_data[0]->account + $order1_data[0]->total_amount - $amt,
+                                        );
+                                        $this->db->where('id', $order1_data[0]->vendor_id);
+                                        $zapak = $this->db->update('tbl_vendor', $data_update);
+                                    }
+                                    //------ send notification to vendor -----
+                                    if (!empty($vendor_data[0]->fcm_token)) {
+                                        // echo $user_device_tokens->device_token;
+                                        //success notification code
+                                        $url = 'https://fcm.googleapis.com/fcm/send';
+                                        $title = "New Order";
+                                        $message = "New order #" . $order_id . "  received with the  amount of  ₹" . $order1_data[0]->final_amount;
+                                        $msg2 = array(
+                                            'title' => $title,
+                                            'body' => $message,
+                                            "sound" => "default"
+                                        );
+                                        $fields = array(
+                                            // 'to'=>"/topics/all",
+                                            'to' => $vendor_data[0]->fcm_token,
+                                            'notification' => $msg2,
+                                            'priority' => 'high'
+                                        );
+                                        $fields = json_encode($fields);
+                                        $headers = array(
+                                            'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
+                                            'Content-Type: application/json'
+                                        );
+                                        $ch = curl_init();
+                                        curl_setopt($ch, CURLOPT_URL, $url);
+                                        curl_setopt($ch, CURLOPT_POST, true);
+                                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                                        $result = curl_exec($ch);
+                                        // echo $fields;
+                                        // echo $result;
+                                        curl_close($ch);
+                                        //End success notification code
+                                        $data_insert = array(
+                                            'vendor_id' => $order1_data[0]->vendor_id,
+                                            'name' => $title,
+                                            'dsc' => $message,
+                                            'date' => $cur_date
+                                        );
+                                        $last_id = $this->base_model->insert_table("tbl_vendor_notification", $data_insert, 1);
+                                    }
+                                } else {
+                                  
+                                    //--- send email to admin -----------------
+                                    $config = array(
+                                        'protocol' => 'SMTP',
+                                        'smtp_host' => SMTP_HOST,
+                                        'smtp_port' => SMTP_PORT,
+                                        'smtp_user' => USER_NAME, // change it to yours
+                                        'smtp_pass' => PASSWORD, // change it to yours
+                                        'mailtype' => 'html',
+                                        'charset' => 'iso-8859-1',
+                                        'wordwrap' => true
+                                    );
+                                    $message2 = '
+                        Hello Admin<br/><br/>
+                        You have received new Order and below are the details<br/><br/>
+                        <b>Order ID</b> - ' . $order_id . '<br/>
+                        <b>Amount</b> - Rs.' . $order1_data[0]->final_amount . '<br/>
+                          ';
+                                    $this->load->library('email', $config);
+                                    $this->email->set_newline("");
+                                    $this->email->from(EMAIL); // change it to yours
+                                    $this->email->to(TO, 'Dairy Muneem'); // change it to yours
+                                    $this->email->subject('New Order received');
+                                    $this->email->message($message2);
+                                    if ($this->email->send()) {
+                                    } else {
+                                    }
+                                    $order1_data = $order1_data[0];
+                                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data->user_id))->row();
+                                    //---------- send whatsapp order msg to admin -----
+                                    $this->send_whatsapp_msg_admin($order1_data, $user_data);
+                                }
+                                echo 'Success';
+                                exit;
+                            }
                         }
-                        $key = $binString;
-                        $initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
-                        $openMode = openssl_encrypt($merchant_data, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $initVector);
-                        $encrypted_data = bin2hex($openMode);
-                        $send = array(
-                            'order_id' => $order_id,
-                            'access_code' => $access_code,
-                            'redirect_url' => $success,
-                            'cancel_url' => $fail,
-                            'enc_val' => $encrypted_data,
-                            'plain' => $merchant_data,
-                            'merchant_param1' => 'Order Payment',
-                        );
-                        $res = array(
-                            'message' => "Success!",
-                            'status' => 200,
-                            'data' => $send,
-                        );
-                        echo json_encode($res);
                     } else {
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
                         $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
@@ -2183,12 +2397,12 @@ class FarmerController extends CI_Controller
         curl_close($curl);
         return true;
     }
-     //======================== get farmer date ==========================
-     public function GetProfile()
+    //======================== get farmer date ==========================
+    public function GetProfile()
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,'auth' => $authentication))->result();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
             if (!empty($farmer_data[0]->image)) {
@@ -2211,8 +2425,8 @@ class FarmerController extends CI_Controller
                 'phone' => $farmer_data[0]->phone,
                 'pincode' => $farmer_data[0]->pincode,
                 'image' => $image,
-                'no_animals'=> $farmer_data[0]->no_animals,
-                'gst_no'=> $farmer_data[0]->gst_no,
+                'no_animals' => $farmer_data[0]->no_animals,
+                'gst_no' => $farmer_data[0]->gst_no,
             );
             $res = array(
                 'message' => "Success!",
@@ -2291,10 +2505,10 @@ class FarmerController extends CI_Controller
                         'city' => $city,
                         'village' => $village,
                         'state' => $state,
-                       //'pincode' => $pincode,
+                        //'pincode' => $pincode,
                         //'gst_no' => $gst_no,
                         'image' => $image ? $image : $farmer_data[0]->image,
-                        
+
                     );
                     $this->db->where('id', $farmer_data[0]->id);
                     $zapak = $this->db->update('tbl_farmers', $data_update);
@@ -2325,12 +2539,12 @@ class FarmerController extends CI_Controller
             echo json_encode($res);
         }
     }
-     //======================== delete farmer account ==========================
-     public function deleteAccount()
+    //======================== delete farmer account ==========================
+    public function deleteAccount()
     {
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
-        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1,'auth' => $authentication))->row();
+        $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->row();
         if (!empty($farmer_data)) {
             $data_update = array('is_active' => 0);
             $this->db->where('id', $farmer_data->id);
