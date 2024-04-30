@@ -553,13 +553,16 @@ class FarmerController extends CI_Controller
                     $phone = $this->input->post('phone');
                     $cod = $this->input->post('cod');
                     $CartData = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->result();
+                    
 
                     date_default_timezone_set("Asia/Calcutta");
                     $cur_date = date("Y-m-d H:i:s");
                     $success = base_url() . 'ApiControllers/FarmerController/payment_success';
                     $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
                     if (!empty($CartData)) {
-                        if ($cod == 0) {
+                        if ($cod === 0) {
+                           
+                            
                             foreach ($CartData as $cart) {
                                 $is_admin = $cart->is_admin;
                                 if ($cart->is_admin == 1) {
@@ -877,6 +880,7 @@ class FarmerController extends CI_Controller
                             }
                         }
                     } else {
+                       
                         $this->db->delete('tbl_cart', array('farmer_id' => $farmer_data[0]->id));
                         $count = $this->db->get_where('tbl_cart', array('farmer_id' => $farmer_data[0]->id))->num_rows();
                         $res = array(
