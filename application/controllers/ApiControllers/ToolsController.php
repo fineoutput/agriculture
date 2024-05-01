@@ -569,7 +569,8 @@ class ToolsController extends CI_Controller
                             'percent' => $percent,
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
-                            'offer' => $pro->offer
+                            'offer' => $pro->offer,
+                            'is_cod' => $pro->cod
                         );
                         $hi_data[] = array(
                             'pro_id' => $pro->id,
@@ -584,7 +585,8 @@ class ToolsController extends CI_Controller
                             'percent' => $percent,
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
-                            'offer' => $pro->offer
+                            'offer' => $pro->offer,
+                            'is_cod' => $pro->cod
                         );
                         $pn_data[] = array(
                             'pro_id' => $pro->id,
@@ -599,7 +601,8 @@ class ToolsController extends CI_Controller
                             'percent' => $percent,
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
-                            'offer' => $pro->offer
+                            'offer' => $pro->offer,
+                            'is_cod' => $pro->cod
                         );
                     }
                     $data = array(

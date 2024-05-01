@@ -155,6 +155,8 @@ class FarmerController extends CI_Controller
                                 'vendor_id' => $ProData->added_by,
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
+                                'product_cod'=>$ProData->cod,
+                               
                             );
                         } else if ($lang == "hi") {
                             $data[] = array(
@@ -172,6 +174,8 @@ class FarmerController extends CI_Controller
                                 'vendor_id' => $ProData->added_by,
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
+                                'product_cod'=>$ProData->cod,
+                                
                             );
                         } else if ($lang == "pn") {
                             $data[] = array(
@@ -189,6 +193,8 @@ class FarmerController extends CI_Controller
                                 'vendor_id' => $ProData->added_by,
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
+                                'product_cod'=>$ProData->cod,
+                                
                             );
                         }
                     } else {
@@ -205,6 +211,7 @@ class FarmerController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
+                    'is_cod' => $farmer_data[0]->cod,
                     'count' => $count,
                     'total' => $total
                 );
@@ -419,7 +426,7 @@ class FarmerController extends CI_Controller
                         //----- Check Inventory  --------
                         if ($ProData->inventory < $cart->qty) {
                             $res = array(
-                                'message' => $ProData->name . ' is out of stock. Please remove this from cart!',
+                                'message' => $ProData->name_english . ' is out of stock. Please remove this from cart!',
                                 'status' => 201
                             );
                             echo json_encode($res);
@@ -428,7 +435,7 @@ class FarmerController extends CI_Controller
                         //---- check mini qty ---
                         if ($ProData->min_qty && $cart->qty < $ProData->min_qty) {
                             $res = array(
-                                'message' =>  $ProData->name . " minimum quantity should be " . $ProData->min_qty,
+                                'message' =>  $ProData->name_english . " minimum quantity should be " . $ProData->min_qty,
                                 'status' => 201,
                                 'data' => []
                             );
@@ -495,7 +502,6 @@ class FarmerController extends CI_Controller
                     'total' => $total,
                     'charges' => $charges,
                     'final' => $total + $charges,
-                    'is_cod' => $farmer_data[0]->cod,
                 );
                 $res = array(
                     'message' => "Success!",
@@ -560,8 +566,7 @@ class FarmerController extends CI_Controller
                     $success = base_url() . 'ApiControllers/FarmerController/payment_success';
                     $fail = base_url() . 'ApiControllers/FarmerController/payment_failed';
                     if (!empty($CartData)) {
-                        if ($cod === 0) {
-                           
+                        if ($cod == 0) {
                             
                             foreach ($CartData as $cart) {
                                 $is_admin = $cart->is_admin;

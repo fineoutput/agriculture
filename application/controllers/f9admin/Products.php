@@ -341,4 +341,29 @@ class Products extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
+    public function product_cod_data()
+    {
+        // Check if it's an AJAX request
+        if ($this->input->is_ajax_request()) {
+
+
+            $user_id =  $this->input->post('userId');
+            $is_chacked = $this->input->post('isChecked');
+
+            if ($is_chacked == "false") {
+                $data_update = array(
+                    'cod' => 0,
+                );
+            } else {
+                $data_update = array(
+                    'cod' => 1,
+                );
+            }
+            $this->db->where('id', $user_id);
+            $zapak = $this->db->update('tbl_products', $data_update);
+        } else {
+            // If it's not an AJAX request, show an error or redirect
+            show_error('Invalid request', 400);
+        }
+    }
 }
