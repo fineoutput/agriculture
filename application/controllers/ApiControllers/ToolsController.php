@@ -570,7 +570,7 @@ class ToolsController extends CI_Controller
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
                             'offer' => $pro->offer,
-                            'is_cod' => $pro->cod
+                            'product_cod' => $pro->cod
                         );
                         $hi_data[] = array(
                             'pro_id' => $pro->id,
@@ -586,7 +586,7 @@ class ToolsController extends CI_Controller
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
                             'offer' => $pro->offer,
-                            'is_cod' => $pro->cod
+                            'product_cod' => $pro->cod
                         );
                         $pn_data[] = array(
                             'pro_id' => $pro->id,
@@ -602,7 +602,7 @@ class ToolsController extends CI_Controller
                             'vendor_id' => $pro->added_by,
                             'is_admin' => $pro->is_admin,
                             'offer' => $pro->offer,
-                            'is_cod' => $pro->cod
+                            'product_cod' => $pro->cod
                         );
                     }
                     $data = array(
@@ -614,6 +614,7 @@ class ToolsController extends CI_Controller
                         'message' => "Success!",
                         'status' => 200,
                         'data' => $data,
+                        'is_cod' => $farmer_data[0]->cod,
                         'pagination' => $pagination,
                         'last' => $pages,
                     );
