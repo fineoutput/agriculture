@@ -882,8 +882,16 @@ class FarmerController extends CI_Controller
                                     //---------- send whatsapp order msg to admin -----
                                     $this->send_whatsapp_msg_admin($order1_data, $user_data);
                                 }
-                                echo 'Success';
-                                exit;
+                                $send = array(
+                                    'order_id' => $order_id,
+                                    'final_amount'=>$order1_data[0]->final_amount
+                                );
+                                $res = array(
+                                    'message' => "Success",
+                                    'status' => 200,
+                                    'data' => $send,
+                                );
+                                echo json_encode($res);
                             }
                         }
                     } else {
