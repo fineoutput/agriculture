@@ -508,6 +508,9 @@ class HomeController extends CI_Controller
                         'vendor_id' => $pro->added_by,
                         'is_admin' => $pro->is_admin,
                         'offer' => $pro->offer,
+                        'offer' => $pro->offer,
+                        'product_cod' => $pro->cod,
+                        'is_cod' => $farmer_data[0]->cod,
                     );
                 } elseif ($language == 'hi') {
                     $product_data[] = array(
@@ -523,6 +526,8 @@ class HomeController extends CI_Controller
                         'vendor_id' => $pro->added_by,
                         'is_admin' => $pro->is_admin,
                         'offer' => $pro->offer,
+                        'product_cod' => $pro->cod,
+                        'is_cod' => $farmer_data[0]->cod,
                     );
                 } else {
                     $product_data[] = array(
@@ -538,6 +543,8 @@ class HomeController extends CI_Controller
                         'vendor_id' => $pro->added_by,
                         'is_admin' => $pro->is_admin,
                         'offer' => $pro->offer,
+                        'product_cod' => $pro->cod,
+                        'is_cod' => $farmer_data[0]->cod,
                     );
                 }
             }

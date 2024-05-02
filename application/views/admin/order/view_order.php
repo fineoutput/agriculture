@@ -55,6 +55,7 @@
                       <th>Sub Total</th>
                       <th>Admin Earning</th>
                       <th>Date</th>
+                      <th>Payment Type</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -92,6 +93,12 @@
                           echo $newdate->format('F j, Y, g:i a');   #d-m-Y  // March 10, 2001, 5:16 pm
                           ?>
                         </td>
+                        <td><?php if ($data->payment_status == 1) { ?>
+                            <p class="label bg-green">Online</p>
+                          <? } else if ($data->payment_status == 2){ ?>
+                            <p class="label bg-orange">COD</p>
+                         <? } ?>
+                        </td>
                         <td><?php if ($data->order_status == 1) { ?>
                             <p class="label bg-yellow">Pending</p>
                           <? } elseif ($data->order_status == 2) { ?>
@@ -109,6 +116,7 @@
                             }
                           ?>
                         </td>
+                        
                         <td>
                           <div class="btn-group" id="btns<?php echo $i ?>">
                             <div class="btn-group">
