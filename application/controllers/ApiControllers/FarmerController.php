@@ -156,6 +156,7 @@ class FarmerController extends CI_Controller
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
                                 'product_cod'=>$ProData->cod,
+                                'is_cod' => $farmer_data[0]->cod,
                                
                             );
                         } else if ($lang == "hi") {
@@ -175,6 +176,7 @@ class FarmerController extends CI_Controller
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
                                 'product_cod'=>$ProData->cod,
+                                'is_cod' => $farmer_data[0]->cod,
                                 
                             );
                         } else if ($lang == "pn") {
@@ -194,6 +196,7 @@ class FarmerController extends CI_Controller
                                 'is_admin' => $cart->is_admin,
                                 'qty' => $cart->qty,
                                 'product_cod'=>$ProData->cod,
+                                'is_cod' => $farmer_data[0]->cod,
                                 
                             );
                         }
@@ -211,7 +214,6 @@ class FarmerController extends CI_Controller
                     'message' => "Success!",
                     'status' => 200,
                     'data' => $data,
-                    'is_cod' => $farmer_data[0]->cod,
                     'count' => $count,
                     'total' => $total
                 );
