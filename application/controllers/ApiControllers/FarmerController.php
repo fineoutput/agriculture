@@ -878,7 +878,7 @@ class FarmerController extends CI_Controller
                                     } else {
                                     }
                                     $order1_data = $order1_data[0];
-                                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data[0]->user_id))->row();
+                                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data[0]->farmer_id))->row();
                                     //---------- send whatsapp order msg to admin -----
                                     $this->send_whatsapp_msg_admin($order1_data, $user_data);
                                 }
@@ -2392,12 +2392,12 @@ class FarmerController extends CI_Controller
     {
 
         $userName = $user_data->name;
-        $payment_type = $orderData->paymnet_type == 1 ? 'Cash On Delivery' : "Online Paymnet";
+        $payment_type = 'Cash On Delivery/Online Paymnet';
         $other_details = "NA";
-        $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $orderData->id))->result();
+        $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $orderData[0]->id))->result();
         $products_details = '';
         foreach ($order2_data as $order2) {
-            $products_details = $products_details . '&product name=' . $$order2->product_name_en .  '*'   .  $order2->qty;
+            $products_details = $products_details . '&product name=' . $order2->product_name_en .  '*'   .  $order2->qty;
         }
         //---- sending whatspp msg to admin -------
         $curl = curl_init();
