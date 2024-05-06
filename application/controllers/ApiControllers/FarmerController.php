@@ -877,7 +877,7 @@ class FarmerController extends CI_Controller
                                     if ($this->email->send()) {
                                     } else {
                                     }
-                                    $order1_data = $order1_data[0];
+                                    
                                     $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data[0]->farmer_id))->row();
                                     //---------- send whatsapp order msg to admin -----
                                     $this->send_whatsapp_msg_admin($order1_data, $user_data);
