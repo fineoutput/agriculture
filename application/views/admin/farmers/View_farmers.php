@@ -33,7 +33,7 @@
             <? } ?>
             <div class="panel-body">
               <div class="box-body table-responsive no-padding">
-                <table class="table table-bordered table-hover table-striped" id="orderTable">
+                <table class="table table-bordered table-hover table-striped" id="dataTable">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -149,7 +149,7 @@
   //     'copy', 'csv', 'excel', 'pdf', 'print'
   // ]
   $(document).ready(function() {
-    $('#orderTable').DataTable({
+    $('#dataTable').DataTable({
       responsive: true,
       "bStateSave": true,
       "fnStateSave": function(oSettings, oData) {
@@ -162,7 +162,7 @@
       buttons: [{
           extend: 'copyHtml5',
           exportOptions: {
-            columns: [1, 2, 3, 4, 5, 6, 7, 8, ] //number of columns, excluding # column
+            columns: [1, 2, 3, 4, 5, 6, 7, 8] //number of columns, excluding # column
           }
         },
         {
@@ -205,7 +205,6 @@
     })
   });
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
         // Check if the checkbox exists and bind the change event
