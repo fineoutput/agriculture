@@ -877,8 +877,8 @@ class FarmerController extends CI_Controller
                                     if ($this->email->send()) {
                                     } else {
                                     }
-                                    $order1_data = $order1_data[0];
-                                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data[0]->user_id))->row();
+                                    
+                                    $user_data = $this->db->get_where('tbl_farmers', array('id' => $order1_data[0]->farmer_id))->row();
                                     //---------- send whatsapp order msg to admin -----
                                     $this->send_whatsapp_msg_admin($order1_data, $user_data);
                                 }
@@ -1863,7 +1863,12 @@ class FarmerController extends CI_Controller
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         //----- Verify Auth --------
         if (!empty($farmer_data)) {
-            $orderData = $this->db->order_by('id', 'desc')->get_where('tbl_order1', array('farmer_id' => $farmer_data[0]->id, 'payment_status' => 1))->result();
+            $orderData = $this->db
+            ->order_by('id', 'desc')
+            ->where('farmer_id', $farmer_data[0]->id)
+            ->where_in('payment_status', array(1, 2)) // Specify payment_status values 1 or 2
+            ->get('tbl_order1')
+            ->result();
             $data = [];
             $total = 0;
             if (!empty($orderData)) {
@@ -2388,12 +2393,12 @@ class FarmerController extends CI_Controller
     {
 
         $userName = $user_data->name;
-        $payment_type = $orderData->paymnet_type == 1 ? 'Cash On Delivery' : "Online Paymnet";
+        $payment_type = 'Cash On Delivery/Online Paymnet';
         $other_details = "NA";
-        $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $orderData->id))->result();
+        $order2_data = $this->db->get_where('tbl_order2', array('main_id' => $orderData[0]->id))->result();
         $products_details = '';
         foreach ($order2_data as $order2) {
-            $products_details = $products_details . '&product name=' . $$order2->product_name_en .  '*'   .  $order2->qty;
+            $products_details = $products_details . '&product name=' . $order2->product_name_en .  '*'   .  $order2->qty;
         }
         //---- sending whatspp msg to admin -------
         $curl = curl_init();
@@ -2406,7 +2411,7 @@ class FarmerController extends CI_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'phone=' . WHATSAPP_NUMBER . '&order_id=' . $orderData->id . '&amount=' . $orderData->final_amount . '&date=' . $orderData->date . '&method=' . $payment_type . '&products=' . $products_details . '&customer_name=' . $userName . '&others=' . $other_details .  '',
+            CURLOPT_POSTFIELDS => 'phone=' . WHATSAPP_NUMBER . '&order_id=' . $orderData[0]->id . '&amount=' . $orderData[0]->final_amount . '&date=' . $orderData[0]->date . '&method=' . $payment_type . '&products=' . $products_details . '&customer_name=' . $userName . '&others=' . $other_details .  '',
             CURLOPT_HTTPHEADER => array(
                 'token:' . TOKEN . '',
                 'Content-Type:application/x-www-form-urlencoded',

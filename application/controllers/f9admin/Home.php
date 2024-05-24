@@ -93,37 +93,31 @@ class Home extends CI_finecontrol
             $data['today'] = $today;
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
             $this->db->where('is_admin', 1);
             $this->db->where('order_status', 2); //accepted orders
+            $this->db->where_in('payment_status', array(1, 2));
             $data['accepted_orders'] = $this->db->count_all_results();
 
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
             $this->db->where('is_admin', 1);
             $this->db->where('order_status', 3); //dispatched orders
+            $this->db->where_in('payment_status', array(1, 2));
             $data['dispatched_orders'] = $this->db->count_all_results();
 
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
             $this->db->where('is_admin', 1);
             $this->db->where('order_status', 4); //delivered orders
+            $this->db->where_in('payment_status', array(1, 2));
             $data['delivered_orders'] = $this->db->count_all_results();
 
-
-            $this->db->select('*');
-            $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
-            $this->db->where('is_admin', 1);
-            $this->db->where('order_status', 4); //delivered orders
-            $data['delivered_orders'] = $this->db->count_all_results();
 
             $this->db->select_sum('final_amount');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
             $this->db->where('is_admin', 1);
+            $this->db->where('order_status!=', 6);
+            $this->db->where_in('payment_status', array(1, 2));
             $query = $this->db->get();
             $data['total_earning'] = $query->row()->final_amount;
 

@@ -61,7 +61,7 @@ class Admin_orders extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 2); //accepted orders
             $this->db->where('is_admin', 1); //admin orders
@@ -82,7 +82,7 @@ class Admin_orders extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->order_by('id', 'desc');
             $this->db->where('is_admin', 1); //admin orders
             $this->db->where('order_status', 3); //dispatched_orders
@@ -103,7 +103,7 @@ class Admin_orders extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 4); //delievered orders
             $this->db->where('is_admin', 1); //admin orders
@@ -125,7 +125,7 @@ class Admin_orders extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->order_by('id', 'desc');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->where('order_status > ', 4); //cancelled orders
             $this->db->where('is_admin', 1); //admin orders
             $data['order1_data'] = $this->db->get();
@@ -144,7 +144,7 @@ class Admin_orders extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 6); //rejected orders
             $this->db->where('is_admin', 1); //admin orders
