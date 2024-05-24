@@ -1,11 +1,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      All Expert Doctors
+      All Normel Doctors
     </h1>
     <ol class="breadcrumb">
       <li><a href="<?php echo base_url() ?>dcadmin/Home"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">View Expert Doctors</li>
+      <li class="active">View Normel Doctors</li>
     </ol>
   </section>
   <section class="content">
@@ -14,7 +14,7 @@
         <!-- <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/doctor/add_doctor" role="button" style="margin-bottom:12px;"> Add Doctor</a> -->
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-users"></i>View Expert Doctors</h3>
+            <h3 class="panel-title"><i class="fa fa-users"></i>View Normel Doctors</h3>
           </div>
           <div class="panel panel-default">
             <? if (!empty($this->session->flashdata('smessage'))) { ?>

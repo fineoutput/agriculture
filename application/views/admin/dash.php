@@ -18,7 +18,7 @@
     <!-- Info boxes -->
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="<? echo base_url() ?>dcadmin/Doctor/accepted_doctors">
+        <a href="<? echo base_url() ?>dcadmin/Doctor/normel_doctors">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="	fa fa-user-md"></i></span>
             <div class="info-box-content">
@@ -85,6 +85,28 @@
             <div class="info-box-content">
               <span class="info-box-text">Vendor Products</span>
               <span class="info-box-number"><?= $vendor_product ?></span>
+            </div><!-- /.info-box-content -->
+          </div><!-- /.info-box -->
+        </a>
+      </div><!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <a href="<? echo base_url() ?>dcadmin/Doctor/new_doctors">
+          <div class="info-box">
+            <span class="info-box-icon bg-blue"><i class="fa fa-user-md"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text"> NEW DOCTOR REQUEST</span>
+              <span class="info-box-number"><?= $total_doctor_requests ?></span>
+            </div><!-- /.info-box-content -->
+          </div><!-- /.info-box -->
+        </a>
+      </div><!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <a href="<? echo base_url() ?>dcadmin/Vendor/new_vendors">
+          <div class="info-box">
+            <span class="info-box-icon bg-blue"><i class="fa fa-caret-square-o-up"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text"> NEW VENDOR REQUEST</span>
+              <span class="info-box-number"><?= $new ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
         </a>
@@ -326,7 +348,7 @@
     </div>
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">
-      <a href="<? echo base_url() ?>dcadmin/Doctor/accepted_doctors">
+      <a href="<? echo base_url() ?>dcadmin/Doctor/total_doctors">
         <div class="info-box">
           <span class="info-box-icon bg-black"><i class="bi bi-diamond-half"></i></span>
           <div class="info-box-content">
@@ -337,7 +359,7 @@
       </a>
       </div><!-- /.col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="<? echo base_url() ?>dcadmin/Doctor/accepted_doctors">
+        <a href="<? echo base_url() ?>dcadmin/Vendor/accepted_vendors">
           <div class="info-box">
             <span class="info-box-icon " style="background-color: #663259 !important; color: white;"><i class="bi bi-discord"></i></span>
             <div class="info-box-content">

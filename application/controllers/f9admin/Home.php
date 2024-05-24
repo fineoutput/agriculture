@@ -52,6 +52,11 @@ class Home extends CI_finecontrol
             $vendor_product = $this->db->count_all_results();
             $data['vendor_product'] = $vendor_product;
             $this->db->select('*');
+            $this->db->from('tbl_vendor');
+            $this->db->where('is_approved', 0);
+            $vendor_new = $this->db->count_all_results();
+            $data['new'] = $vendor_new;
+            $this->db->select('*');
             $this->db->from('tbl_service_records');
             $data['service_report'] = $this->db->get()->row();
 

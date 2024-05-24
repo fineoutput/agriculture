@@ -1857,6 +1857,7 @@ class FarmerController extends CI_Controller
     //============================================= GetOrders ============================================//
     public function GetOrders()
     {
+        
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();

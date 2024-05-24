@@ -35,11 +35,48 @@ class Doctor extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_doctor');
             $this->db->where('is_approved', 1);
+            $this->db->where('is_expert', 1);
             $this->db->order_by('id', 'desc');
             $data['doctor_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/doctor/view_doctor');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    public function normel_doctors()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $this->db->select('*');
+            $this->db->from('tbl_doctor');
+            $this->db->where('is_approved', 1);
+            $this->db->where('is_expert', 0);
+            $this->db->order_by('id', 'desc');
+            $data['doctor_data'] = $this->db->get();
+            $data['heading'] = "Accepted";
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/doctor/view_normel_doctor');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    public function total_doctors()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            $this->db->select('*');
+            $this->db->from('tbl_doctor');
+            $this->db->where('is_approved', 1);
+ 
+            $this->db->order_by('id', 'desc');
+            $data['doctor_data'] = $this->db->get();
+            $data['heading'] = "Accepted";
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/doctor/total_doctor');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
