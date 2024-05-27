@@ -359,7 +359,7 @@
       </a>
       </div><!-- /.col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="<? echo base_url() ?>dcadmin/Vendor/accepted_vendors">
+        <a href="<? echo base_url() ?>dcadmin/Vendor_order/completed_order">
           <div class="info-box">
             <span class="info-box-icon " style="background-color: #663259 !important; color: white;"><i class="bi bi-discord"></i></span>
             <div class="info-box-content">

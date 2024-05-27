@@ -40,7 +40,7 @@ class Doctor extends CI_finecontrol
             $data['doctor_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $this->load->view('admin/common/header_view', $data);
-            $this->load->view('admin/doctor/view_doctor');
+            $this->load->view('admin/doctor/view_expert_doctor');
             $this->load->view('admin/common/footer_view');
         } else {
             redirect("login/admin_login", "refresh");
