@@ -186,6 +186,7 @@ class Home extends CI_finecontrol
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('payment_status', 1);
+            $this->db->where('order_status', 4); //delivered orders
             $this->db->where('is_admin', 0);
             $data['total_vendor_orders'] = $this->db->count_all_results();
 
