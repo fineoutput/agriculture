@@ -1076,19 +1076,33 @@ class CI_Login
                             }
                         }
                         if ($user_data[0]->is_active == 1) {
-                            if ($type == 'vendor' || $type == 'doctor') {
-                                // if ($user_data[0]->is_approved == 0) {
-                                //     $respone['status'] = 201;
-                                //     $respone['message'] = 'Your account request is pending! Please contact to admin';
-                                //     return json_encode($respone);
-                                //     die();
-                                // } else if ($user_data[0]->is_approved == 2) {
-                                //     $respone['status'] = 201;
-                                //     $respone['message'] = 'Your account  request is rejected! Please contact to admin';
-                                //     return json_encode($respone);
-                                //     die();
-                                // }
+                            if ($type == 'doctor') {
+                                if ($user_data[0]->is_approved == 0) {
+                                    $respone['status'] = 201;
+                                    $respone['message'] = 'Your account request is pending! Please contact to admin';
+                                    return json_encode($respone);
+                                    die();
+                                } else if ($user_data[0]->is_approved == 2) {
+                                    $respone['status'] = 201;
+                                    $respone['message'] = 'Your account  request is rejected! Please contact to admin';
+                                    return json_encode($respone);
+                                    die();
+                                }
                             }
+                            // changes for vendor aproval not required
+                            // if ($type == 'vendor' || $type == 'doctor') {
+                            //     if ($user_data[0]->is_approved == 0) {
+                            //         $respone['status'] = 201;
+                            //         $respone['message'] = 'Your account request is pending! Please contact to admin';
+                            //         return json_encode($respone);
+                            //         die();
+                            //     } else if ($user_data[0]->is_approved == 2) {
+                            //         $respone['status'] = 201;
+                            //         $respone['message'] = 'Your account  request is rejected! Please contact to admin';
+                            //         return json_encode($respone);
+                            //         die();
+                            //     }
+                            // }
                             if ($type == 'doctor') {
                                 $data = array(
                                     'name' => $user_data[0]->name,
