@@ -1,6 +1,6 @@
 <?php
 
-if (! defined('BASEPATH')) {
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 class Login extends CI_Controller
@@ -31,40 +31,40 @@ class Login extends CI_Controller
             $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
             $this->form_validation->set_rules('password', 'password Number', 'required|xss_clean|trim');
             // $this->form_validation->set_rules('college_type', 'University Type', 'required');
-            if ($this->form_validation->run()== true) {
-                $email=$this->input->post('email');
-                $passw=$this->input->post('password');
-                $pass=md5($passw);
+            if ($this->form_validation->run() == true) {
+                $email = $this->input->post('email');
+                $passw = $this->input->post('password');
+                $pass = md5($passw);
                 $this->db->select('*');
                 $this->db->from('tbl_team');
                 $this->db->where('email', $email);
                 // $this->db->where('password',$pass);
-                $da_teacher= $this->db->get();
-                $da=$da_teacher->row();
+                $da_teacher = $this->db->get();
+                $da = $da_teacher->row();
                 if (!empty($da)) {
-                    if ($da->is_active==1) {
-                        $nnn1=$da->name;
-                        $nnn2=$da->password;
+                    if ($da->is_active == 1) {
+                        $nnn1 = $da->name;
+                        $nnn2 = $da->password;
 
 
 
-                        if ($nnn2==$pass) {
-                            $nnn3=$da->image;
-                            $nnn4=$da->power;
-                            $nnn5=$da->services;
-                            $nnn6=$da->id;
+                        if ($nnn2 == $pass) {
+                            $nnn3 = $da->image;
+                            $nnn4 = $da->power;
+                            $nnn5 = $da->services;
+                            $nnn6 = $da->id;
 
 
 
 
-                            if ($nnn4==1) {
-                                $pos="Super Admin";
+                            if ($nnn4 == 1) {
+                                $pos = "Super Admin";
                             }
-                            if ($nnn4==2) {
-                                $pos="Admin";
+                            if ($nnn4 == 2) {
+                                $pos = "Admin";
                             }
-                            if ($nnn4==3) {
-                                $pos="Manager";
+                            if ($nnn4 == 3) {
+                                $pos = "Manager";
                             }
 
 
@@ -76,7 +76,7 @@ class Login extends CI_Controller
                             $this->session->set_userdata('position', $pos);
                             $this->session->set_userdata('admin_id', $nnn6);
 
-                            redirect(ADMIN_URL."/home", "refresh");
+                            redirect(ADMIN_URL . "/home", "refresh");
                         } else {
                             $this->session->set_flashdata('emessage', 'wrong password');
                             // redirect("auth/login","refresh");
@@ -89,7 +89,7 @@ class Login extends CI_Controller
                     }
                 } else {
 
-                                                    //echo $pass;
+                    //echo $pass;
                     $this->session->set_flashdata('emessage', 'Wrong Details Entered');
                     redirect($_SERVER['HTTP_REFERER']);
                 }
@@ -112,29 +112,29 @@ class Login extends CI_Controller
             $this->form_validation->set_rules('email_rst', 'email', 'required|valid email|xss_clean');
 
             // $this->form_validation->set_rules('college_type', 'University Type', 'required');
-            if ($this->form_validation->run()== true) {
-                $email=$this->input->post('email_rst');
+            if ($this->form_validation->run() == true) {
+                $email = $this->input->post('email_rst');
 
                 echo "Update Server Mail ids in panel";
                 exit;
 
                 $config = array(
-                      'protocol' => 'smtp',
-                      'smtp_host' => 'ssl://smtp.googlemail.com',
-                      'smtp_port' => 465,
-                      'smtp_user' => 'xxx@gmail.com', // change it to yours
-                      'smtp_pass' => 'xxx', // change it to yours
-                      'mailtype' => 'html',
-                      'charset' => 'iso-8859-1',
-                      'wordwrap' => true
-                    );
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'xxx@gmail.com', // change it to yours
+                    'smtp_pass' => 'xxx', // change it to yours
+                    'mailtype' => 'html',
+                    'charset' => 'iso-8859-1',
+                    'wordwrap' => true
+                );
 
                 $message = '';
                 $this->load->library('email', $config);
                 $this->email->set_newline("\r\n");
                 $this->email->from('xxx@gmail.com'); // change it to yours
-                          $this->email->to('xxx@gmail.com');// change it to yours
-                          $this->email->subject('Resume from JobsBuddy for your Job posting');
+                $this->email->to('xxx@gmail.com'); // change it to yours
+                $this->email->subject('Resume from JobsBuddy for your Job posting');
                 $this->email->message($message);
                 if ($this->email->send()) {
                     echo 'Email sent.';
@@ -174,7 +174,7 @@ class Login extends CI_Controller
 
 
 
-        // $this->load->view('login/admin/index');
+            // $this->load->view('login/admin/index');
         } else {
             $this->load->view('admin/login/index');
         }

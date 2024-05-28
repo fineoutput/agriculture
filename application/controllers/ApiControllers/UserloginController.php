@@ -373,7 +373,7 @@ class UserloginController extends CI_Controller
               echo json_encode($respone);
           }
       }
-      //================================== USER LOGIN OTP VERIFY =======================================//
+      //================================= USER LOGIN OTP VERIFY ======================================//
       public function login_otp_verify()
       {
           $this->load->helper(array('form', 'url'));
