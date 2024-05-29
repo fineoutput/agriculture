@@ -650,6 +650,34 @@ class ToolsController extends CI_Controller
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
         return (round($miles * 1.609344, 2));
+        // Ensure latitude and longitude values are in valid ranges
+        // if (
+        //     $lat1 < -90 || $lat1 > 90 || $lon1 < -180 || $lon1 > 180 ||
+        //     $lat2 < -90 || $lat2 > 90 || $lon2 < -180 || $lon2 > 180
+        // ) {
+        //     return "Invalid latitude or longitude values.";
+        // }
+
+        // // Convert latitude and longitude values from degrees to radians
+        // $lat1 = deg2rad($lat1);
+        // $lon1 = deg2rad($lon1);
+        // $lat2 = deg2rad($lat2);
+        // $lon2 = deg2rad($lon2);
+
+        // // Calculate the difference in longitude
+        // $dLon = $lon2 - $lon1;
+
+        // // Calculate the distance using the Haversine formula
+        // $dist = 2 * asin(sqrt(pow(sin(($lat2 - $lat1) / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($dLon / 2), 2)));
+
+        // // Earth's radius in kilometers
+        // $radius = 6371;
+
+        // // Calculate the distance in kilometers
+        // $distance = $dist * $radius;
+
+        // // Round the distance to 2 decimal places
+        // return round($distance, 2);
     }
     //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
@@ -674,12 +702,24 @@ class ToolsController extends CI_Controller
                     $hi_data = [];
                     $pn_data = [];
                     foreach ($DoctorData as $doctor) {
-                        if (!empty($doctor->latitude) && !empty($doctor->latitude)) {
+                        if (!empty($doctor->latitude) && !empty($doctor->longitude)) {
 
+                            // echo $latitude.' '.$longitude.' ' .$doctor->latitude.' '.$doctor->longitude;
+                            // exit();
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
-                            // echo $km;
+
+                            //     $earth_radius_km = 6371; // Earth's average radius in kilometers
+                            //     $angular_distance = $km / $earth_radius_km;
+                            // // in radians
+
+
+
                             // echo "<br>";
-                            if ($km <= $radius) {
+                            if ($km <= $radius && $radius >= $km) {
+
+                                // echo ("kilo meter = " . $km);
+                                // echo ("Radius = " . $radius);
+                                // exit();
                                 // if (true) {
                                 if (!empty($doctor->image)) {
                                     $image = base_url() . $doctor->image;
@@ -1677,41 +1717,45 @@ class ToolsController extends CI_Controller
                     $hi_data = [];
                     $pn_data = [];
                     foreach ($vendorData as $vendor) {
-                        $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
-                        // echo $km;
-                        // echo "<br>";
-                        if ($km <= $radius) {
-                            $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
-                            $en_data[] = array(
-                                'vendor_id' => $vendor->id,
-                                'name' => $vendor->name,
-                                'shop_name' => $vendor->shop_name,
-                                'address' => $vendor->address,
-                                'district' => $vendor->district,
-                                'city' => $vendor->city,
-                                'state' => $state_data[0]->state_name,
-                                'pincode' => $vendor->pincode,
-                            );
-                            $hi_data[] = array(
-                                'vendor_id' => $vendor->id,
-                                'name' => $vendor->hi_name,
-                                'shop_name' => $vendor->shop_hi_name,
-                                'address' => $vendor->hi_address,
-                                'district' => $vendor->hi_district,
-                                'city' => $vendor->hi_city,
-                                'state' => $state_data[0]->state_name,
-                                'pincode' => $vendor->pincode,
-                            );
-                            $pn_data[] = array(
-                                'vendor_id' => $vendor->id,
-                                'name' => $vendor->pn_name,
-                                'shop_name' => $vendor->shop_pn_name,
-                                'address' => $vendor->pn_address,
-                                'district' => $vendor->pn_district,
-                                'city' => $vendor->pn_city,
-                                'state' => $state_data[0]->state_name,
-                                'pincode' => $vendor->pincode,
-                            );
+                        if ((!empty($vendor->latitude) && !empty($vendor->longitude))) {
+
+
+                            $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
+                            // echo $km;
+                            // echo "<br>";
+                            if ($km <= $radius) {
+                                $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
+                                $en_data[] = array(
+                                    'vendor_id' => $vendor->id,
+                                    'name' => $vendor->name,
+                                    'shop_name' => $vendor->shop_name,
+                                    'address' => $vendor->address,
+                                    'district' => $vendor->district,
+                                    'city' => $vendor->city,
+                                    'state' => $state_data[0]->state_name,
+                                    'pincode' => $vendor->pincode,
+                                );
+                                $hi_data[] = array(
+                                    'vendor_id' => $vendor->id,
+                                    'name' => $vendor->hi_name,
+                                    'shop_name' => $vendor->shop_hi_name,
+                                    'address' => $vendor->hi_address,
+                                    'district' => $vendor->hi_district,
+                                    'city' => $vendor->hi_city,
+                                    'state' => $state_data[0]->state_name,
+                                    'pincode' => $vendor->pincode,
+                                );
+                                $pn_data[] = array(
+                                    'vendor_id' => $vendor->id,
+                                    'name' => $vendor->pn_name,
+                                    'shop_name' => $vendor->shop_pn_name,
+                                    'address' => $vendor->pn_address,
+                                    'district' => $vendor->pn_district,
+                                    'city' => $vendor->pn_city,
+                                    'state' => $state_data[0]->state_name,
+                                    'pincode' => $vendor->pincode,
+                                );
+                            }
                         }
                     }
                     $data = array(
