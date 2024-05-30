@@ -644,40 +644,25 @@ class ToolsController extends CI_Controller
     //------ Distance calculator ---------
     function distance($lat1, $lon1, $lat2, $lon2)
     {
-        $theta = $lon1 - $lon2;
-        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
-        return (round($miles * 1.609344, 2));
-        // Ensure latitude and longitude values are in valid ranges
-        // if (
-        //     $lat1 < -90 || $lat1 > 90 || $lon1 < -180 || $lon1 > 180 ||
-        //     $lat2 < -90 || $lat2 > 90 || $lon2 < -180 || $lon2 > 180
-        // ) {
-        //     return "Invalid latitude or longitude values.";
-        // }
+        //ordignal method
+        // $theta = $lon1 - $lon2;
+        // $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        // $dist = acos($dist);
+        // $dist = rad2deg($dist);
+        // $miles = $dist * 60 * 1.1515;
+        // return (round($miles * 1.609344, 2));
+        $latFrom = deg2rad($lat1);
+        $lonFrom = deg2rad($lon1);
+        $latTo = deg2rad($lat2);
+        $lonTo = deg2rad($lon2);
 
-        // // Convert latitude and longitude values from degrees to radians
-        // $lat1 = deg2rad($lat1);
-        // $lon1 = deg2rad($lon1);
-        // $lat2 = deg2rad($lat2);
-        // $lon2 = deg2rad($lon2);
+        // Calculate the distance using Haversine formula
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+        $distance = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        return $distance * 6371000;
 
-        // // Calculate the difference in longitude
-        // $dLon = $lon2 - $lon1;
-
-        // // Calculate the distance using the Haversine formula
-        // $dist = 2 * asin(sqrt(pow(sin(($lat2 - $lat1) / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($dLon / 2), 2)));
-
-        // // Earth's radius in kilometers
-        // $radius = 6371;
-
-        // // Calculate the distance in kilometers
-        // $distance = $dist * $radius;
-
-        // // Round the distance to 2 decimal places
-        // return round($distance, 2);
+         
     }
     //====================================================== DOCTOR ON CALL================================================//
     public function doctor_on_call()
@@ -708,6 +693,9 @@ class ToolsController extends CI_Controller
                             // exit();
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
 
+                            $distance = $km / 1000;
+
+
                             //     $earth_radius_km = 6371; // Earth's average radius in kilometers
                             //     $angular_distance = $km / $earth_radius_km;
                             // // in radians
@@ -715,7 +703,7 @@ class ToolsController extends CI_Controller
 
 
                             // echo "<br>";
-                            if ($km <= $radius && $radius >= $km) {
+                            if ($distance <= $radius) {
 
                                 // echo ("kilo meter = " . $km);
                                 // echo ("Radius = " . $radius);
@@ -734,7 +722,8 @@ class ToolsController extends CI_Controller
                                     'expertise' => $doctor->expertise,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
-                                    'image' => $image
+                                    'image' => $image,
+                                    'km' => $distance
                                 );
                                 $hi_data[] = array(
                                     'id' => $doctor->id,
@@ -744,7 +733,8 @@ class ToolsController extends CI_Controller
                                     'expertise' => $doctor->expertise,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
-                                    'image' => $image
+                                    'image' => $image,
+                                    'km' => $distance
                                 );
                                 $pn_data[] = array(
                                     'id' => $doctor->id,
@@ -754,9 +744,15 @@ class ToolsController extends CI_Controller
                                     'qualification' => $doctor->qualification,
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
-                                    'image' => $image
+                                    'image' => $image,
+                                    'km' => $distance
                                 );
                             }
+                            // else
+                            // {
+                            //    break;
+
+                            // }
                         }
                         $data = array(
                             'en' => $en_data,
@@ -1721,9 +1717,14 @@ class ToolsController extends CI_Controller
 
 
                             $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
+                            $distance = $km / 1000;
+                            
                             // echo $km;
-                            // echo "<br>";
-                            if ($km <= $radius) {
+                            // exit();
+                            echo "<br>";
+                            if ($distance <= $radius) {
+                                // echo 'Kilo meter = ' .$km. ' Radius = '.$radius;
+                                // exit();
                                 $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
                                 $en_data[] = array(
                                     'vendor_id' => $vendor->id,
@@ -1734,6 +1735,7 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
+                                    'km' => $distance,
                                 );
                                 $hi_data[] = array(
                                     'vendor_id' => $vendor->id,
@@ -1744,6 +1746,7 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->hi_city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
+                                    'km' => $distance,
                                 );
                                 $pn_data[] = array(
                                     'vendor_id' => $vendor->id,
@@ -1754,8 +1757,15 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->pn_city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
+                                    'km' => $distance,
                                 );
+                                // echo('here is not data');
+                                // exit();
                             }
+                            // else
+                            // {
+                               
+                            // }
                         }
                     }
                     $data = array(
