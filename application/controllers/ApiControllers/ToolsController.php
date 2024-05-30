@@ -703,7 +703,7 @@ class ToolsController extends CI_Controller
 
 
                             // echo "<br>";
-                            if ($distance <= $radius && $radius <= 40) {
+                            if ($distance <= $radius && $radius != 40) {
 
                                 // echo ("kilo meter = " . $km);
                                 // echo ("Radius = " . $radius);
@@ -1722,7 +1722,7 @@ class ToolsController extends CI_Controller
                             // echo $km;
                             // exit();
                             echo "<br>";
-                            if ($distance <= $radius && $radius <= 60) {
+                            if ($distance <= $radius && $radius != 60) {
                                 // echo 'Kilo meter = ' .$km. ' Radius = '.$radius;
                                 // exit();
                                 $state_data = $this->db->get_where('all_states', array('id' =>  $vendor->state))->result();
