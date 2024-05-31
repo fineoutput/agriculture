@@ -794,6 +794,16 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             $response = curl_exec($curl);
             curl_close($curl);
             //--- send email to admin -----------------
+            $this->db->select('*');
+$this->db->from('all_states');
+$this->db->where('id',$temp_data[0]->state);
+$dsa= $this->db->get()->row();
+if(!empty($dsa)){
+$nn221 = $dsa->state_name;
+}
+else{
+    $nn221 = ""; 
+}
             $config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => SMTP_HOST,
@@ -811,7 +821,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             <b>Doctor Name</b> - ' . $temp_data[0]->name . '<br/>
             <b>District</b> - ' . $temp_data[0]->district . '<br/>
             <b>City</b> - ' . $temp_data[0]->city . '<br/>
-            <b>State</b> - ' . $temp_data[0]->state . '<br/>
+            <b>State</b> - ' . $nn221 . '<br/>
             <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
             <b>Email</b> - ' . $temp_data[0]->email . '<br/>
             <b>Type</b> - ' . $temp_data[0]->type . '<br/>
@@ -901,6 +911,16 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             $response = curl_exec($curl);
             curl_close($curl);
             //--- send email to admin -----------------
+            $this->db->select('*');
+$this->db->from('all_states');
+$this->db->where('id',$temp_data[0]->state);
+$dsa= $this->db->get()->row();
+if(!empty($dsa)){
+$nn221 = $dsa->state_name;
+}
+else{
+    $nn221 = ""; 
+}
             $config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => SMTP_HOST,
@@ -920,7 +940,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             <b>Address</b> - ' . $temp_data[0]->address . '<br/>
             <b>District</b> - ' . $temp_data[0]->district . '<br/>
             <b>City</b> - ' . $temp_data[0]->city . '<br/>
-            <b>State</b> - ' . $temp_data[0]->state . '<br/>
+            <b>State</b> - ' . $nn221 . '<br/>
             <b>Phone</b> - ' . $temp_data[0]->phone . '<br/>
             <b>Email</b> - ' . $temp_data[0]->email . '<br/>
             <b>Type</b> - ' . $temp_data[0]->type . '<br/>
