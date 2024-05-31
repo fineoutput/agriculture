@@ -794,10 +794,10 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             $response = curl_exec($curl);
             curl_close($curl);
             //--- send email to admin -----------------
-            $this->db->select('*');
-$this->db->from('all_states');
-$this->db->where('id',$temp_data[0]->state);
-$dsa= $this->db->get()->row();
+            $this->CI->db->select('*');
+$this->CI->db->from('all_states');
+$this->CI->db->where('id',$temp_data[0]->state);
+$dsa= $this->CI->db->get()->row();
 if(!empty($dsa)){
 $nn221 = $dsa->state_name;
 }
