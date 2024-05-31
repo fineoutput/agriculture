@@ -841,8 +841,8 @@ else{
             //Send Whatsapp Message to Admin 
             $form_type = "Registration Request of Doctor";
             $url_type = "RegisterDoctor";
-            $full_name = $temp_data[0]->name;
-            $details = 'District - ' . $temp_data[0]->district . ', City - ' . $temp_data[0]->city . ',Phone - ' . $temp_data[0]->phone . ',Type - ' . $temp_data[0]->type . ',Degree - ' . $temp_data[0]->degree . ',Experience - ' . $temp_data[0]->experience . '';
+            $full_name = 'Dairy Muneem';
+            $details = 'Name - ' . $temp_data[0]->name . ',District - ' . $temp_data[0]->district . ', City - ' . $temp_data[0]->city . ',Phone - ' . $temp_data[0]->phone . ',Type - ' . $temp_data[0]->type . ',Degree - ' . $temp_data[0]->degree . ',Experience - ' . $temp_data[0]->experience . '';
             $this->send_whatsapp_msg_admin($details,$full_name,$form_type,$url_type);
             $respone['status'] = 200;
             $respone['message'] = 'Successfully Registered!';
@@ -911,10 +911,10 @@ else{
             $response = curl_exec($curl);
             curl_close($curl);
             //--- send email to admin -----------------
-            $this->db->select('*');
-$this->db->from('all_states');
-$this->db->where('id',$temp_data[0]->state);
-$dsa= $this->db->get()->row();
+            $this->CI->db->select('*');
+$this->CI->db->from('all_states');
+$this->CI->db->where('id',$temp_data[0]->state);
+$dsa= $this->CI->db->get()->row();
 if(!empty($dsa)){
 $nn221 = $dsa->state_name;
 }
@@ -957,6 +957,12 @@ else{
             if ($this->CI->email->send()) {
             } else {
             }
+             //Send Whatsapp Message to Admin 
+             $form_type = "Registration Request of Vendor";
+             $url_type = "RegisterVendor";
+             $full_name = 'Dairy Muneem';
+             $details = 'Name - ' . $temp_data[0]->name . ',District - ' . $temp_data[0]->district . ', City - ' . $temp_data[0]->city . ',Phone - ' . $temp_data[0]->phone . ',Type - ' . $temp_data[0]->type . ',Degree - ' . $temp_data[0]->degree . ',Experience - ' . $temp_data[0]->experience . '';
+             $this->send_whatsapp_msg_admin($details,$full_name,$form_type,$url_type);
             $respone['status'] = 200;
             $respone['message'] = 'Successfully Registered!';
             $respone['data'] = $data;
