@@ -1720,7 +1720,7 @@ class ToolsController extends CI_Controller
                             
                             // echo $km;
                             // exit();
-                            echo "<br>";
+                            // echo "<br>";
                             if ($distance <= $radius && $radius <= 60) {
                                 // echo 'Kilo meter = ' .$km. ' Radius = '.$radius;
                                 // exit();
