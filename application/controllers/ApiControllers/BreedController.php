@@ -467,7 +467,7 @@ class BreedController extends CI_Controller
           $animal_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $tag_no))->result();
           if (empty($animal_data)) {
             //---check subscription ----
-            if ($animal_type == 'Milking' || $animal_type == 'Bull' || $animal_type == 'Heifer' || $animal_type == 'Calf' ) {
+            if ($animal_type == 'Milking') {
               date_default_timezone_set("Asia/Calcutta");
               $today = date("Y-m-d");
               //   $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
