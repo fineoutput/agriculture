@@ -315,6 +315,8 @@ class BreedController extends CI_Controller
   //================= view Breeding Record -----------------------------
   public function ViewBreedingRecord()
   {
+    // echo('here');
+    // exit();
     $headers = apache_request_headers();
     $authentication = $headers['Authentication'];
     $page_index = $headers['Index'];
@@ -387,13 +389,23 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     }
   }
+  // public function check()
+  // {
+  //    echo'hello rg';
+  //    exit();
+  // }
   //====================================================== MY ANIMAL================================================//
   public function my_animal()
   {
+    // echo 'data is comming';
+    // exit(); 
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
     $this->load->helper('security');
     if ($this->input->post()) {
+
+      //  echo('here');
+      //  exit();
       $headers = apache_request_headers();
       $authentication = $headers['Authentication'];
       $this->form_validation->set_rules('animal_type', 'animal_type', 'required|xss_clean|trim');
@@ -455,7 +467,7 @@ class BreedController extends CI_Controller
           $animal_data = $this->db->get_where('tbl_my_animal', array('farmer_id' => $farmer_data[0]->id, 'tag_no' => $tag_no))->result();
           if (empty($animal_data)) {
             //---check subscription ----
-            if ($animal_type == 'Milking') {
+            if ($animal_type == 'Milking' || $animal_type == 'Bull' || $animal_type == 'Heifer' || $animal_type == 'Calf' ) {
               date_default_timezone_set("Asia/Calcutta");
               $today = date("Y-m-d");
               //   $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
