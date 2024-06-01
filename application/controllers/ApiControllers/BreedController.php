@@ -345,11 +345,11 @@ class BreedController extends CI_Controller
           $group = '';
         }
         if ($breed->farm_bull == 'Yes') {
-          $bull_data = $this->db->get_where('tbl_my_animal', array( 'tag_no' => $breed->tag_no))->result();
-          $bull_name=$bull_data?$bull_data[0]->animal_name:'';
+          $bull_data = $this->db->get_where('tbl_my_animal', array('tag_no' => $breed->tag_no))->result();
+          $bull_name = $bull_data ? $bull_data[0]->animal_name : '';
         } else {
-          $bull_data = $this->db->get_where('tbl_canister', array( 'id' => $breed->semen_bull_id))->result();
-          $bull_name=$bull_data?$bull_data[0]->bull_name:'';
+          $bull_data = $this->db->get_where('tbl_canister', array('id' => $breed->semen_bull_id))->result();
+          $bull_name = $bull_data ? $bull_data[0]->bull_name : '';
         }
         $newdate = new DateTime($breed->date);
         $data[] = array(
@@ -458,94 +458,95 @@ class BreedController extends CI_Controller
             if ($animal_type == 'Milking') {
               date_default_timezone_set("Asia/Calcutta");
               $today = date("Y-m-d");
-            //   $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
-            //   if (!empty($Subscribed)) {
-            //     if ($Subscribed[0]->animals == $Subscribed[0]->used_animal) {
-            //       $res = array(
-            //         'message' => 'Your milking animal registering limit is reached for current subscription plan!',
-            //         'status' => 201
-            //       );
-            //       echo json_encode($res);
-            //       die();
-            //     }
-            //   } else {
-            //     $res = array(
-            //       'message' => 'Please buy a subscription plan for registering a milking animal!',
-            //       'status' => 201
-            //     );
-            //     echo json_encode($res);
-            //     die();
-            //   }
-            // }
-            $data = array(
-              'farmer_id' => $farmer_data[0]->id,
-              'animal_type' => $animal_type,
-              'assign_to_group' => $assign_to_group,
-              'animal_name' => $animal_name,
-              'tag_no' => $tag_no,
-              'dob' => $dob,
-              'father_name' => $father_name,
-              'mother_name' => $mother_name,
-              'weight' => $weight,
-              'age' => $age,
-              'breed_type' => $breed_type,
-              'semen_brand' => $semen_brand,
-              'insemination_date' => $insemination_date,
-              'pregnancy_test_date' => $pregnancy_test_date,
-              'animal_gender' => $animal_gender,
-              'is_inseminated' => $is_inseminated,
-              'insemination_type' => $insemination_type,
-              'is_pregnant' => $is_pregnant,
-              'service_status' => $service_status,
-              'in_house' => $in_house,
-              'lactation' => $lactation,
-              'calving_date' => $calving_date,
-              'insured_value' => $insured_value,
-              'insurance_no' => $insurance_no,
-              'renewal_period' => $renewal_period,
-              'insurance_date' => $insurance_date,
-              'date' => $cur_date
-            );
-            $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
-            //--- update subscription table----
-            // if (!empty($Subscribed)) {
-            //   $data_update = array('used_animal' => $Subscribed[0]->used_animal + 1,);
-            //   $this->db->where('id', $Subscribed[0]->id);
-            //   $zapak = $this->db->update('tbl_subscription_buy', $data_update);
-            // }
-            $res = array(
-              'message' => "Animal Successfully Registered!",
-              'status' => 200,
-            );
-            echo json_encode($res);
+              //   $Subscribed = $this->db->order_by('id', 'desc')->get_where('tbl_subscription_buy', array('farmer_id' => $farmer_data[0]->id, 'expiry_date >=' => $today))->result();
+              //   if (!empty($Subscribed)) {
+              //     if ($Subscribed[0]->animals == $Subscribed[0]->used_animal) {
+              //       $res = array(
+              //         'message' => 'Your milking animal registering limit is reached for current subscription plan!',
+              //         'status' => 201
+              //       );
+              //       echo json_encode($res);
+              //       die();
+              //     }
+              //   } else {
+              //     $res = array(
+              //       'message' => 'Please buy a subscription plan for registering a milking animal!',
+              //       'status' => 201
+              //     );
+              //     echo json_encode($res);
+              //     die();
+              //   }
+              // }
+              $data = array(
+                'farmer_id' => $farmer_data[0]->id,
+                'animal_type' => $animal_type,
+                'assign_to_group' => $assign_to_group,
+                'animal_name' => $animal_name,
+                'tag_no' => $tag_no,
+                'dob' => $dob,
+                'father_name' => $father_name,
+                'mother_name' => $mother_name,
+                'weight' => $weight,
+                'age' => $age,
+                'breed_type' => $breed_type,
+                'semen_brand' => $semen_brand,
+                'insemination_date' => $insemination_date,
+                'pregnancy_test_date' => $pregnancy_test_date,
+                'animal_gender' => $animal_gender,
+                'is_inseminated' => $is_inseminated,
+                'insemination_type' => $insemination_type,
+                'is_pregnant' => $is_pregnant,
+                'service_status' => $service_status,
+                'in_house' => $in_house,
+                'lactation' => $lactation,
+                'calving_date' => $calving_date,
+                'insured_value' => $insured_value,
+                'insurance_no' => $insurance_no,
+                'renewal_period' => $renewal_period,
+                'insurance_date' => $insurance_date,
+                'date' => $cur_date
+              );
+              $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
+              //--- update subscription table----
+              // if (!empty($Subscribed)) {
+              //   $data_update = array('used_animal' => $Subscribed[0]->used_animal + 1,);
+              //   $this->db->where('id', $Subscribed[0]->id);
+              //   $zapak = $this->db->update('tbl_subscription_buy', $data_update);
+              // }
+              $res = array(
+                'message' => "Animal Successfully Registered!",
+                'status' => 200,
+              );
+              echo json_encode($res);
+            } else {
+              $res = array(
+                'message' => 'Tag number already exist!',
+                'status' => 201
+              );
+              echo json_encode($res);
+            }
           } else {
             $res = array(
-              'message' => 'Tag number already exist!',
+              'message' => 'Permission Denied!',
               'status' => 201
             );
             echo json_encode($res);
           }
         } else {
           $res = array(
-            'message' => 'Permission Denied!',
+            'message' => validation_errors(),
             'status' => 201
           );
           echo json_encode($res);
         }
       } else {
         $res = array(
-          'message' => validation_errors(),
+          'message' => 'Please Insert Data',
           'status' => 201
         );
         echo json_encode($res);
       }
-    } else {
-      $res = array(
-        'message' => 'Please Insert Data',
-        'status' => 201
-      );
-      echo json_encode($res);
     }
   }
-}
   //======================================================END BREEDCONTROLLER================================================//
+}
