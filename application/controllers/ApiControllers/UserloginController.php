@@ -362,6 +362,7 @@ class UserloginController extends CI_Controller
                   //------ user login send otp ----------
                   $Login = $this->login->LoginWithOtp($phone, $type);
                   echo $Login;
+                
               } else {
                   $respone['status'] = false;
                   $respone['message'] = validation_errors();
