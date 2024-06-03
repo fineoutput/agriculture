@@ -1239,9 +1239,10 @@ CURLOPT_TIMEOUT => 0,
 CURLOPT_FOLLOWLOCATION => true,
 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 CURLOPT_CUSTOMREQUEST => 'POST',
-CURLOPT_POSTFIELDS => 'customer_name='.$full_name.'&phone=' . WHATSAPP_NUMBER1 . '&form_name='.$form_type.'&details=' . $details . '&url_type='.$url_type,
+CURLOPT_POSTFIELDS => 'customer_name='.$full_name.'&phone=' . 6350618905 . '&form_name='.$form_type.'&details=' . $details . '&url_type='.$url_type,
+// CURLOPT_POSTFIELDS => 'customer_name='.$full_name.'&phone=' . WHATSAPP_NUMBER1 . '&form_name='.$form_type.'&details=' . $details . '&url_type='.$url_type,
 CURLOPT_HTTPHEADER => array(
-'token:'.TOKEN.'',
+// 'token:'.TOKEN.'',
 'Content-Type:application/x-www-form-urlencoded',
 'Cookie:ci_session=e40e757b02bc2d8fb6f5bf9c5b7bb2ea74c897e8'
 ),
