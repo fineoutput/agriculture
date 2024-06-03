@@ -866,7 +866,7 @@ else{
                 'aadhar_no' => $temp_data[0]->aadhar_no,
                 'email' => $temp_data[0]->email,
                 'auth' => $auth,
-                'is_approved' => 0,
+                'is_approved' => 1, //change 0 to 1 for no approval required on june 3rg
                 'is_active' => 1,
                 'latitude' => $temp_data[0]->latitude,
                 'longitude' => $temp_data[0]->longitude,
