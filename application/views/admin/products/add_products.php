@@ -71,7 +71,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><strong>Images</strong></td>
+                      <td><strong>Image</strong></td>
                       <td>
                         <input type="file" name="images[]" class="form-control" multiple />
                       </td>
