@@ -56,6 +56,13 @@ class Home extends CI_finecontrol
             $this->db->where('is_approved', 0);
             $vendor_new = $this->db->count_all_results();
             $data['new'] = $vendor_new;
+
+            $this->db->select('*');
+            $this->db->from('tbl_service_records_txn');
+            $this->db->where('service','weight_calculator');
+            $data['service_report_weight_calculator'] = $this->db->get()->row();
+
+
             $this->db->select('*');
             $this->db->from('tbl_service_records');
             $data['service_report'] = $this->db->get()->row();
@@ -64,33 +71,64 @@ class Home extends CI_finecontrol
 
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->where('is_admin', 1);
             $data['total_orders'] = $this->db->count_all_results();
 
+            // $this->db->select('*');
+            // $this->db->from('tbl_order1');
+            // $this->db->where('payment_status', 1);
+            // $this->db->where('order_status', 1); //new orders
+            // $this->db->where('is_admin', 1);
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', array(1, 2));
             $this->db->where('order_status', 1); //new orders
             $this->db->where('is_admin', 1);
             $data['new_orders'] = $this->db->count_all_results();
+            // $this->db->select('*');
+            // $this->db->from('tbl_order1');
+            // $this->db->where('payment_status', 1);
+            // $this->db->where('order_status', 1); //new orders
+            // $this->db->where('is_admin', 1);
+            // $todays = $this->db->get();
+            // $today = 0;
+            // foreach ($todays->result() as $td) {
+            //     date_default_timezone_set("Asia/Calcutta");
+            //     $cur_date = date("Y-m-d");
+            //     $datetime = new DateTime($td->date);
+            //     $date_only = $datetime->format("Y-m-d");
+            //     if ($cur_date == $date_only) {
+            //         $today++;
+            //     }
+            // }
+            // $data['today'] = $today;
+            //start count today orders
+
+
+            // Set the timezone to Asia/Calcutta
+            date_default_timezone_set("Asia/Calcutta");
+
+            // Get today's date in the Y-m-d format
+            $cur_date = date("Y-m-d");
+
+            // Create an SQL query with the date condition
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
-            $this->db->where('order_status', 1); //new orders
+            $this->db->where_in('payment_status', array(1, 2));
+            $this->db->where('order_status', 1); // new orders
             $this->db->where('is_admin', 1);
+            $this->db->where('DATE(date)', $cur_date); // compare with today's date
             $todays = $this->db->get();
-            $today = 0;
-            foreach ($todays->result() as $td) {
-                date_default_timezone_set("Asia/Calcutta");
-                $cur_date = date("Y-m-d");
-                $datetime = new DateTime($td->date);
-                $date_only = $datetime->format("Y-m-d");
-                if ($cur_date == $date_only) {
-                    $today++;
-                }
-            }
-            $data['today'] = $today;
+
+            // Count the number of rows returned
+            $data['today'] = $todays->num_rows();
+
+
+
+
+
+            //end count today orders 
             $this->db->select('*');
             $this->db->from('tbl_order1');
             $this->db->where('is_admin', 1);
@@ -178,10 +216,10 @@ class Home extends CI_finecontrol
             $data['total_payments_processed_to_vendor'] = $queryvq->row()->amount;
 
 
-            $this->db->select('*');
-            $this->db->from('tbl_doctor_req');
-            $this->db->where('payment_status', 1);
-            $data['total_doctor_requests'] = $this->db->count_all_results();
+             $this->db->select('*');
+            $this->db->from('tbl_doctor');
+            $this->db->where('is_approved', 0);
+             $data['total_doctor_requests'] = $this->db->count_all_results();
 
             $this->db->select('*');
             $this->db->from('tbl_order1');

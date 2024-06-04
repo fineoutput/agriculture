@@ -84,6 +84,8 @@ class Products extends CI_finecontrol
         if (!empty($this->session->userdata('admin_data'))) {
             $this->load->helper(array('form', 'url'));
             $this->load->library('form_validation');
+            $this->load->library('upload');
+
             $this->load->helper('security');
             if ($this->input->post()) {
                 // print_r($this->input->post());
@@ -126,38 +128,102 @@ class Products extends CI_finecontrol
                     $cur_date = date("Y-m-d H:i:s");
                     $addedby = $this->session->userdata('admin_id');
                     //------------------------------------image insert-----------------------------------------
-                    $this->load->library('upload');
-                    $img1 = 'image';
-                    $image = "";
-                    $file_check = ($_FILES['image']['error']);
-                    if ($file_check != 4) {
-                        $image_upload_folder = FCPATH . "assets/uploads/admin_products/";
-                        if (!file_exists($image_upload_folder)) {
-                            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                    // $this->load->library('upload');
+                    // $img1 = 'image';
+                    // $image = "";
+                    // $file_check = ($_FILES['image']['error']);
+                    // if ($file_check != 4) {
+                    //     $image_upload_folder = FCPATH . "assets/uploads/admin_products/";
+                    //     if (!file_exists($image_upload_folder)) {
+                    //         mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                    //     }
+                    //     $new_file_name = "image" . date("YmdHis");
+                    //     $this->upload_config = array(
+                    //         'upload_path'   => $image_upload_folder,
+                    //         'file_name' => $new_file_name,
+                    //         'allowed_types' => 'jpg|jpeg|png',
+                    //         'max_size'      => 25000
+                    //     );
+                    //     $this->upload->initialize($this->upload_config);
+                    //     if (!$this->upload->do_upload($img1)) {
+                    //         $upload_error = $this->upload->display_errors();
+                    //         // echo json_encode($upload_error);
+                    //         echo $upload_error;
+                    //     } else {
+                    //         $file_info = $this->upload->data();
+                    //         $image = "assets/uploads/admin_products/" . $file_info['file_name'];
+                    //         $file_info['new_name'] = $image;
+                    //         // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+                    //         $nnnn = $file_info['file_name'];
+                    //         // echo json_encode($file_info);
+                    //     }
+                    // }
+                    $images = [];
+                    $files = $_FILES['images'];
+                    $file_count = count($files['name']);
+                    
+                    for ($i = 0; $i < $file_count; $i++) {
+                        if ($files['error'][$i] != 4) { // Check if the file is actually uploaded
+                            $image_upload_folder = FCPATH . "assets/uploads/admin_products/";
+                            if (!file_exists($image_upload_folder)) {
+                                mkdir($image_upload_folder, 0755, true);
+                            }
+                
+                            $new_file_name = "image_" . date("YmdHis") . "_{$i}";
+                            $_FILES['image']['name'] = $files['name'][$i];
+                            $_FILES['image']['type'] = $files['type'][$i];
+                            $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                            $_FILES['image']['error'] = $files['error'][$i];
+                            $_FILES['image']['size'] = $files['size'][$i];
+                
+                            $this->upload_config = [
+                                'upload_path'   => $image_upload_folder,
+                                'file_name'     => $new_file_name,
+                                'allowed_types' => 'jpg|jpeg|png|gif|bmp|tiff|webp|web',
+                                'max_size'      => 2500000
+                            ];
+                
+                            $this->upload->initialize($this->upload_config);
+                
+                            if (!$this->upload->do_upload('image')) {
+                                $upload_error = $this->upload->display_errors();
+                                echo $upload_error; // Handle the error appropriately in your application
+                            } else {
+                                $file_info = $this->upload->data();
+                                $image_path = "assets/uploads/admin_products/" . $file_info['file_name'];
+                                $images[] = $image_path;
+                            }
                         }
-                        $new_file_name = "image" . date("YmdHis");
-                        $this->upload_config = array(
-                            'upload_path'   => $image_upload_folder,
-                            'file_name' => $new_file_name,
-                            'allowed_types' => 'jpg|jpeg|png',
-                            'max_size'      => 25000
-                        );
+                    }
+
+                    $video = '';
+                    if ($_FILES['video']['error'] != 4) {
+                        $video_upload_folder = FCPATH . "assets/uploads/admin_products/";
+                        if (!file_exists($video_upload_folder)) {
+                            mkdir($video_upload_folder, 0755, true);
+                        }
+                
+                        $new_file_name = "video_" . date("YmdHis");
+                        $this->upload_config = [
+                            'upload_path'   => $video_upload_folder,
+                            'file_name'     => $new_file_name,
+                            'allowed_types' => 'mp4|avi|mov|wmv|mkv|flv|webm',
+                            'max_size'      => 102400 // 100MB
+                        ];
+                
                         $this->upload->initialize($this->upload_config);
-                        if (!$this->upload->do_upload($img1)) {
+                
+                        if (!$this->upload->do_upload('video')) {
                             $upload_error = $this->upload->display_errors();
-                            // echo json_encode($upload_error);
-                            echo $upload_error;
+                            echo $upload_error; // Handle the error appropriately in your application
                         } else {
                             $file_info = $this->upload->data();
-                            $image = "assets/uploads/admin_products/" . $file_info['file_name'];
-                            $file_info['new_name'] = $image;
-                            // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-                            $nnnn = $file_info['file_name'];
-                            // echo json_encode($file_info);
+                            $video = "assets/uploads/admin_products/" . $file_info['file_name'];
                         }
                     }
                     //-----------------------image tag end------------------------------------------
                     $typ = base64_decode($t);
+                    $image_paths = json_encode($images);
                     if ($typ == 1) {
                         $data_insert = array(
                             'name_english' => $name_english,
@@ -166,7 +232,8 @@ class Products extends CI_finecontrol
                             'description_english' => $description_english,
                             'description_hindi' => $description_hindi,
                             'description_punjabi' => $description_punjabi,
-                            'image' => $image,
+                            'images' => $image_paths,
+                            'video' => $video,
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'gst' => $gst,
@@ -188,8 +255,8 @@ class Products extends CI_finecontrol
                     if ($typ == 2) {
                         $idw = base64_decode($iw);
                         $pro_data = $this->db->get_where('tbl_products', array('id' => $idw))->result();
-                        if (empty($image)) {
-                            $image = $pro_data[0]->image;
+                        if (empty($image_paths)) {
+                            $image_paths = $pro_data[0]->images;
                         }
                         $data_insert = array(
                             'name_english' => $name_english,
@@ -198,7 +265,8 @@ class Products extends CI_finecontrol
                             'description_english' => $description_english,
                             'description_hindi' => $description_hindi,
                             'description_punjabi' => $description_punjabi,
-                            'image' => $image,
+                            'images' => $image_paths,
+                            'video' => $video,
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,
                             'gst' => $gst,

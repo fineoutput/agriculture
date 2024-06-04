@@ -19,7 +19,7 @@ class Doctor extends CI_finecontrol
             $this->db->where('is_approved', 0);
             $this->db->order_by('id', 'desc');
             $data['doctor_data'] = $this->db->get();
-            $data['heading'] = "New";
+            $data['heading'] = "New Doctors";
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/doctor/view_doctor');
             $this->load->view('admin/common/footer_view');

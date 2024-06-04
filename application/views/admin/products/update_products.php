@@ -73,16 +73,50 @@
                     <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="file" name="image" class="form-control" placeholder=""  value="<?= $products->image ?>" />
+                        <input type="file" name="images[]" class="form-control" placeholder="" multiple value="<?= $products->images ?>" />
                       </td>
                       <td>
-                        <?php if ($products->image != "") {  ?>
-                          <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $products->image ?>">
-                        <?php } else {  ?>
-                          Sorry No image Found
+                        <?php
+                        if (!empty($products->images)) {
+                          // Check if the images field is a JSON string
+                          $imageArray = json_decode($products->images, true);
+                          if (json_last_error() == JSON_ERROR_NONE) {
+                            // It's a JSON string, so iterate over the array
+                            if (is_array($imageArray) && !empty($imageArray)) {
+                              foreach ($imageArray as $imagePath) { ?>
+                                <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $imagePath; ?>" alt="Product Image">
+                              <?php }
+                            } else { ?>
+                              Sorry, no images found.
+                            <?php }
+                          } else {
+                            // It's not a JSON string, treat it as a single image URL
+                            ?>
+                            <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $products->images; ?>" alt="Product Image">
+                          <?php
+                          }
+                        } else { ?>
+                          Sorry, no images found.
                         <?php } ?>
                       </td>
                     </tr>
+                    <tr>
+                      <td><strong>Video</strong></td>
+                      <td>
+                        <input type="file" name="video" class="form-control" />
+                      </td>
+                      <td>
+                        <?php if (!empty($products->video)) { ?>
+                          <video height="50" width="100" controls>
+                            <source src="<?php echo base_url() . $data->video; ?>" type="video/mp4">
+                            Your browser does not support the video tag.
+                          </video>
+                        <?php } else { ?>
+                          Sorry, no video found.
+                        <?php } ?>
+                      </td>
+                    </tr>
+
                     <tr>
                       <td> <strong id="mp">MRP</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
@@ -129,9 +163,13 @@
                       <td>
                         <select class="form-control" name="tranding_products">
                           <option>---select---</option>
-                          <option value="1" <? if($products->tranding_products==1) {echo "selected";} ?>>Yes</option>
-                          <option value="0" <? if($products->tranding_products==0) {echo "selected";} ?>>No</option>
-                          
+                          <option value="1" <? if ($products->tranding_products == 1) {
+                                              echo "selected";
+                                            } ?>>Yes</option>
+                          <option value="0" <? if ($products->tranding_products == 0) {
+                                              echo "selected";
+                                            } ?>>No</option>
+
                         </select>
                       </td>
                     </tr>
@@ -144,7 +182,7 @@
                     <tr>
                       <td> <strong>Offer</strong> </strong> </td>
                       <td>
-                        <input type="text" name="offer" class="form-control" placeholder="" required value="<? echo $products->offer;?>" />
+                        <input type="text" name="offer" class="form-control" placeholder="" required value="<? echo $products->offer; ?>" />
                       </td>
                     </tr>
                     <td colspan="2">

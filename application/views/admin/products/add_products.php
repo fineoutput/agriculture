@@ -71,9 +71,15 @@
                       </td>
                     </tr>
                     <tr>
-                      <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
+                      <td><strong>Images</strong></td>
                       <td>
-                        <input type="file" name="image" class="form-control" placeholder="" required value="" />
+                        <input type="file" name="images[]" class="form-control" multiple />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Video</strong></td>
+                      <td>
+                        <input type="file" name="video" class="form-control" />
                       </td>
                     </tr>
                     <tr>
@@ -125,7 +131,7 @@
                           <option>---select---</option>
                           <option value="1">Yes</option>
                           <option value="0">No</option>
-                          
+
                         </select>
                       </td>
                     </tr>

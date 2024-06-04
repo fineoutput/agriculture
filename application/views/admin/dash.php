@@ -126,7 +126,7 @@
           <div class="info-box">
             <span class="info-box-icon " style="background-color: #8d8671 !important; color: white;"><i class="fa fa-calculator"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Weight Calculator</span>
+              <span class="info-box-text">  Weight Calculator </span>
               <span class="info-box-number"><?= $service_report->weight_calculator ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -229,7 +229,7 @@
         </a><!-- /.info-box -->
       </div><!-- /.col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="<? echo base_url() ?>dcadmin/Admin_orders/new_order">
+        <a href="<? echo base_url() ?>dcadmin/Admin_orders/today_order">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="bi bi-amd"></i></span>
             <div class="info-box-content">
@@ -302,7 +302,7 @@
     </div><!-- /.row -->
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="<? echo base_url() ?>dcadmin/Doctor/accepted_doctors">
+        <a href="<? echo base_url() ?>dcadmin/Doctor/doctor_request">
           <div class="info-box">
             <span class="info-box-icon bg-black"><i class="bi bi-capsule"></i></span>
             <div class="info-box-content">

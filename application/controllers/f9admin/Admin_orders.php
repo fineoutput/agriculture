@@ -24,7 +24,7 @@ class Admin_orders extends CI_finecontrol
             
              $this->db->where('is_admin', 1); //admin orders
              $data['order1_data'] = $this->db->get();
-             $data['heading'] = "New";
+             $data['heading'] = "Total";
              $data['order_type'] = 1;
              $this->load->view('admin/common/header_view', $data);
              $this->load->view('admin/order/view_order');
@@ -68,6 +68,41 @@ class Admin_orders extends CI_finecontrol
             $data['order1_data'] = $this->db->get();
             $data['heading'] = "Accepted";
             $data['order_type'] = 1;
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/order/view_order');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            redirect("login/admin_login", "refresh");
+        }
+    }
+    public function today_order()
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+            $data['user_name'] = $this->load->get_var('user_name');
+            date_default_timezone_set("Asia/Calcutta");
+
+            // Get today's date in the Y-m-d format
+            $cur_date = date("Y-m-d");
+
+            // Create an SQL query with the date condition
+            $this->db->select('*');
+            $this->db->from('tbl_order1');
+            $this->db->where_in('payment_status', array(1, 2));
+            $this->db->where('order_status', 1); // new orders
+            $this->db->where('is_admin', 1);
+            $this->db->where('DATE(date)', $cur_date); // compare with today's date
+            $data['order1_data'] = $this->db->get();
+            $data['heading'] = "Today Orders";
+       
+            // $this->db->select('*');
+            // $this->db->from('tbl_order1');
+            // $this->db->where_in('payment_status', array(1, 2));
+            // $this->db->order_by('id', 'desc');
+            // $this->db->where('order_status', 2); //accepted orders
+            // $this->db->where('is_admin', 1); //admin orders
+            // $data['order1_data'] = $this->db->get();
+            // $data['heading'] = "Accepted";
+            // $data['order_type'] = 1;
             $this->load->view('admin/common/header_view', $data);
             $this->load->view('admin/order/view_order');
             $this->load->view('admin/common/footer_view');

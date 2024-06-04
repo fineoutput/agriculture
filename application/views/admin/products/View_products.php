@@ -48,7 +48,8 @@
                       <th>Description(English)</th>
                       <th>Description(Hindi)</th>
                       <th>Description(Punjabi)</th>
-                      <th>Image</th>
+                      <th>Images</th>
+                      <th>Video</th>
                       <th>Mrp</th>
                       <th>Selling Price</th>
                       <th>GST%</th>
@@ -83,12 +84,41 @@
                         <td><?php echo $data->description_hindi ?></td>
                         <td><?php echo $data->description_punjabi ?></td>
                         <td>
-                          <?php if ($data->image != "") {  ?>
-                            <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() . $data->image ?>">
-                          <?php } else {  ?>
-                            Sorry No image Found
+                          <?php
+                          if (!empty($data->images)) {
+                            // Check if the images field is a JSON string
+                            $imageArray = json_decode($data->images, true);
+                            if (json_last_error() == JSON_ERROR_NONE) {
+                              // It's a JSON string, so iterate over the array
+                              if (is_array($imageArray) && !empty($imageArray)) {
+                                foreach ($imageArray as $imagePath) { ?>
+                                  <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $imagePath; ?>" alt="Product Image">
+                                <?php }
+                              } else { ?>
+                                Sorry, no images found.
+                              <?php }
+                            } else {
+                              // It's not a JSON string, treat it as a single image URL
+                              ?>
+                              <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $data->images; ?>" alt="Product Image">
+                            <?php
+                            }
+                          } else { ?>
+                            Sorry, no images found.
                           <?php } ?>
                         </td>
+
+                        <td>
+                          <?php if (!empty($data->video)) { ?>
+                            <video height="100" width="100" controls>
+                              <source src="<?php echo base_url() . $data->video; ?>" type="video/mp4">
+                              Your browser does not support the video tag.
+                            </video>
+                          <?php } else { ?>
+                            Sorry, no video found.
+                          <?php } ?>
+                        </td>
+
                         <td><?php echo $data->mrp ? '₹' . $data->mrp : '' ?></td>
                         <td><?php echo $data->selling_price ? '₹' . $data->selling_price : '' ?></td>
                         <td><?php echo $data->gst ? $data->gst . '%' : '' ?></td>
@@ -105,7 +135,7 @@
                           <?php    }   ?>
                         </td>
                         <td>
-                          <input type="checkbox" class="mycheckbox" id="myCheckbox" data-id="<?php echo $data->id ?>"  name="checkbox" <?php echo ($data->cod == 1) ? 'checked' : ''; ?>>
+                          <input type="checkbox" class="mycheckbox" id="myCheckbox" data-id="<?php echo $data->id ?>" name="checkbox" <?php echo ($data->cod == 1) ? 'checked' : ''; ?>>
                         </td>
                         <td>
                           <div class="btn-group" id="btns<?php echo $i ?>">
@@ -172,40 +202,40 @@
   });
 </script>
 <script>
-    $(document).ready(function(){
-        // Check if the checkbox exists and bind the change event
-        if ($('.mycheckbox').length) {
-            $('.mycheckbox').on('change', function(){
-                // Check if the checkbox is checked
-                var isChecked = $(this).prop('checked');
+  $(document).ready(function() {
+    // Check if the checkbox exists and bind the change event
+    if ($('.mycheckbox').length) {
+      $('.mycheckbox').on('change', function() {
+        // Check if the checkbox is checked
+        var isChecked = $(this).prop('checked');
 
-                // Get the value of data-id attribute
-                var userId = $(this).data('id'); 
+        // Get the value of data-id attribute
+        var userId = $(this).data('id');
 
-                alert('successfully update');
+        alert('successfully update');
 
-                // Your AJAX call
-                var data = {
-                    userId: userId,
-                    isChecked: isChecked
-                };
+        // Your AJAX call
+        var data = {
+          userId: userId,
+          isChecked: isChecked
+        };
 
-                $.ajax({
-                    type: 'POST',
-                    url: '<?php echo base_url('dcadmin/Products/product_cod_data'); ?>',
-                    data: data,
-                    success: function(response){
-                        console.log(response); // Handle the response from the server
-                    },
-                    error: function(xhr, status, error){
-                        console.error(xhr.responseText); // Log any errors
-                    }
-                });
-            });
-        } else {
-            console.error('Checkbox element not found.');
-        }
-    });
+        $.ajax({
+          type: 'POST',
+          url: '<?php echo base_url('dcadmin/Products/product_cod_data'); ?>',
+          data: data,
+          success: function(response) {
+            console.log(response); // Handle the response from the server
+          },
+          error: function(xhr, status, error) {
+            console.error(xhr.responseText); // Log any errors
+          }
+        });
+      });
+    } else {
+      console.error('Checkbox element not found.');
+    }
+  });
 </script>
 <!-- <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/rs.js"></script>	  -->
