@@ -58,6 +58,7 @@ class UserloginController extends CI_Controller
                 $city = $this->input->post('city');
                 $state = $this->input->post('state');
                 $pincode = $this->input->post('pincode');
+                $refer_code = $this->input->post('refer_code');
                 $phone = $this->input->post('phone');
                 $email = $this->input->post('email');
                 $doc_type = $this->input->post('doc_type');
@@ -111,6 +112,7 @@ class UserloginController extends CI_Controller
                     'city' => $city,
                     'state' => $state,
                     'pincode' => $pincode,
+                    'refer_code' => $refer_code,
                     'phone' => $phone,
                     'email' => $email,
                     'image' => $image,

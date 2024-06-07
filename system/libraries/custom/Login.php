@@ -34,6 +34,7 @@ $data_insert = array(
     'city' => $receive['city'],
     'state' => $receive['state'],
     'pincode' => $receive['pincode'],
+    'refer_code' => $receive['refer_code'],
     'phone' => $receive['phone'],
     'no_animals' => $receive['no_animals'],
     'gst_no' => $receive['gst_no'],
