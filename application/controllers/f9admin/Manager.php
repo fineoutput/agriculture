@@ -156,6 +156,26 @@ class Manager extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
+    public function view_farmers($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+
+            $id=base64_decode($idd);
+       
+
+
+            $this->db->select('*');
+            $this->db->from('tbl_farmers');
+            $this->db->where('refer_code',$id);
+            $data['farmers_data']= $this->db->get();
+ 
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/farmers/View_farmers');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
 
     public function updatemanagerStatus($idd, $t)
     {

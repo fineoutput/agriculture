@@ -44,8 +44,8 @@
                                             <th>Aadhar</th>
                                             <th>Refer Code</th>
                                             <th>Images</th>
-                                             <th> Total No.Installs </th>
-                                             <th> Install details </th>
+                                            <th> Total No.Installs </th>
+                                            <th> Install details </th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -62,7 +62,7 @@
                                                 <td><?php echo $data->aadhar ?></td>
                                                 <td><?php echo $data->refer_code ?></td>
 
-                                              
+
                                                 <td>
                                                     <?php
                                                     if (!empty($data->images)) {
@@ -91,8 +91,33 @@
                                                     }
                                                     ?>
                                                 </td>
-                                                <td> 0 </td>
-                                                <td> view</td>
+                                                <?php
+
+                                                $this->db->select('*');
+                                                $this->db->from('tbl_farmers');
+                                                $this->db->where('refer_code', $data->refer_code);
+                                                $query = $this->db->get();
+
+                                                // Count the results
+                                                $count = $query->num_rows();
+
+
+                                                ?>
+                                                <td>
+                                                    <?php if ($count > 0) {
+
+                                                        echo $count;
+                                                    } else
+                                                        echo 0;
+
+                                                    ?>
+
+                                                </td>
+                                                <td>
+
+                                                <a href="<?php echo base_url('dcadmin/manager/view_farmers/' . base64_encode($data->refer_code)) ?>">Installs Details</a>
+
+                                                </td>
 
                                                 <td><?php if ($data->is_active == 1) { ?>
                                                         <p class="label pull-right bg-green">Active</p>
