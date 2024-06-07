@@ -22,7 +22,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="	fa fa-user-md"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Normal Doctor</span>
+              <span class="info-box-text">Normal Doctors</span>
               <span class="info-box-number"><?= $normal ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -33,7 +33,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-red"><i class="	fa fa-plus-square"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Expert Doctor</span>
+              <span class="info-box-text">Expert Doctors</span>
               <span class="info-box-number"><?= $expert; ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -59,7 +59,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Total Vendor</span>
+              <span class="info-box-text">Total Vendors</span>
               <span class="info-box-number"><?= $vendor; ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -94,7 +94,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-blue"><i class="fa fa-user-md"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text"> NEW DOCTOR REQUEST</span>
+              <span class="info-box-text"> NEW DOCTOR REQUESTS</span>
               <span class="info-box-number"><?= $total_doctor_requests ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -105,7 +105,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-blue"><i class="fa fa-caret-square-o-up"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text"> NEW VENDOR REQUEST</span>
+              <span class="info-box-text"> NEW VENDOR REQUESTS</span>
               <span class="info-box-number"><?= $new ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -293,7 +293,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="bi bi-bullseye"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Total Earnings</span>
+              <span class="info-box-text">TOTAL SALES</span>
               <span class="info-box-number"><?= '₹' . $total_earning; ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -317,7 +317,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-blue"><i class="bi bi-cassette-fill"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Vendor Earning</span>
+              <span class="info-box-text">Vendors Earning</span>
               <span class="info-box-number"><?= '₹' . ($total_v_orders - $vendor_earning) ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -328,7 +328,7 @@
           <div class="info-box">
             <span class="info-box-icon" style="background-color: #5f9d69 !important; color: white;"><i class="bi bi-clipboard-data"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Total Payments Processed To Doctor</span>
+              <span class="info-box-text">Total Payments Processed To Doctors</span>
               <span class="info-box-number"><?= '₹' . $total_payments_processed_to_doctor ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
@@ -339,7 +339,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-blue"><i class="bi bi-columns-gap"></i></span>
             <div class="info-box-content">
-              <span class="info-box-text">Total Payments Processed To Vendor</span>
+              <span class="info-box-text">Total Payments Processed To Vendors</span>
               <span class="info-box-number"><?= '₹' . $total_payments_processed_to_vendor ?></span>
             </div><!-- /.info-box-content -->
           </div><!-- /.info-box -->
