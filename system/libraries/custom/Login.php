@@ -1042,14 +1042,16 @@ die();
 }
 //----------------------- user login handle --------------------------------
 if ($userCheck[0]->is_active == 1) {
-if ($type == 'vendor' || $type == 'doctor') {
-if ($userCheck[0]->is_approved == 0) {
-    $respone['status'] = 201;
-    $respone['message'] = 'Your account request is pending! Please contact to admin';
-    // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
-    return json_encode($respone);
-    die();
-} else if ($userCheck[0]->is_approved == 2) {
+if ($type == 'vendor' || $type == 'doctor')
+ {
+// if ($userCheck[0]->is_approved == 0) {
+//     $respone['status'] = 201;
+//     $respone['message'] = 'Your account request is pending! Please contact to admin';
+//     // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
+//     return json_encode($respone);
+//     die();
+// } else 
+if ($userCheck[0]->is_approved == 2) {
     $respone['status'] = 201;
     $respone['message'] = 'Your account  request is rejected! Please contact to admin';
     // $this->CI->session->set_flashdata('emessage', 'Your Account is blocked! Please contact to admin');
