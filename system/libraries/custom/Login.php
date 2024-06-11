@@ -749,7 +749,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
                 'expert_category' => $temp_data[0]->expert_category,
                 'auth' => $auth,
                 'is_active' => 1,
-                'is_approved' => 0,
+                'is_approved' => 1,
                 'is_expert' => 0,
                 'account' => 0,
                 'latitude' => '',
