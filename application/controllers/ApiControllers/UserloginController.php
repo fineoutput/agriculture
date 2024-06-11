@@ -203,6 +203,8 @@ class UserloginController extends CI_Controller
       //======================================= doctor and vendor REGISTER PROCESS===================================//
       public function register_process()
       {
+
+       
           $this->load->helper(array('form', 'url'));
           $this->load->library('form_validation');
           $this->load->helper('security');
@@ -308,6 +310,8 @@ class UserloginController extends CI_Controller
                       'no_animals' => $no_animals,
                       'expert_category' => $expert_category,
                   );
+                //   echo('data is 2 not comming');
+                //   exit;
                   //-------------- register user  with otp ------------
                   $Register = $this->login->RegisterWithOtp($send);
                   echo $Register;

@@ -567,6 +567,7 @@ $ip = $this->CI->input->ip_address();
 date_default_timezone_set("Asia/Calcutta");
 $cur_date = date("Y-m-d H:i:s");
 $type = '';
+
 $farmerCheck = $this->CI->db->get_where('tbl_farmers', array('phone' => $receive['phone']))->result();
 if (!empty($farmerCheck)) {
 $type = "farmer";
@@ -1133,12 +1134,14 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
         }
         if ($user_data[0]->is_active == 1) {
             if ($type == 'doctor') {
-                if ($user_data[0]->is_approved == 0) {
-                    $respone['status'] = 201;
-                    $respone['message'] = 'Your account request is pending! Please contact to admin';
-                    return json_encode($respone);
-                    die();
-                } else if ($user_data[0]->is_approved == 2) {
+                // if ($user_data[0]->is_approved == 0) {
+                //     $respone['status'] = 201;
+                //     $respone['message'] = 'Your account request is pending! Please contact to admin';
+                //     return json_encode($respone);
+                //     die();
+                // } 
+                // else 
+                if ($user_data[0]->is_approved == 2) {
                     $respone['status'] = 201;
                     $respone['message'] = 'Your account  request is rejected! Please contact to admin';
                     return json_encode($respone);
