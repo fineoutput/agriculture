@@ -2411,9 +2411,9 @@ class FarmerController extends CI_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => 'phone=' . WHATSAPP_NUMBER . '&order_id=' . $orderData[0]->id . '&amount=' . $orderData[0]->final_amount . '&date=' . $orderData[0]->date . '&method=' . $payment_type . '&products=' . $products_details . '&customer_name=' . $userName . '&others=' . $other_details .  '',
+            CURLOPT_POSTFIELDS => 'phone=' . 6350618905 . '&order_id=' . $orderData[0]->id . '&amount=' . $orderData[0]->final_amount . '&date=' . $orderData[0]->date . '&method=' . $payment_type . '&products=' . $products_details . '&customer_name=' . $userName . '&others=' . $other_details .  '',
             CURLOPT_HTTPHEADER => array(
-                'token:' . TOKEN . '',
+                // 'token:' . TOKEN . '',
                 'Content-Type:application/x-www-form-urlencoded',
                 'Cookie:ci_session=e40e757b02bc2d8fb6f5bf9c5b7bb2ea74c897e8'
             ),
