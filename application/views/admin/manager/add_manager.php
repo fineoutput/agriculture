@@ -15,6 +15,12 @@
           <div class="panel-heading">
             <h3 class="panel-title">Add New Manager</h3>
           </div>
+          <div id="errorDiv" class="alert alert-danger alert-dismissible" style="display:none;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+            <span id="errorMessage"></span>
+          </div>
+       
           <? if (!empty($this->session->flashdata('smessage'))) { ?>
             <div class="alert alert-success alert-dismissible">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -37,12 +43,12 @@
                     <tr>
                       <td> <strong>Full Name </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="text" name="name"  id="name" class="form-control" placeholder="" required value="" />
+                        <input type="text" name="name" id="name" class="form-control" placeholder="" required value="" />
                       </td>
                     </tr>
-                 
-                  
-                    
+
+
+
                     <tr>
                       <td> <strong>Address </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
@@ -52,7 +58,7 @@
                     <tr>
                       <td> <strong>Phone Number</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="text" name="phone" class="form-control" placeholder="" required value="" />
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder="" required value="" />
                       </td>
                     </tr>
                     <tr>
@@ -64,12 +70,12 @@
                     <tr>
                       <td> <strong>Aadhar Number </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="text" name="aadhar" class="form-control" placeholder="" required />
+                        <input type="text" id="aadhar" name="aadhar" class="form-control" placeholder="" required />
                       </td>
                     </tr>
                     <tr>
                     <tr>
-                      <td> <strong>Your refer Code  </strong> <span style="color:red;">*</span></strong> </td>
+                      <td> <strong>Your refer Code </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
                         <input type="text" name="refer_code" id="refer" class="form-control" placeholder="" required value="" />
                       </td>
@@ -77,7 +83,7 @@
                     <tr>
                       <td><strong>Aadhar Upload</strong></td>
                       <td>
-                        <input type="file" name="images[]" value="1"  class="form-control" multiple />
+                        <input type="file" name="images[]" value="1" class="form-control" multiple />
                       </td>
                     </tr>
                     <td colspan="2">
@@ -97,27 +103,63 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <link href="<? echo base_url() ?>assets/cowadmin/css/jqvmap.css" rel='stylesheet' type='text/css' />
 <script>
-//   function isNumberKey(evt) {
-//     var charCode = (evt.which) ? evt.which : evt.keyCode
-//     if (charCode > 31 && (charCode < 48 || charCode > 57))
-//       return false;
-//     return true;
-//   }
- 
-        $(document).ready(function(){
-            $('#images').on('change', function(){
-                if(this.files.length > 2){
-                    alert('You can only upload a maximum of 2 files');
-                    this.value = ''; // Clear the input value
-                }
-            });
-        });
-        document.getElementById('name').addEventListener('input', function() {
-            const name = this.value.trim().replace(/\s+/g, '');
-            const id = name.slice(0, 4).padEnd(4, 'X').toUpperCase(); // Take first 4 characters, pad if less, and uppercase
-            const randomString = Math.random().toString(36).substring(2, 8).toUpperCase(); // Generate 6 random alphanumeric characters
-            const referralCode = id + randomString;
-            document.getElementById('refer').value = referralCode;
-        });
- 
+  //   function isNumberKey(evt) {
+  //     var charCode = (evt.which) ? evt.which : evt.keyCode
+  //     if (charCode > 31 && (charCode < 48 || charCode > 57))
+  //       return false;
+  //     return true;
+  //   }
+
+  $(document).ready(function() {
+    $('#images').on('change', function() {
+      if (this.files.length > 2) {
+        alert('You can only upload a maximum of 2 files');
+        this.value = ''; // Clear the input value
+      }
+    });
+  });
+  document.getElementById('name').addEventListener('input', function() {
+    const name = this.value.trim().replace(/\s+/g, '');
+    const id = name.slice(0, 4).padEnd(4, 'X').toUpperCase(); // Take first 4 characters, pad if less, and uppercase
+    const randomString = Math.random().toString(36).substring(2, 8).toUpperCase(); // Generate 6 random alphanumeric characters
+    const referralCode = id + randomString;
+    document.getElementById('refer').value = referralCode;
+  });
+</script>
+<script>
+document.getElementById('aadhar').addEventListener('input', function(event) {
+  var aadhar = event.target.value;
+  // Remove any non-digit characters
+  event.target.value = aadhar.replace(/\D/g, '').slice(0, 12);
+});
+
+document.getElementById('phone').addEventListener('input', function(event) {
+  var phone = event.target.value;
+  // Remove any non-digit characters
+  event.target.value = phone.replace(/\D/g, '').slice(0, 10);
+});
+
+document.getElementById('slide_frm').addEventListener('submit', function(event) {
+  var aadhar = document.getElementById('aadhar').value;
+  var phone = document.getElementById('phone').value;
+  var errorMessage = '';
+
+  // Validate Aadhar (exactly 12 digits)
+  if (aadhar.length !== 12) {
+    errorMessage += 'Aadhar number must be exactly 12 digits.<br>';
+  }
+
+  // Validate Phone (exactly 10 digits)
+  if (phone.length !== 10) {
+    errorMessage += 'Phone number must be exactly 10 digits.<br>';
+  }
+
+  if (errorMessage) {
+    document.getElementById('errorMessage').innerHTML = errorMessage;
+    document.getElementById('errorDiv').style.display = 'block';
+    event.preventDefault(); // Prevent form submission
+  } else {
+    document.getElementById('errorDiv').style.display = 'none';
+  }
+});
 </script>
