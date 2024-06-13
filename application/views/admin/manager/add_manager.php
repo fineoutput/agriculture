@@ -64,7 +64,7 @@
                     <tr>
                       <td> <strong>Aadhar Number </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="text" name="aadhar" class="form-control" placeholder="" required value="" />
+                        <input type="text" name="aadhar" class="form-control" placeholder="" required />
                       </td>
                     </tr>
                     <tr>
@@ -77,7 +77,7 @@
                     <tr>
                       <td><strong>Aadhar Upload</strong></td>
                       <td>
-                        <input type="file" name="images[]" class="form-control" multiple />
+                        <input type="file" name="images[]" value="1"  class="form-control" multiple />
                       </td>
                     </tr>
                     <td colspan="2">
