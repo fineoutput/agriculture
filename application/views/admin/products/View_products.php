@@ -85,9 +85,9 @@
                         <td><?php echo $data->description_punjabi ?></td>
                         <td>
                           <?php
-                          if (!empty($data->images)) {
+                          if (!empty($data->image)) {
                             // Check if the images field is a JSON string
-                            $imageArray = json_decode($data->images, true);
+                            $imageArray = json_decode($data->image, true);
                             if (json_last_error() == JSON_ERROR_NONE) {
                               // It's a JSON string, so iterate over the array
                               if (is_array($imageArray) && !empty($imageArray)) {
@@ -100,7 +100,7 @@
                             } else {
                               // It's not a JSON string, treat it as a single image URL
                               ?>
-                              <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $data->images; ?>" alt="Product Image">
+                              <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $data->image; ?>" alt="Product Image">
                             <?php
                             }
                           } else { ?>

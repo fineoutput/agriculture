@@ -232,7 +232,7 @@ class Products extends CI_finecontrol
                             'description_english' => $description_english,
                             'description_hindi' => $description_hindi,
                             'description_punjabi' => $description_punjabi,
-                            'images' => $image_paths,
+                            'image' => $image_paths,
                             'video' => $video,
                             'mrp' => $mrp,
                             'selling_price' => $selling_price,

@@ -127,8 +127,8 @@ class FarmerController extends CI_Controller
                     }
                     $ProData = $ProData[0];
                     if (!empty($ProData)) {
-                        if (!empty($ProData->images)) {
-                            $image = base_url() . $ProData->images;
+                        if (!empty($ProData->image)) {
+                            $image = base_url() . $ProData->image;
                         } else {
                             $image = '';
                         }
@@ -487,7 +487,7 @@ class FarmerController extends CI_Controller
                         'product_name_en' => $ProData->name_english,
                         'product_name_hi' => $ProData->name_hindi,
                         'product_name_pn' => $ProData->name_punjabi,
-                        'image' => $ProData->images,
+                        'image' => $ProData->image,
                         'qty' => $cart->qty,
                         'mrp' => $ProData->mrp,
                         'selling_price' => $ProData->selling_price,
@@ -890,7 +890,8 @@ class FarmerController extends CI_Controller
                                     'message' => "Success",
                                     'status' => 200,
                                     'data' => $send,
-                                );
+                                    );
+
                                 echo json_encode($res);
                             }
                         }
@@ -1770,7 +1771,7 @@ class FarmerController extends CI_Controller
                         'main_id' => $order1_id,
                         'product_id' => $ProData->id,
                         'product_name' => $ProData->name_english,
-                        'image' => $ProData->images,
+                        'image' => $ProData->image,
                         'qty' => $cart->qty,
                         'mrp' => $ProData->mrp,
                         'selling_price' => $ProData->selling_price,
