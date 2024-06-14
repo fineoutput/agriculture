@@ -60,8 +60,8 @@ class Manager extends CI_finecontrol
             if ($this->input->post()) {
                 // print_r($this->input->post());
                 // exit;
-                $this->form_validation->set_rules('name', 'name', 'required|customAlpha|xss_clean');
-                $this->form_validation->set_rules('address', 'address', 'required|customAlpha|xss_clean');
+                $this->form_validation->set_rules('name', 'name', 'required|xss_clean');
+                $this->form_validation->set_rules('address', 'address', 'required|xss_clean');
                 $this->form_validation->set_rules('email', 'email', 'required|valid_email|xss_clean|trim');
 
                 $this->form_validation->set_rules('phone', 'phone', 'xss_clean|min_length[10]|max_length[10]');
