@@ -66,7 +66,7 @@ class Manager extends CI_finecontrol
 
                 $this->form_validation->set_rules('phone', 'phone', 'xss_clean|min_length[10]|max_length[10]');
 
-                $this->form_validation->set_rules('aadhar', 'aadhar', 'xss_clean|trim|min_length[12]|max_length[12]');
+                $this->form_validation->set_rules('aadhar', 'aadhar', 'required|xss_clean|trim|min_length[12]|max_length[12]');
                 $this->form_validation->set_rules('images[]', 'Images', 'trim|callback_validate_image');
 
 
