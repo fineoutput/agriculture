@@ -70,7 +70,7 @@
                     <tr>
                       <td> <strong>Aadhar Number </strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="text" id="aadhar" name="aadhar" class="form-control" placeholder="" required />
+                        <input type="text" id="aadhar" name="aadhar" class="form-control" placeholder=""/>
                       </td>
                     </tr>
                     <tr>
@@ -145,7 +145,7 @@ document.getElementById('slide_frm').addEventListener('submit', function(event) 
   var errorMessage = '';
 
   // Validate Aadhar (exactly 12 digits)
-  if (aadhar.length !== 12) {
+  if (aadhar.length !== 12 && aadhar.length > 0) {
     errorMessage += 'Aadhar number must be exactly 12 digits.<br>';
   }
 
