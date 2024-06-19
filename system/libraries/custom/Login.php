@@ -18,7 +18,7 @@ $this->CI->load->library('custom/Messages');
 public function farmer_RegisterOtpVerify($receive)
 {
 $ip = $this->CI->input->ip_address();
-date_default_timezone_set("Asia/Calcutta");
+date_default_timezone_set("Asia/Calcutta"); 
 $cur_date = date("Y-m-d H:i:s");
 
 $type = '';
@@ -108,6 +108,7 @@ $data_insert = array(
     'degree' => $receive['degree'],
     'experience' => $receive['experience'],
     'pincode' => $receive['pincode'],
+    'refer_code' => $receive['refer_code'],
     // 'qualification' => $receive->qualification,
     'aadhar_no' => $receive['aadhar_no'],
     'image' => $receive['image'],
@@ -220,6 +221,7 @@ $data_insert = array(
     'city' => $receive['city'],
     'state' => $receive['state'],
     'pincode' => $receive['pincode'],
+    'refer_code' => $receive['refer_code'],
     'phone' => $receive['phone'],
     'shop_name' => $receive['shop_name'],
     'address' => $receive['address'],
