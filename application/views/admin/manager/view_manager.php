@@ -120,7 +120,7 @@
                                             
                                                 <td style="display: flex;">
 
-                                                    <a style="text-align:center;" href="<?php echo base_url('dcadmin/manager/view_farmers/' . base64_encode($data->refer_code)) ?>"> Farmder Installs <br> <br> <span> <?php if ($count > 0) {
+                                                    <a style="text-align:center;" href="<?php echo base_url('dcadmin/manager/view_farmers/' . base64_encode($data->refer_code)) ?>"> Farmer Installs <br> <br> <span> <?php if ($count > 0) {
 
                                                                                                                                                                                                                         echo $count;
                                                                                                                                                                                                                     } else
