@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-           View Manager
+            View Manager
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url() ?>admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -44,7 +44,7 @@
                                             <th>Aadhar</th>
                                             <th>Refer Code</th>
                                             <th>Images</th>
-                                            <th> Total No.Installs </th>
+                                            <!-- <th> Total No.Installs </th> -->
                                             <th> Install details </th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -100,22 +100,54 @@
 
                                                 // Count the results
                                                 $count = $query->num_rows();
+                                                $this->db->select('*');
+                                                $this->db->from('tbl_vendor');
+                                                $this->db->where('refer_code', $data->refer_code);
+                                                $query = $this->db->get();
+
+                                                // Count the results
+                                                $count2 = $query->num_rows();
+                                                $this->db->select('*');
+                                                $this->db->from('tbl_doctor');
+                                                $this->db->where('refer_code', $data->refer_code);
+                                                $query = $this->db->get();
+
+                                                // Count the results
+                                                $count3 = $query->num_rows();
 
 
                                                 ?>
-                                                <td>
-                                                    <?php if ($count > 0) {
+                                            
+                                                <td style="display: flex;">
 
-                                                        echo $count;
-                                                    } else
-                                                        echo 0;
+                                                    <a style="text-align:center;" href="<?php echo base_url('dcadmin/manager/view_farmers/' . base64_encode($data->refer_code)) ?>"> Farmder Installs <br> <br> <span> <?php if ($count > 0) {
 
-                                                    ?>
+                                                                                                                                                                                                                        echo $count;
+                                                                                                                                                                                                                    } else
+                                                                                                                                                                                                                        echo 0;
 
-                                                </td>
-                                                <td>
+                                                                                                                                                                                                                    ?>
+                                                        </span></a>
+                                                    <a style="margin-left: 10px
+                                                ;text-align:center;" href="<?php echo base_url('dcadmin/manager/view_vendors/' . base64_encode($data->refer_code)) ?>">Vendor Installs <br> <br>
+                                                        <span> <?php if ($count2 > 0) {
 
-                                                <a href="<?php echo base_url('dcadmin/manager/view_farmers/' . base64_encode($data->refer_code)) ?>">Installs Details</a>
+                                                                    echo $count2;
+                                                                } else
+                                                                    echo 0;
+
+                                                                ?>
+                                                        </span></a>
+                                                    <a style="margin-left: 10px
+                                                ;text-align:center;" href="<?php echo base_url('dcadmin/manager/view_doctors/' . base64_encode($data->refer_code)) ?>">Doctor Installs
+                                                      <br> <br> <span> <?php if ($count3 > 0) {
+
+                                                                    echo $count3;
+                                                                } else
+                                                                    echo 0;
+
+                                                                ?>
+                                                        </span></a>
 
                                                 </td>
 

@@ -186,6 +186,46 @@ class Manager extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
+    public function view_doctors($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+
+            $id = base64_decode($idd);
+
+
+
+            $this->db->select('*');
+            $this->db->from('tbl_doctor');
+            $this->db->where('refer_code', $id);
+            $data['doctor_data'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/doctor/view_doctor');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
+    public function view_vendors($idd)
+    {
+        if (!empty($this->session->userdata('admin_data'))) {
+
+            $id = base64_decode($idd);
+
+           $data['heading'] = 'New';
+
+            $this->db->select('*');
+            $this->db->from('tbl_vendor');
+            $this->db->where('refer_code', $id);
+            $data['vendor_data'] = $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/vendor/view_vendor');
+            $this->load->view('admin/common/footer_view');
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
 
     public function updatemanagerStatus($idd, $t)
     {
