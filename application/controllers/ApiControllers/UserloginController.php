@@ -237,6 +237,7 @@ class UserloginController extends CI_Controller
                   $village = $this->input->post('village');
                   $district = $this->input->post('district');
                   $city = $this->input->post('city');
+                  $refer_code = $this->input->post('refer_code');
                   $state = $this->input->post('state');
                   $pincode = $this->input->post('pincode');
                   $phone = $this->input->post('phone');
@@ -292,6 +293,7 @@ class UserloginController extends CI_Controller
                       'city' => $city,
                       'state' => $state,
                       'pincode' => $pincode,
+                      'refer_code' => $refer_code,
                       'phone' => $phone,
                       'email' => $email,
                       'image' => $image,
@@ -311,7 +313,10 @@ class UserloginController extends CI_Controller
                       'expert_category' => $expert_category,
                   );
                 //   echo('data is 2 not comming');
-                //   exit;
+                    // echo "<pre>";
+                    // print_r($send);
+                    // echo "<pre>";
+                  exit;
                   //-------------- register user  with otp ------------
                   $Register = $this->login->RegisterWithOtp($send);
                   echo $Register;
