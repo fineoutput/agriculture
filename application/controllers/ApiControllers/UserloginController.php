@@ -316,7 +316,7 @@ class UserloginController extends CI_Controller
                     // echo "<pre>";
                     // print_r($send);
                     // echo "<pre>";
-                  exit;
+                //   exit;
                   //-------------- register user  with otp ------------
                   $Register = $this->login->RegisterWithOtp($send);
                   echo $Register;
