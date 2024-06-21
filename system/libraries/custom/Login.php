@@ -122,6 +122,7 @@ $data_insert = array(
     'longitude' => '',
     'date' => $cur_date
 );
+
 $last_id2 = $this->CI->base_model->insert_table("tbl_doctor", $data_insert, 1);
 $data = array(
     'name' => $receive['name'],
@@ -585,6 +586,8 @@ if (!empty($vendorCheck)) {
 }
 }
 if (empty($type)) { //---- check user is exist or not ---------
+ 
+
 //------- insert into temp table ------------
 $data_insert = array(
 'name' => $receive['name'],
@@ -594,6 +597,7 @@ $data_insert = array(
 'state' => $receive['state'],
 'pincode' => $receive['pincode'],
 'phone' => $receive['phone'],
+'refer_code' => (isset($receive['refer_code'])) ? $receive['refer_code'] : '',
 'type' => $receive['type'],
 'email' => $receive['email'],
 'image' => $receive['image'],
@@ -674,6 +678,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
                 'state' => $temp_data[0]->state,
                 'pincode' => $temp_data[0]->pincode,
                 'phone' => $temp_data[0]->phone,
+                'refer_code'=>$temp_data[0]->refer_code ?? '',
                 'no_animals' => $temp_data[0]->no_animals,
                 'gst_no' => $temp_data[0]->gst,
                 'auth' => $auth,
@@ -725,6 +730,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             $respone['data'] = $data;
             return json_encode($respone);
         } else if ($temp_data[0]->type == 'doctor') {
+           
             //------ insert user data from temp to user table -----------
             $auth = bin2hex(random_bytes(18)); //--- generate auth ---
             if ($temp_data[0]->doc_type == 1) {
@@ -740,6 +746,7 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
                 'city' => $temp_data[0]->city,
                 'state' => $temp_data[0]->state,
                 'phone' => $temp_data[0]->phone,
+                'refer_code'=>$temp_data[0]->refer_code ?? '',
                 'email' => $temp_data[0]->email,
                 'type' => $dt,
                 'degree' => $temp_data[0]->degree,
@@ -799,15 +806,15 @@ if ($otpData[0]->status == 0) { //----- check OTP used or not ----
             curl_close($curl);
             //--- send email to admin -----------------
             $this->CI->db->select('*');
-$this->CI->db->from('all_states');
-$this->CI->db->where('id',$temp_data[0]->state);
-$dsa= $this->CI->db->get()->row();
-if(!empty($dsa)){
-$nn221 = $dsa->state_name;
-}
-else{
-    $nn221 = ""; 
-}
+            $this->CI->db->from('all_states');
+            $this->CI->db->where('id',$temp_data[0]->state);
+            $dsa= $this->CI->db->get()->row();
+            if(!empty($dsa)){
+            $nn221 = $dsa->state_name;
+            }
+            else{
+                $nn221 = ""; 
+            }
             $config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => SMTP_HOST,
@@ -862,6 +869,7 @@ else{
                 'state' => $temp_data[0]->state,
                 'pincode' => $temp_data[0]->pincode,
                 'phone' => $temp_data[0]->phone,
+                'refer_code'=>$temp_data[0]->refer_code ?? '',
                 'shop_name' => $temp_data[0]->shop_name,
                 'address' => $temp_data[0]->address,
                 'image' => $temp_data[0]->image,
