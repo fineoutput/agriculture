@@ -217,6 +217,7 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
+
       <div class="col-md-3 col-sm-6 col-xs-12">
         <a href="<? echo base_url() ?>dcadmin/Admin_orders/all_order">
           <div class="info-box">
@@ -277,6 +278,7 @@
           </div>
         </a><!-- /.info-box -->
       </div><!-- /.col -->
+      
       <div class="col-md-3 col-sm-6 col-xs-12">
         <a href="<? echo base_url() ?>dcadmin/Admin_orders/completed_order">
           <div class="info-box">
@@ -288,6 +290,7 @@
           </div>
         </a><!-- /.info-box -->
       </div><!-- /.col -->
+
       <div class="col-md-3 col-sm-6 col-xs-12">
         <a href="<? echo base_url() ?>dcadmin/Admin_orders/completed_order">
           <div class="info-box">
@@ -299,6 +302,19 @@
           </div><!-- /.info-box -->
         </a>
       </div><!-- /.col -->
+
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <a href="http://localhost/agriculture/dcadmin/Admin_orders/completed_order">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="bi bi-bullseye"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">TOTAL COD SALES</span>
+              <span class="info-box-number"><?= '₹' . $total_cod_earning; ?></span>
+            </div><!-- /.info-box-content -->
+          </div><!-- /.info-box -->
+        </a>
+      </div>
+
     </div><!-- /.row -->
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">

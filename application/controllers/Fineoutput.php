@@ -26,6 +26,7 @@ class Fineoutput extends CI_Controller
     $this->db->select('*');
     $this->db->from('tbl_order1');
     $this->db->where('payment_status', 1);
+    $this->db->or_where('payment_status', 2);
     $this->db->like('date', $prev_day);
     $order1_data = $this->db->get()->result();
 
@@ -35,6 +36,7 @@ class Fineoutput extends CI_Controller
     $this->db->select('*');
     $this->db->from('tbl_order1');
     $this->db->where('payment_status', 1);
+    $this->db->or_where('payment_status', 2);
     $this->db->like('date', $prev_day2);
     $olddate_data = $this->db->get()->result();
 
@@ -64,6 +66,7 @@ class Fineoutput extends CI_Controller
     $this->db->from('tbl_order1');
     $this->db->where('order_status', 1);
     $this->db->where('payment_status', 1);
+    $this->db->or_where('payment_status', 2);
     $this->db->like('date', $prev_day);
     $accepted1_data = $this->db->get()->result();
 
@@ -72,6 +75,7 @@ class Fineoutput extends CI_Controller
     $this->db->from('tbl_order1');
     $this->db->where('order_status', 5);
     $this->db->where('payment_status', 1);
+    $this->db->or_where('payment_status', 2);
     $this->db->like('date', $prev_day);
     $rejected1_data = $this->db->get()->result();
 
@@ -147,6 +151,7 @@ class Fineoutput extends CI_Controller
     $this->db->select('*');
     $this->db->from('tbl_order1');
     $this->db->where('payment_status', 1);
+    $this->db->or_where('payment_status', 2);
     $this->db->order_by('id', 'DESC');
     $prev7data = $this->db->get();
     $arr1 = array();
