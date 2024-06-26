@@ -304,7 +304,7 @@
       </div><!-- /.col -->
 
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <a href="http://localhost/agriculture/dcadmin/Admin_orders/completed_order">
+        <a href="<? echo base_url() ?>dcadmin/Admin_orders/completed_order">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="bi bi-bullseye"></i></span>
             <div class="info-box-content">
