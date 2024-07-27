@@ -541,13 +541,14 @@ class ToolsController extends CI_Controller
                     $hi_data = [];
                     $pn_data = [];
                     foreach ($ProData->result() as $pro) {
-                        
+                            
                         if (!empty($pro->image)) {
+                            
                             $imageArray = json_decode($pro->image, true);
                             if (is_array($imageArray) && !empty($imageArray)) {
                                    $image= base_url() . $imageArray[0];
                             }else{
-                                $image = '';
+                                $image= base_url() . $pro->image;
                             }
                           
                         } else {
