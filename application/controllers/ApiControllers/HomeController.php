@@ -478,8 +478,16 @@ class HomeController extends CI_Controller
             $data_products = $this->db->get();
             $product_data = [];
             foreach ($data_products->result() as $pro) {
-                if (!empty($pro->image)) {
-                    $image = base_url() . $pro->image;
+
+               if (!empty($pro->image)) {
+                            
+                    $imageArray = json_decode($pro->image, true);
+                    if (is_array($imageArray) && !empty($imageArray)) {
+                            $image= base_url() . $imageArray[0];
+                    }else{
+                        $image= base_url() . $pro->image;
+                    }
+                    
                 } else {
                     $image = '';
                 }
