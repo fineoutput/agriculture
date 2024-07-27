@@ -73,13 +73,13 @@
                     <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
                       <td>
-                        <input type="file" name="images[]" class="form-control" placeholder="" multiple value="<?= $products->images ?>" />
+                        <input type="file" name="images[]" class="form-control" placeholder="" multiple value="<?= $products->image ?>" />
                       </td>
                       <td>
                         <?php
-                        if (!empty($products->images)) {
+                        if (!empty($products->image)) {
                           // Check if the images field is a JSON string
-                          $imageArray = json_decode($products->images, true);
+                          $imageArray = json_decode($products->image, true);
                           if (json_last_error() == JSON_ERROR_NONE) {
                             // It's a JSON string, so iterate over the array
                             if (is_array($imageArray) && !empty($imageArray)) {
@@ -92,7 +92,7 @@
                           } else {
                             // It's not a JSON string, treat it as a single image URL
                             ?>
-                            <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $products->images; ?>" alt="Product Image">
+                            <img id="slide_img_path" height="50" width="100" src="<?php echo base_url() . $products->image; ?>" alt="Product Image">
                           <?php
                           }
                         } else { ?>
