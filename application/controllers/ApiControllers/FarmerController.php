@@ -128,7 +128,14 @@ class FarmerController extends CI_Controller
                     $ProData = $ProData[0];
                     if (!empty($ProData)) {
                         if (!empty($ProData->image)) {
-                            $image = base_url() . $ProData->image;
+                            
+                            $imageArray = json_decode($ProData->image, true);
+                            if (is_array($imageArray) && !empty($imageArray)) {
+                                    $image= base_url() . $imageArray[0];
+                            }else{
+                                $image= base_url() . $ProData->image;
+                            }
+                            
                         } else {
                             $image = '';
                         }
