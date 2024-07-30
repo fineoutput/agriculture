@@ -253,11 +253,18 @@ class Products extends CI_finecontrol
                         $last_id = $this->base_model->insert_table("tbl_products", $data_insert, 1);
                     }
                     if ($typ == 2) {
+
                         $idw = base64_decode($iw);
+
                         $pro_data = $this->db->get_where('tbl_products', array('id' => $idw))->result();
-                        if (empty($image_paths)) {
-                            $image_paths = $pro_data[0]->images;
+
+                      
+                        if (empty(json_decode($image_paths))) {
+
+                            $image_paths = $pro_data[0]->image;
+                            
                         }
+                        
                         $data_insert = array(
                             'name_english' => $name_english,
                             'name_hindi' => $name_hindi,
