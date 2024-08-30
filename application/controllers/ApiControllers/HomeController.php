@@ -405,7 +405,9 @@ class HomeController extends CI_Controller
         } else {
             $language = 'en';
         }
+        
         $authentication = $headers['Authentication'];
+        
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
             //update fcm_token
@@ -491,6 +493,13 @@ class HomeController extends CI_Controller
                 } else {
                     $image = '';
                 }
+
+                if(!empty($pro->video)){
+                    $video = base_url() . $pro->video;
+                }else{
+                    $video = '';
+                }
+
                 if ($pro->inventory != 0) {
                     $stock = 'In Stock';
                 } else {
@@ -507,6 +516,7 @@ class HomeController extends CI_Controller
                         'name' => $pro->name_english,
                         'description' => $pro->description_english,
                         'image' => $image,
+                        'video' => $video,
                         'mrp' => $pro->mrp,
                         'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                         'selling_price' => $pro->selling_price,
@@ -526,6 +536,7 @@ class HomeController extends CI_Controller
                         'name' => $pro->name_hindi,
                         'description' => $pro->description_hindi,
                         'image' => $image,
+                        'video' => $video,
                         'mrp' => $pro->mrp,
                         'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                         'selling_price' => $pro->selling_price,
@@ -544,6 +555,7 @@ class HomeController extends CI_Controller
                         'name' => $pro->name_punjabi,
                         'description' => $pro->description_punjabi,
                         'image' => $image,
+                        'video' => $video,
                         'mrp' => $pro->mrp,
                         'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                         'selling_price' => $pro->selling_price,
