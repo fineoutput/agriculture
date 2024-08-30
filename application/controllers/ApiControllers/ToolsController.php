@@ -546,13 +546,14 @@ class ToolsController extends CI_Controller
                             
                             $imageArray = json_decode($pro->image, true);
                             if (is_array($imageArray) && !empty($imageArray)) {
-                                   $image= base_url() . $imageArray[0];
+                                foreach($imageArray as $img)
+                                   $image[]= base_url() . $img;
                             }else{
-                                $image= base_url() . $pro->image;
+                                $image[]= base_url() . $pro->image;
                             }
                           
                         } else {
-                            $image = '';
+                            $image = [];
                         }
 
                         if(!empty($pro->video)){
