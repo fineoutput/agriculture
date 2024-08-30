@@ -555,6 +555,11 @@ class ToolsController extends CI_Controller
                             $image = '';
                         }
 
+                        if(!empty($pro->video)){
+                            $video = base_url() . $pro->video;
+                        }else{
+                            $video = '';
+                        }
 
                         if ($pro->inventory != 0) {
                             $stock = 'In Stock';
@@ -571,6 +576,7 @@ class ToolsController extends CI_Controller
                             'name' => $pro->name_english,
                             'description' => $pro->description_english,
                             'image' => $image,
+                            'video' => $video,
                             'mrp' => $pro->mrp,
                             'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                             'selling_price' => $pro->selling_price,
@@ -588,6 +594,7 @@ class ToolsController extends CI_Controller
                             'name' => $pro->name_hindi,
                             'description' => $pro->description_hindi,
                             'image' => $image,
+                            'video' => $video,
                             'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                             'mrp' => $pro->mrp,
                             'selling_price' => $pro->selling_price,
@@ -605,6 +612,7 @@ class ToolsController extends CI_Controller
                             'name' => $pro->name_punjabi,
                             'description' => $pro->description_punjabi,
                             'image' => $image,
+                            'video' => $video,
                             'mrp' => $pro->mrp,
                             'min_qty' => $pro->min_qty ? $pro->min_qty : 1,
                             'selling_price' => $pro->selling_price,
