@@ -86,7 +86,7 @@
 
 
                                                     ?></td>
-                                                <td><?php echo $data->cattle_type; ?> </td>
+                                                <td><?php echo $data->cattle_type ?? ''; ?> </td>
                                                 <td><?php echo $data->milking_slot; ?> </td>
                                                 <td><?php echo $data->milk_date; ?> </td>
                                                 <td><?php echo $data->entry_milk; ?> </td>
