@@ -1073,8 +1073,8 @@ class ManagementController extends CI_Controller
           $this->db->from('tbl_breeding_record');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(only_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(only_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(only_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(only_date, "%Y-%m-%d") <=', $To);
           }
           $br_data = $this->db->get();
           $br_expense = $br_data->row()->expenses ? $br_data->row()->expenses : 0;
