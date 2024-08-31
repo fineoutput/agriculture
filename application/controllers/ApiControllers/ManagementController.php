@@ -929,48 +929,58 @@ class ManagementController extends CI_Controller
       if ($this->form_validation->run() == true) {
         $from = $this->input->post('from');
         $to = $this->input->post('to');
+
         date_default_timezone_set("Asia/Calcutta");
+
         $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
         if (!empty($farmer_data)) {
           $data = [];
           if (!empty($from) && !empty($to)) {
-            $newdate = new DateTime($from);
-            $From = $newdate->format('d-m-Y');
-            $newdate2 = new DateTime($to);
-            $To = $newdate2->format('d-m-Y');
+            // $newdate = new DateTime($from);
+            // $From = $newdate->format('d-m-Y');
+            $From =  date('Y-m-d', strtotime($from));
+            // $newdate2 = new DateTime($to);
+            // $To = $newdate2->format('d-m-Y');
+            $To =  date('Y-m-d', strtotime($to));
           } else {
             $From = '';
             $To = '';
           }
-          // echo  $to;die();
+          // echo  $To .','.$From;die();
           //------ medical exp ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_medical_expenses');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           if (!empty($From) && !empty($To)) {
-            $this->db->where('expense_date >=', $From);
-            $this->db->where('expense_date <=', $To);
+            // $this->db->where('expense_date >=', $From);
+            // $this->db->where('expense_date <=', $To);
+            $this->db->where('STR_TO_DATE(expense_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(expense_date, "%d-%m-%Y") <=', $To);
           }
           $medical = $this->db->get();
           $medical_exp = $medical->row()->total_price ? $medical->row()->total_price : 0;
+
+          //  echo $this->db->last_query();die();
+          //  echo  $medical_exp;die();
           //------ Doctor exp ---------
           $this->db->select_sum('fees');
           $this->db->from('tbl_doctor_req');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           if (!empty($From) && !empty($To)) {
             $this->db->where('payment_status >=', 1);
-            $this->db->where('req_date >=', $From);
-            $this->db->where('req_date <=', $To);
+            $this->db->where('STR_TO_DATE(req_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(req_date, "%d-%m-%Y") <=', $To);
           }
           $doc = $this->db->get();
           $doc_exp = $doc->row()->fees ? $doc->row()->fees : 0;
+          // echo $doc_exp;exit;
           //------ milk count ---------
           $this->db->select_sum('total_price');
           $this->db->from('tbl_milk_records');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           if (!empty($From) && !empty($To)) {
-            $this->db->where('milk_date >=', $From);
-            $this->db->where('milk_date <=', $To);
+            $this->db->where('STR_TO_DATE(milk_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(milk_date, "%d-%m-%Y") <=', $To);
           }
           $milk = $this->db->get();
           $milk_income = $milk->row()->total_price ? $milk->row()->total_price : 0;
@@ -980,8 +990,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'feed');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $feed = $this->db->get();
           $feed_exp = $feed->row()->amount ? $feed->row()->amount : 0;
@@ -991,8 +1001,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Animal Sell');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $sale_data = $this->db->get();
           $sale = $sale_data->row()->amount ? $sale_data->row()->amount : 0;
@@ -1002,8 +1012,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Animal Purchase');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $purchase_data = $this->db->get();
           $purchase = $purchase_data->row()->amount ? $purchase_data->row()->amount : 0;
@@ -1013,8 +1023,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Pregnancy Care');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $pg_data = $this->db->get();
           $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
@@ -1024,33 +1034,36 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Pregnancy Care');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $pg_data = $this->db->get();
           $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
+        
           //------ profit ---------
           $this->db->select_sum('amount');
           $this->db->from('tbl_daily_records');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'profit');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $profit_data = $this->db->get();
           $profit = $profit_data->row()->amount ? $profit_data->row()->amount : 0;
+       
           //------ expense ---------
           $this->db->select_sum('amount');
           $this->db->from('tbl_daily_records');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'expense');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('record_date >=', $From);
-            $this->db->where('record_date <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
           }
           $exp_data = $this->db->get();
           $expense = $exp_data->row()->amount ? $exp_data->row()->amount : 0;
+      
           $profit_loss = 0;
           $animal_expenses = $medical_exp + $doc_exp;
           $sub_profit = $profit + $milk_income;
@@ -1060,8 +1073,8 @@ class ManagementController extends CI_Controller
           $this->db->from('tbl_breeding_record');
           $this->db->where('farmer_id', $farmer_data[0]->id);
           if (!empty($From) && !empty($To)) {
-            $this->db->where('only_date >=', $From);
-            $this->db->where('only_date <=', $To);
+            $this->db->where('STR_TO_DATE(only_date, "%d-%m-%Y") >=', $From);
+            $this->db->where('STR_TO_DATE(only_date, "%d-%m-%Y") <=', $To);
           }
           $br_data = $this->db->get();
           $br_expense = $br_data->row()->expenses ? $br_data->row()->expenses : 0;
