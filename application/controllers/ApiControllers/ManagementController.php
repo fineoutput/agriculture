@@ -990,8 +990,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'feed');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $feed = $this->db->get();
           $feed_exp = $feed->row()->amount ? $feed->row()->amount : 0;
@@ -1001,8 +1001,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Animal Sell');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $sale_data = $this->db->get();
           $sale = $sale_data->row()->amount ? $sale_data->row()->amount : 0;
@@ -1012,8 +1012,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Animal Purchase');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $purchase_data = $this->db->get();
           $purchase = $purchase_data->row()->amount ? $purchase_data->row()->amount : 0;
@@ -1023,8 +1023,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Pregnancy Care');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $pg_data = $this->db->get();
           $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
@@ -1034,8 +1034,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('name', 'Pregnancy Care');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $pg_data = $this->db->get();
           $prg_care = $pg_data->row()->amount ? $pg_data->row()->amount : 0;
@@ -1046,8 +1046,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'profit');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $profit_data = $this->db->get();
           $profit = $profit_data->row()->amount ? $profit_data->row()->amount : 0;
@@ -1058,8 +1058,8 @@ class ManagementController extends CI_Controller
           $this->db->where('farmer_id', $farmer_data[0]->id);
           $this->db->where('type', 'expense');
           if (!empty($From) && !empty($To)) {
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") >=', $From);
-            $this->db->where('STR_TO_DATE(record_date, "%d-%m-%Y") <=', $To);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") >=', $From);
+            $this->db->where('STR_TO_DATE(record_date, "%Y-%m-%d") <=', $To);
           }
           $exp_data = $this->db->get();
           $expense = $exp_data->row()->amount ? $exp_data->row()->amount : 0;
