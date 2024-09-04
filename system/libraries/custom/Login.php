@@ -363,7 +363,8 @@ $data_insert2 = array(
 $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
 if (!empty($last_id2)) {
 //--------------- Send login OTP----- -----
-$dlt = '645ca712d6fc053e3918af93';
+// $dlt = '645ca712d6fc053e3918af93';
+$dlt = '1407172223704961719';
 $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
 $respone['status'] = 200;
 $respone['message'] = 'Please enter otp sent to your register mobile number';
