@@ -363,15 +363,10 @@ $data_insert2 = array(
 $last_id2 = $this->CI->base_model->insert_table("tbl_otp", $data_insert2, 1);
 if (!empty($last_id2)) {
 //--------------- Send login OTP----- -----
-// $dlt = '645ca712d6fc053e3918af93';
-$dlt = '1407172223704961719';
-$S_ID = 'AGRIDM';
-// $message = "Dear User, your OTP for login on Dairy Muneem is $OTP and is valid for 5 minutes $OTP";
+$dlt = '645ca712d6fc053e3918af93';
 $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
-// $sendmsg = $this->CI->messages->sendSmsMsg91($phone, $message , $dlt , $S_ID);
 $respone['status'] = 200;
 $respone['message'] = 'Please enter otp sent to your register mobile number';
-
 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
 return json_encode($respone);
 } else {

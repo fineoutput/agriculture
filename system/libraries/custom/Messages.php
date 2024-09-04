@@ -49,19 +49,12 @@ class CI_Messages
     // echo $response;
   }
   //=========================================== SENT MSG91 SMS =============================================
-  public function sendSmsMsg91($phone, $msg, $dlt , $SId = false)
+  public function sendSmsMsg91($phone, $msg, $dlt)
   {
-
-    if($SId){
-      $senderId = $SId;
-    }else{
-      $senderId = SMSID;
-    }
-
     $message = urlencode($msg);
     $curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'http://api.msg91.com/api/sendhttp.php?authkey=' . SMSAUTH . '&mobiles=91' . $phone . '&message=' . $message . '&sender=' . $senderId . '&DLT_TE_ID=' . $dlt . '',
+      CURLOPT_URL => 'http://api.msg91.com/api/sendhttp.php?authkey=' . SMSAUTH . '&mobiles=91' . $phone . '&message=' . $message . '&sender=' . SMSID . '&DLT_TE_ID=' . $dlt . '',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => '',
       CURLOPT_MAXREDIRS => 10,
