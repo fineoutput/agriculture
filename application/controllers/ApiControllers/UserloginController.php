@@ -158,7 +158,7 @@ class UserloginController extends CI_Controller
                 $phone = $this->input->post('phone');
                // $type = $this->input->post('type');
                 //------ user login send otp ----------
-                $Login = $this->login->farmer_LoginWithOtp($phone);
+                $Login = $this->login->farmer_LogindWithOtp($phone);
                 echo $Login;
             } else {
                 $respone['status'] = false;
