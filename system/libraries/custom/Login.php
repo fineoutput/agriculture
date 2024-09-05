@@ -367,8 +367,8 @@ if (!empty($last_id2)) {
 $dlt = '1407172223704961719';
 $message = " Dear User, your OTP for login on Dairy Muneem is $OTP and is valid for 5 minutes pUv+EzzZ5ml";
 
-$sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
-// $sendmsg = $this->CI->messages->sendSmsMsg91($phone, $message, $dlt);
+// $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
+$sendmsg = $this->CI->messages->sendSmsMsg91($phone, $message, $dlt);
 $respone['status'] = 200;
 $respone['message'] = 'Please enter otp sent to your register mobile number';
 // $this->CI->session->set_flashdata('smessage', 'Please enter otp sent to your register mobile number');
