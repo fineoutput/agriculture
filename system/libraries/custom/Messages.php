@@ -51,7 +51,7 @@ class CI_Messages
   //=========================================== SENT MSG91 SMS =============================================
   public function sendSmsMsg91($phone, $msg, $dlt)
   {
-    $message = urlencode($msg).'pUv%2BEzzZ5ml';
+    $message = urlencode($msg);
     $curl = curl_init();
     curl_setopt_array($curl, array(
       CURLOPT_URL => 'http://api.msg91.com/api/sendhttp.php?authkey=' . SMSAUTH . '&mobiles=91' . $phone . '&message=' . $message . '&sender=' . SMSID . '&DLT_TE_ID=' . $dlt . '',
