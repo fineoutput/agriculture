@@ -338,7 +338,7 @@ die();
 }
 }
 //============================================= LOGIN WITH OTP ==============================================
-public function farmer_LoginWithOtp($phone)
+public function farmer_LogindWithOtp($phone)
 {
 // if (empty($this->CI->session->userdata('user_data'))) {
 $ip = $this->CI->input->ip_address();
@@ -365,7 +365,7 @@ if (!empty($last_id2)) {
 //--------------- Send login OTP----- -----
 // $dlt = '645ca712d6fc053e3918af93';
 $dlt = '1407172223704961719';
-$message = " Dear User, your OTP for login on Dairy Muneem is $OTP and is valid for 5 minutes pUv+EzzZ5ml";
+$message = "Dear User, your OTP for login on Dairy Muneem is $OTP and is valid for 5 minutes pUv+EzzZ5ml";
 
 // $sendmsg = $this->CI->messages->sendOtpMsg91($phone, $OTP, $dlt);
 $sendmsg = $this->CI->messages->sendSmsMsg91($phone, $message, $dlt);
