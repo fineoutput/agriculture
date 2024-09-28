@@ -20,7 +20,7 @@ class Vendor_order extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', [1, 2]);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 1); //new orders
             $this->db->where('is_admin', 0); //vendor orders
@@ -54,7 +54,7 @@ class Vendor_order extends CI_finecontrol
             $data['user_name'] = $this->load->get_var('user_name');
             $this->db->select('*');
             $this->db->from('tbl_order1');
-            $this->db->where('payment_status', 1);
+            $this->db->where_in('payment_status', [1, 2]);
             $this->db->order_by('id', 'desc');
             $this->db->where('order_status', 2); //accepted orders
             $this->db->where('is_admin', 0); //vendor orders
