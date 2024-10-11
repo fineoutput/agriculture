@@ -52,7 +52,7 @@ class VendorController extends CI_Controller
             $this->db->from('tbl_order1');
             $this->db->where('vendor_id', $vendor_data[0]->id);
             $this->db->where('is_admin', 0);
-            $this->db->where('payment_status', 1);
+            $this->db->where('payment_status', [1, 2]);
             $this->db->where('order_status', 1);
             $this->db->order_by('id', 'desc');
             $this->db->limit($limit, $start);
