@@ -211,7 +211,7 @@
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('I41')->getFormattedValue() ?> % DM</td>
                         </tr>
                         <tr>
-                            <td>Total Digestible Energy (DE) Intake:</td>
+                            <td>Total Digestible Energy (TDN) Intake:</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F42')->getFormattedValue() ?> Mcal/cow/day</td>
                             <td>Rumen Undegradable Protein (RUP) Intake:</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('I42')->getFormattedValue() ?> kg/cow/day</td>
@@ -223,7 +223,7 @@
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('I43')->getFormattedValue() ?> % DM</td>
                         </tr>
                         <tr>
-                            <td>Total Digestible Energy (DE) Intake:</td>
+                            <td>Total Digestible Energy (TDN) Intake:</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('F44')->getFormattedValue() ?> kg/cow/day</td>
                             <td>Metabolizable Protein (MP) Intake:</td>
                             <td class="info2"><?= $objPHPExcel->setActiveSheetIndex(0)->getCell('I44')->getFormattedValue() ?> kg/cow/day</td>
