@@ -19,7 +19,7 @@ class Admin_orders extends CI_finecontrol
              $data['user_name'] = $this->load->get_var('user_name');
              $this->db->select('*');
              $this->db->from('tbl_order1');
-             $this->db->where('payment_status', 1);
+             $this->db->where('payment_status', array(1, 2));
              $this->db->order_by('id', 'desc');
             
              $this->db->where('is_admin', 1); //admin orders
