@@ -30,9 +30,9 @@ class UserloginController extends CI_Controller
         if ($this->input->post()) {
             $this->form_validation->set_rules('name', 'name', 'required|xss_clean|trim');
             $this->form_validation->set_rules('village', 'village', 'xss_clean|trim');
-            $this->form_validation->set_rules('district', 'district', 'xss_clean|trim');
-            $this->form_validation->set_rules('city', 'city', 'xss_clean|trim');
-            $this->form_validation->set_rules('state', 'state', 'xss_clean|trim');
+            $this->form_validation->set_rules('district', 'district', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('city', 'city', 'required|xss_clean|trim');
+            $this->form_validation->set_rules('state', 'state', 'required|xss_clean|trim');
             $this->form_validation->set_rules('pincode', 'pincode', 'xss_clean|trim');
             $this->form_validation->set_rules('phone', 'phone', 'required|xss_clean|trim');
             $this->form_validation->set_rules('type', 'type', 'required|xss_clean|trim');
@@ -204,7 +204,8 @@ class UserloginController extends CI_Controller
       public function register_process()
       {
 
-       
+       echo'hii';
+       exit;
           $this->load->helper(array('form', 'url'));
           $this->load->library('form_validation');
           $this->load->helper('security');
