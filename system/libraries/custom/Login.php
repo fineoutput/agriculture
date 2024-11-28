@@ -35,7 +35,7 @@ $this->CI->db->from('gift_card');
 $this->CI->db->order_by('amount','ASC');
 $gf = $this->CI->db->get()->row();
 
-$url = base_url."assets/uploads/gift_card/".$gf->image;
+$url = base_url()."assets/uploads/gift_card/".$gf->image;
 
 
 // GIFT CARD CODES ENDS HERE
