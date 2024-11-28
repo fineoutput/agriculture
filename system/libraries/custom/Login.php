@@ -27,6 +27,14 @@ if (empty($farmerCheck)) {
 
 if ($receive['type'] == 'farmer') {
 $auth = bin2hex(random_bytes(18)); //--- generate auth ---
+
+$this->db->select('*');
+$this->db->from('gift_card');
+$this->db->order_by('amount','ASC');
+$gf $this->db->get()->row();
+
+$url = base_url."assets/uploads/gift_card/".$gf->image;
+
 $data_insert = array(
     'name' => $receive['name'],
     'village' => $receive['village'],
@@ -41,6 +49,7 @@ $data_insert = array(
     'auth' => $auth,
     'ip' => $ip,
     'is_active' => 1,
+    'giftcard_id' => $gf->id,
     'date' => $cur_date
 );
 $last_id2 = $this->CI->base_model->insert_table("tbl_farmers", $data_insert, 1);
@@ -48,6 +57,9 @@ $data = array(
     'name' => $receive['name'],
     'auth' => $auth,
     'is_login' => 1,
+    'giftcard' => GIFTCARD,
+    'giftcard_url' => $url
+
 );
 //--- send welcome msg ---------
 // $msg = 'प्रिय किसान, आपका पंजीकरण सफल हुआ, DAIRY MUNEEM में आपका स्वागत है। विभिन्न सुविधाओं के लिए डेयरी मुनीम ऐप का इस्तेमाल करें। व्हाट्सएप द्वारा हमसे जुड़ने के लिए क्लिक करें bit.ly/dairy_muneem। अधिक जानकारी के लिए 7891029090 पर कॉल करें । धन्यवाद ! – DAIRY MUNEEM';

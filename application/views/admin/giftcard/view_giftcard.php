@@ -55,7 +55,7 @@
                                             <tr>
                                                 <td><?php echo $i; ?> </td>
                                                 <td><img id="slide_img_path" height=50 width=100 src="<?php echo base_url() .'assets/uploads/gift_card/' .$data->image ?>"> </td>
-                                                <td><?php echo $data->amount; ?> </td>
+                                                <td>₹<?php echo $data->amount; ?> </td>
                                                 <td><?php echo $data->gift_count; ?> </td>
                                                 <td><?php echo $data->date; ?> </td>
                                                 <td>

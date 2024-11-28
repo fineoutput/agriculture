@@ -21,6 +21,7 @@ class Giftcard extends CI_finecontrol
             
             $this->db->select('*');
             $this->db->from('gift_card');
+            $this->db->order_by('amount','ASC');
             $data['gift_card']= $this->db->get();
 
             $this->load->view('admin/common/header_view',$data);
