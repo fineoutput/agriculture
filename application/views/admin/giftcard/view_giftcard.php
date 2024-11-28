@@ -15,16 +15,7 @@
             <a class="btn btn-info cticket" href="<?php echo base_url() ?>dcadmin/Giftcard/add_giftcard" role="button" style="margin-bottom:12px;"> Add Gift Card </a>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3>
-                            <?
-                            $this->db->select('*');
-                            $this->db->from('gift_card');
-                            $gift_card  = $this->db->get();
-                
-
-                            ?>
-
-                        </h3>
+                        <h3>Gift Card</h3>
                     </div>
                     <div class="panel panel-default">
 
@@ -52,7 +43,7 @@
                                             <th>#</th>
                                             <th>Image</th>
                                             <th>Amount</th>
-                                            <th>Price</th>
+                                            
                                             <th>Gift Coount</th>
                                             <th>Date</th>
                                             <th>Action</th>
@@ -60,12 +51,11 @@
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;
-                                        foreach ($gift_card ->result() as $data) { ?>
+                                        foreach ($gift_card->result() as $data) { ?>
                                             <tr>
                                                 <td><?php echo $i; ?> </td>
                                                 <td><img id="slide_img_path" height=50 width=100 src="<?php echo base_url() .'assets/uploads/gift_card/' .$data->image ?>"> </td>
                                                 <td><?php echo $data->amount; ?> </td>
-                                                <td><?php echo $data->price; ?> </td>
                                                 <td><?php echo $data->gift_count; ?> </td>
                                                 <td><?php echo $data->date; ?> </td>
                                                 <td>

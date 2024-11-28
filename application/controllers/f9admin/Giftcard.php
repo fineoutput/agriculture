@@ -17,7 +17,12 @@ class Giftcard extends CI_finecontrol
     {
     
         if(!empty($this->session->userdata('admin_data'))){
-            $data['user_name']=$this->load->get_var('user_name');
+
+            
+            $this->db->select('*');
+            $this->db->from('gift_card');
+            $data['gift_card']= $this->db->get();
+
             $this->load->view('admin/common/header_view',$data);
             $this->load->view('admin/giftcard/view_giftcard');
             $this->load->view('admin/common/footer_view');
