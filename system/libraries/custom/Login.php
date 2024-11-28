@@ -31,7 +31,7 @@ $auth = bin2hex(random_bytes(18)); //--- generate auth ---
 $this->db->select('*');
 $this->db->from('gift_card');
 $this->db->order_by('amount','ASC');
-$gf $this->db->get()->row();
+$gf = $this->db->get()->row();
 
 $url = base_url."assets/uploads/gift_card/".$gf->image;
 
