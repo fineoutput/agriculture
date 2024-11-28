@@ -77,13 +77,11 @@ $this->load->helper(array('form', 'url'));
               // print_r($this->input->post());
               // exit;
               $this->form_validation->set_rules('amount', 'amount', 'required|xss_clean|trim');
-              $this->form_validation->set_rules('price', 'price', 'required|xss_clean|trim');
               $this->form_validation->set_rules('count', 'count', 'required|xss_clean|trim');
         
               if($this->form_validation->run()== TRUE)
               {
                 $amount=$this->input->post('amount');
-                $price=$this->input->post('price');
                 $count=$this->input->post('count');
 
                 $ip = $this->input->ip_address();
@@ -133,7 +131,6 @@ $this->load->helper(array('form', 'url'));
                         }
 
           $data_insert = array('amount'=>$amount,
-                    'price'=>$price,
                     'gift_count'=>$count,
                     'image'=>$nnnn,
                     'ip' =>$ip,
@@ -192,7 +189,6 @@ $this->load->helper(array('form', 'url'));
                         }
 
       $data_insert = array('amount'=>$amount,
-                    'price'=>$price,
                     'count'=>$count,
                     'image'=>$nnnn,
                     'is_active' =>1,

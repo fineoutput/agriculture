@@ -35,10 +35,7 @@
                       <td> <strong>Amount</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="text" name="amount"  class="form-control" placeholder="" required></td>
                     </tr> 
-                    <tr>
-                      <td> <strong>Price</strong> <span style="color:red;">*</span></strong> </td>
-                      <td> <input type="text" name="price"  class="form-control" placeholder="" required></td>
-                    </tr> 
+                  
                     <tr>
                       <td> <strong>Gift Count</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="text" name="count"  class="form-control" placeholder="" required></td>
