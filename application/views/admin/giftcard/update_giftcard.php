@@ -27,7 +27,7 @@
           <? }  ?>
           <div class="panel-body">
             <div class="col-lg-10">
-              <form action=" <?php echo base_url()  ?>dcadmin/Giftcard/add_giftcard_data/<? echo base64_encode(1) ?>" method="POST" id="slide_frm" enctype="multipart/form-data">
+              <form action=" <?php echo base_url()  ?>dcadmin/Giftcard/add_giftcard_data/<? echo base64_encode(2) ?>/<? echo base64_encode($id);?>" method="POST" id="slide_frm" enctype="multipart/form-data">
                 <div class="table-responsive">
                   <table class="table table-hover">
            
@@ -35,27 +35,12 @@
                       <td> <strong>Amount</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="text" name="amount"  class="form-control" value="<?= $gift->amount ?>" placeholder="" required></td>
                     </tr> 
-                    <tr>
-                      <td> <strong>Price</strong> <span style="color:red;">*</span></strong> </td>
-                      <td> <input type="text" name="price"  class="form-control" placeholder="" required></td>
-                    </tr> 
+                  
                     <tr>
                       <td> <strong>Gift Count</strong> <span style="color:red;">*</span></strong> </td>
-                      <td> <input type="text" name="count"  class="form-control" placeholder="" required></td>
+                      <td> <input type="text" name="count"  class="form-control" placeholder="" value="<?= $gift->count ?>" required></td>
                     </tr>   
-                    <tr>
-    <td> <strong>Active</strong> <span style="color:red;">*</span> </td>
-    <td>
-        <label>
-            <input type="radio" name="is_active" value="1" class="form-control" required>
-            Yes
-        </label>
-        <label>
-            <input type="radio" name="is_active" value="0" class="form-control" required>
-            No
-        </label>
-    </td>
-</tr>
+           
 <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="file" name="image1" class="form-control" placeholder="" required value="" /> </td>
