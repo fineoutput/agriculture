@@ -194,18 +194,32 @@ $this->load->helper(array('form', 'url'));
             }
                         }
 
+            if(!empty($nnnn)){
+                $nnn = $nnnn;
+            }      
+            else{
+                $this->db->select('*');
+            $this->db->from('gift_card');
+            $this->db->where('id',$idw);
+            $dsa= $this->db->get();
+            $da=$dsa->row();
+            if(!empty($da)){
+              $nnn = $da->image;
+            }
+          else{
+            $nnn = "";
+          }
+            }      
+
       $data_insert = array('amount'=>$amount,
                     'count'=>$count,
-                    'image'=>$nnnn,
-                    'is_active' =>1,
+                    'image'=>$nnn
                   
 
                     );
 
 
-
-
-$this->db->where('id', $idw);
+            $this->db->where('id', $idw);
             $last_id=$this->db->update('gift_card', $data_insert);
 
           }

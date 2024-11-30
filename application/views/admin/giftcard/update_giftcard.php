@@ -38,13 +38,13 @@
                   
                     <tr>
                       <td> <strong>Gift Count</strong> <span style="color:red;">*</span></strong> </td>
-                      <td> <input type="text" name="count"  class="form-control" placeholder="" value="<?= $gift->count ?>" required></td>
+                      <td> <input type="text" name="count"  class="form-control" placeholder="" value="<?= $gift->gift_count; ?>" required></td>
                     </tr>   
            
 <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
                       <td> <input type="file" name="image1" class="form-control" placeholder="" required value="" /> </td>
-                    </tr>
+                    <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() .'assets/uploads/gift_card/' .$gift->image ?>">
     
                     <tr>
                       <td colspan="2">
