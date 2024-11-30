@@ -43,9 +43,9 @@
            
 <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>
-                      <td> <input type="file" name="image1" class="form-control" placeholder="" required value="" /> </td>
+                      <td> <input type="file" name="image1" class="form-control" placeholder="" value="" /> 
                     <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() .'assets/uploads/gift_card/' .$gift->image ?>">
-    
+                    </td>
                     <tr>
                       <td colspan="2">
                         <input type="submit" class="btn btn-success" value="save">
