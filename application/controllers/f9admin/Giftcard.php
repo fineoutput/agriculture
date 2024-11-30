@@ -52,7 +52,7 @@ class Giftcard extends CI_finecontrol
         if (!empty($this->session->userdata('admin_data'))) {
 
             $id=base64_decode($idd);
-                     $data['id']=$idd;
+                     $data['id']=$id;
 
                 $this->db->select('*');
                             $this->db->from('gift_card');

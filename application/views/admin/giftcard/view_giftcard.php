@@ -44,7 +44,7 @@
                                             <th>Image</th>
                                             <th>Amount</th>
                                             
-                                            <th>Gift Coount</th>
+                                            <th>Gift Count</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
