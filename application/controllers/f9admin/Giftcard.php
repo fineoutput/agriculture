@@ -212,7 +212,7 @@ $this->load->helper(array('form', 'url'));
             }      
 
       $data_insert = array('amount'=>$amount,
-                    'count'=>$count,
+                    'gift_count'=>$count,
                     'image'=>$nnn
                   
 
