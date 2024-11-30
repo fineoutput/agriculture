@@ -32,10 +32,18 @@ $auth = bin2hex(random_bytes(18)); //--- generate auth ---
 
 $this->CI->db->select('*');
 $this->CI->db->from('gift_card');
-$this->CI->db->order_by('amount','ASC');
+$this->CI->db->where('gift_count >', 1); // Add the condition for gift_count
+$this->CI->db->order_by('RAND()');       // Randomize the order of results
 $gf = $this->CI->db->get()->row();
 
 $url = base_url()."assets/uploads/gift_card/".$gf->image;
+
+$data_update = array(
+    'gift_count'=>$gf->gift_count-1,
+    );
+
+    $this->db->where('id', $gf->id);
+    $zapak=$this->db->update('gift_card', $data_update);
 
 
 // GIFT CARD CODES ENDS HERE
