@@ -486,7 +486,7 @@ class ToolsController extends CI_Controller
                 $search = $this->input->post('search');
                 $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
                 if (!empty($farmer_data)) {
-                    $limit = 20;
+                    $limit = 25;
                     if (!empty($page_index)) {
                         $start = ($page_index - 1) * $limit;
                     } else {
