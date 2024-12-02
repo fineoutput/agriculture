@@ -2443,6 +2443,22 @@ class FarmerController extends CI_Controller
             } else {
                 $image = '';
             }
+            $gift_data = [];
+        if (!empty($farmer_data[0]->giftcard_id)) {
+            $gift_id = $farmer_data[0]->giftcard_id;
+            $this->db->select('amount, image, price, gift_count,allocated');
+            $gift_data = $this->db->get_where('gift_card', array('id' => $gift_id,'is_active' => 1))->row();
+            if ($gift_data) {
+                // If gift data is found, create an array with necessary data
+                $gift_data = array(
+                    'gift_amount' => $gift_data->amount,
+                    'gift_price' => $gift_data->price,
+                    'gift_count' => $gift_data->gift_count,
+                    'gift_allocated' => $gift_data->allocated,
+                    'gift_image' => base_url() . 'assets/uploads/gift_card/' . $gift_data->image // Ensure correct path to image
+                );
+            }
+        }
             // // $state_data = $this->db->get_where('all_states', array('id' => $farmer_data[0]->state,))->result();
             // if (!empty($state_data)) {
             //     $state = $state_data[0]->state_name;
@@ -2460,6 +2476,7 @@ class FarmerController extends CI_Controller
                 'image' => $image,
                 'no_animals' => $farmer_data[0]->no_animals,
                 'gst_no' => $farmer_data[0]->gst_no,
+                'gift' => $gift_data,
             );
             $res = array(
                 'message' => "Success!",
