@@ -77,6 +77,15 @@ else {
 
 ?>
 <li><a href="<?php echo base_url() ?>dcadmin/Giftcard/update_giftcard/<?php echo base64_encode($data->id) ?>">Edit</a></li>
+<?php if($data->allocated==0){ ?>
+<li><a href="<?php echo base_url() ?>dcadmin/Giftcard/allocated/<?php echo base64_encode($data->id) ?>">Allocat</a></li>
+<?php } 
+else { 
+    ?>
+    <li><a href="#">Allocated</a></li>
+<?php
+}
+?>
 <li><a href="javascript:;" class="dCnf" mydata="<?php echo $i ?>">Delete</a></li>
 </ul>
 </div>

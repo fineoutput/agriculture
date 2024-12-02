@@ -295,4 +295,27 @@ class Giftcard extends CI_finecontrol
             $this->load->view('admin/login/index');
         }
     }
+
+    public function allocated($alt_id)
+    {
+        if (!empty($this->session->userdata('admin_data'))) { 
+            $data['user_name'] = $this->load->get_var('user_name'); 
+            $id = base64_decode($alt_id);
+            $data_update = array(
+                'allocated' => 1 
+            );
+            $this->db->where('id', $id);
+            $zapak = $this->db->update('gift_card', $data_update);
+            if ($zapak != 0) {
+                $this->session->set_flashdata('smessage', 'Gift card allocated successfully.');
+                redirect("dcadmin/Giftcard", "refresh");
+            } else {
+                $data['e'] = "Error occurred while allocating the gift card status.";
+                $this->load->view('errors/error500admin', $data);
+            }
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
+    
 }
