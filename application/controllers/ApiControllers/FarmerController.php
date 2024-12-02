@@ -2446,13 +2446,12 @@ class FarmerController extends CI_Controller
             $gift_data = [];
         if (!empty($farmer_data[0]->giftcard_id)) {
             $gift_id = $farmer_data[0]->giftcard_id;
-            $this->db->select('amount, image, price, gift_count,allocated');
+            $this->db->select('amount, image, gift_count,allocated');
             $gift_data = $this->db->get_where('gift_card', array('id' => $gift_id,'is_active' => 1))->row();
             if ($gift_data) {
                 // If gift data is found, create an array with necessary data
                 $gift_data = array(
                     'gift_amount' => $gift_data->amount,
-                    'gift_price' => $gift_data->price,
                     'gift_count' => $gift_data->gift_count,
                     'gift_allocated' => $gift_data->allocated,
                     'gift_image' => base_url() . 'assets/uploads/gift_card/' . $gift_data->image // Ensure correct path to image
