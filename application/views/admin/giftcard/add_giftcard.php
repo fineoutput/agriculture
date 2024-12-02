@@ -41,17 +41,14 @@
                       <td> <input type="text" name="count"  class="form-control" placeholder="" required></td>
                     </tr>   
                     <tr>
-    <td> <strong>Active</strong> <span style="color:red;">*</span> </td>
+   <!-- <td><strong>Active</strong> <span style="color:red;">*</span></td>
     <td>
-        <label>
-            <input type="radio" name="is_active" value="1" class="form-control" required>
-            Yes
-        </label>
-        <label>
-            <input type="radio" name="is_active" value="0" class="form-control" required>
-            No
-        </label>
-    </td>
+    <select name="is_active" class="form-control" required>
+        <option value="">-- Select Status --</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+    </td> -->
 </tr>
 <tr>
                       <td> <strong>Image</strong> <span style="color:red;">*</span></strong> </td>

@@ -65,11 +65,11 @@
 <ul class="dropdown-menu" role="menu">
 
 <?php if($data->is_active==1){ ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Giftcard/updateteamStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Giftcard/updateGiftCardStatus/<?php echo base64_encode($data->id) ?>/inactive">Inactive</a></li>
 <?php } 
 else { 
     ?>
-<li><a href="<?php echo base_url() ?>dcadmin/Giftcard/updateteamStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
+<li><a href="<?php echo base_url() ?>dcadmin/Giftcard/updateGiftCardStatus/<?php echo base64_encode($data->id) ?>/active">Active</a></li>
 
 <?php
  
@@ -84,7 +84,7 @@ else {
 
 <div style="display:none" id="cnfbox<?php echo $i ?>">
 <p> Are you sure delete this </p>
-<a href="<?php echo base_url() ?>admin/home/delete_team/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
+<a href="<?php echo base_url() ?>dcadmin/Giftcard/delete_gift/<?php echo base64_encode($data->id); ?>" class="btn btn-danger" >Yes</a>
 <a href="javasript:;" class="cans btn btn-default" mydatas="<?php echo $i ?>" >No</a>
 </div>
 </td>
@@ -110,6 +110,25 @@ else {
 </style>
 <script src="<?php echo base_url() ?>assets/admin/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?php echo base_url() ?>assets/admin/plugins/datatables/dataTables.bootstrap.js"></script>
-
+<script type="text/javascript">
+  $(document).ready(function() {
+    // $('#userTable').DataTable({
+    // responsive: true,
+    // // bSort: true
+    // });
+    $(document.body).on('click', '.dCnf', function() {
+      var i = $(this).attr("mydata");
+      console.log(i);
+      $("#btns" + i).hide();
+      $("#cnfbox" + i).show();
+    });
+    $(document.body).on('click', '.cans', function() {
+      var i = $(this).attr("mydatas");
+      console.log(i);
+      $("#btns" + i).show();
+      $("#cnfbox" + i).hide();
+    })
+  });
+</script>
 <!-- <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/ajaxupload.3.5.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/slider/rs.js"></script>-->

@@ -32,9 +32,9 @@ class Giftcard extends CI_finecontrol
                 redirect("login/admin_login","refresh");
             }
     
-   }
+    }
 
-   public function add_giftcard()
+    public function add_giftcard()
     {
         if (!empty($this->session->userdata('admin_data'))) {
             $data['user_name'] = $this->load->get_var('user_name');
@@ -68,14 +68,11 @@ class Giftcard extends CI_finecontrol
         }
     }
 
-public function add_giftcard_data($t,$iw="")
+    public function add_giftcard_data($t,$iw="")
+    {
 
-              {
-
-                if(!empty($this->session->userdata('admin_data'))){
-
-
-$this->load->helper(array('form', 'url'));
+      if(!empty($this->session->userdata('admin_data'))){
+      $this->load->helper(array('form', 'url'));
             $this->load->library('form_validation');
             $this->load->helper('security');
             if($this->input->post())
@@ -91,52 +88,49 @@ $this->load->helper(array('form', 'url'));
                 $count=$this->input->post('count');
 
                 $ip = $this->input->ip_address();
-          date_default_timezone_set("Asia/Calcutta");
-                  $cur_date=date("Y-m-d H:i:s");
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date=date("Y-m-d H:i:s");
 
                 $addedby=$this->session->userdata('admin_id');
-
-          $typ=base64_decode($t);
-          if($typ==1){
-
-            $this->load->library('upload');
-                      $img1='image1';
+                $typ=base64_decode($t);
+                if($typ==1){
+                $this->load->library('upload');
+                $img1='image1';
+                $file_check=($_FILES['image1']['error']);
+                if($file_check!=4){
+                $image_upload_folder = FCPATH . "assets/uploads/gift_card/";
+                if (!file_exists($image_upload_folder))
+                  {
+                  mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                   }
+                $new_file_name="gift_card".date("Ymdhms");
+                $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' =>'xlsx|csv|xls|pdf|doc|docx|txt|jpg|jpeg|png',
+                'max_size'      => 25000
+                );
+                $this->upload->initialize($this->upload_config);
+                if (!$this->upload->do_upload($img1))
+                {
+                $upload_error = $this->upload->display_errors();
+                // echo json_encode($upload_error);
+                echo $upload_error;
+                }
+                else
+                {
             
-                        $file_check=($_FILES['image1']['error']);
-                        if($file_check!=4){
-            $image_upload_folder = FCPATH . "assets/uploads/gift_card/";
-            if (!file_exists($image_upload_folder))
-            {
-            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-            }
-            $new_file_name="gift_card".date("Ymdhms");
-            $this->upload_config = array(
-            'upload_path'   => $image_upload_folder,
-            'file_name' => $new_file_name,
-            'allowed_types' =>'xlsx|csv|xls|pdf|doc|docx|txt|jpg|jpeg|png',
-            'max_size'      => 25000
-            );
-            $this->upload->initialize($this->upload_config);
-            if (!$this->upload->do_upload($img1))
-            {
-            $upload_error = $this->upload->display_errors();
-            // echo json_encode($upload_error);
-            echo $upload_error;
-            }
-            else
-            {
-            
-            $file_info = $this->upload->data();
-            
-            $videoNAmePath = "assets/uploads/gift_card/".$new_file_name.$file_info['file_ext'];
-            $file_info['new_name']=$videoNAmePath;
-            // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-            $nnnn=$file_info['file_name'];
-            // echo json_encode($file_info);
-            }
-                        }
+                $file_info = $this->upload->data();
 
-          $data_insert = array('amount'=>$amount,
+                $videoNAmePath = "assets/uploads/gift_card/".$new_file_name.$file_info['file_ext'];
+                $file_info['new_name']=$videoNAmePath;
+                // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+                $nnnn=$file_info['file_name'];
+                // echo json_encode($file_info);
+                }
+                    }
+
+                $data_insert = array('amount'=>$amount,
                     'gift_count'=>$count,
                     'image'=>$nnnn,
                     'ip' =>$ip,
@@ -146,130 +140,159 @@ $this->load->helper(array('form', 'url'));
 
                     );
 
-
-
-
-
-          $last_id=$this->base_model->insert_table("gift_card",$data_insert,1) ;
-
-          }
-          if($typ==2){
-
-   $idw=base64_decode($iw);
-
-   $this->load->library('upload');
-                      $img1='image1';
+                $last_id=$this->base_model->insert_table("gift_card",$data_insert,1) ;
+                }
+                if($typ==2){
+                    $idw=base64_decode($iw);
+                    $this->load->library('upload');
+                    $img1='image1';
+                    $file_check=($_FILES['image1']['error']);
+                    if($file_check!=4){
+                    $image_upload_folder = FCPATH . "assets/uploads/gift_card/";
+                if (!file_exists($image_upload_folder))
+                {
+                mkdir($image_upload_folder, DIR_WRITE_MODE, true);
+                }
+                $new_file_name="gift_card".date("Ymdhms");
+                $this->upload_config = array(
+                'upload_path'   => $image_upload_folder,
+                'file_name' => $new_file_name,
+                'allowed_types' =>'xlsx|csv|xls|pdf|doc|docx|txt|jpg|jpeg|png',
+                'max_size'      => 25000
+                );
+                $this->upload->initialize($this->upload_config);
+                if (!$this->upload->do_upload($img1))
+                {
+                $upload_error = $this->upload->display_errors();
+                // echo json_encode($upload_error);
+                echo $upload_error;
+                }
+                else
+                {
             
-                        $file_check=($_FILES['image1']['error']);
-                        if($file_check!=4){
-            $image_upload_folder = FCPATH . "assets/uploads/gift_card/";
-            if (!file_exists($image_upload_folder))
-            {
-            mkdir($image_upload_folder, DIR_WRITE_MODE, true);
-            }
-            $new_file_name="gift_card".date("Ymdhms");
-            $this->upload_config = array(
-            'upload_path'   => $image_upload_folder,
-            'file_name' => $new_file_name,
-            'allowed_types' =>'xlsx|csv|xls|pdf|doc|docx|txt|jpg|jpeg|png',
-            'max_size'      => 25000
-            );
-            $this->upload->initialize($this->upload_config);
-            if (!$this->upload->do_upload($img1))
-            {
-            $upload_error = $this->upload->display_errors();
-            // echo json_encode($upload_error);
-            echo $upload_error;
-            }
-            else
-            {
-            
-            $file_info = $this->upload->data();
-            
-            $videoNAmePath = "assets/uploads/gift_card/".$new_file_name.$file_info['file_ext'];
-            $file_info['new_name']=$videoNAmePath;
-            // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
-            $nnnn=$file_info['file_name'];
-            // echo json_encode($file_info);
-            }
-                        }
+                $file_info = $this->upload->data();
 
-            if(!empty($nnnn)){
-                $nnn = $nnnn;
-            }      
-            else{
-                $this->db->select('*');
-            $this->db->from('gift_card');
-            $this->db->where('id',$idw);
-            $dsa= $this->db->get();
-            $da=$dsa->row();
-            if(!empty($da)){
-              $nnn = $da->image;
-            }
-          else{
-            $nnn = "";
-          }
-            }      
-
-      $data_insert = array('amount'=>$amount,
+                $videoNAmePath = "assets/uploads/gift_card/".$new_file_name.$file_info['file_ext'];
+                $file_info['new_name']=$videoNAmePath;
+                // $this->step6_model->updateappIconImage($imageNAmePath,$appInfoId);
+                $nnnn=$file_info['file_name'];
+                // echo json_encode($file_info);
+                }
+                            }
+                          
+                if(!empty($nnnn)){
+                    $nnn = $nnnn;
+                }      
+                else{
+                    $this->db->select('*');
+                $this->db->from('gift_card');
+                $this->db->where('id',$idw);
+                $dsa= $this->db->get();
+                $da=$dsa->row();
+                if(!empty($da)){
+                  $nnn = $da->image;
+                }
+                else{
+                  $nnn = "";
+                }
+                  }      
+                
+                $data_insert = array('amount'=>$amount,
                     'gift_count'=>$count,
                     'image'=>$nnn
-                  
-
                     );
+                $this->db->where('id', $idw);
+                $last_id=$this->db->update('gift_card', $data_insert);
+                 }
+                if($last_id!=0){
+                $this->session->set_flashdata('smessage','Data inserted successfully');
+                redirect("dcadmin/Giftcard","refresh");
+                }
+               else{
+                $this->session->set_flashdata('emessage','Sorry error occured');
+                redirect($_SERVER['HTTP_REFERER']);
+                  }
+                   }
+                else{
 
-
-            $this->db->where('id', $idw);
-            $last_id=$this->db->update('gift_card', $data_insert);
-
-          }
-
-
-                              if($last_id!=0){
-
-$this->session->set_flashdata('smessage','Data inserted successfully');
-
-                              redirect("dcadmin/Giftcard","refresh");
-
-                                      }
-
-                                      else
-
-                                      {
-
-$this->session->set_flashdata('emessage','Sorry error occured');
-redirect($_SERVER['HTTP_REFERER']);
-
-
-                                      }
-
-
+              $this->session->set_flashdata('emessage',validation_errors());
+              redirect($_SERVER['HTTP_REFERER']);
+                }
               }
             else{
-
-$this->session->set_flashdata('emessage',validation_errors());
-     redirect($_SERVER['HTTP_REFERER']);
-
+            $this->session->set_flashdata('emessage','Please insert some data, No data available');
+            redirect($_SERVER['HTTP_REFERER']);
             }
-
             }
-          else{
-
-$this->session->set_flashdata('emessage','Please insert some data, No data available');
-     redirect($_SERVER['HTTP_REFERER']);
-
+            else{
+            redirect("login/admin_login","refresh");
           }
-          }
-          else{
+    }
 
-redirect("login/admin_login","refresh");
+    public function delete_gift($id) 
+    {
+        if (!empty($this->session->userdata('admin_data'))) { 
+            $data['user_name'] = $this->load->get_var('user_name'); 
+            $decoded_id = base64_decode($id); 
+      
+            if ($this->load->get_var('position') == "Super Admin") {
+                $this->load->database();
+                $query = $this->db->get_where('gift_card', ['id' => $decoded_id]); 
+                $gift = $query->row();
+                if ($gift) {
+                    $image_path = 'assets/uploads/gift_card/' . $gift->image;
+                    if (file_exists($image_path)) {
+                        unlink($image_path);
+                    }
+                    $this->db->delete('gift_card', ['id' => $decoded_id]);
+                    if ($this->db->affected_rows() > 0) {
+                        $this->session->set_flashdata('smessage', 'Gift card deleted successfully.');
+                    } else {
+                        $this->session->set_flashdata('emessage', 'Failed to delete the gift card.');
+                    }
+                } else {
+                    $this->session->set_flashdata('emessage', 'Gift card not found or already deleted.');
+                }
+            } else {
+                $data['e'] = "Sorry, You Don't Have Permission To Delete Anything.";
+                $this->load->view('errors/error500admin', $data);
+            }
+          
+            redirect('dcadmin/Giftcard');
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
 
-
-          }
-
-          }
-
-       
-              
-    
+    public function updateGiftCardStatus($idd, $t) 
+    {
+        if (!empty($this->session->userdata('admin_data'))) { 
+            $data['user_name'] = $this->load->get_var('user_name'); 
+            $id = base64_decode($idd);
+            if ($t == "active") {
+                $data_update = array(
+                    'is_active' => 1 
+                );
+            } elseif ($t == "inactive") {
+                $data_update = array(
+                    'is_active' => 0 
+                );
+            } else {
+                $this->session->set_flashdata('emessage', 'Invalid status type.');
+                redirect("dcadmin/Giftcard", "refresh");
+                return;
+            }
+            $this->db->where('id', $id);
+            $zapak = $this->db->update('gift_card', $data_update);
+            if ($zapak != 0) {
+                $this->session->set_flashdata('smessage', 'Gift card status updated successfully.');
+                redirect("dcadmin/Giftcard", "refresh");
+            } else {
+                $data['e'] = "Error occurred while updating the gift card status.";
+                $this->load->view('errors/error500admin', $data);
+            }
+        } else {
+            $this->load->view('admin/login/index');
+        }
+    }
 }
