@@ -29,7 +29,7 @@ if ($receive['type'] == 'farmer') {
 $auth = bin2hex(random_bytes(18)); //--- generate auth ---
 
 // GIFT CARD ALLOTMENT CODES
-
+if(GIFTCARD == 1){
 $this->CI->db->select('*');
 $this->CI->db->from('gift_card');
 $this->CI->db->where('gift_count >', 1); // Add the condition for gift_count
@@ -42,10 +42,14 @@ $data_update = array(
     'gift_count'=>$gf->gift_count-1,
     );
 
-    $this->db->where('id', $gf->id);
-    $zapak=$this->db->update('gift_card', $data_update);
+    $this->CI->db->where('id', $gf->id);
+    $zapak=$this->CI->db->update('gift_card', $data_update);
 
+}
+else{
 
+    $url = '';
+}
 // GIFT CARD CODES ENDS HERE
 
 $data_insert = array(
