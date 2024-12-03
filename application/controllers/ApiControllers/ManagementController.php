@@ -150,12 +150,15 @@ class ManagementController extends CI_Controller
       } else {
         $start = 0;
       }
-      $this->db->distinct();
-      $this->db->select('entry_id');
-      $this->db->where('farmer_id', $farmer_data[0]->id);
-      $this->db->order_by('id', 'desc');
-      $this->db->limit($limit, $start);
-      $query = $this->db->get('tbl_daily_records');
+      
+      $subquery = $this->db
+      ->select('entry_id')
+      ->where('farmer_id', $farmer_data[0]->id)
+      ->order_by('id', 'desc')
+      ->limit($limit, $start)
+      ->get_compiled_select('tbl_daily_records');
+  
+  $query = $this->db->query("SELECT DISTINCT entry_id FROM ($subquery) as subquery");
       // $count2 =  $query->num_rows();
       // echo $count2;die();
       $pages = round($count / $limit);
