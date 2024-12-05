@@ -24,7 +24,7 @@ class FirebaseService
     }
 
     // Send a notification to a topic
-    public function sendNotificationToTopic($topic, $title, $body, $data = [])
+    public function sendNotificationToTopic($topic, $title, $body, $image = null)
     {
         // Create a topic message
         $message = CloudMessage::withTarget('topic', $topic)
@@ -33,7 +33,13 @@ class FirebaseService
                 'body' => $body,
             ]);
             // ->withData($data); // Optional custom data
-
+            if ($image) {
+                $message = $message->withNotification([
+                    'title' => $title,
+                    'body' => $body,
+                    'image' => $image // Add the image URL to the notification
+                ]);
+            }
         // Send the notification
         try {
             $result = $this->messaging->send($message);

@@ -102,16 +102,8 @@ class Pushnotifications extends CI_finecontrol
                         }
                         
                         if ($last_id != 0) {
-                            $msg2 = array(
-                                'title' => $title,
-                                'body' => $content,
-                                'image' => base_url() . $nnnn0,
-                                "sound" => "default"
-                            );
-                        
-                            // Convert the msg2 array to a string or JSON if necessary
-                            $contentWithMsg2 = json_encode($msg2); // Or any other format you prefer
-                            $this->sendNotification($title, $contentWithMsg2, $to);
+                            $image = base_url() . $nnnn0;
+                            $this->sendNotification($title, $content, $to,$image);
                         }
                         
                         else {
@@ -133,14 +125,14 @@ class Pushnotifications extends CI_finecontrol
     }
 
 
-    public function sendNotification($title, $content, $to)
+    public function sendNotification($title, $content, $to, $image)
     {
             $this->load->library('FirebaseService');
             $topic = $to;
             $title = $title;
             $body = $content;
-         
-            $result = $this->firebaseservice->sendNotificationToTopic($topic, $title, $body);
+            $image =$image;
+            $result = $this->firebaseservice->sendNotificationToTopic($topic, $title, $body, $image);
             if ($result['success']) {
                 redirect("dcadmin/Pushnotifications/view_pushnotifications", "refresh");
             } else {
