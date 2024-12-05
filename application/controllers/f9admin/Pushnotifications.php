@@ -96,42 +96,22 @@ class Pushnotifications extends CI_finecontrol
                         );
                         $last_id = $this->base_model->insert_table("tbl_pushnotifications", $data_insert, 1);
                         if ($App == 1) {
-                            $to = "/topics/DairyMuneemVendor";
+                            $to = "DairyMuneemVendor";
                         } else {
-                            $to = "/topics/DairyMuneemFarmer";
+                            $to = "DairyMuneemFarmer";
                         }
-                        // if ($last_id != 0) {
-                        //     // ----sent push notification to user---------
-                        //     $url = 'https://fcm.googleapis.com/fcm/send';
-                        //     $msg2 = array(
-                        //         'title' => $title,
-                        //         'body' => $content,
-                        //         'image' => base_url() . $nnnn0,
-                        //         "sound" => "default"
-                        //     );
-                        //     $fields = array(
-                        //         'to' => $to,
-                        //         'notification' => $msg2,
-                        //         'priority' => 'high'
-                        //     );
-                        //     $fields = json_encode($fields);
-                        //     $headers = array(
-                        //         'Authorization: key=' . "AAAAAIDR4rw:APA91bHaVxhjsODWyIDSiQXCpBhC46GL-9Ycxa9VKwtsPefjLy6NfiiLsajh8db55tRrIOag_A9wh9iXREo2-Obbt1U-fdHmpjy3zvgvTWFleqY5S_8dJtoYz0uKxPRZ76E3sXpgjISv",
-                        //         'Content-Type: application/json'
-                        //     );
-                        //     $ch = curl_init();
-                        //     curl_setopt($ch, CURLOPT_URL, $url);
-                        //     curl_setopt($ch, CURLOPT_POST, true);
-                        //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                        //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        //     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-                        //     $result = curl_exec($ch);
-                        //     curl_close($ch);
-                        //     $this->session->set_flashdata('smessage', 'Push notification inserted successfully');
-                        //     redirect("dcadmin/Pushnotifications/view_pushnotifications", "refresh");
-                        // } 
+                        
                         if ($last_id != 0) {
-                            $this->sendNotification($title, $content, $to);
+                            $msg2 = array(
+                                'title' => $title,
+                                'body' => $content,
+                                'image' => base_url() . $nnnn0,
+                                "sound" => "default"
+                            );
+                        
+                            // Convert the msg2 array to a string or JSON if necessary
+                            $contentWithMsg2 = json_encode($msg2); // Or any other format you prefer
+                            $this->sendNotification($title, $contentWithMsg2, $to);
                         }
                         
                         else {
@@ -159,12 +139,18 @@ class Pushnotifications extends CI_finecontrol
             $topic = $to;
             $title = $title;
             $body = $content;
+         
             $result = $this->firebaseservice->sendNotificationToTopic($topic, $title, $body);
             if ($result['success']) {
-            echo 'Notification sent successfully: ' . json_encode($result['result']);
+                redirect("dcadmin/Pushnotifications/view_pushnotifications", "refresh");
             } else {
             echo 'Error sending notification: ' . $result['error'];
             }
     }
 
 }
+
+
+
+
+
