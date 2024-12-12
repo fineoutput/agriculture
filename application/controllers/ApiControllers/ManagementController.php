@@ -709,58 +709,98 @@ class ManagementController extends CI_Controller
       $data = [];
       $i = 1;
       foreach ($exp_data->result() as $exp) {
-        $newdate = new DateTime($exp->date);
-        if (!empty($exp->image1)) {
-          $image1 = base_url() . $exp->image1;
+       
+        if (!empty($exp->date)) {
+            $newdate = new DateTime($exp->date);
+            $formatted_date = $newdate->format('d/m/Y');
         } else {
-          $image1 = '';
+            $formatted_date = ''; 
         }
-        if (!empty($exp->image2)) {
-          $image2 = base_url() . $exp->image2;
-        } else {
-          $image2 = '';
-        }
-        if (!empty($exp->image3)) {
-          $image3 = base_url() . $exp->image3;
-        } else {
-          $image3 = '';
-        }
-        if (!empty($exp->image4)) {
-          $image4 = base_url() . $exp->image4;
-        } else {
-          $image4 = '';
-        }
+        $image1 = !empty($exp->image1) ? base_url() . $exp->image1 : '';
+        $image2 = !empty($exp->image2) ? base_url() . $exp->image2 : '';
+        $image3 = !empty($exp->image3) ? base_url() . $exp->image3 : '';
+        $image4 = !empty($exp->image4) ? base_url() . $exp->image4 : '';
+
         $farmerData = $this->db->get_where('tbl_farmers', array('id' => $exp->farmer_id))->result();
-        if (!empty($farmerData)) {
-          $f_name = $farmerData[0]->name;
-          $f_phone = $farmerData[0]->phone;
-        } else {
-          $f_name = '';
-          $f_phone = '';
-        }
+        $f_name = !empty($farmerData) ? $farmerData[0]->name : '';
+        $f_phone = !empty($farmerData) ? $farmerData[0]->phone : '';
+  
         $data[] = array(
-          's_no' => $i,
-          'id' => $exp->id,
-          'information_type' => $exp->information_type,
-          'animal_name' => $exp->animal_name,
-          'milk_production' => $exp->milk_production,
-          'lactation' => $exp->lactation,
-          'location' => $exp->location,
-          'expected_price' => $exp->expected_price,
-          'pastorate_pregnant' => $exp->pastorate_pregnant,
-          'image1' => $image1,
-          'image2' => $image2,
-          'image3' => $image3,
-          'image4' => $image4,
-          'f_name' => $f_name,
-          'f_phone' => $f_phone,
-          'animal_type' => $exp->animal_type,
-          'description' => $exp->description,
-          'remarks' => $exp->remarks,
-          'date' => $newdate->format('d/m/Y')
+            's_no' => $i,
+            'id' => $exp->id,
+            'information_type' => $exp->information_type,
+            'animal_name' => $exp->animal_name,
+            'milk_production' => $exp->milk_production,
+            'lactation' => $exp->lactation,
+            'location' => $exp->location,
+            'expected_price' => $exp->expected_price,
+            'pastorate_pregnant' => $exp->pastorate_pregnant,
+            'image1' => $image1,
+            'image2' => $image2,
+            'image3' => $image3,
+            'image4' => $image4,
+            'f_name' => $f_name,
+            'f_phone' => $f_phone,
+            'animal_type' => $exp->animal_type,
+            'description' => $exp->description,
+            'remarks' => $exp->remarks,
+            'date' => $formatted_date 
         );
         $i++;
-      }
+    }
+      // foreach ($exp_data->result() as $exp) {
+      //   $newdate = new DateTime($exp->date);
+      //   if (!empty($exp->image1)) {
+      //     $image1 = base_url() . $exp->image1;
+      //   } else {
+      //     $image1 = '';
+      //   }
+      //   if (!empty($exp->image2)) {
+      //     $image2 = base_url() . $exp->image2;
+      //   } else {
+      //     $image2 = '';
+      //   }
+      //   if (!empty($exp->image3)) {
+      //     $image3 = base_url() . $exp->image3;
+      //   } else {
+      //     $image3 = '';
+      //   }
+      //   if (!empty($exp->image4)) {
+      //     $image4 = base_url() . $exp->image4;
+      //   } else {
+      //     $image4 = '';
+      //   }
+      //   $farmerData = $this->db->get_where('tbl_farmers', array('id' => $exp->farmer_id))->result();
+      //   if (!empty($farmerData)) {
+      //     $f_name = $farmerData[0]->name;
+      //     $f_phone = $farmerData[0]->phone;
+      //   } else {
+      //     $f_name = '';
+      //     $f_phone = '';
+      //   }
+      //   $data[] = array(
+      //     's_no' => $i,
+      //     'id' => $exp->id,
+      //     'information_type' => $exp->information_type,
+      //     'animal_name' => $exp->animal_name,
+      //     'milk_production' => $exp->milk_production,
+      //     'lactation' => $exp->lactation,
+      //     'location' => $exp->location,
+      //     'expected_price' => $exp->expected_price,
+      //     'pastorate_pregnant' => $exp->pastorate_pregnant,
+      //     'image1' => $image1,
+      //     'image2' => $image2,
+      //     'image3' => $image3,
+      //     'image4' => $image4,
+      //     'f_name' => $f_name,
+      //     'f_phone' => $f_phone,
+      //     'animal_type' => $exp->animal_type,
+      //     'description' => $exp->description,
+      //     'remarks' => $exp->remarks,
+      //     'date' => $newdate->format('d/m/Y')
+      //   );
+      //   $i++;
+      // }
       $res = array(
         'message' => "Success!",
         'status' => 200,
