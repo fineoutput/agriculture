@@ -37,47 +37,52 @@ class PHPExcel_Writer_Excel2007_StringTable extends PHPExcel_Writer_Excel2007_Wr
      */
 
      public function createStringTable($pSheet = null, $pExistingTable = null)
-{
-    if ($pSheet !== null) {
-        // Create string lookup table
-        $aStringTable = array();
-        $cellCollection = null;
-        $aFlippedStringTable = null;    // For faster lookup
-
-        // Is an existing table given?
-        if (($pExistingTable !== null) && is_array($pExistingTable)) {
-            $aStringTable = $pExistingTable;
-        }
-
-        // Fill index array
-        $aFlippedStringTable = $this->flipStringTable($aStringTable);
-
-        // Loop through cells
-        foreach ($pSheet->getCellCollection() as $cellID) {
-            $cell = $pSheet->getCell($cellID);
-            $cellValue = $cell->getValue();
-            if (!is_object($cellValue) &&
-                ($cellValue !== null) &&
-                $cellValue !== '' &&
-                !isset($aFlippedStringTable[$cellValue]) &&
-                ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING2 || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NULL)) {
-                    $aStringTable[] = $cellValue;
-                    $aFlippedStringTable[$cellValue] = true;
-            } elseif ($cellValue instanceof PHPExcel_RichText &&
-                      ($cellValue !== null) &&
-                      !isset($aFlippedStringTable[$cellValue->getHashCode()])) {
-                        $aStringTable[] = $cellValue;
-                        $aFlippedStringTable[$cellValue->getHashCode()] = true;
-            }
-        }
-
-        // Ensure any float-to-int conversion uses intval() or (int)
-        // This can prevent loss of precision if indexing or array access happens later.
-        return $aStringTable;
-    } else {
-        throw new PHPExcel_Writer_Exception("Invalid PHPExcel_Worksheet object passed.");
-    }
-}
+     {
+         if ($pSheet !== null) {
+             // Create string lookup table
+             $aStringTable = array();
+             $cellCollection = null;
+             $aFlippedStringTable = null;    // For faster lookup
+     
+             // Is an existing table given?
+             if (($pExistingTable !== null) && is_array($pExistingTable)) {
+                 $aStringTable = $pExistingTable;
+             }
+     
+             // Fill index array
+             $aFlippedStringTable = $this->flipStringTable($aStringTable);
+     
+             // Loop through cells
+             foreach ($pSheet->getCellCollection() as $cellID) {
+                 $cell = $pSheet->getCell($cellID);
+                 $cellValue = $cell->getValue();
+                 
+                 // If value is a float, cast it to int explicitly
+                 if (is_float($cellValue)) {
+                     $cellValue = (int) $cellValue;  // Cast float to int to prevent precision loss
+                 }
+     
+                 if (!is_object($cellValue) &&
+                     ($cellValue !== null) &&
+                     $cellValue !== '' &&
+                     !isset($aFlippedStringTable[$cellValue]) &&
+                     ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING2 || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NULL)) {
+                         $aStringTable[] = $cellValue;
+                         $aFlippedStringTable[$cellValue] = true;
+                 } elseif ($cellValue instanceof PHPExcel_RichText &&
+                           ($cellValue !== null) &&
+                           !isset($aFlippedStringTable[$cellValue->getHashCode()])) {
+                             $aStringTable[] = $cellValue;
+                             $aFlippedStringTable[$cellValue->getHashCode()] = true;
+                 }
+             }
+     
+             return $aStringTable;
+         } else {
+             throw new PHPExcel_Writer_Exception("Invalid PHPExcel_Worksheet object passed.");
+         }
+     }
+     
 
 
     // public function createStringTable($pSheet = null, $pExistingTable = null)
