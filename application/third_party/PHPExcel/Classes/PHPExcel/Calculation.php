@@ -3353,6 +3353,8 @@ class PHPExcel_Calculation
 //            print_r($tokenData);
 //            echo '<br />';
             $token = $tokenData['value'];
+            print_r($token);
+            exit; 
 //            echo '<b>Token is '.$token.'</b><br />';
             // if the token is a binary operator, pop the top two values off the stack, do the operation, and push the result back on the stack
             if (isset(self::$binaryOperators[$token])) {
