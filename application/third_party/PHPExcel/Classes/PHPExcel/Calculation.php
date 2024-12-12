@@ -3352,9 +3352,15 @@ class PHPExcel_Calculation
         foreach ($tokens as $tokenData) {
 //            print_r($tokenData);
 //            echo '<br />';
-$token = $tokenData['value'];
-$token = round($token); // Round the token before casting
-if (isset(self::$binaryOperators[$token])) {
+$token = $tokenData['value'];  // Assuming $token is fetched from an array
+
+// Convert string to float if needed
+$token = (float) $token;  // Cast to float to ensure it can be rounded
+
+// Now you can safely call round()
+$token = round($token);
+
+if (isset(self::$binaryOperators[int($token)])) {
 //                echo 'Token is a binary operator<br />';
                 //    We must have two operands, error if we don't
                 if (($operand2Data = $stack->pop()) === null) {
