@@ -73,12 +73,15 @@ class PHPExcel_WorksheetIterator implements Iterator
      *
      * @return PHPExcel_Worksheet
      */
-    public function current(): mixed
-    {
-        return $this->subject->getSheet($this->position);
-    }
+    // public function current()
+    // {
+    //     return $this->subject->getSheet($this->position);
+    // }
 
-    
+    public function current(): mixed
+{
+    return $this->subject->getSheet($this->position);
+}
 
     /**
      * Current key
@@ -93,10 +96,10 @@ class PHPExcel_WorksheetIterator implements Iterator
     /**
      * Next value
      */
-    public function next()
-    {
-        ++$this->position;
-    }
+    public function next(): void
+{
+    ++$this->position;
+}
 
     /**
      * More PHPExcel_Worksheet instances available?
