@@ -73,10 +73,12 @@ class PHPExcel_WorksheetIterator implements Iterator
      *
      * @return PHPExcel_Worksheet
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->subject->getSheet($this->position);
     }
+
+    
 
     /**
      * Current key
