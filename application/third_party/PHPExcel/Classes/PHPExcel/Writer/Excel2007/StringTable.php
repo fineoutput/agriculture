@@ -35,96 +35,46 @@ class PHPExcel_Writer_Excel2007_StringTable extends PHPExcel_Writer_Excel2007_Wr
      * @return     string[]                 String table for worksheet
      * @throws     PHPExcel_Writer_Exception
      */
+    public function createStringTable($pSheet = null, $pExistingTable = null)
+    {
+        if ($pSheet !== null) {
+            // Create string lookup table
+            $aStringTable = array();
+            $cellCollection = null;
+            $aFlippedStringTable = null;    // For faster lookup
 
-     public function createStringTable($pSheet = null, $pExistingTable = null)
-     {
-         if ($pSheet !== null) {
-             // Create string lookup table
-             $aStringTable = array();
-             $cellCollection = null;
-             $aFlippedStringTable = null;    // For faster lookup
-     
-             // Is an existing table given?
-             if (($pExistingTable !== null) && is_array($pExistingTable)) {
-                 $aStringTable = $pExistingTable;
-             }
-     
-             // Fill index array
-             $aFlippedStringTable = $this->flipStringTable($aStringTable);
-     
-             // Loop through cells
-             foreach ($pSheet->getCellCollection() as $cellID) {
-                 $cell = $pSheet->getCell($cellID);
-                 $cellValue = $cell->getValue();
-                 
-                 // If value is a float, cast it to int explicitly
-                 if (is_float($cellValue)) {
-                     $cellValue = (int) $cellValue;  // Cast float to int to prevent precision loss
-                 }
-     
-                 if (!is_object($cellValue) &&
-                     ($cellValue !== null) &&
-                     $cellValue !== '' &&
-                     !isset($aFlippedStringTable[$cellValue]) &&
-                     ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING2 || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NULL)) {
-                         $aStringTable[] = $cellValue;
-                         $aFlippedStringTable[$cellValue] = true;
-                 } elseif ($cellValue instanceof PHPExcel_RichText &&
-                           ($cellValue !== null) &&
-                           !isset($aFlippedStringTable[$cellValue->getHashCode()])) {
-                             $aStringTable[] = $cellValue;
-                             $aFlippedStringTable[$cellValue->getHashCode()] = true;
-                 }
-             }
-     
-             return $aStringTable;
-         } else {
-             throw new PHPExcel_Writer_Exception("Invalid PHPExcel_Worksheet object passed.");
-         }
-     }
-     
+            // Is an existing table given?
+            if (($pExistingTable !== null) && is_array($pExistingTable)) {
+                $aStringTable = $pExistingTable;
+            }
 
+            // Fill index array
+            $aFlippedStringTable = $this->flipStringTable($aStringTable);
 
-    // public function createStringTable($pSheet = null, $pExistingTable = null)
-    // {
-    //     if ($pSheet !== null) {
-    //         // Create string lookup table
-    //         $aStringTable = array();
-    //         $cellCollection = null;
-    //         $aFlippedStringTable = null;    // For faster lookup
+            // Loop through cells
+            foreach ($pSheet->getCellCollection() as $cellID) {
+                $cell = $pSheet->getCell($cellID);
+                $cellValue = $cell->getValue();
+                if (!is_object($cellValue) &&
+                    ($cellValue !== null) &&
+                    $cellValue !== '' &&
+                    !isset($aFlippedStringTable[$cellValue]) &&
+                    ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING2 || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NULL)) {
+                        $aStringTable[] = $cellValue;
+                        $aFlippedStringTable[$cellValue] = true;
+                } elseif ($cellValue instanceof PHPExcel_RichText &&
+                          ($cellValue !== null) &&
+                          !isset($aFlippedStringTable[$cellValue->getHashCode()])) {
+                                $aStringTable[] = $cellValue;
+                                $aFlippedStringTable[$cellValue->getHashCode()] = true;
+                }
+            }
 
-    //         // Is an existing table given?
-    //         if (($pExistingTable !== null) && is_array($pExistingTable)) {
-    //             $aStringTable = $pExistingTable;
-    //         }
-
-    //         // Fill index array
-    //         $aFlippedStringTable = $this->flipStringTable($aStringTable);
-
-    //         // Loop through cells
-    //         foreach ($pSheet->getCellCollection() as $cellID) {
-    //             $cell = $pSheet->getCell($cellID);
-    //             $cellValue = $cell->getValue();
-    //             if (!is_object($cellValue) &&
-    //                 ($cellValue !== null) &&
-    //                 $cellValue !== '' &&
-    //                 !isset($aFlippedStringTable[$cellValue]) &&
-    //                 ($cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_STRING2 || $cell->getDataType() == PHPExcel_Cell_DataType::TYPE_NULL)) {
-    //                     $aStringTable[] = $cellValue;
-    //                     $aFlippedStringTable[$cellValue] = true;
-    //             } elseif ($cellValue instanceof PHPExcel_RichText &&
-    //                       ($cellValue !== null) &&
-    //                       !isset($aFlippedStringTable[$cellValue->getHashCode()])) {
-    //                             $aStringTable[] = $cellValue;
-    //                             $aFlippedStringTable[$cellValue->getHashCode()] = true;
-    //             }
-    //         }
-
-    //         return $aStringTable;
-    //     } else {
-    //         throw new PHPExcel_Writer_Exception("Invalid PHPExcel_Worksheet object passed.");
-    //     }
-    // }
+            return $aStringTable;
+        } else {
+            throw new PHPExcel_Writer_Exception("Invalid PHPExcel_Worksheet object passed.");
+        }
+    }
 
     /**
      * Write string table to XML format

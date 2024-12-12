@@ -48,9 +48,6 @@ if (!defined('CALCULATION_REGEXP_CELLREF')) {
  */
 class PHPExcel_Calculation
 {
-
-    private $_debugLog;
-
     /** Constants                */
     /** Regular Expressions        */
     //    Numeric operand
@@ -2040,12 +2037,8 @@ class PHPExcel_Calculation
         $this->delta = 1 * pow(10, 0 - ini_get('precision'));
         $this->workbook = $workbook;
         $this->cyclicReferenceStack = new PHPExcel_CalcEngine_CyclicReferenceStack();
-
-        // Now you can safely assign to _debugLog without deprecation warning
         $this->_debugLog = new PHPExcel_CalcEngine_Logger($this->cyclicReferenceStack);
     }
-
-
     private static function loadLocales()
     {
         $localeFileDirectory = PHPEXCEL_ROOT.'PHPExcel/locale/';

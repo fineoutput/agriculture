@@ -299,85 +299,46 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
      * @param    float        $adjustPercentage    The percentage by which to adjust the colour as a float from -1 to 1
      * @return    string        The adjusted colour as an RGBA or RGB value (e.g. FF00CCCC or CCDDEE)
      */
+    public static function changeBrightness($hex, $adjustPercentage)
+    {
+        $rgba = (strlen($hex) == 8);
 
-     public static function changeBrightness($hex, $adjustPercentage)
-{
-    $rgba = (strlen($hex) == 8);
+        $red = self::getRed($hex, false);
+        $green = self::getGreen($hex, false);
+        $blue = self::getBlue($hex, false);
+        if ($adjustPercentage > 0) {
+            $red += (255 - $red) * $adjustPercentage;
+            $green += (255 - $green) * $adjustPercentage;
+            $blue += (255 - $blue) * $adjustPercentage;
+        } else {
+            $red += $red * $adjustPercentage;
+            $green += $green * $adjustPercentage;
+            $blue += $blue * $adjustPercentage;
+        }
 
-    $red = self::getRed($hex, false);
-    $green = self::getGreen($hex, false);
-    $blue = self::getBlue($hex, false);
+        if ($red < 0) {
+            $red = 0;
+        } elseif ($red > 255) {
+            $red = 255;
+        }
+        if ($green < 0) {
+            $green = 0;
+        } elseif ($green > 255) {
+            $green = 255;
+        }
+        if ($blue < 0) {
+            $blue = 0;
+        } elseif ($blue > 255) {
+            $blue = 255;
+        }
 
-    if ($adjustPercentage > 0) {
-        $red += (255 - $red) * $adjustPercentage;
-        $green += (255 - $green) * $adjustPercentage;
-        $blue += (255 - $blue) * $adjustPercentage;
-    } else {
-        $red += $red * $adjustPercentage;
-        $green += $green * $adjustPercentage;
-        $blue += $blue * $adjustPercentage;
+        $rgb = strtoupper(
+            str_pad(dechex($red), 2, '0', 0) .
+            str_pad(dechex($green), 2, '0', 0) .
+            str_pad(dechex($blue), 2, '0', 0)
+        );
+        return (($rgba) ? 'FF' : '') . $rgb;
     }
-
-    // Cast to integer to avoid precision loss warning
-    $red = (int) round($red);   // rounding to nearest integer
-    $green = (int) round($green);
-    $blue = (int) round($blue);
-
-    // Ensure values are within the 0-255 range
-    $red = max(0, min(255, $red));
-    $green = max(0, min(255, $green));
-    $blue = max(0, min(255, $blue));
-
-    // Convert to hex and ensure 2 digits for each color
-    $rgb = strtoupper(
-        str_pad(dechex($red), 2, '0', STR_PAD_LEFT) .
-        str_pad(dechex($green), 2, '0', STR_PAD_LEFT) .
-        str_pad(dechex($blue), 2, '0', STR_PAD_LEFT)
-    );
-
-    return (($rgba) ? 'FF' : '') . $rgb;
-}
-
-    // public static function changeBrightness($hex, $adjustPercentage)
-    // {
-    //     $rgba = (strlen($hex) == 8);
-
-    //     $red = self::getRed($hex, false);
-    //     $green = self::getGreen($hex, false);
-    //     $blue = self::getBlue($hex, false);
-    //     if ($adjustPercentage > 0) {
-    //         $red += (255 - $red) * $adjustPercentage;
-    //         $green += (255 - $green) * $adjustPercentage;
-    //         $blue += (255 - $blue) * $adjustPercentage;
-    //     } else {
-    //         $red += $red * $adjustPercentage;
-    //         $green += $green * $adjustPercentage;
-    //         $blue += $blue * $adjustPercentage;
-    //     }
-
-    //     if ($red < 0) {
-    //         $red = 0;
-    //     } elseif ($red > 255) {
-    //         $red = 255;
-    //     }
-    //     if ($green < 0) {
-    //         $green = 0;
-    //     } elseif ($green > 255) {
-    //         $green = 255;
-    //     }
-    //     if ($blue < 0) {
-    //         $blue = 0;
-    //     } elseif ($blue > 255) {
-    //         $blue = 255;
-    //     }
-
-    //     $rgb = strtoupper(
-    //         str_pad(dechex($red), 2, '0', 0) .
-    //         str_pad(dechex($green), 2, '0', 0) .
-    //         str_pad(dechex($blue), 2, '0', 0)
-    //     );
-    //     return (($rgba) ? 'FF' : '') . $rgb;
-    // }
 
     /**
      * Get indexed color
