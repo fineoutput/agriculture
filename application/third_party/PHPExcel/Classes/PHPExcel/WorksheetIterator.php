@@ -63,10 +63,10 @@ class PHPExcel_WorksheetIterator implements Iterator
     /**
      * Rewind iterator
      */
-    public function rewind()
-    {
-        $this->position = 0;
-    }
+    public function rewind(): void
+{
+    $this->position = 0;
+}
 
     /**
      * Current PHPExcel_Worksheet
