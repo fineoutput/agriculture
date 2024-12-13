@@ -675,6 +675,8 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
                     $i = 4;
                     $p = 7;
+                    print_r($material);
+                    exit;
                     foreach ($material as $mat) {
                         if ($mat->value == true) {
                             $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
