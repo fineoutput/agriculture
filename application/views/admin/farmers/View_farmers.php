@@ -90,6 +90,17 @@
                             <p class="label bg-yellow">Blocked</p>
                           <?php    }   ?>
                         </td>
+                        <td><?php $gf_id = $data->giftcard_id;
+                        $this->db->select('*');
+                        $this->db->from('gift_card');
+                        $this->db->where('id',$gf_id);
+                        $dsa= $this->db->get()->row();
+                        if(!empty($dsa)){
+                        ?>
+                        <img id="slide_img_path" height=50 width=100 src="<?php echo base_url() .'assets/uploads/gift_card/' .$dsa->image ?>"> 
+                        <?
+                        }
+                        ?></td>
                         <td>
                           <input type="checkbox" class="mycheckbox" id="myCheckbox" data-id="<?php echo $data->id ?>"  name="checkbox" <?php echo ($data->cod == 1) ? 'checked' : ''; ?>>
                         </td>
