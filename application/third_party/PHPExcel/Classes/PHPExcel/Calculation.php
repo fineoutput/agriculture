@@ -3354,7 +3354,7 @@ class PHPExcel_Calculation
 //            echo '<br />';
             $token = $tokenData['value'];
             $number = 1000;  // Replace with your actual number
-$result = round(log10(abs($number)) / 3);  // Calculate the result and round it
+$result = round(log10(abs($token)) / 3);  // Calculate the result and round it
 // echo (int) $result;
 // exit;
 //            echo '<b>Token is '.$token.'</b><br />';
