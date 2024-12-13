@@ -3352,14 +3352,16 @@ class PHPExcel_Calculation
         foreach ($tokens as $tokenData) {
 //            print_r($tokenData);
 //            echo '<br />';
-            $token = $tokenData['value'];
-            $number = 1000;  // Replace with your actual number
+$token = $tokenData['value'];  // Assuming $token is coming from an external source, likely a string
+
+// Convert $token to a float (in case it's a string representing a number)
+$token = floatval($token);  // This will convert it to a float if possible
+
+// Now calculate the logarithm
 $result = round(log10(abs($token)) / 3);  // Calculate the result and round it
-// echo (int) $result;
-// exit;
-//            echo '<b>Token is '.$token.'</b><br />';
-            // if the token is a binary operator, pop the top two values off the stack, do the operation, and push the result back on the stack
-            if (isset(self::$binaryOperators[$result])) {
+
+// Check if the result is a binary operator
+if (isset(self::$binaryOperators[$result])) {
 //                echo 'Token is a binary operator<br />';
                 //    We must have two operands, error if we don't
                 if (($operand2Data = $stack->pop()) === null) {
