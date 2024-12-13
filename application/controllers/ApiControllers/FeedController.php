@@ -675,16 +675,21 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
                     $i = 4;
                     $p = 7;
-                    foreach ($material as $mat) {
-                        if ($mat->value == true) {
-                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
-                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, $mat->price);
-                        } else {
-                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, 0);
-                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, 0);
+                    if (is_array($material) || is_object($material)) {
+                        foreach ($material as $mat) {
+                            if ($mat->value == true) {
+                                $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
+                                $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, $mat->price);
+                            } else {
+                                $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, 0);
+                                $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, 0);
+                            }
+                            $i++;
+                            $p++;
                         }
-                        $i++;
-                        $p++;
+                    } else {
+                        // Handle the case where $material is not an array or object
+                        echo "Error: The material data is not available or is invalid.";
                     }
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D19', $ca);
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
