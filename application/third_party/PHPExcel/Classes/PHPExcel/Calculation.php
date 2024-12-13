@@ -3352,25 +3352,10 @@ class PHPExcel_Calculation
         foreach ($tokens as $tokenData) {
 //            print_r($tokenData);
 //            echo '<br />';
-$token = $tokenData['value'];  // Assuming $token is coming from an external source
-
-// Convert $token to a float
-$token = floatval($token);
-
-// Check if $token is greater than 0, because log10() is undefined for <= 0
-if ($token >= 0) {
-    echo "Error: Invalid token for logarithmic calculation (value must be greater than 0).";
-    exit;  // Exit or handle the error as needed
-}
-
-// Now calculate the logarithm
-$result = round(log10(abs($token)) / 3);  // Calculate the result and round it
-
-// Check if the result is a binary operator
-if (isset(self::$binaryOperators[$result])) {
-   
-    // Your logic for handling binary operators
-
+            $token = $tokenData['value'];
+//            echo '<b>Token is '.$token.'</b><br />';
+            // if the token is a binary operator, pop the top two values off the stack, do the operation, and push the result back on the stack
+            if (isset(self::$binaryOperators[$token])) {
 //                echo 'Token is a binary operator<br />';
                 //    We must have two operands, error if we don't
                 if (($operand2Data = $stack->pop()) === null) {
