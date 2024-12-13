@@ -612,7 +612,7 @@ class FeedController extends CI_Controller
             $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'xss_clean|trim');
             $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'xss_clean|trim');
             $this->form_validation->set_rules('milk_return', 'milk return', 'xss_clean|trim');
-            // $this->form_validation->set_rules('material', 'material', 'xss_clean|trim');
+            $this->form_validation->set_rules('material', 'material', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $lactation = $this->input->post('lactation');
                 // $feed_percentage = $this->input->post('feed_percentage');
@@ -653,6 +653,8 @@ class FeedController extends CI_Controller
                         // 'ca' => $ca,
                         // 'pa' => $pa,
                     );
+                    echo $material;
+                    exit;
                     $data['input'] = $input;
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/check_my_feed.xlsm';
@@ -675,6 +677,7 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
                     $i = 4;
                     $p = 7;
+
                     if ($material && is_string($material)) {
                         // Decode the JSON string into an object or array
                         $material = json_decode($material);
