@@ -612,7 +612,7 @@ class FeedController extends CI_Controller
             $this->form_validation->set_rules('milk_yield_protein', 'milk yield protein', 'xss_clean|trim');
             $this->form_validation->set_rules('live_weight_gain', 'live weight gain', 'xss_clean|trim');
             $this->form_validation->set_rules('milk_return', 'milk return', 'xss_clean|trim');
-            $this->form_validation->set_rules('material', 'material', 'xss_clean|trim');
+            // $this->form_validation->set_rules('material', 'material', 'xss_clean|trim');
             if ($this->form_validation->run() == true) {
                 $lactation = $this->input->post('lactation');
                 // $feed_percentage = $this->input->post('feed_percentage');
