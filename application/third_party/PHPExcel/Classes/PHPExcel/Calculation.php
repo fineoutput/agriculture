@@ -3355,11 +3355,11 @@ class PHPExcel_Calculation
             $token = $tokenData['value'];
             $number = 1000;  // Replace with your actual number
 $result = round(log10(abs($number)) / 3);  // Calculate the result and round it
-echo (int) $result;
-exit;
+// echo (int) $result;
+// exit;
 //            echo '<b>Token is '.$token.'</b><br />';
             // if the token is a binary operator, pop the top two values off the stack, do the operation, and push the result back on the stack
-            if (isset(self::$binaryOperators[$token])) {
+            if (isset(self::$binaryOperators[$result])) {
 //                echo 'Token is a binary operator<br />';
                 //    We must have two operands, error if we don't
                 if (($operand2Data = $stack->pop()) === null) {
