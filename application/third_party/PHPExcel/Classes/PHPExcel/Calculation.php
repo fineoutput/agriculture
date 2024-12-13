@@ -3357,18 +3357,18 @@ $token = $tokenData['value'];  // Assuming $token is coming from an external sou
 // Convert $token to a float
 $token = floatval($token);
 
-// Check if the conversion was successful and $token is greater than 0 (logarithm requires positive numbers)
+// Check if $token is greater than 0, because log10() is undefined for <= 0
 if ($token <= 0) {
-    // Handle error or return a default value
-    echo "Error: Invalid token for logarithmic calculation.";
-    exit;  // Exit or handle as needed
+    echo "Error: Invalid token for logarithmic calculation (value must be greater than 0).";
+    exit;  // Exit or handle the error as needed
 }
 
 // Now calculate the logarithm
-$result = round(log10(abs($token)) / 3);
+$result = round(log10(abs($token)) / 3);  // Calculate the result and round it
 
 // Check if the result is a binary operator
 if (isset(self::$binaryOperators[$result])) {
+   
     // Your logic for handling binary operators
 
 //                echo 'Token is a binary operator<br />';
