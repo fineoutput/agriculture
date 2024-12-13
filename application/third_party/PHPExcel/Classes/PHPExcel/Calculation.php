@@ -3358,7 +3358,7 @@ $token = $tokenData['value'];  // Assuming $token is coming from an external sou
 $token = floatval($token);
 
 // Check if $token is greater than 0, because log10() is undefined for <= 0
-if ($token <= 0) {
+if ($token >= 0) {
     echo "Error: Invalid token for logarithmic calculation (value must be greater than 0).";
     exit;  // Exit or handle the error as needed
 }
