@@ -3370,7 +3370,7 @@ $result = round(log10(abs($token)) / 3);
 // Check if the result is a binary operator
 if (isset(self::$binaryOperators[$result])) {
     // Your logic for handling binary operators
-}
+
 //                echo 'Token is a binary operator<br />';
                 //    We must have two operands, error if we don't
                 if (($operand2Data = $stack->pop()) === null) {
