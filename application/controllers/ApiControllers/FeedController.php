@@ -675,8 +675,7 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
                     $i = 4;
                     $p = 7;
-                    print_r($material);
-                    exit;
+                    $material = json_decode($material);
                     if (is_array($material) || is_object($material)) {
                         foreach ($material as $mat) {
                             if ($mat->value == true) {
