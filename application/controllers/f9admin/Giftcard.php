@@ -301,21 +301,22 @@ class Giftcard extends CI_finecontrol
         if (!empty($this->session->userdata('admin_data'))) { 
             $data['user_name'] = $this->load->get_var('user_name'); 
             $id = base64_decode($alt_id);
-            $data_update = array(
-                'allocated' => 1 
-            );
-            $this->db->where('id', $id);
-            $zapak = $this->db->update('gift_card', $data_update);
-            if ($zapak != 0) {
-                $this->session->set_flashdata('smessage', 'Gift card allocated successfully.');
-                redirect("dcadmin/Giftcard", "refresh");
-            } else {
-                $data['e'] = "Error occurred while allocating the gift card status.";
-                $this->load->view('errors/error500admin', $data);
-            }
+       
+            $this->db->select('*');
+            $this->db->from('tbl_farmers');
+            $this->db->where('giftcard_id',$id);
+            $data['farmers']= $this->db->get();
+
+            $this->load->view('admin/common/header_view', $data);
+            $this->load->view('admin/giftcard/alloted_gift');
+            $this->load->view('admin/common/footer_view');    
+
+
         } else {
             $this->load->view('admin/login/index');
         }
     }
+
+
     
 }
