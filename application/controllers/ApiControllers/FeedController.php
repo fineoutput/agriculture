@@ -510,6 +510,7 @@ class FeedController extends CI_Controller
                         'fat_4' => $fat_4,
                     );
                     $data['input'] = $input;
+                    log_message('error', 'FAT' . json_encode($input));
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/animal_requirement.xlsx';
                     $inputFileName2 = 'assets/excel/animal_requirement.xls';
@@ -653,8 +654,6 @@ class FeedController extends CI_Controller
                         // 'ca' => $ca,
                         // 'pa' => $pa,
                     );
-                    echo $material;
-                    exit;
                     $data['input'] = $input;
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/check_my_feed.xlsm';
@@ -677,31 +676,16 @@ class FeedController extends CI_Controller
                     $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D12', $milk_return);
                     $i = 4;
                     $p = 7;
-
-                    if ($material && is_string($material)) {
-                        // Decode the JSON string into an object or array
-                        $material = json_decode($material);
-                    
-                        // Check if decoding was successful and the result is an array or object
-                        if (is_array($material) || is_object($material)) {
-                            foreach ($material as $mat) {
-                                if ($mat->value == true) {
-                                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
-                                    $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, $mat->price);
-                                } else {
-                                    $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, 0);
-                                    $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, 0);
-                                }
-                                $i++;
-                                $p++;
-                            }
+                    foreach ($material as $mat) {
+                        if ($mat->value == true) {
+                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, $mat->fresh);
+                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, $mat->price);
                         } else {
-                            // Handle the case where json_decode failed or the data is not an array or object
-                            echo "Error: The material data is not available or is invalid.";
+                            $objPHPExcel1->setActiveSheetIndex(2)->setCellValue('D' . $i, 0);
+                            $objPHPExcel1->setActiveSheetIndex(4)->setCellValue('C' . $p, 0);
                         }
-                    } else {
-                        // Handle the case where $material is null or empty
-                        echo "Error: The material data is empty or invalid.";
+                        $i++;
+                        $p++;
                     }
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D19', $ca);
                     // $objPHPExcel1->setActiveSheetIndex(3)->setCellValue('D22', $pa);
