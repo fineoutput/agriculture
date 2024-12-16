@@ -47,6 +47,7 @@
                       <th>Phone</th>
                       <th>Status</th>
                       <th>COD</th>
+                      <th>Reward</th>
                       <th>Action</th>
                     </tr>
                   </thead>
