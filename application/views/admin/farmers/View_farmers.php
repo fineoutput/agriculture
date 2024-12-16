@@ -46,8 +46,8 @@
                       <th>No. of Animals</th>
                       <th>Phone</th>
                       <th>Status</th>
-                      <th>COD</th>
                       <th>Reward</th>
+                      <th>COD</th>
                       <th>Action</th>
                     </tr>
                   </thead>
