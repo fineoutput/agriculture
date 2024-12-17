@@ -132,72 +132,179 @@ class ManagementController extends CI_Controller
     }
   }
   //================= view Milk Record -----------------------------
+
   public function view_daily_records()
   {
-    $headers = apache_request_headers();
-    $authentication = $headers['Authentication'];
-    $page_index = $headers['Index'];
-    $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-    if (!empty($farmer_data)) {
-      $this->db->select('entry_id');
-      $this->db->distinct();
-      $this->db->where('farmer_id', $farmer_data[0]->id);
-      $query = $this->db->get('tbl_daily_records');
-      $count =  $query->num_rows();
-      $limit = 20;
-      if (!empty($page_index)) {
-        $start = ($page_index - 1) * $limit;
-      } else {
-        $start = 0;
-      }
-      
-      $subquery = $this->db
-      ->select('entry_id')
-      ->where('farmer_id', $farmer_data[0]->id)
-      ->order_by('id', 'desc')
-      ->limit($limit, $start)
-      ->get_compiled_select('tbl_daily_records');
+      $headers = apache_request_headers();
+      $authentication = $headers['Authentication'];
+      $page_index = $headers['Index'];
   
-  $query = $this->db->query("SELECT DISTINCT entry_id FROM ($subquery) as subquery");
-      // $count2 =  $query->num_rows();
-      // echo $count2;die();
-      $pages = round($count / $limit);
-      $pagination = $this->CreatePagination($page_index, $pages);
-      $data = [];
-      $big = [];
-      $i = 1;
-      foreach ($query->result() as $entry) {
-        $daily_data = $this->db->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
-        foreach ($daily_data as $daily) {
-          $newdate = new DateTime($daily->date);
-          $data[] = array(
-            'record_date' => date('d-m-Y', strtotime($daily->record_date)),
-            'name' => $daily->name,
-            'qty' => $daily->qty,
-            'price' => $daily->price,
-            'amount' => $daily->amount,
-            'date' => $newdate->format('d/m/Y')
+      // Get farmer data based on authentication
+      $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+  
+      if (!empty($farmer_data)) {
+          // Get the total number of records for pagination
+          $this->db->select('entry_id');
+          $this->db->distinct();
+          $this->db->where('farmer_id', $farmer_data[0]->id);
+          $query = $this->db->get('tbl_daily_records');
+          $count =  $query->num_rows();
+          $limit = 20;
+  
+          // Calculate start for pagination
+          if (!empty($page_index)) {
+              $start = ($page_index - 1) * $limit;
+          } else {
+              $start = 0;
+          }
+  
+          // Prepare subquery to get records in the requested range
+          $subquery = $this->db
+              ->select('entry_id')
+              ->where('farmer_id', $farmer_data[0]->id)
+              ->order_by('id', 'desc')
+              ->limit($limit, $start)
+              ->get_compiled_select('tbl_daily_records');
+  
+          // Get the distinct entry_ids from the subquery
+          $query = $this->db->query("SELECT DISTINCT entry_id FROM ($subquery) as subquery");
+  
+          $pages = round($count / $limit);
+          $pagination = $this->CreatePagination($page_index, $pages);
+          
+          $big = [];  // This will hold the final data grouped by record_date
+          $currentGroup = [];  // Temp variable to hold the current group of records
+          $previousDate = null; // Store the previous record_date for comparison
+          
+          foreach ($query->result() as $entry) {
+              // Get daily records for each entry_id
+              $daily_data = $this->db->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
+              
+              foreach ($daily_data as $daily) {
+                  // Format the record date
+                  $newdate = new DateTime($daily->record_date);
+                  $formattedDate = $newdate->format('d/m/Y');
+                  
+                  // Check if record date has changed
+                  if ($formattedDate !== $previousDate) {
+                      // If record date has changed, push the current group to the big array and start a new group
+                      if (!empty($currentGroup)) {
+                          $big[] = $currentGroup;
+                      }
+                      // Start a new group with the current record date
+                      $newdatess = new DateTime($daily->date);
+                      $chd = $newdatess->format('d/m/Y');
+                      $currentGroup = [
+                          'record_date' => $formattedDate,
+                          'date' => $chd,
+                          'records' => []
+                      ];
+                      $previousDate = $formattedDate;
+                  }
+                  
+                  // Add the current record to the current group
+                  $currentGroup['records'][] = [
+                      'name' => $daily->name,
+                      'qty' => $daily->qty,
+                      'price' => $daily->price,
+                      'amount' => $daily->amount,
+                      // 'date' => $formattedDate,
+                  ];
+              }
+          }
+  
+          // Ensure the last group is added to the final data
+          if (!empty($currentGroup)) {
+              $big[] = $currentGroup;
+          }
+  
+          // Return the data with pagination
+          $res = array(
+              'message' => "Success!",
+              'status' => 200,
+              'data' => $big,
+              'pagination' => $pagination,
+              'last' => $pages,
           );
-        }
-        $i++;
-        $big[] = $data;
+          echo json_encode($res);
+  
+      } else {
+          // If no farmer data found or authentication fails
+          $res = array(
+              'message' => 'Permission Denied!',
+              'status' => 201
+          );
+          echo json_encode($res);
       }
-      $res = array(
-        'message' => "Success!",
-        'status' => 200,
-        'data' => $big,
-        'pagination' => $pagination,
-        'last' => $pages,
-      );
-      echo json_encode($res);
-    } else {
-      $res = array(
-        'message' => 'Permission Denied!',
-        'status' => 201
-      );
-      echo json_encode($res);
-    }
   }
+  
+
+  // public function view_daily_records()
+  // {
+  //   $headers = apache_request_headers();
+  //   $authentication = $headers['Authentication'];
+  //   $page_index = $headers['Index'];
+  //   $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
+  //   if (!empty($farmer_data)) {
+  //     $this->db->select('entry_id');
+  //     $this->db->distinct();
+  //     $this->db->where('farmer_id', $farmer_data[0]->id);
+  //     $query = $this->db->get('tbl_daily_records');
+  //     $count =  $query->num_rows();
+  //     $limit = 20;
+  //     if (!empty($page_index)) {
+  //       $start = ($page_index - 1) * $limit;
+  //     } else {
+  //       $start = 0;
+  //     }
+      
+  //     $subquery = $this->db
+  //     ->select('entry_id')
+  //     ->where('farmer_id', $farmer_data[0]->id)
+  //     ->order_by('id', 'desc')
+  //     ->limit($limit, $start)
+  //     ->get_compiled_select('tbl_daily_records');
+  
+  // $query = $this->db->query("SELECT DISTINCT entry_id FROM ($subquery) as subquery");
+  //     // $count2 =  $query->num_rows();
+  //     // echo $count2;die();
+  //     $pages = round($count / $limit);
+  //     $pagination = $this->CreatePagination($page_index, $pages);
+  //     $data = [];
+  //     $big = [];
+  //     $i = 1;
+  //     foreach ($query->result() as $entry) {
+  //       $daily_data = $this->db->get_where('tbl_daily_records', array('entry_id' => $entry->entry_id))->result();
+  //       foreach ($daily_data as $daily) {
+  //         $newdate = new DateTime($daily->date);
+  //         $data[] = array(
+  //           'record_date' => date('d-m-Y', strtotime($daily->record_date)),
+  //           'name' => $daily->name,
+  //           'qty' => $daily->qty,
+  //           'price' => $daily->price,
+  //           'amount' => $daily->amount,
+  //           'date' => $newdate->format('d/m/Y')
+  //         );
+  //       }
+  //       $i++;
+  //       $big[] = $data;
+  //     }
+  //     $res = array(
+  //       'message' => "Success!",
+  //       'status' => 200,
+  //       'data' => $big,
+  //       'pagination' => $pagination,
+  //       'last' => $pages,
+  //     );
+  //     echo json_encode($res);
+  //   } else {
+  //     $res = array(
+  //       'message' => 'Permission Denied!',
+  //       'status' => 201
+  //     );
+  //     echo json_encode($res);
+  //   }
+  // }
   //====================================================== MILK RECORDS================================================//
   public function milk_records()
   {
@@ -715,7 +822,7 @@ class ManagementController extends CI_Controller
             $formatted_date = $newdate->format('d/m/Y');
         } else {
             $formatted_date = ''; 
-        }
+        } 
         $image1 = !empty($exp->image1) ? base_url() . $exp->image1 : '';
         $image2 = !empty($exp->image2) ? base_url() . $exp->image2 : '';
         $image3 = !empty($exp->image3) ? base_url() . $exp->image3 : '';
