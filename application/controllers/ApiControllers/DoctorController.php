@@ -491,6 +491,7 @@ class DoctorController extends CI_Controller
             // Check if doctor data is found
             if (!empty($doctor_data)) {
                 // Prepare data for updating the doctor's location and fcm_token
+                log_message('error', 'Doctor Location updated - '.$latitude.'--'.$longitude.'--'.$doctor_data[0]->id);
                 $data_update = array(
                     'latitude' => $latitude,
                     'longitude' => $longitude,
