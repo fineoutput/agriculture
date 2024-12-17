@@ -469,41 +469,33 @@ class DoctorController extends CI_Controller
     $this->load->helper('security');
 
     if ($this->input->post()) {
-        // Get the authentication token from request headers
+
         $headers = apache_request_headers();
         $authentication = $headers['Authentication'];
 
-        // Set validation rules for the form data
         $this->form_validation->set_rules('latitude', 'Latitude', 'required|xss_clean|trim');
         $this->form_validation->set_rules('longitude', 'Longitude', 'required|xss_clean|trim');
         $this->form_validation->set_rules('fcm_token', 'Fcm Token', 'required|xss_clean|trim');
 
-        // Run form validation
+
         if ($this->form_validation->run() == true) {
-            // Get the form input values
+
             $latitude = $this->input->post('latitude');
             $longitude = $this->input->post('longitude');
             $fcm_token = $this->input->post('fcm_token');
 
-            // Retrieve doctor data using authentication token
-            $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result();
+            $doctor_data = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'auth' => $authentication))->result(); 
 
-            // Check if doctor data is found
             if (!empty($doctor_data)) {
-                // Prepare data for updating the doctor's location and fcm_token
                 $data_update = array(
                     'latitude' => $latitude,
                     'longitude' => $longitude,
                     'fcm_token' => $fcm_token
                 );
-
-                // Use the `set()` method for `updated_at` to avoid escaping and use the `NOW()` SQL function
                 $this->db->set('updated_at', 'NOW()', false);  // False prevents escaping
                 $this->db->where('id', $doctor_data[0]->id);
                 $zapak = $this->db->update('tbl_doctor', $data_update);
-                // Check if the update was successful
                 if ($zapak) {
-                    // Prepare success response
                     $res = array(
                         'message' => "Success",
                         'status' => 200,
