@@ -187,7 +187,6 @@ class ManagementController extends CI_Controller
                   
                   // Check if record date has changed
                   if ($formattedDate !== $previousDate) {
-                      // If record date has changed, push the current group to the big array and start a new group
                       if (!empty($currentGroup)) {
                           $big[] = $currentGroup;
                       }
