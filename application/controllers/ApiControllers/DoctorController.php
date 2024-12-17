@@ -499,7 +499,9 @@ class DoctorController extends CI_Controller
                 );
 
                 // Use the `set()` method for `updated_at` to avoid escaping and use the `NOW()` SQL function
-                $this->db->set('updated_at', 'NOW()', false);  // False prevents escaping
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date=date("Y-m-d H:i:s");
+                $this->db->set('updated_at', $cur_date, false);  // False prevents escaping
                 $this->db->where('id', $doctor_data[0]->id);
                 $zapak = $this->db->update('tbl_doctor', $data_update);
                 // Check if the update was successful
