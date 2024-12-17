@@ -510,6 +510,7 @@ class FeedController extends CI_Controller
                         'fat_4' => $fat_4,
                     );
                     $data['input'] = $input;
+                    log_message('error', 'FAT' . json_encode($input));
                     require_once APPPATH . "/third_party/PHPExcel.php"; //------ INCLUDE EXCEL
                     $inputFileName = 'assets/excel/animal_requirement.xlsx';
                     $inputFileName2 = 'assets/excel/animal_requirement.xls';
