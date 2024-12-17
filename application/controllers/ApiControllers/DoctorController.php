@@ -491,17 +491,18 @@ class DoctorController extends CI_Controller
             // Check if doctor data is found
             if (!empty($doctor_data)) {
                 // Prepare data for updating the doctor's location and fcm_token
-                log_message('error', 'Doctor Location updated - '.$latitude.'--'.$longitude.'--'.$doctor_data[0]->id);
+                log_message('error', 'Doctor Location updated - '.$latitude.'--'.$longitude.'--'.$doctor_data[0]->name);
+                date_default_timezone_set("Asia/Calcutta");
+                $cur_date=date("Y-m-d H:i:s");
                 $data_update = array(
                     'latitude' => $latitude,
                     'longitude' => $longitude,
-                    'fcm_token' => $fcm_token
+                    'fcm_token' => $fcm_token,
+                    'updated_at' => $cur_date
                 );
 
                 // Use the `set()` method for `updated_at` to avoid escaping and use the `NOW()` SQL function
-                date_default_timezone_set("Asia/Calcutta");
-                $cur_date=date("Y-m-d H:i:s");
-                $this->db->set('updated_at', $cur_date, false);  // False prevents escaping
+     
                 $this->db->where('id', $doctor_data[0]->id);
                 $zapak = $this->db->update('tbl_doctor', $data_update);
                 // Check if the update was successful
