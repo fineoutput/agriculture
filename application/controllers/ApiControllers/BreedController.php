@@ -680,6 +680,9 @@ class BreedController extends CI_Controller
                 'in_house' => $in_house,
                 'service_status' => $service_status,
               );
+
+
+              
               $last_id = $this->base_model->insert_table("tbl_my_animal", $data, 1);
               //--- update subscription table----
               // if (!empty($Subscribed)) {
