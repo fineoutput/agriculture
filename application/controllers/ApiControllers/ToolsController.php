@@ -953,29 +953,21 @@ class ToolsController extends CI_Controller
         if ($this->form_validation->run() == true) {
             $expert_id = $this->input->post('expert_id');
             $farmer_data = $this->db->get_where('tbl_farmers', array('is_active' => 1, 'auth' => $authentication))->result();
-
+            
             if (!empty($farmer_data)) {
                 $DoctorData = $this->db->get_where('tbl_doctor', array('is_active' => 1, 'is_approved' => 1, 'is_expert' => 1))->result();
-                
-                // Initialize empty arrays to avoid undefined variable error
                 $en_data = [];
                 $hi_data = [];
                 $pn_data = [];
                 
-                // Initialize the $data array
-                $data = [
-                    'en' => $en_data,
-                    'hi' => $hi_data,
-                    'pn' => $pn_data,
-                ];
-
                 foreach ($DoctorData as $doctor) {
-                    // Check if expert_category is not null and decode it only if it's a valid JSON string
+                    // Check if expert_category is not null or empty
                     $expert_category = null;
                     if (!empty($doctor->expert_category)) {
                         $expert_category = json_decode($doctor->expert_category);
                     }
 
+                    // Ensure expert_category is a valid array before proceeding
                     if (is_array($expert_category)) {
                         if (in_array($expert_id, $expert_category)) {
                             if (!empty($doctor->image)) {
@@ -984,7 +976,7 @@ class ToolsController extends CI_Controller
                                 $image = '';
                             }
                             $state_data = $this->db->get_where('all_states', array('id' =>  $doctor->state))->result();
-
+                            
                             $en_data[] = array(
                                 'id' => $doctor->id,
                                 'name' => $doctor->name,
@@ -1037,6 +1029,13 @@ class ToolsController extends CI_Controller
                     }
                 }
 
+                // Prepare the response
+                $data = array(
+                    'en' => $en_data,
+                    'hi' => $hi_data,
+                    'pn' => $pn_data,
+                );
+                
                 $res = array(
                     'message' => "Success",
                     'status' => 200,
@@ -1065,6 +1064,8 @@ class ToolsController extends CI_Controller
         echo json_encode($res);
     }
 }
+
+
 
 
     //====================================================== EXPERT ADVICE ================================================//
