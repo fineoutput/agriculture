@@ -193,7 +193,7 @@ class BreedController extends CI_Controller
       echo json_encode($res);
     } else {
       $res = array(
-        'message' => 'Permission Denied!',
+        'message' => 'Tag Number Must Be Unique!',
         'status' => 201
       );
       echo json_encode($res);
