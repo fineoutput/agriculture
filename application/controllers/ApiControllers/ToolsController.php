@@ -715,7 +715,10 @@ class ToolsController extends CI_Controller
                             // exit();
                             $km = $this->distance($latitude, $longitude, $doctor->latitude, $doctor->longitude);
 
-                            $distance = $km / 1000;
+                            $distance = $km / 1000; // distance is now in kilometers
+
+                            // Handle distance based on your needs (round or truncate)
+                            $formatted_distance = (int)$distance; 
 
 
                             //     $earth_radius_km = 6371; // Earth's average radius in kilometers
@@ -744,7 +747,7 @@ class ToolsController extends CI_Controller
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image,
-                                    'km' => $distance
+                                    'km' => $formatted_distance
                                 );
                                 $hi_data[] = array(
                                     'id' => $doctor->id,
@@ -755,7 +758,7 @@ class ToolsController extends CI_Controller
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image,
-                                    'km' => $distance
+                                    'km' => $formatted_distance
                                 );
                                 $pn_data[] = array(
                                     'id' => $doctor->id,
@@ -766,7 +769,7 @@ class ToolsController extends CI_Controller
                                     'phone' => $doctor->phone,
                                     'type' => $doctor->type,
                                     'image' => $image,
-                                    'km' => $distance
+                                    'km' => $formatted_distance
                                 );
                             }
                             // else
@@ -1738,7 +1741,10 @@ class ToolsController extends CI_Controller
 
 
                             $km = $this->distance($latitude, $longitude, $vendor->latitude, $vendor->longitude);
-                            $distance = $km / 1000;
+                            $distance = $km / 1000; // distance is now in kilometers
+
+                            // Handle distance based on your needs (round or truncate)
+                            $formatted_distance = (int)$distance; 
                             
                             // echo $km;
                             // exit();
@@ -1756,7 +1762,7 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
-                                    'km' => $distance,
+                                      'km' =>  $formatted_distance,
                                 );
                                 $hi_data[] = array(
                                     'vendor_id' => $vendor->id,
@@ -1767,7 +1773,7 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->hi_city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
-                                    'km' => $distance,
+                                      'km' => $formatted_distance,
                                 );
                                 $pn_data[] = array(
                                     'vendor_id' => $vendor->id,
@@ -1778,7 +1784,7 @@ class ToolsController extends CI_Controller
                                     'city' => $vendor->pn_city,
                                     'state' => $state_data[0]->state_name,
                                     'pincode' => $vendor->pincode,
-                                    'km' => $distance,
+                                      'km' => $formatted_distance,
                                 );
                                 // echo('here is not data');
                                 // exit();
